@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Sunny.Subdy.UI/Sunny.Subdy.UI/Form1.cs
+/Sunny.Subdy.UI/SunnyUI/.vs
+/Sunny.Subdy.UI/Sunny.Subdy.UI/bin/Debug/net8.0-windows
+/Sunny.Subdy.UI/Sunny.Subdy.UI/obj
+/Sunny.Subdy.UI/.vs
