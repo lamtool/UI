@@ -1,22 +1,35 @@
 ﻿using Sunny.Subdy.UI.Services;
 using Sunny.UI;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Sunny.Subdy.UI.View
 {
     public partial class fLoading : UIForm2
     {
+        public fMain MainForm { get; private set; }
+
         public fLoading()
         {
             InitializeComponent();
+
+            this.BackColor = Color.Magenta;
+            this.TransparencyKey = Color.Magenta;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.AllowTransparency = true;
+            uiRoundProcess1.BackColor = Color.Transparent;
+        }
+
+        private async void fLoading_Load(object sender, EventArgs e)
+        {
+            var loadingTask = RunLoadingAsync();
+
+            MainForm = new fMain();
+            await new BuildConfig().Build();
+            await MainForm.LoadUI(); // thực hiện khởi tạo giao diện
+            loadUIFinished = true;
+
+            await loadingTask;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private int loadingProgress = 0;
@@ -24,50 +37,30 @@ namespace Sunny.Subdy.UI.View
 
         private async Task RunLoadingAsync()
         {
-            int totalDuration = 30000; // 30 giây
-            int maxProgress = 100;
-            int updateInterval = 100; // ms
-            int step = 1;
+            int totalDuration = 30000;
+            int updateInterval = 100;
 
             int elapsed = 0;
 
-            while (loadingProgress < maxProgress && elapsed < totalDuration)
+            while (loadingProgress < 100 && elapsed < totalDuration)
             {
                 if (loadUIFinished)
                 {
-                    // Khi LoadUI hoàn tất -> tăng nhanh trong 2s còn lại
-                    int remaining = maxProgress - loadingProgress;
-                    int fastDelay = 2000 / Math.Max(remaining, 1); // chia đều trong 2s
-                    while (loadingProgress < maxProgress)
+                    while (loadingProgress < 100)
                     {
                         loadingProgress++;
                         uiRoundProcess1.Value = loadingProgress;
-                        await Task.Delay(fastDelay);
+                        await Task.Delay(2000 / Math.Max(1, 100 - loadingProgress));
                     }
                     return;
                 }
 
-                loadingProgress = Math.Min(loadingProgress + step, maxProgress);
+                loadingProgress = Math.Min(loadingProgress + 1, 100);
                 uiRoundProcess1.Value = loadingProgress;
 
                 await Task.Delay(updateInterval);
                 elapsed += updateInterval;
             }
-        }
-
-        private async void fLoading_Load(object sender, EventArgs e)
-        {
-            var loadingTask = RunLoadingAsync();
-
-            var mainForm = new fMain();
-            await new BuildConfig().Build(); // giả sử hàm này mất vài giây
-            await mainForm.LoadUI(); // giả sử hàm này mất vài giây
-            loadUIFinished = true;   // báo hiệu tiến trình load UI xong để tăng tốc
-
-            await loadingTask;
-
-            mainForm.Show();
-            this.Hide();
         }
     }
 }

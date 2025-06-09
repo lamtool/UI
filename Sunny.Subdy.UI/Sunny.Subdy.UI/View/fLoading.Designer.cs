@@ -39,7 +39,7 @@
             uiRoundProcess1.Location = new Point(0, 0);
             uiRoundProcess1.MinimumSize = new Size(1, 1);
             uiRoundProcess1.Name = "uiRoundProcess1";
-            uiRoundProcess1.Size = new Size(115, 114);
+            uiRoundProcess1.Size = new Size(136, 114);
             uiRoundProcess1.TabIndex = 1;
             uiRoundProcess1.Text = "0.0%";
             // 
@@ -48,17 +48,16 @@
             AllowShowTitle = false;
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
-            ClientSize = new Size(115, 114);
+            ClientSize = new Size(136, 114);
             Controls.Add(uiRoundProcess1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "fLoading";
             Padding = new Padding(0);
             RectColor = Color.Transparent;
-            ShowIcon = false;
-            ShowInTaskbar = false;
             ShowTitle = false;
             Text = "fLoading";
             TextAlignment = StringAlignment.Center;
+            TopMost = true;
             ZoomScaleRect = new Rectangle(15, 15, 490, 379);
             Load += fLoading_Load;
             ResumeLayout(false);

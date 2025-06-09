@@ -1,4 +1,4 @@
-using Sunny.Subdy.UI.View;
+﻿using Sunny.Subdy.UI.View;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -20,7 +20,9 @@ namespace Sunny.Subdy.UI
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);
             ApplicationConfiguration.Initialize();
-            Application.Run(new fLoading());
+            var loading = new fLoading();
+            loading.ShowDialog(); // chặn cho tới khi loading đóng
+            Application.Run(loading.MainForm); // chạy form chính sau khi loading xong
         }
     }
 }
