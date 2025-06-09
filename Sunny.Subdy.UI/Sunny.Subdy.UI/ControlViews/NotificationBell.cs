@@ -1,13 +1,19 @@
-﻿using System.Drawing.Drawing2D;
+﻿using Sunny.UI;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using Timer = System.Windows.Forms.Timer;
 
 namespace Sunny.Subdy.UI.ControlViews
 {
-    public class NotificationBell : UserControl
+    public partial class NotificationBell : UserControl
     {
-        internal Button bellButton;
-        private Label badgeLabel;
         private NotificationPopupForm popupForm;
         private List<string> _notifications = new List<string>();
 
@@ -22,50 +28,16 @@ namespace Sunny.Subdy.UI.ControlViews
                     popupForm.SetNotifications(_notifications);
             }
         }
-
         public NotificationBell()
         {
-            this.BackColor = Color.Transparent;
-
-            // Chuông thông báo
-            bellButton = new Button
+            InitializeComponent();
+            if (!DesignMode && !LicenseManager.UsageMode.Equals(LicenseUsageMode.Designtime))
             {
-                Text = "🔔",
-                FlatStyle = FlatStyle.Flat,
-                BackColor = Color.White,
-                TabStop = false,
-                Cursor = Cursors.Hand,
-                Margin = Padding.Empty
-            };
-            bellButton.FlatAppearance.BorderSize = 0;
-            bellButton.MouseEnter += BellButton_MouseEnter;
-            bellButton.MouseLeave += BellButton_MouseLeave;
-            this.Controls.Add(bellButton);
-
-            // Label hiển thị số thông báo, chỉ là chữ số nhỏ không nền
-            badgeLabel = new Label
-            {
-                AutoSize = true,
-                BackColor = Color.Transparent,  // trong suốt, không viền hay nền
-                ForeColor = Color.Red,          // màu chữ đỏ (có thể đổi)
-                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
-                TextAlign = ContentAlignment.TopRight,
-                Visible = false
-            };
-            this.Controls.Add(badgeLabel);
-
-            // Form popup thông báo (bạn tự định nghĩa NotificationPopupForm)
-            popupForm = new NotificationPopupForm();
-            popupForm.SetNotifications(_notifications);
-            popupForm.MouseLeave += (s, e) => HidePopup();
-
-            // Bắt sự kiện click ngoài để ẩn popup
-            Application.AddMessageFilter(new ClickOutsideDetector(popupForm, this));
-
-            // Đặt kích thước mặc định (bạn có thể chỉnh khi thêm vào Form)
-            this.Size = new Size(24, 24);
+                popupForm = new NotificationPopupForm();
+                popupForm.MouseLeave += (s, e) => HidePopup();
+                Application.AddMessageFilter(new ClickOutsideDetector(popupForm, this));
+            }
         }
-
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -101,7 +73,7 @@ namespace Sunny.Subdy.UI.ControlViews
 
         private void BellButton_MouseLeave(object sender, EventArgs e)
         {
-            Timer t = new Timer { Interval = 300 };
+            System.Windows.Forms.Timer t = new System.Windows.Forms.Timer { Interval = 300 };
             t.Tick += (s, ev) =>
             {
                 t.Stop();
@@ -176,7 +148,6 @@ namespace Sunny.Subdy.UI.ControlViews
             }
         }
     }
-
     public class NotificationPopupForm : Form
     {
         private ListView listView;
@@ -194,11 +165,11 @@ namespace Sunny.Subdy.UI.ControlViews
             listView = new ListView
             {
                 Dock = DockStyle.Fill,
-                View = View.Details,
                 HeaderStyle = ColumnHeaderStyle.None,
                 FullRowSelect = true,
                 HideSelection = false,
                 MultiSelect = false,
+               View = System.Windows.Forms.View.Details,
             };
             listView.Columns.Add("", 240);
 
@@ -269,7 +240,6 @@ namespace Sunny.Subdy.UI.ControlViews
             }
         }
     }
-
     public class ClickOutsideDetector : IMessageFilter
     {
         private readonly NotificationPopupForm popupForm;

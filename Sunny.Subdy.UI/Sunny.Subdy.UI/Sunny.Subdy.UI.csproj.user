@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>F:\Application\UI\Sunny.Subdy.UI\Sunny.Subdy.UI\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="ControlViews\NotificationBell.cs">
       <SubType>UserControl</SubType>
@@ -7,7 +10,37 @@
     <Compile Update="ControlViews\PopupBoxControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Form1.cs">
+    <Compile Update="fMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\fLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageFacebook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pagePhone.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageTikTok.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageApi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageGroupAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageScript.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageSupport.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

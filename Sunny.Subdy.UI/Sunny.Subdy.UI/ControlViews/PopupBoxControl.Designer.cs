@@ -1,4 +1,7 @@
-﻿namespace Sunny.Subdy.UI.ControlViews
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Sunny.Subdy.UI.ControlViews
 {
     partial class PopupBoxControl
     {
