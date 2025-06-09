@@ -16,7 +16,7 @@ namespace Sunny.Subdy.UI
         public fMain()
         {
             InitializeComponent();
-           
+
         }
         private void BtnMinimize_Click(object sender, EventArgs e)
         {
@@ -59,7 +59,7 @@ namespace Sunny.Subdy.UI
         {
             System.Windows.Forms.Application.Exit();
         }
-     
+
 
         private void uiImageButton1_Click(object sender, EventArgs e)
         {
@@ -101,6 +101,11 @@ namespace Sunny.Subdy.UI
             {
                 uiLabel5.Text = cpu;
             }
+        }
+
+        private void uiTabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

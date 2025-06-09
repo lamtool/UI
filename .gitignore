@@ -11,3 +11,6 @@
 /Sunny.Subdy.UI/AutoAndroid/obj
 /Sunny.Subdy.UI/Sunny.Subdy.Common/obj
 /Sunny.Subdy.UI/Sunny.Subdy.Data/obj
+/Sunny.Subdy.UI/AutoAndroid/bin/Debug/net7.0
+/Sunny.Subdy.UI/Bin/net8.0-windows
+/Sunny.Subdy.UI/Sunny.Subdy.UI/bin/Release/net8.0-windows

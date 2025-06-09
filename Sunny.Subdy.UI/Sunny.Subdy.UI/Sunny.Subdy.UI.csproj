@@ -27,13 +27,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SunnyUI.Common" Version="3.7.2" />
 		<PackageReference Include="WinFormsComInterop" Version="0.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
-		<ProjectReference Include="C:\Users\Admin\Downloads\SunnyUI.AOT.WinForms-main\SunnyUI\SunnyUI.csproj" />
+		<ProjectReference Include="..\SunnyUI\SunnyUI.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,4 +65,13 @@
 		<RdXmlFile Include="rd.xml" />
 		<RdXmlFile Include="Forms.xml" />
 	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<PublishAot>true</PublishAot>
+		<PublishTrimmed>true</PublishTrimmed>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<PublishAot>false</PublishAot>
+		<PublishTrimmed>false</PublishTrimmed>
+	</PropertyGroup>
 </Project>

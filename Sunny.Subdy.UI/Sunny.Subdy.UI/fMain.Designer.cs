@@ -117,6 +117,7 @@ namespace Sunny.Subdy.UI
             uiTabControl1.TabUnSelectedForeColor = Color.White;
             uiTabControl1.TabVisible = false;
             uiTabControl1.TipsFont = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            uiTabControl1.SelectedIndexChanged += uiTabControl1_SelectedIndexChanged;
             // 
             // uiPanel2
             // 

@@ -20,7 +20,7 @@ namespace Sunny.Subdy.UI
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);
             ApplicationConfiguration.Initialize();
-            Application.Run(new fMain());
+            Application.Run(new fLoading());
         }
     }
 }
