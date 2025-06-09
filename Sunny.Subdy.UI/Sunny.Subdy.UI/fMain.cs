@@ -2,12 +2,6 @@
 using Sunny.Subdy.UI.Helper;
 using Sunny.Subdy.UI.View.Pages;
 using Sunny.UI;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Sunny.Subdy.UI
 {
@@ -45,6 +39,7 @@ namespace Sunny.Subdy.UI
             uiNavMenu1.CreateNode(AddPage(new pageApi()));
             uiNavMenu1.CreateNode(AddPage(new pageSetting()));
             uiNavMenu1.CreateNode(AddPage(new pageSupport()));
+            uiNavMenu1.MenuItemClick += UiNavMenu1_MenuItemClick;
             timer1.Start();
         }
         private void BtnMaximize_Click(object sender, EventArgs e)
@@ -59,7 +54,10 @@ namespace Sunny.Subdy.UI
         {
             System.Windows.Forms.Application.Exit();
         }
-
+        private void UiNavMenu1_MenuItemClick(TreeNode node, Sunny.UI.NavMenuItem item, int index)
+        {
+            uiLabel4.Text = item.Text;
+        }
 
         private void uiImageButton1_Click(object sender, EventArgs e)
         {

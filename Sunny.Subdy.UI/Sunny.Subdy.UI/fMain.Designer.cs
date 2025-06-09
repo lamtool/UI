@@ -28,23 +28,24 @@ namespace Sunny.Subdy.UI
             uiLabel1 = new Sunny.UI.UILabel();
             uiPanel3 = new Sunny.UI.UIPanel();
             notificationBell1 = new Sunny.Subdy.UI.ControlViews.NotificationBell();
+            uiImageButton2 = new Sunny.UI.UIImageButton();
             uiPanel4 = new Sunny.UI.UIPanel();
             uiLabel6 = new Sunny.UI.UILabel();
             uiLabel5 = new Sunny.UI.UILabel();
             uiLabel3 = new Sunny.UI.UILabel();
             uiLabel2 = new Sunny.UI.UILabel();
-            uiImageButton2 = new Sunny.UI.UIImageButton();
             uiPanel5 = new Sunny.UI.UIPanel();
             popupMessageBox = new Sunny.UI.UIPanel();
             uiLabel7 = new Sunny.UI.UILabel();
             popupBoxControl1 = new Sunny.Subdy.UI.ControlViews.PopupBoxControl();
             timer1 = new System.Windows.Forms.Timer(components);
+            uiLabel4 = new Sunny.UI.UILabel();
             uiPanel1.SuspendLayout();
             uiPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiImageButton1).BeginInit();
             uiPanel3.SuspendLayout();
-            uiPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiImageButton2).BeginInit();
+            uiPanel4.SuspendLayout();
             uiPanel5.SuspendLayout();
             popupMessageBox.SuspendLayout();
             SuspendLayout();
@@ -121,18 +122,18 @@ namespace Sunny.Subdy.UI
             // 
             // uiPanel2
             // 
-            uiPanel2.BackColor = Color.FromArgb(1, 68, 33);
+            uiPanel2.BackColor = Color.FromArgb(4, 60, 44);
             uiPanel2.Controls.Add(uiImageButton1);
             uiPanel2.Dock = DockStyle.Top;
-            uiPanel2.FillColor = Color.FromArgb(1, 68, 33);
-            uiPanel2.FillColor2 = Color.FromArgb(1, 68, 33);
+            uiPanel2.FillColor = Color.FromArgb(4, 60, 44);
+            uiPanel2.FillColor2 = Color.FromArgb(4, 60, 44);
             uiPanel2.Font = new Font("Microsoft Sans Serif", 12F);
             uiPanel2.ForeColor = Color.White;
             uiPanel2.Location = new Point(0, 0);
             uiPanel2.Margin = new Padding(4, 5, 4, 5);
             uiPanel2.MinimumSize = new Size(1, 1);
             uiPanel2.Name = "uiPanel2";
-            uiPanel2.RectColor = Color.FromArgb(1, 68, 33);
+            uiPanel2.RectColor = Color.FromArgb(4, 60, 44);
             uiPanel2.Size = new Size(55, 75);
             uiPanel2.TabIndex = 1;
             uiPanel2.Text = null;
@@ -157,7 +158,7 @@ namespace Sunny.Subdy.UI
             // 
             uiLabel1.Dock = DockStyle.Left;
             uiLabel1.Font = new Font("Microsoft Sans Serif", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uiLabel1.ForeColor = Color.FromArgb(1, 68, 33);
+            uiLabel1.ForeColor = Color.FromArgb(4, 60, 44);
             uiLabel1.Location = new Point(12, 10);
             uiLabel1.Name = "uiLabel1";
             uiLabel1.Size = new Size(198, 30);
@@ -167,8 +168,8 @@ namespace Sunny.Subdy.UI
             // uiPanel3
             // 
             uiPanel3.BackColor = Color.White;
+            uiPanel3.Controls.Add(uiLabel4);
             uiPanel3.Controls.Add(notificationBell1);
-            uiPanel3.Controls.Add(uiPanel4);
             uiPanel3.Controls.Add(uiImageButton2);
             uiPanel3.Dock = DockStyle.Top;
             uiPanel3.FillColor = Color.White;
@@ -198,76 +199,6 @@ namespace Sunny.Subdy.UI
             notificationBell1.Size = new Size(53, 40);
             notificationBell1.TabIndex = 3;
             // 
-            // uiPanel4
-            // 
-            uiPanel4.Anchor = AnchorStyles.Left;
-            uiPanel4.Controls.Add(uiLabel6);
-            uiPanel4.Controls.Add(uiLabel5);
-            uiPanel4.Controls.Add(uiLabel3);
-            uiPanel4.Controls.Add(uiLabel2);
-            uiPanel4.FillColor = Color.FromArgb(249, 250, 251);
-            uiPanel4.FillColor2 = Color.FromArgb(249, 250, 251);
-            uiPanel4.Font = new Font("Microsoft Sans Serif", 12F);
-            uiPanel4.ForeColor = Color.Black;
-            uiPanel4.Location = new Point(20, 17);
-            uiPanel4.Margin = new Padding(4, 5, 4, 5);
-            uiPanel4.MinimumSize = new Size(1, 1);
-            uiPanel4.Name = "uiPanel4";
-            uiPanel4.Radius = 39;
-            uiPanel4.RectColor = Color.FromArgb(249, 250, 251);
-            uiPanel4.Size = new Size(402, 39);
-            uiPanel4.TabIndex = 2;
-            uiPanel4.Text = null;
-            uiPanel4.TextAlignment = ContentAlignment.MiddleCenter;
-            // 
-            // uiLabel6
-            // 
-            uiLabel6.BackColor = Color.Transparent;
-            uiLabel6.Font = new Font("Microsoft Sans Serif", 9.75F);
-            uiLabel6.ForeColor = Color.DarkGreen;
-            uiLabel6.Location = new Point(315, 10);
-            uiLabel6.Name = "uiLabel6";
-            uiLabel6.Size = new Size(66, 18);
-            uiLabel6.TabIndex = 4;
-            uiLabel6.Text = "68%";
-            uiLabel6.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel5
-            // 
-            uiLabel5.BackColor = Color.Transparent;
-            uiLabel5.Font = new Font("Microsoft Sans Serif", 9.75F);
-            uiLabel5.ForeColor = Color.FromArgb(0, 0, 192);
-            uiLabel5.Location = new Point(202, 10);
-            uiLabel5.Name = "uiLabel5";
-            uiLabel5.Size = new Size(56, 18);
-            uiLabel5.TabIndex = 3;
-            uiLabel5.Text = "68%";
-            uiLabel5.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel3
-            // 
-            uiLabel3.BackColor = Color.Transparent;
-            uiLabel3.Font = new Font("Microsoft Sans Serif", 9.75F);
-            uiLabel3.ForeColor = Color.DimGray;
-            uiLabel3.Location = new Point(264, 10);
-            uiLabel3.Name = "uiLabel3";
-            uiLabel3.Size = new Size(45, 18);
-            uiLabel3.TabIndex = 1;
-            uiLabel3.Text = "RAM:";
-            uiLabel3.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // uiLabel2
-            // 
-            uiLabel2.BackColor = Color.Transparent;
-            uiLabel2.Font = new Font("Microsoft Sans Serif", 9.75F);
-            uiLabel2.ForeColor = Color.DimGray;
-            uiLabel2.Location = new Point(154, 10);
-            uiLabel2.Name = "uiLabel2";
-            uiLabel2.Size = new Size(42, 18);
-            uiLabel2.TabIndex = 0;
-            uiLabel2.Text = "CPU:";
-            uiLabel2.TextAlign = ContentAlignment.MiddleRight;
-            // 
             // uiImageButton2
             // 
             uiImageButton2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -281,6 +212,76 @@ namespace Sunny.Subdy.UI
             uiImageButton2.TabIndex = 0;
             uiImageButton2.TabStop = false;
             uiImageButton2.Text = null;
+            // 
+            // uiPanel4
+            // 
+            uiPanel4.Controls.Add(uiLabel6);
+            uiPanel4.Controls.Add(uiLabel5);
+            uiPanel4.Controls.Add(uiLabel3);
+            uiPanel4.Controls.Add(uiLabel2);
+            uiPanel4.Dock = DockStyle.Right;
+            uiPanel4.FillColor = Color.White;
+            uiPanel4.FillColor2 = Color.FromArgb(249, 250, 251);
+            uiPanel4.Font = new Font("Microsoft Sans Serif", 12F);
+            uiPanel4.ForeColor = Color.Black;
+            uiPanel4.Location = new Point(452, 10);
+            uiPanel4.Margin = new Padding(4, 5, 4, 5);
+            uiPanel4.MinimumSize = new Size(1, 1);
+            uiPanel4.Name = "uiPanel4";
+            uiPanel4.Radius = 30;
+            uiPanel4.RectColor = Color.White;
+            uiPanel4.Size = new Size(402, 30);
+            uiPanel4.TabIndex = 2;
+            uiPanel4.Text = null;
+            uiPanel4.TextAlignment = ContentAlignment.MiddleCenter;
+            // 
+            // uiLabel6
+            // 
+            uiLabel6.BackColor = Color.Transparent;
+            uiLabel6.Font = new Font("Microsoft Sans Serif", 9.75F);
+            uiLabel6.ForeColor = Color.DarkGreen;
+            uiLabel6.Location = new Point(315, 8);
+            uiLabel6.Name = "uiLabel6";
+            uiLabel6.Size = new Size(66, 18);
+            uiLabel6.TabIndex = 4;
+            uiLabel6.Text = "68%";
+            uiLabel6.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel5
+            // 
+            uiLabel5.BackColor = Color.Transparent;
+            uiLabel5.Font = new Font("Microsoft Sans Serif", 9.75F);
+            uiLabel5.ForeColor = Color.FromArgb(0, 0, 192);
+            uiLabel5.Location = new Point(202, 8);
+            uiLabel5.Name = "uiLabel5";
+            uiLabel5.Size = new Size(56, 18);
+            uiLabel5.TabIndex = 3;
+            uiLabel5.Text = "68%";
+            uiLabel5.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel3
+            // 
+            uiLabel3.BackColor = Color.Transparent;
+            uiLabel3.Font = new Font("Microsoft Sans Serif", 9.75F);
+            uiLabel3.ForeColor = Color.DimGray;
+            uiLabel3.Location = new Point(264, 8);
+            uiLabel3.Name = "uiLabel3";
+            uiLabel3.Size = new Size(45, 18);
+            uiLabel3.TabIndex = 1;
+            uiLabel3.Text = "RAM:";
+            uiLabel3.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // uiLabel2
+            // 
+            uiLabel2.BackColor = Color.Transparent;
+            uiLabel2.Font = new Font("Microsoft Sans Serif", 9.75F);
+            uiLabel2.ForeColor = Color.DimGray;
+            uiLabel2.Location = new Point(154, 8);
+            uiLabel2.Name = "uiLabel2";
+            uiLabel2.Size = new Size(42, 18);
+            uiLabel2.TabIndex = 0;
+            uiLabel2.Text = "CPU:";
+            uiLabel2.TextAlign = ContentAlignment.MiddleRight;
             // 
             // uiPanel5
             // 
@@ -306,6 +307,7 @@ namespace Sunny.Subdy.UI
             // 
             popupMessageBox.BackColor = Color.Transparent;
             popupMessageBox.Controls.Add(uiLabel7);
+            popupMessageBox.Controls.Add(uiPanel4);
             popupMessageBox.Controls.Add(uiLabel1);
             popupMessageBox.Controls.Add(popupBoxControl1);
             popupMessageBox.Cursor = Cursors.SizeAll;
@@ -353,12 +355,26 @@ namespace Sunny.Subdy.UI
             timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
             // 
+            // uiLabel4
+            // 
+            uiLabel4.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            uiLabel4.ForeColor = Color.FromArgb(4, 60, 44);
+            uiLabel4.Location = new Point(24, 25);
+            uiLabel4.Name = "uiLabel4";
+            uiLabel4.Size = new Size(243, 30);
+            uiLabel4.TabIndex = 4;
+            uiLabel4.Text = "Thống Kê";
+            uiLabel4.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // fMain
             // 
             AllowShowTitle = false;
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = Color.FromArgb(1, 68, 33);
+            BackColor = Color.FromArgb(4, 60, 44);
             ClientSize = new Size(1125, 576);
+            ControlBoxCloseFillHoverColor = Color.FromArgb(4, 60, 44);
+            ControlBoxFillHoverColor = Color.FromArgb(4, 60, 44);
+            ControlBoxForeColor = Color.FromArgb(4, 60, 44);
             Controls.Add(uiPanel5);
             Controls.Add(uiPanel3);
             Controls.Add(popupMessageBox);
@@ -367,7 +383,7 @@ namespace Sunny.Subdy.UI
             MainTabControl = uiTabControl1;
             Name = "fMain";
             Padding = new Padding(2, 0, 2, 2);
-            RectColor = Color.FromArgb(1, 68, 33);
+            RectColor = Color.FromArgb(4, 60, 44);
             Resizable = true;
             RightToLeft = RightToLeft.No;
             ShowDragStretch = true;
@@ -380,8 +396,8 @@ namespace Sunny.Subdy.UI
             uiPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)uiImageButton1).EndInit();
             uiPanel3.ResumeLayout(false);
-            uiPanel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)uiImageButton2).EndInit();
+            uiPanel4.ResumeLayout(false);
             uiPanel5.ResumeLayout(false);
             popupMessageBox.ResumeLayout(false);
             ResumeLayout(false);
@@ -408,5 +424,6 @@ namespace Sunny.Subdy.UI
         private Sunny.UI.UILabel uiLabel7;
         private ControlViews.NotificationBell notificationBell1;
         private System.Windows.Forms.Timer timer1;
+        private Sunny.UI.UILabel uiLabel4;
     }
 }

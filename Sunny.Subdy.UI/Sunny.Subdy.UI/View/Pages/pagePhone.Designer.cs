@@ -115,10 +115,10 @@
             uiDataGridView2.BackgroundColor = Color.White;
             uiDataGridView2.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.Green;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(4, 60, 44);
             dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.Green;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(4, 60, 44);
             dataGridViewCellStyle2.SelectionForeColor = Color.DimGray;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             uiDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
@@ -131,17 +131,17 @@
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 12F);
             dataGridViewCellStyle3.ForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(1, 68, 33);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(4, 60, 44);
             dataGridViewCellStyle3.SelectionForeColor = Color.DimGray;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             uiDataGridView2.DefaultCellStyle = dataGridViewCellStyle3;
             uiDataGridView2.Dock = DockStyle.Fill;
             uiDataGridView2.EnableHeadersVisualStyles = false;
             uiDataGridView2.Font = new Font("Microsoft Sans Serif", 12F);
-            uiDataGridView2.GridColor = Color.FromArgb(1, 68, 33);
+            uiDataGridView2.GridColor = Color.FromArgb(4, 60, 44);
             uiDataGridView2.Location = new Point(0, 60);
             uiDataGridView2.Name = "uiDataGridView2";
-            uiDataGridView2.RectColor = Color.FromArgb(1, 68, 33);
+            uiDataGridView2.RectColor = Color.FromArgb(4, 60, 44);
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = Color.FromArgb(243, 249, 255);
             dataGridViewCellStyle4.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -157,9 +157,9 @@
             dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(220, 236, 255);
             dataGridViewCellStyle5.SelectionForeColor = Color.DimGray;
             uiDataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle5;
-            uiDataGridView2.ScrollBarBackColor = Color.FromArgb(1, 68, 33);
-            uiDataGridView2.ScrollBarColor = Color.FromArgb(1, 68, 33);
-            uiDataGridView2.ScrollBarRectColor = Color.FromArgb(1, 68, 33);
+            uiDataGridView2.ScrollBarBackColor = Color.FromArgb(4, 60, 44);
+            uiDataGridView2.ScrollBarColor = Color.FromArgb(4, 60, 44);
+            uiDataGridView2.ScrollBarRectColor = Color.FromArgb(4, 60, 44);
             uiDataGridView2.ScrollBarStyleInherited = false;
             uiDataGridView2.SelectedIndex = -1;
             uiDataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -528,23 +528,24 @@
             // 
             // uiSymbolButton1
             // 
-            uiSymbolButton1.FillColor = Color.Green;
-            uiSymbolButton1.FillColor2 = Color.FromArgb(1, 68, 33);
-            uiSymbolButton1.FillHoverColor = Color.FromArgb(1, 68, 33);
-            uiSymbolButton1.FillPressColor = Color.FromArgb(1, 68, 33);
-            uiSymbolButton1.FillSelectedColor = Color.FromArgb(1, 68, 33);
+            uiSymbolButton1.FillColor = Color.FromArgb(4, 60, 44);
+            uiSymbolButton1.FillColor2 = Color.FromArgb(4, 60, 44);
+            uiSymbolButton1.FillHoverColor = Color.FromArgb(4, 60, 44);
+            uiSymbolButton1.FillPressColor = Color.FromArgb(4, 60, 44);
+            uiSymbolButton1.FillSelectedColor = Color.FromArgb(4, 60, 44);
             uiSymbolButton1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiSymbolButton1.Location = new Point(176, 12);
             uiSymbolButton1.Margin = new Padding(3, 3, 10, 3);
             uiSymbolButton1.MinimumSize = new Size(1, 1);
             uiSymbolButton1.Name = "uiSymbolButton1";
             uiSymbolButton1.Radius = 15;
-            uiSymbolButton1.RectColor = Color.Green;
-            uiSymbolButton1.RectHoverColor = Color.Green;
-            uiSymbolButton1.RectPressColor = Color.Green;
-            uiSymbolButton1.RectSelectedColor = Color.Green;
+            uiSymbolButton1.RectColor = Color.FromArgb(4, 60, 44);
+            uiSymbolButton1.RectHoverColor = Color.FromArgb(4, 60, 44);
+            uiSymbolButton1.RectPressColor = Color.FromArgb(4, 60, 44);
+            uiSymbolButton1.RectSelectedColor = Color.FromArgb(4, 60, 44);
             uiSymbolButton1.Size = new Size(128, 35);
             uiSymbolButton1.Symbol = 61473;
+            uiSymbolButton1.SymbolSize = 15;
             uiSymbolButton1.TabIndex = 2;
             uiSymbolButton1.Text = "Load devices";
             uiSymbolButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
@@ -552,25 +553,27 @@
             // 
             // uiSymbolButton2
             // 
-            uiSymbolButton2.FillColor = Color.Red;
-            uiSymbolButton2.FillColor2 = Color.Red;
-            uiSymbolButton2.FillHoverColor = Color.FromArgb(192, 0, 0);
-            uiSymbolButton2.FillPressColor = Color.FromArgb(192, 0, 0);
-            uiSymbolButton2.FillSelectedColor = Color.FromArgb(192, 0, 0);
+            uiSymbolButton2.FillColor = Color.DarkRed;
+            uiSymbolButton2.FillColor2 = Color.DarkRed;
+            uiSymbolButton2.FillHoverColor = Color.DarkRed;
+            uiSymbolButton2.FillPressColor = Color.DarkRed;
+            uiSymbolButton2.FillSelectedColor = Color.DarkRed;
             uiSymbolButton2.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiSymbolButton2.Location = new Point(315, 12);
             uiSymbolButton2.Margin = new Padding(10, 3, 3, 3);
             uiSymbolButton2.MinimumSize = new Size(1, 1);
             uiSymbolButton2.Name = "uiSymbolButton2";
             uiSymbolButton2.Radius = 15;
-            uiSymbolButton2.RectColor = Color.Red;
-            uiSymbolButton2.RectHoverColor = Color.Red;
-            uiSymbolButton2.RectPressColor = Color.Red;
-            uiSymbolButton2.RectSelectedColor = Color.Red;
+            uiSymbolButton2.RectColor = Color.DarkRed;
+            uiSymbolButton2.RectHoverColor = Color.DarkRed;
+            uiSymbolButton2.RectPressColor = Color.DarkRed;
+            uiSymbolButton2.RectSelectedColor = Color.DarkRed;
             uiSymbolButton2.Size = new Size(128, 35);
             uiSymbolButton2.Symbol = 561503;
+            uiSymbolButton2.SymbolSize = 15;
             uiSymbolButton2.TabIndex = 1;
             uiSymbolButton2.Text = "Kill ADB";
+            uiSymbolButton2.TipsColor = Color.DarkRed;
             uiSymbolButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
             uiSymbolButton2.Click += uiSymbolButton2_Click;
             // 
