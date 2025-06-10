@@ -11,5 +11,6 @@ namespace Sunny.Subdy.Server
         public string Serial { get; set; }
         public string NameDevice { get; set; }
         public string OS { get; set; }
+        public string Status { get; set; }
     }
 }

@@ -61,7 +61,7 @@ namespace Sunny.Subdy.Server
                             }
                             else
                             {
-                                LogManager.Error( ex);
+                                LogManager.Error(ex);
                             }
                             break; // Thoát vòng lặp khi có lỗi nghiêm trọng hoặc listener bị đóng
                         }
@@ -100,12 +100,12 @@ namespace Sunny.Subdy.Server
                 LogManager.Error(ex);
                 if (ex.ErrorCode == 5) // Access Denied
                 {
-                   
+
                 }
             }
             catch (Exception ex)
             {
-                LogManager.Error( ex);
+                LogManager.Error(ex);
             }
         }
 
@@ -153,7 +153,11 @@ namespace Sunny.Subdy.Server
 
             if (!routeParams.TryGetValue("id", out string idValue))
             {
-                await WriteJsonResponse(context, false, "ID parameter not found in URL.", null, HttpStatusCode.BadRequest);
+                await ApiRouter.SendJsonResponse(
+                    context.Response,
+                    ApiResponse<object>.ErrorResponse("ID parameter not found in URL."),
+                    HttpStatusCode.BadRequest
+                );
                 return;
             }
 
@@ -166,40 +170,71 @@ namespace Sunny.Subdy.Server
 
                 if (!client.ChangInfo("", false))
                 {
-                    await WriteJsonResponse(context, false, "Thay đổi thông tin thiết bị thất bại!", null, HttpStatusCode.InternalServerError);
+                    await ApiRouter.SendJsonResponse(
+                        context.Response,
+                        ApiResponse<object>.ErrorResponse("Thay đổi thông tin thiết bị thất bại!"),
+                        HttpStatusCode.InternalServerError
+                    );
                     return;
                 }
 
-                await Task.Delay(3000); // Chờ cho thiết bị cập nhật xong
+                await Task.Delay(3000); // Chờ thiết bị cập nhật
 
                 var deviceName = client.GetDeviceName();
                 if (string.IsNullOrEmpty(deviceName))
                 {
-                    await WriteJsonResponse(context, false, "Thay đổi thiết bị thất bại! (Tên thiết bị trống)", null, HttpStatusCode.InternalServerError);
+                    await ApiRouter.SendJsonResponse(
+                        context.Response,
+                        ApiResponse<object>.ErrorResponse("Thay đổi thiết bị thất bại! (Tên thiết bị trống)"),
+                        HttpStatusCode.InternalServerError
+                    );
                     return;
                 }
 
-                var responseData = new { ItemId = idValue, Status = deviceName };
-                await WriteJsonResponse(context, true, "Thay đổi thông tin thiết bị thành công!", responseData);
+                // Trả về thông tin thiết bị (tùy chỉnh thêm nếu cần)
+                var responseData = new DeviceRespone
+                {
+                    Serial = idValue,
+                    NameDevice = client.Device?.NameDevice,
+                    Status = deviceName,
+                    OS = client.Device?.OS ?? "Unknown"
+                };
+
+                await JsonSerializer.SerializeAsync(
+                    context.Response.OutputStream,
+                    ApiResponse<DeviceRespone>.SuccessResponse(responseData, "Thay đổi thông tin thiết bị thành công!"),
+                    MyJsonContext.Default.ApiResponseDeviceRespone
+                );
             }
             catch (Exception ex)
             {
                 LogManager.Error(ex);
-                await WriteJsonResponse(context, false, $"Lỗi xử lý yêu cầu thay đổi thiết bị: {ex.Message}", null, HttpStatusCode.InternalServerError);
+                await ApiRouter.SendJsonResponse(
+                    context.Response,
+                    ApiResponse<object>.ErrorResponse($"Lỗi xử lý yêu cầu thay đổi thiết bị: {ex.Message}"),
+                    HttpStatusCode.InternalServerError
+                );
             }
         }
-        private async Task WriteJsonResponse(HttpListenerContext context, bool success, string message, object data = null, HttpStatusCode statusCode = HttpStatusCode.OK)
+
+        private async Task WriteJsonResponse<T>(HttpListenerContext context, bool success, string message, T data = default, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             try
             {
-                var payload = new
+                var payload = new JsonResponse<T>
                 {
-                    success,
-                    message,
-                    data
+                    success = success,
+                    message = message,
+                    data = data
                 };
 
-                string json = JsonSerializer.Serialize(payload);
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = false
+                };
+
+                string json = JsonSerializer.Serialize(payload, options);
                 byte[] buffer = Encoding.UTF8.GetBytes(json);
 
                 context.Response.StatusCode = (int)statusCode;
@@ -259,10 +294,10 @@ namespace Sunny.Subdy.Server
             }
             catch (Exception ex)
             {
-                LogManager.Error( ex);
+                LogManager.Error(ex);
                 await ApiRouter.SendJsonResponse(context.Response, ApiResponse<object>.ErrorResponse($"Lỗi khi lấy danh sách thiết bị: {ex.Message}"), HttpStatusCode.InternalServerError);
             }
         }
-       
+
     }
 }
