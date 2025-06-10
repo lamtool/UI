@@ -231,10 +231,12 @@ namespace AutoAndroid
                     {
                         string command = " -s " + _client.Device.Serial + " shell " + cmd;
                         process.StartInfo.FileName = "cmd.exe";
-                        process.StartInfo.Arguments = "/c " + Path.Combine(
-                            Environment.GetEnvironmentVariable("ANDROID_HOME", EnvironmentVariableTarget.Machine),
-                            "platform-tools",
-                            "adb") + command;
+                        //process.StartInfo.Arguments = "/c " + Path.Combine(
+                        //    Environment.GetEnvironmentVariable("ANDROID_HOME", EnvironmentVariableTarget.Machine),
+                        //    "platform-tools",
+                        //    "adb") + command;
+                        process.StartInfo.Arguments = $"/C \"{ProcessHelper.ADBPath} {command}\"";
+
 
                         process.StartInfo.CreateNoWindow = true;
                         process.StartInfo.UseShellExecute = false;

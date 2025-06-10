@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunny.Subdy.Common", "Sunny
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunnyUI", "SunnyUI\SunnyUI.csproj", "{AB1CB247-E20B-4CBE-B269-570ADDD96C53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sunny.Subdy.Server", "Sunny.Subdy.Server\Sunny.Subdy.Server.csproj", "{C1138DA7-A10E-4073-B525-F672E28C9DA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AB1CB247-E20B-4CBE-B269-570ADDD96C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB1CB247-E20B-4CBE-B269-570ADDD96C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB1CB247-E20B-4CBE-B269-570ADDD96C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1138DA7-A10E-4073-B525-F672E28C9DA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1138DA7-A10E-4073-B525-F672E28C9DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1138DA7-A10E-4073-B525-F672E28C9DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1138DA7-A10E-4073-B525-F672E28C9DA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

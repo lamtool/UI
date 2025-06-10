@@ -18,24 +18,31 @@
 		<DebugSymbols>false</DebugSymbols>
 		<BaseOutputPath></BaseOutputPath>
 		<PlatformTarget>x64</PlatformTarget>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Remove="Asset\LamTool.net.png" />
 		<None Remove="Asset\Logo.png" />
 		<None Remove="Asset\menu_80.png" />
 		<None Remove="Asset\select_check_box_30dp.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FFmpeg.AutoGen" Version="5.0.0" />
 		<PackageReference Include="WinFormsComInterop" Version="0.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
+		<ProjectReference Include="..\Sunny.Subdy.Server\Sunny.Subdy.Server.csproj" />
 		<ProjectReference Include="..\SunnyUI\SunnyUI.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Asset\LamTool.net.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Asset\Logo.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
@@ -65,6 +72,9 @@
 		<RdXmlFile Include="rd.xml" />
 		<RdXmlFile Include="Forms.xml" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ControlViews\Streams\" />
+	</ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<PublishAot>true</PublishAot>
 		<PublishTrimmed>true</PublishTrimmed>
@@ -74,4 +84,34 @@
 		<PublishAot>false</PublishAot>
 		<PublishTrimmed>false</PublishTrimmed>
 	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="Libs\ffmpeg\*.dll">
+			<Link>%(Filename)%(Extension)</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Libs\Scrcpy\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Libs\ffmpeg\avcodec-58.dll" />
+	  <Content Include="Libs\ffmpeg\avcodec-59.dll" />
+	  <Content Include="Libs\ffmpeg\avdevice-58.dll" />
+	  <Content Include="Libs\ffmpeg\avdevice-59.dll" />
+	  <Content Include="Libs\ffmpeg\avfilter-7.dll" />
+	  <Content Include="Libs\ffmpeg\avfilter-8.dll" />
+	  <Content Include="Libs\ffmpeg\avformat-58.dll" />
+	  <Content Include="Libs\ffmpeg\avformat-59.dll" />
+	  <Content Include="Libs\ffmpeg\avutil-56.dll" />
+	  <Content Include="Libs\ffmpeg\avutil-57.dll" />
+	  <Content Include="Libs\ffmpeg\swresample-2.dll" />
+	  <Content Include="Libs\ffmpeg\swresample-3.dll" />
+	  <Content Include="Libs\ffmpeg\swresample-4.dll" />
+	  <Content Include="Libs\ffmpeg\swscale-5.dll" />
+	  <Content Include="Libs\ffmpeg\swscale-6.dll" />
+	</ItemGroup>
+	
 </Project>

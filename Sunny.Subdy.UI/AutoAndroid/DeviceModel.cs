@@ -17,6 +17,20 @@ namespace AutoAndroid
         private int _index;
         private string _serial { get; set; }
         public int Port { get; set; }
+        public int PortScrcpy { get; set; }
+        private bool _isScrcpy;
+        public bool IsScrcpy
+        {
+            get => _isScrcpy;
+            set
+            {
+                if (_isScrcpy != value)
+                {
+                    _isScrcpy = value;
+                    OnPropertyChanged(nameof(IsScrcpy));
+                }
+            }
+        }
 
         public string Status
         {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_LastSelectedProfileId>F:\Application\UI\Sunny.Subdy.UI\Sunny.Subdy.UI\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>E:\UI\Sunny.Subdy.UI\Sunny.Subdy.UI\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="ControlViews\NotificationBell.cs">
@@ -12,6 +12,9 @@
     </Compile>
     <Compile Update="fMain.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\DeviceControl\ScrcpyDisplay.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="View\fLoading.cs">
       <SubType>Form</SubType>

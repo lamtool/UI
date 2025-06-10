@@ -121,7 +121,7 @@ namespace AutoAndroid
             }
             return false;
         }
-        private string GetInfoDeviceName(int waitTimeInSeconds = 0)
+        public string GetInfoDeviceName(int waitTimeInSeconds = 0)
         {
             //AppendLog("Get device name fake...");
             int startTime = Environment.TickCount;

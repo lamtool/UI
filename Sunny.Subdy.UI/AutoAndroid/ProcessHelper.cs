@@ -9,6 +9,7 @@ namespace AutoAndroid
 {
     public class ProcessHelper
     {
+        public static readonly string ADBPath = "C:\\DTAHelper\\sdk\\platform-tools\\";
         /// <summary>
         /// Chạy lệnh adb với đối số truyền theo dạng object[].
         /// </summary>
@@ -34,7 +35,7 @@ namespace AutoAndroid
                     try
                     {
                         process.StartInfo.FileName = "cmd.exe";
-                        process.StartInfo.Arguments = $"/C \"C:\\DTAHelper\\sdk\\platform-tools\\adb.exe {adbCommand}\"";
+                        process.StartInfo.Arguments = $"/C \"{ADBPath}adb {adbCommand}\"";
                         process.StartInfo.CreateNoWindow = true;
                         process.StartInfo.UseShellExecute = false;
                         process.StartInfo.RedirectStandardOutput = true;
@@ -117,7 +118,7 @@ namespace AutoAndroid
             var info = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                Arguments = $"/c \"{cmd}\"",
+                Arguments =  $"/C \"{ProcessHelper.ADBPath} {cmd}\"",
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,

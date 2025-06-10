@@ -153,6 +153,16 @@ namespace Sunny.Subdy.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LamTool_net {
+            get {
+                object obj = ResourceManager.GetObject("LamTool.net", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Logo {
             get {
                 object obj = ResourceManager.GetObject("Logo", resourceCulture);
@@ -186,6 +196,16 @@ namespace Sunny.Subdy.UI.Properties {
         internal static System.Drawing.Bitmap notification {
             get {
                 object obj = ResourceManager.GetObject("notification", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PanelThanks {
+            get {
+                object obj = ResourceManager.GetObject("PanelThanks", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

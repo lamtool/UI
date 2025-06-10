@@ -30,11 +30,13 @@
         {
             SuspendLayout();
             // 
-            // fFacebook
+            // pageFacebook
             // 
             AutoScaleMode = AutoScaleMode.None;
+            BackgroundImage = Properties.Resources.PanelThanks;
+            BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(800, 450);
-            Name = "fFacebook";
+            Name = "pageFacebook";
             Text = "Facebook";
             Initialize += fFacebook_Initialize;
             Load += fFacebook_Load;

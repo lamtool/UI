@@ -30,11 +30,13 @@
         {
             SuspendLayout();
             // 
-            // fTikTok
+            // pageTikTok
             // 
             AutoScaleMode = AutoScaleMode.None;
+            BackgroundImage = Properties.Resources.PanelThanks;
+            BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(800, 450);
-            Name = "fTikTok";
+            Name = "pageTikTok";
             Text = "TikTok";
             Load += fTikTok_Load;
             ResumeLayout(false);

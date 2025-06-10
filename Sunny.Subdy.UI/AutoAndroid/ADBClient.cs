@@ -121,6 +121,11 @@ namespace AutoAndroid
             MaxChangeService maxChangeService = new MaxChangeService(this);
             return maxChangeService.Change(uid, backup);
         }
+        public string GetDeviceName()
+        {
+            MaxChangeService maxChangeService = new MaxChangeService(this);
+            return maxChangeService.GetInfoDeviceName(10);
+        }
         public bool ConnectProxy(string proxy)
         {
             LogHelper.SUCCESS($"Đang change proxy: {proxy}");

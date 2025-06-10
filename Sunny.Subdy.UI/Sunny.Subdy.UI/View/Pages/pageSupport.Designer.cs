@@ -33,6 +33,8 @@
             // pageSupport
             // 
             AutoScaleMode = AutoScaleMode.None;
+            BackgroundImage = Properties.Resources.PanelThanks;
+            BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(800, 450);
             Name = "pageSupport";
             Text = "Hỗ Trợ";
