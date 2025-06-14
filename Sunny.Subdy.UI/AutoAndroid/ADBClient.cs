@@ -38,13 +38,16 @@ namespace AutoAndroid
         {
             DeviceModel model = new DeviceModel();
             model.Serial = serial;
-            model.Port = ADBHelper.GETPORT(serial);
+            using var _client = new ADBSocket(serial);
+
+            model.Port = _client.ForwardPort(7912);
             string name = ProcessHelper.RunAdbWithTimeout($"-s {serial} shell settings get global device_name");
             string version = ProcessHelper.RunAdbWithTimeout($"-s {serial} shell getprop ro.build.version.release");
             model.NameDevice = name;
             model.OS = version;
             model.TypeColor = 0;
             model.Check = false;
+      
             return model;
         }
         public DeviceModel Device { get; set; }
@@ -54,6 +57,18 @@ namespace AutoAndroid
             _atx = new ATXService(this);
             _logHelper = new LogHelper(Device);
             maxChange = new MaxChangeService(this);
+        }
+        public void EnableWifi()
+        {
+            _logHelper.SUCCESS($"Bật wiffi");
+            Shell("su -c 'svc wifi enable'");
+            _logHelper.SUCCESS($"Đã bật wiffi");
+        }
+        public void DisableWifi()
+        {
+            _logHelper.SUCCESS($"Tắt wiffi");
+            Shell("su -c 'svc wifi disable'");
+            _logHelper.SUCCESS($"Đã tắt wiffi");
         }
         public ADBClient(string serial)
         {
@@ -208,7 +223,6 @@ namespace AutoAndroid
                     LogHelper.Log("Không thể kết nối với thiết bị với UI2");
                     return false;
                 }
-                Device.Port = Convert.ToInt32(_atx._url.Split(':').Last());
                 LogHelper.Log($"adb start [{Device.Port}]");
                 Device.TypeColor = 2;
                 return true;
@@ -1042,9 +1056,10 @@ namespace AutoAndroid
 
             for (int i = 0; i < 5; i++)
             {
+                string result = "";
                 if (Push(path_APK, remotePath))
                 {
-                    string result = Shell("pm", "install", remotePath);
+                    result = Shell("pm", "install", remotePath);
 
                     if (result.Contains("Success"))
                     {
@@ -1052,15 +1067,17 @@ namespace AutoAndroid
                     }
                     else
                     {
-                        result = ADB.Shell($"install '{path_APK}'");
+                        result = ProcessHelper.RunAdbCommand($"-s {Device.Serial} install '{path_APK}'", 60);
                     }
-                    return true;
+                    if (result.Contains("success"))
+                        return true;
                 }
                 else
                 {
-                    ADB.Shell($"install '{path_APK}'");
+                    result = ProcessHelper.RunAdbCommand($"-s {Device.Serial} install '{path_APK}'", 60);
                 }
-
+                if (result.Contains("success"))
+                    return true;
                 Delay(3);
             }
 

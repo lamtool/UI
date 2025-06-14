@@ -27,6 +27,7 @@ namespace Sunny.Subdy.UI
             uiImageButton1 = new Sunny.UI.UIImageButton();
             uiLabel1 = new Sunny.UI.UILabel();
             uiPanel3 = new Sunny.UI.UIPanel();
+            uiLabel4 = new Sunny.UI.UILabel();
             notificationBell1 = new Sunny.Subdy.UI.ControlViews.NotificationBell();
             uiImageButton2 = new Sunny.UI.UIImageButton();
             uiPanel4 = new Sunny.UI.UIPanel();
@@ -39,7 +40,6 @@ namespace Sunny.Subdy.UI
             uiLabel7 = new Sunny.UI.UILabel();
             popupBoxControl1 = new Sunny.Subdy.UI.ControlViews.PopupBoxControl();
             timer1 = new System.Windows.Forms.Timer(components);
-            uiLabel4 = new Sunny.UI.UILabel();
             uiPanel1.SuspendLayout();
             uiPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiImageButton1).BeginInit();
@@ -187,6 +187,17 @@ namespace Sunny.Subdy.UI
             uiPanel3.TabIndex = 4;
             uiPanel3.Text = null;
             uiPanel3.TextAlignment = ContentAlignment.MiddleCenter;
+            // 
+            // uiLabel4
+            // 
+            uiLabel4.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            uiLabel4.ForeColor = Color.FromArgb(4, 60, 44);
+            uiLabel4.Location = new Point(24, 25);
+            uiLabel4.Name = "uiLabel4";
+            uiLabel4.Size = new Size(243, 30);
+            uiLabel4.TabIndex = 4;
+            uiLabel4.Text = "Thống Kê";
+            uiLabel4.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // notificationBell1
             // 
@@ -355,17 +366,6 @@ namespace Sunny.Subdy.UI
             timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
             // 
-            // uiLabel4
-            // 
-            uiLabel4.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uiLabel4.ForeColor = Color.FromArgb(4, 60, 44);
-            uiLabel4.Location = new Point(24, 25);
-            uiLabel4.Name = "uiLabel4";
-            uiLabel4.Size = new Size(243, 30);
-            uiLabel4.TabIndex = 4;
-            uiLabel4.Text = "Thống Kê";
-            uiLabel4.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // fMain
             // 
             AllowShowTitle = false;
@@ -380,6 +380,7 @@ namespace Sunny.Subdy.UI
             Controls.Add(popupMessageBox);
             Controls.Add(uiPanel1);
             Font = new Font("Segoe UI", 10F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainTabControl = uiTabControl1;
             Name = "fMain";
             Padding = new Padding(2, 0, 2, 2);
@@ -389,7 +390,7 @@ namespace Sunny.Subdy.UI
             ShowDragStretch = true;
             ShowTitle = false;
             Style = Sunny.UI.UIStyle.Custom;
-            Text = "fMain";
+            Text = "";
             TextAlignment = StringAlignment.Center;
             ZoomScaleRect = new Rectangle(15, 15, 800, 450);
             uiPanel1.ResumeLayout(false);

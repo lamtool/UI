@@ -983,24 +983,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Users\\METECH\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "3.7.2",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Downloads\\SunnyUI.AOT.WinForms-main\\SunnyUI\\SunnyUI.csproj",
+      "projectUniqueName": "E:\\UI\\Sunny.Subdy.UI\\SunnyUI\\SunnyUI.csproj",
       "projectName": "SunnyUI",
-      "projectPath": "C:\\Users\\Admin\\Downloads\\SunnyUI.AOT.WinForms-main\\SunnyUI\\SunnyUI.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Downloads\\SunnyUI.AOT.WinForms-main\\SunnyUI\\obj\\",
+      "projectPath": "E:\\UI\\Sunny.Subdy.UI\\SunnyUI\\SunnyUI.csproj",
+      "packagesPath": "C:\\Users\\METECH\\.nuget\\packages\\",
+      "outputPath": "E:\\UI\\Sunny.Subdy.UI\\SunnyUI\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\METECH\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1028,7 +1028,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -1070,7 +1070,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

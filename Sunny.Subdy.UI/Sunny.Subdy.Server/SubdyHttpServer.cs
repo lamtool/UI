@@ -2,8 +2,11 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
+using System.Web;
 using AutoAndroid;
+using Sunny.Subdy.Common;
 using Sunny.Subdy.Common.Logs;
+using Sunny.Subdy.Common.Services;
 
 namespace Sunny.Subdy.Server
 {
@@ -49,13 +52,11 @@ namespace Sunny.Subdy.Server
                         try
                         {
                             context = await _listener.GetContextAsync();
-                            // Chuyển yêu cầu cho router xử lý
                             await _router.RouteRequest(context);
                         }
                         catch (HttpListenerException ex)
                         {
-                            // Lỗi khi listener bị dừng (ví dụ: StopServer được gọi)
-                            if (ex.ErrorCode == 995) // The I/O operation has been aborted...
+                            if (ex.ErrorCode == 995)
                             {
                                 LogManager.Info("HttpListener was closed gracefully.");
                             }
@@ -63,17 +64,15 @@ namespace Sunny.Subdy.Server
                             {
                                 LogManager.Error(ex);
                             }
-                            break; // Thoát vòng lặp khi có lỗi nghiêm trọng hoặc listener bị đóng
+                            break;
                         }
                         catch (ObjectDisposedException ex)
                         {
-                            // Xử lý khi listener bị hủy sau khi StopServer được gọi
                             LogManager.Info("HttpListener object disposed gracefully.");
                             break;
                         }
                         catch (Exception ex)
                         {
-                            // Đây là nơi bạn bắt các lỗi tổng quát trong quá trình xử lý yêu cầu
                             LogManager.Error(ex);
 
                             if (context != null) // Đảm bảo context không null
@@ -94,14 +93,18 @@ namespace Sunny.Subdy.Server
                         }
                     }
                 });
+
             }
             catch (HttpListenerException ex)
             {
                 LogManager.Error(ex);
+                PortKiller.KillPort(8686);
                 if (ex.ErrorCode == 5) // Access Denied
                 {
 
                 }
+
+
             }
             catch (Exception ex)
             {
@@ -140,6 +143,17 @@ namespace Sunny.Subdy.Server
 
             // Route cho yêu cầu thay đổi thiết bị theo ID (ID dạng chuỗi)
             _router.Get("/{id}/Change", HandleChangeRequest); // VẪN DÙNG HandleChangeRequest
+
+
+
+            _router.Post("/{id}/facebook/backup", HandleFacebookBackup);
+            _router.Post("/{id}/facebook/restore", HandleFacebookRestore);
+
+            _router.Post("/{id}/instagram/backup", HandleInstagramBackup);
+            _router.Post("/{id}/instagram/restore", HandleInstagramRestore);
+
+            _router.Post("/{id}/tiktok/backup", HandleTikTokBackup);
+            _router.Post("/{id}/tiktok/restore", HandleTikTokRestore);
 
             LogManager.Info("All API routes registered.");
         }
@@ -217,44 +231,6 @@ namespace Sunny.Subdy.Server
             }
         }
 
-        private async Task WriteJsonResponse<T>(HttpListenerContext context, bool success, string message, T data = default, HttpStatusCode statusCode = HttpStatusCode.OK)
-        {
-            try
-            {
-                var payload = new JsonResponse<T>
-                {
-                    success = success,
-                    message = message,
-                    data = data
-                };
-
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = false
-                };
-
-                string json = JsonSerializer.Serialize(payload, options);
-                byte[] buffer = Encoding.UTF8.GetBytes(json);
-
-                context.Response.StatusCode = (int)statusCode;
-                context.Response.ContentType = "application/json";
-                context.Response.ContentLength64 = buffer.Length;
-
-                await context.Response.OutputStream.WriteAsync(buffer);
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-            }
-            finally
-            {
-                context.Response.OutputStream.Close();
-            }
-        }
-        /// <summary>
-        /// Xử lý yêu cầu GET tới đường dẫn gốc "/".
-        /// </summary>
         private async Task HandleRootRequest(HttpListenerContext context, Dictionary<string, string> routeParams)
         {
             LogManager.Info("Handling GET / request.");
@@ -298,6 +274,300 @@ namespace Sunny.Subdy.Server
                 await ApiRouter.SendJsonResponse(context.Response, ApiResponse<object>.ErrorResponse($"Lỗi khi lấy danh sách thiết bị: {ex.Message}"), HttpStatusCode.InternalServerError);
             }
         }
+        private async Task HandleFacebookBackup(HttpListenerContext context, Dictionary<string, string> routeParams)
+        {
+            LogManager.Info("[HandleFacebookBackup] Bắt đầu xử lý");
 
+            try
+            {
+                string id = routeParams.ContainsKey("id") ? routeParams["id"] : "(null)";
+                LogManager.Info($"[HandleFacebookBackup] ID: {id}");
+
+                using var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
+                var body = await reader.ReadToEndAsync();
+                LogManager.Info($"[HandleFacebookBackup] Raw Body: {body}");
+
+                var device = DeviceServices.DeviceModels.FirstOrDefault(d => d.Serial == id);
+                if (device == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Thiết bị không tồn tại."), HttpStatusCode.NotFound);
+                    return;
+                }
+                var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var request = JsonSerializer.Deserialize<DataRequest>(body, jsonOptions);
+
+                if (request == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Lỗi parse JSON."), HttpStatusCode.BadRequest);
+                    return;
+                }
+                if (new BackupRestoreHelper(device).BackupFacebook(request.File) == false)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Backup facebook thất bại"), HttpStatusCode.InternalServerError);
+                    return;
+                }
+
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<string>.SuccessResponse(null, "Backup facebook thành công."), HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<object>.ErrorResponse(ex.Message), HttpStatusCode.InternalServerError);
+            }
+        }
+        private async Task HandleFacebookRestore(HttpListenerContext context, Dictionary<string, string> routeParams)
+        {
+            LogManager.Info("[HandleFacebookRestore] Bắt đầu xử lý");
+
+            try
+            {
+                string id = routeParams.ContainsKey("id") ? routeParams["id"] : "(null)";
+                LogManager.Info($"[HandleFacebookRestore] ID: {id}");
+
+                using var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
+                var body = await reader.ReadToEndAsync();
+                LogManager.Info($"[HandleFacebookRestore] Raw Body: {body}");
+
+                var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var request = JsonSerializer.Deserialize<DataRequest>(body, jsonOptions);
+
+                if (request == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Lỗi parse JSON."), HttpStatusCode.BadRequest);
+                    return;
+                }
+                if (!File.Exists(request.File))
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                      ApiResponse<object>.ErrorResponse("Không tồn tại file"), HttpStatusCode.BadRequest);
+                    return;
+                }
+                var device = DeviceServices.DeviceModels.FirstOrDefault(d => d.Serial == id);
+                if (device == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Thiết bị không tồn tại."), HttpStatusCode.NotFound);
+                    return;
+                }
+                if (new BackupRestoreHelper(device).RestoreFacebook(request.File) == false)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Restore facebook thất bại"), HttpStatusCode.InternalServerError);
+                    return;
+                }
+
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<string>.SuccessResponse(null, "Restore facebook thành công."), HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<object>.ErrorResponse(ex.Message), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private async Task HandleInstagramBackup(HttpListenerContext context, Dictionary<string, string> routeParams)
+        {
+            LogManager.Info("[HandleInstagramBackup] Bắt đầu xử lý");
+
+            try
+            {
+                string id = routeParams.ContainsKey("id") ? routeParams["id"] : "(null)";
+                LogManager.Info($"[HandleInstagramBackup] ID: {id}");
+
+                using var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
+                var body = await reader.ReadToEndAsync();
+                LogManager.Info($"[HandleInstagramBackup] Raw Body: {body}");
+
+                var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var request = JsonSerializer.Deserialize<DataRequest>(body, jsonOptions);
+                var device = DeviceServices.DeviceModels.FirstOrDefault(d => d.Serial == id);
+                if (device == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Thiết bị không tồn tại."), HttpStatusCode.NotFound);
+                    return;
+                }
+                if (request == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Lỗi parse JSON."), HttpStatusCode.BadRequest);
+                    return;
+                }
+                if (new BackupRestoreHelper(device).BackupInstagram(request.File) == false)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Backup instagram thất bại"), HttpStatusCode.InternalServerError);
+                    return;
+                }
+
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<string>.SuccessResponse(null, "Backup instagram thành công."), HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<object>.ErrorResponse(ex.Message), HttpStatusCode.InternalServerError);
+            }
+        }
+        private async Task HandleInstagramRestore(HttpListenerContext context, Dictionary<string, string> routeParams)
+        {
+            LogManager.Info("[HandleInstagramRestore] Bắt đầu xử lý");
+
+            try
+            {
+                string id = routeParams.ContainsKey("id") ? routeParams["id"] : "(null)";
+                LogManager.Info($"[HandleInstagramRestore] ID: {id}");
+
+                using var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
+                var body = await reader.ReadToEndAsync();
+                LogManager.Info($"[HandleInstagramRestore] Raw Body: {body}");
+
+                var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var request = JsonSerializer.Deserialize<DataRequest>(body, jsonOptions);
+
+                if (request == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Lỗi parse JSON."), HttpStatusCode.BadRequest);
+                    return;
+                }
+                if (!File.Exists(request.File))
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                      ApiResponse<object>.ErrorResponse("Không tồn tại file"), HttpStatusCode.BadRequest);
+                    return;
+                }
+                var device = DeviceServices.DeviceModels.FirstOrDefault(d => d.Serial == id);
+                if (device == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Thiết bị không tồn tại."), HttpStatusCode.NotFound);
+                    return;
+                }
+                if (new BackupRestoreHelper(device).RestoreInstagram(request.File) == false)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Restore instagram thất bại"), HttpStatusCode.InternalServerError);
+                    return;
+                }
+
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<string>.SuccessResponse(null, "Restore instagram thành công."), HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<object>.ErrorResponse(ex.Message), HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private async Task HandleTikTokBackup(HttpListenerContext context, Dictionary<string, string> routeParams)
+        {
+            LogManager.Info("[HandleTikTokBackup] Bắt đầu xử lý");
+
+            try
+            {
+                string id = routeParams.ContainsKey("id") ? routeParams["id"] : "(null)";
+                LogManager.Info($"[HandleTikTokBackup] ID: {id}");
+
+                using var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
+                var body = await reader.ReadToEndAsync();
+                LogManager.Info($"[HandleTikTokBackup] Raw Body: {body}");
+
+                var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var request = JsonSerializer.Deserialize<DataRequest>(body, jsonOptions);
+
+                if (request == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Lỗi parse JSON."), HttpStatusCode.BadRequest);
+                    return;
+                }
+                var device = DeviceServices.DeviceModels.FirstOrDefault(d => d.Serial == id);
+                if (device == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Thiết bị không tồn tại."), HttpStatusCode.NotFound);
+                    return;
+                }
+                if (new BackupRestoreHelper(device).BackupTikTok(request.File) == false)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Backup tiktok thất bại"), HttpStatusCode.InternalServerError);
+                    return;
+                }
+
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<string>.SuccessResponse(null, "Backup tiktok thành công."), HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<object>.ErrorResponse(ex.Message), HttpStatusCode.InternalServerError);
+            }
+        }
+        private async Task HandleTikTokRestore(HttpListenerContext context, Dictionary<string, string> routeParams)
+        {
+            LogManager.Info("[HandleTikTokRestore] Bắt đầu xử lý");
+
+            try
+            {
+                string id = routeParams.ContainsKey("id") ? routeParams["id"] : "(null)";
+                LogManager.Info($"[HandleTikTokRestore] ID: {id}");
+
+                using var reader = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding);
+                var body = await reader.ReadToEndAsync();
+                LogManager.Info($"[HandleTikTokRestore] Raw Body: {body}");
+
+                var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var request = JsonSerializer.Deserialize<DataRequest>(body, jsonOptions);
+
+                if (request == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Lỗi parse JSON."), HttpStatusCode.BadRequest);
+                    return;
+                }
+                if (!File.Exists(request.File))
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                      ApiResponse<object>.ErrorResponse("Không tồn tại file"), HttpStatusCode.BadRequest);
+                    return;
+                }
+                var device = DeviceServices.DeviceModels.FirstOrDefault(d => d.Serial == id);
+                if (device == null)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Thiết bị không tồn tại."), HttpStatusCode.NotFound);
+                    return;
+                }
+                if (new BackupRestoreHelper(device).RestoreTikTok(request.File) == false)
+                {
+                    await ApiRouter.SendJsonResponse(context.Response,
+                        ApiResponse<object>.ErrorResponse("Restore tiktok thất bại"), HttpStatusCode.InternalServerError);
+                    return;
+                }
+
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<string>.SuccessResponse(null, "Restore tiktok thành công."), HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+                await ApiRouter.SendJsonResponse(context.Response,
+                    ApiResponse<object>.ErrorResponse(ex.Message), HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }

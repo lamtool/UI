@@ -13,10 +13,22 @@
     <Compile Update="fMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="View\DeviceControl\ScrcpyDisplay.cs">
+    <Compile Update="View\Controls\ucdgvAccount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="View\Controls\ucFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Controls\ucGroup.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="View\fLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Forms\fAddAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Forms\fShow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="View\Pages\pageFacebook.cs">

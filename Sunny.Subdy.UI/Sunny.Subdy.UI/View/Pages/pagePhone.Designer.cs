@@ -71,6 +71,9 @@
             tikTokToolStripMenuItem = new ToolStripMenuItem();
             backupToolStripMenuItem1 = new ToolStripMenuItem();
             restoreToolStripMenuItem1 = new ToolStripMenuItem();
+            instagramToolStripMenuItem = new ToolStripMenuItem();
+            backupToolStripMenuItem2 = new ToolStripMenuItem();
+            restoreToolStripMenuItem2 = new ToolStripMenuItem();
             connectToolStripMenuItem = new ToolStripMenuItem();
             disconnectToolStripMenuItem = new ToolStripMenuItem();
             deviceModelBindingSource = new BindingSource(components);
@@ -239,15 +242,15 @@
             uiContextMenuStrip1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem, connectToolStripMenuItem, disconnectToolStripMenuItem });
             uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            uiContextMenuStrip1.Size = new Size(181, 180);
+            uiContextMenuStrip1.Size = new Size(159, 158);
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { tấtCảToolStripMenuItem, bôiĐenToolStripMenuItem, statusToolStripMenuItem });
-            toolStripMenuItem1.ForeColor = Color.FromArgb(67, 67, 67);
+            toolStripMenuItem1.ForeColor = SystemColors.ControlText;
             toolStripMenuItem1.Image = Properties.Resources.select_check_box_30dp;
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(180, 22);
+            toolStripMenuItem1.Size = new Size(158, 22);
             toolStripMenuItem1.Text = "Chọn";
             // 
             // tấtCảToolStripMenuItem
@@ -278,7 +281,7 @@
             // 
             bỏChọnTấtCảToolStripMenuItem.Image = Properties.Resources.check_box_outline_blank_30dp;
             bỏChọnTấtCảToolStripMenuItem.Name = "bỏChọnTấtCảToolStripMenuItem";
-            bỏChọnTấtCảToolStripMenuItem.Size = new Size(180, 22);
+            bỏChọnTấtCảToolStripMenuItem.Size = new Size(158, 22);
             bỏChọnTấtCảToolStripMenuItem.Text = "Bỏ chọn tất cả";
             bỏChọnTấtCảToolStripMenuItem.Click += bỏChọnTấtCảToolStripMenuItem_Click;
             // 
@@ -287,14 +290,14 @@
             tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1 });
             tắtViewToolStripMenuItem.Image = Properties.Resources.mystery_30dp;
             tắtViewToolStripMenuItem.Name = "tắtViewToolStripMenuItem";
-            tắtViewToolStripMenuItem.Size = new Size(180, 22);
+            tắtViewToolStripMenuItem.Size = new Size(158, 22);
             tắtViewToolStripMenuItem.Text = "View";
             // 
             // tắtToolStripMenuItem
             // 
             tắtToolStripMenuItem.Image = Properties.Resources.visibility_off_30dp;
             tắtToolStripMenuItem.Name = "tắtToolStripMenuItem";
-            tắtToolStripMenuItem.Size = new Size(180, 22);
+            tắtToolStripMenuItem.Size = new Size(94, 22);
             tắtToolStripMenuItem.Text = "Tắt";
             tắtToolStripMenuItem.Click += tắtToolStripMenuItem_Click;
             // 
@@ -302,7 +305,7 @@
             // 
             mởToolStripMenuItem1.Image = Properties.Resources.visibility_30dp;
             mởToolStripMenuItem1.Name = "mởToolStripMenuItem1";
-            mởToolStripMenuItem1.Size = new Size(180, 22);
+            mởToolStripMenuItem1.Size = new Size(94, 22);
             mởToolStripMenuItem1.Text = "Mở";
             mởToolStripMenuItem1.Click += mởToolStripMenuItem1_Click;
             // 
@@ -311,7 +314,7 @@
             mởToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { càiĐặtApkToolStripMenuItem, wifiToolStripMenuItem, gỡCàiĐặtPackageToolStripMenuItem, rebootToolStripMenuItem, changeInfoToolStripMenuItem });
             mởToolStripMenuItem.Image = Properties.Resources.functions_30dp;
             mởToolStripMenuItem.Name = "mởToolStripMenuItem";
-            mởToolStripMenuItem.Size = new Size(180, 22);
+            mởToolStripMenuItem.Size = new Size(158, 22);
             mởToolStripMenuItem.Text = "Nâng cao";
             // 
             // càiĐặtApkToolStripMenuItem
@@ -320,6 +323,7 @@
             càiĐặtApkToolStripMenuItem.Name = "càiĐặtApkToolStripMenuItem";
             càiĐặtApkToolStripMenuItem.Size = new Size(192, 22);
             càiĐặtApkToolStripMenuItem.Text = "Cài đặt apk";
+            càiĐặtApkToolStripMenuItem.Click += càiĐặtApkToolStripMenuItem_Click;
             // 
             // wifiToolStripMenuItem
             // 
@@ -335,6 +339,7 @@
             bậtWifiToolStripMenuItem.Name = "bậtWifiToolStripMenuItem";
             bậtWifiToolStripMenuItem.Size = new Size(135, 22);
             bậtWifiToolStripMenuItem.Text = "Bật wifi";
+            bậtWifiToolStripMenuItem.Click += bậtWifiToolStripMenuItem_Click;
             // 
             // tắtWifiToolStripMenuItem
             // 
@@ -342,6 +347,7 @@
             tắtWifiToolStripMenuItem.Name = "tắtWifiToolStripMenuItem";
             tắtWifiToolStripMenuItem.Size = new Size(135, 22);
             tắtWifiToolStripMenuItem.Text = "Tắt wifi";
+            tắtWifiToolStripMenuItem.Click += tắtWifiToolStripMenuItem_Click;
             // 
             // kếtNốiWifiToolStripMenuItem
             // 
@@ -349,6 +355,7 @@
             kếtNốiWifiToolStripMenuItem.Name = "kếtNốiWifiToolStripMenuItem";
             kếtNốiWifiToolStripMenuItem.Size = new Size(135, 22);
             kếtNốiWifiToolStripMenuItem.Text = "Kết nối wifi";
+            kếtNốiWifiToolStripMenuItem.Click += kếtNốiWifiToolStripMenuItem_Click;
             // 
             // gỡCàiĐặtPackageToolStripMenuItem
             // 
@@ -356,6 +363,7 @@
             gỡCàiĐặtPackageToolStripMenuItem.Name = "gỡCàiĐặtPackageToolStripMenuItem";
             gỡCàiĐặtPackageToolStripMenuItem.Size = new Size(192, 22);
             gỡCàiĐặtPackageToolStripMenuItem.Text = "Gỡ cài đặt package";
+            gỡCàiĐặtPackageToolStripMenuItem.Click += gỡCàiĐặtPackageToolStripMenuItem_Click;
             // 
             // rebootToolStripMenuItem
             // 
@@ -363,6 +371,7 @@
             rebootToolStripMenuItem.Name = "rebootToolStripMenuItem";
             rebootToolStripMenuItem.Size = new Size(192, 22);
             rebootToolStripMenuItem.Text = "Reboot";
+            rebootToolStripMenuItem.Click += rebootToolStripMenuItem_Click;
             // 
             // changeInfoToolStripMenuItem
             // 
@@ -370,13 +379,14 @@
             changeInfoToolStripMenuItem.Name = "changeInfoToolStripMenuItem";
             changeInfoToolStripMenuItem.Size = new Size(192, 22);
             changeInfoToolStripMenuItem.Text = "Change Info";
+            changeInfoToolStripMenuItem.Click += changeInfoToolStripMenuItem_Click;
             // 
             // ứngDụngToolStripMenuItem
             // 
-            ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem, tikTokToolStripMenuItem });
+            ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem, tikTokToolStripMenuItem, instagramToolStripMenuItem });
             ứngDụngToolStripMenuItem.Image = Properties.Resources.apps_30dp_434343_FILL0_wght400_GRAD0_opsz24;
             ứngDụngToolStripMenuItem.Name = "ứngDụngToolStripMenuItem";
-            ứngDụngToolStripMenuItem.Size = new Size(180, 22);
+            ứngDụngToolStripMenuItem.Size = new Size(158, 22);
             ứngDụngToolStripMenuItem.Text = "Ứng dụng";
             // 
             // facebookToolStripMenuItem
@@ -391,12 +401,14 @@
             backupToolStripMenuItem.Name = "backupToolStripMenuItem";
             backupToolStripMenuItem.Size = new Size(122, 22);
             backupToolStripMenuItem.Text = "Backup";
+            backupToolStripMenuItem.Click += backupToolStripMenuItem_Click;
             // 
             // restoreToolStripMenuItem
             // 
             restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
             restoreToolStripMenuItem.Size = new Size(122, 22);
             restoreToolStripMenuItem.Text = "Restore";
+            restoreToolStripMenuItem.Click += restoreToolStripMenuItem_Click;
             // 
             // tikTokToolStripMenuItem
             // 
@@ -410,18 +422,41 @@
             backupToolStripMenuItem1.Name = "backupToolStripMenuItem1";
             backupToolStripMenuItem1.Size = new Size(122, 22);
             backupToolStripMenuItem1.Text = "Backup";
+            backupToolStripMenuItem1.Click += backupToolStripMenuItem1_Click;
             // 
             // restoreToolStripMenuItem1
             // 
             restoreToolStripMenuItem1.Name = "restoreToolStripMenuItem1";
             restoreToolStripMenuItem1.Size = new Size(122, 22);
             restoreToolStripMenuItem1.Text = "Restore";
+            restoreToolStripMenuItem1.Click += restoreToolStripMenuItem1_Click;
+            // 
+            // instagramToolStripMenuItem
+            // 
+            instagramToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem2, restoreToolStripMenuItem2 });
+            instagramToolStripMenuItem.Name = "instagramToolStripMenuItem";
+            instagramToolStripMenuItem.Size = new Size(136, 22);
+            instagramToolStripMenuItem.Text = "Instagram";
+            // 
+            // backupToolStripMenuItem2
+            // 
+            backupToolStripMenuItem2.Name = "backupToolStripMenuItem2";
+            backupToolStripMenuItem2.Size = new Size(122, 22);
+            backupToolStripMenuItem2.Text = "Backup";
+            backupToolStripMenuItem2.Click += backupToolStripMenuItem2_Click;
+            // 
+            // restoreToolStripMenuItem2
+            // 
+            restoreToolStripMenuItem2.Name = "restoreToolStripMenuItem2";
+            restoreToolStripMenuItem2.Size = new Size(122, 22);
+            restoreToolStripMenuItem2.Text = "Restore";
+            restoreToolStripMenuItem2.Click += restoreToolStripMenuItem2_Click;
             // 
             // connectToolStripMenuItem
             // 
             connectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_48752C_FILL0_wght400_GRAD0_opsz24;
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            connectToolStripMenuItem.Size = new Size(180, 22);
+            connectToolStripMenuItem.Size = new Size(158, 22);
             connectToolStripMenuItem.Text = "Connect";
             connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
@@ -429,7 +464,7 @@
             // 
             disconnectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24;
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            disconnectToolStripMenuItem.Size = new Size(180, 22);
+            disconnectToolStripMenuItem.Size = new Size(158, 22);
             disconnectToolStripMenuItem.Text = "Disconnect";
             // 
             // deviceModelBindingSource
@@ -532,6 +567,7 @@
             uiTextBox1.TabIndex = 5;
             uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
             uiTextBox1.Watermark = "Tìm kiếm...";
+            uiTextBox1.TextChanged += uiTextBox1_TextChanged;
             // 
             // uiHeaderButton1
             // 
@@ -711,5 +747,8 @@
         private Sunny.UI.UILinkLabel uiLinkLabel1;
         private GroupBox groupBox1;
         private FlowLayoutPanel flowLayoutPanel1;
+        private ToolStripMenuItem instagramToolStripMenuItem;
+        private ToolStripMenuItem backupToolStripMenuItem2;
+        private ToolStripMenuItem restoreToolStripMenuItem2;
     }
 }

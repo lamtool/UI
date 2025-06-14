@@ -1,6 +1,8 @@
-﻿using Sunny.Subdy.UI.View.DeviceControl;
+﻿
+using System.Windows.Forms;
 
-namespace Sunny.Subdy.UI.View.DeviceControl
+namespace AutoAndroid.Stream
+
 {
     public static class KeycodeHelper
     {

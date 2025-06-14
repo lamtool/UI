@@ -41,6 +41,7 @@ namespace AutoAndroid
             _device = _client.Device;
             _serial = _device.Serial;
             _port = _device.Port;
+            _url = $"http://127.0.0.1:{_port}";
         }
         public bool SetupATX()
         {
@@ -62,14 +63,19 @@ namespace AutoAndroid
         }
         public bool Connect()
         {
-            using var _client = new ADBSocket(_serial);
-            int port = _client.ForwardPort(7912);
-            if (port == -1)
+            if (_client != null && _client.Device.Port != 0)
             {
-                return false;
+                using var client = new ADBSocket(_serial);
+                int port = client.ForwardPort(7912);
+                if (port == -1)
+                {
+                    return false;
+                }
+                _client.Device.Port = port;
             }
-            _port = port;
-            _url = $"http://127.0.0.1:{port}";
+
+            _port = _client.Device.Port;
+            _url = $"http://127.0.0.1:{_port}";
             return RunUiautomator();
         }
         public string AtxAgentUrl

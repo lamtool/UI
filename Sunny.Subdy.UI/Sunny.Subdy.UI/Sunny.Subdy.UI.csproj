@@ -19,22 +19,23 @@
 		<BaseOutputPath></BaseOutputPath>
 		<PlatformTarget>x64</PlatformTarget>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ApplicationIcon>Asset\Logo.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Remove="Asset\LamTool.net.png" />
-		<None Remove="Asset\Logo.png" />
 		<None Remove="Asset\menu_80.png" />
 		<None Remove="Asset\select_check_box_30dp.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FFmpeg.AutoGen" Version="5.0.0" />
 		<PackageReference Include="WinFormsComInterop" Version="0.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
+		<ProjectReference Include="..\Sunny.Subdy.Common\Sunny.Subdy.Common.csproj" />
+		<ProjectReference Include="..\Sunny.Subdy.Data\Sunny.Subdy.Data.csproj" />
 		<ProjectReference Include="..\Sunny.Subdy.Server\Sunny.Subdy.Server.csproj" />
 		<ProjectReference Include="..\SunnyUI\SunnyUI.csproj" />
 	</ItemGroup>
@@ -42,9 +43,6 @@
 	<ItemGroup>
 		<Resource Include="Asset\LamTool.net.png">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Asset\Logo.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Asset\menu_80.png">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -72,9 +70,6 @@
 		<RdXmlFile Include="rd.xml" />
 		<RdXmlFile Include="Forms.xml" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="ControlViews\Streams\" />
-	</ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<PublishAot>true</PublishAot>
 		<PublishTrimmed>true</PublishTrimmed>
@@ -97,6 +92,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="Asset\Logo.ico" />
 	  <Content Include="Libs\ffmpeg\avcodec-58.dll" />
 	  <Content Include="Libs\ffmpeg\avcodec-59.dll" />
 	  <Content Include="Libs\ffmpeg\avdevice-58.dll" />

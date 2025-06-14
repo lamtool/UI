@@ -37,80 +37,6 @@ namespace AutoAndroid
                 .Select(line => line.Split('\t')[0]) // Lấy ID thiết bị (phần trước "\t")
                 .ToList();
         }
-        public static int GETPORT(string deviceId)
-        {
-            try
-            {
-                var forwards = ForwardList();
-                foreach (var forward in forwards)
-                {
-                    if (forward.Serial == deviceId)
-                    {
-                        return forward.Local;
-                    }
-                }
-                Random random = new Random();
-                int localPort;
-                do
-                {
-                    localPort = random.Next(10000, 65535);
-                } while (UsedPorts.Contains(localPort));
-                return localPort;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-            }
-
-            return -1;
-        }
-        public static List<ForwardItem> ForwardList()
-        {
-            var line = ProcessHelper.RunAdbCommand("forward --list", 30);
-            if (string.IsNullOrEmpty(line))
-            {
-                return new List<ForwardItem>();
-            }
-            try
-            {
-                var lines = line.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-                var forwardItems = new List<ForwardItem>();
-                foreach (var l in lines)
-                {
-                    var parts = l.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length == 3)
-                    {
-                        var serial = parts[0];
-                        var localPart = parts[1].Replace("tcp:", "");
-                        var remotePart = parts[2].Replace("tcp:", "");
-
-                        if (int.TryParse(localPart, out int local) && int.TryParse(remotePart, out int remote))
-                        {
-                            forwardItems.Add(new ForwardItem
-                            {
-                                Serial = serial,
-                                Local = local,
-                                Remote = remote
-                            });
-                            if (!UsedPorts.Contains(local))
-                            {
-                                UsedPorts.Add(local);
-                            }
-
-                        }
-                    }
-                }
-
-                return forwardItems;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.ToString());
-            }
-
-            return new List<ForwardItem>();
-        }
-
         public static void InitADB()
         {
             // Tạo thư mục DTAHelper trên ổ C nếu chưa tồn tại
@@ -235,7 +161,7 @@ namespace AutoAndroid
                         //    Environment.GetEnvironmentVariable("ANDROID_HOME", EnvironmentVariableTarget.Machine),
                         //    "platform-tools",
                         //    "adb") + command;
-                        process.StartInfo.Arguments = $"/C \"{ProcessHelper.ADBPath} {command}\"";
+                        process.StartInfo.Arguments = $"/C \"{ProcessHelper.ADBPath}adb {command}\"";
 
 
                         process.StartInfo.CreateNoWindow = true;
@@ -300,6 +226,88 @@ namespace AutoAndroid
             }
             return result;
         }
+        public string CMD(string cmd, int timeout = 10)
+        {
+            string result = "";
+            int retryCount = 0;
+            const int maxRetries = 3;
 
+            while (retryCount < maxRetries)
+            {
+                try
+                {
+                    using (Process process = new Process())
+                    {
+                        string command = " -s " + _client.Device.Serial + " " + cmd;
+                        process.StartInfo.FileName = "cmd.exe";
+                        //process.StartInfo.Arguments = "/c " + Path.Combine(
+                        //    Environment.GetEnvironmentVariable("ANDROID_HOME", EnvironmentVariableTarget.Machine),
+                        //    "platform-tools",
+                        //    "adb") + command;
+                        process.StartInfo.Arguments = $"/C \"{ProcessHelper.ADBPath}adb {command}\"";
+
+
+                        process.StartInfo.CreateNoWindow = true;
+                        process.StartInfo.UseShellExecute = false;
+                        process.StartInfo.RedirectStandardError = true;
+                        process.StartInfo.RedirectStandardOutput = true;
+                        process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+                        process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+
+                        process.Start();
+
+                        // Đọc dữ liệu đồng bộ
+                        string output = process.StandardOutput.ReadToEnd();
+                        string error = process.StandardError.ReadToEnd();
+
+                        // Đợi tiến trình hoàn thành trong thời gian quy định
+                        if (!process.WaitForExit(timeout * 1000))
+                        {
+                            process.Kill();
+                            retryCount++;
+                            continue;
+                        }
+
+                        if (!string.IsNullOrEmpty(error))
+                        {
+                            // Xử lý các lỗi cụ thể
+                            if (error.Contains("daemon not running") && !error.Contains("daemon started successfully"))
+                            {
+                                StartServer();
+                                retryCount++;
+                                continue;
+                            }
+
+                            if (Regex.IsMatch(error, "device (.*?) not found") || error.Contains("device offline"))
+                            {
+                                retryCount++;
+                                if (!cmd.Contains("reconnect"))
+                                {
+                                    Shell("reconnect");
+                                }
+                                if (!GetDevices().Contains(_client.Device.Serial))
+                                {
+                                    _client.Connect();
+                                }
+                                continue;
+                            }
+
+                            if (!GetDevices().Contains(_client.Device.Serial))
+                            {
+                                _client.Connect();
+                            }
+                        }
+
+                        return output.Trim(); // Trả về kết quả nếu không có lỗi
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _client.LogHelper.ERROR(ex.Message);
+                    retryCount++;
+                }
+            }
+            return result;
+        }
     }
 }

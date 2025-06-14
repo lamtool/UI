@@ -1,6 +1,5 @@
 ﻿using System.Buffers;
 using System.Buffers.Binary;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -8,9 +7,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
-using AutoAndroid;
 
-namespace Sunny.Subdy.UI.View.DeviceControl
+namespace AutoAndroid.Stream
 {
     public class Scrcpy
     {
@@ -267,40 +265,18 @@ namespace Sunny.Subdy.UI.View.DeviceControl
 
                 var videoStream = videoClient.GetStream();
                 videoStream.ReadTimeout = 2000;
-
-                var metaBuf = pool.Rent(12);
-                var packetBuf = pool.Rent(1024 * 1024);
+                var length = 32;
+                var metaBuf = pool.Rent(length);
+                byte[] packetBuf;
                 while (!cts.Token.IsCancellationRequested)
                 {
                     try
                     {
-                        // Đọc metadata (12 bytes)
-                        int bytesRead = await ReadFullyAsync(videoStream, metaBuf, 12, cts.Token);
-                        if (bytesRead != 12)
-                        {
-                            _device.IsScrcpy = false;
-                            cts.Cancel();
-                            break;
-                        }
-                        long presentationTimeUs = BitConverter.ToInt64(metaBuf.Take(8).Reverse().ToArray(), 0);
-                        int packetSize = BitConverter.ToInt32(metaBuf.Skip(8).Take(4).Reverse().ToArray(), 0);
 
-                        // Đảm bảo buffer đủ lớn để đọc frame
-                        if (packetSize > packetBuf.Length)
-                        {
-                            pool.Return(packetBuf);
-                            packetBuf = pool.Rent(packetSize);
-                        }
-
-                        // Đọc frame dữ liệu
-                        bytesRead = await ReadFullyAsync(videoStream, packetBuf, packetSize, cts.Token);
-                        if (bytesRead != packetSize)
-                        {
-                            _device.IsScrcpy = false;
-                            cts.Cancel();
-                            break;
-                        }
-
+                        List<byte> data = await ReadFullyPacketAsync(videoStream, length, cts.Token);
+                        packetBuf = new byte[data.Count];
+                        packetBuf = data.ToArray();
+                        long presentationTimeUs = BitConverter.ToInt64(data.Take(8).Reverse().ToArray(), 0);
                         if (!cts.Token.IsCancellationRequested)
                         {
                             VideoStreamDecoder?.Decode(packetBuf, presentationTimeUs);
@@ -318,10 +294,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
                         break; // Xử lý lỗi đọc dữ liệu
                     }
                 }
-
-                // Trả lại buffer về pool khi xong
                 pool.Return(metaBuf);
-                pool.Return(packetBuf);
             }
             catch
             {
@@ -330,8 +303,20 @@ namespace Sunny.Subdy.UI.View.DeviceControl
             }
             return;
         }
-
-        private async Task<int> ReadFullyAsync(Stream stream, byte[] buffer, int length, CancellationToken cancellationToken)
+        private async Task<List<byte>> ReadFullyPacketAsync(System.IO.Stream stream, int length, CancellationToken cancellationToken)
+        {
+            int totalBytesRead = length;
+            List<byte> data = new List<byte>();
+            while (totalBytesRead == length)
+            {
+                byte[] buffer = new byte[length];
+                int bytesRead = await stream.ReadAsync(buffer, 0, length, cancellationToken);
+                totalBytesRead = bytesRead;
+                data.AddRange(buffer.Take(totalBytesRead));
+            }
+            return data;
+        }
+        private async Task<int> ReadFullyAsync(System.IO.Stream stream, byte[] buffer, int length, CancellationToken cancellationToken)
         {
             int totalBytesRead = 0;
             while (totalBytesRead < length)
@@ -348,19 +333,28 @@ namespace Sunny.Subdy.UI.View.DeviceControl
 
         private async Task ControllerMain()
         {
-            if (controlClient == null || cts == null) return;
-            var stream = controlClient.GetStream();
             try
             {
-                await foreach (var cmd in controlChannel.Reader.ReadAllAsync(cts.Token))
+                if (controlClient == null) return;
+                if (cts == null) return;
+                var stream = controlClient.GetStream();
+                try
                 {
-                    ControllerSend(stream, cmd);
+                    await foreach (var cmd in controlChannel.Reader.ReadAllAsync(cts.Token))
+                    {
+                        ControllerSend(stream, cmd);
+                    }
+                }
+                catch
+                {
+                    cts.Cancel();
                 }
             }
             catch
             {
                 cts.Cancel();
             }
+
         }
 
         private void ControllerSend(NetworkStream stream, IControlMessage cmd)
@@ -373,6 +367,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
             catch
             {
             }
+
         }
 
         private void MobileServerSetup()
@@ -410,12 +405,12 @@ namespace Sunny.Subdy.UI.View.DeviceControl
 
         private void MobileServerStart()
         {
-            RunServer();
+             RunServer();
         }
 
         private void RunServer()
         {
-            string cmd = $"adb -s {_device.Serial} shell CLASSPATH=/data/local/tmp/scrcpy-server.jar app_process / com.genymobile.scrcpy.Server 1.23 bit_rate=2000000 max_fps=30 tunnel_forward=false control=true display_id=0 show_touches=false stay_awake=false power_off_on_close=false downsize_on_error=true cleanup=true max_size=1280 lock_video_orientation=0";
+            string cmd = $"adb -s {_device.Serial} shell CLASSPATH=/data/local/tmp/scrcpy-server.jar app_process / com.genymobile.scrcpy.Server 3.3 tunnel_forward=false audio=false control=true cleanup=true max_size=1280";
             _Process = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -429,6 +424,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
                 }
             };
             _Process.Start();
+            Thread.Sleep(2000); // Đợi một chút để server khởi động
         }
 
         public static string Command(string cmd, int timeout = 10)
@@ -447,7 +443,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
                     using (Process process = new Process())
                     {
                         process.StartInfo.FileName = "cmd.exe";
-                        process.StartInfo.Arguments =  $"/C \"{ProcessHelper.ADBPath}{cmd}\"";
+                        process.StartInfo.Arguments = $"/C \"{ProcessHelper.ADBPath}{cmd}\"";
                         process.StartInfo.CreateNoWindow = true;
                         process.StartInfo.UseShellExecute = false;
                         process.StartInfo.RedirectStandardError = true;
@@ -539,16 +535,16 @@ namespace Sunny.Subdy.UI.View.DeviceControl
         {
             try
             {
-                scrcpyDisplay.View.Image = Properties.Resources.LamTool_net;
+                scrcpyDisplay.View.Image = Properties.Resources.LamTool;
             }
             catch (Exception ex)
             {
             }
         }
 
-       
 
-     
+
+
         private void CloseConnections()
         {
             listener?.Stop();

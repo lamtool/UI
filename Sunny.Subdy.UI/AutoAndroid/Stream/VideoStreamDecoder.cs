@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sunny.Subdy.UI.View.DeviceControl
+namespace AutoAndroid.Stream
 {
     public unsafe class FrameData : IDisposable
     {

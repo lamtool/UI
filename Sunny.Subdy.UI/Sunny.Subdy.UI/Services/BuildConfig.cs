@@ -1,12 +1,6 @@
 ﻿using AutoAndroid;
-using FFmpeg.AutoGen;
+using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Server;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sunny.Subdy.UI.Services
 {
@@ -18,7 +12,7 @@ namespace Sunny.Subdy.UI.Services
             DeviceServices.GetDeviceModels();
             DeviceServices.GetScrcpyDisplays();
             SubdyHttpServer server = new SubdyHttpServer();
-            _= server.StartServer();
+            await server.StartServer();
 
         }
     }

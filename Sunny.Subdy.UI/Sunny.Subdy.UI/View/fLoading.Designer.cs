@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fLoading));
             uiRoundProcess1 = new Sunny.UI.UIRoundProcess();
             SuspendLayout();
             // 
@@ -51,6 +52,7 @@
             ClientSize = new Size(136, 114);
             Controls.Add(uiRoundProcess1);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "fLoading";
             Padding = new Padding(0);
             RectColor = Color.Transparent;

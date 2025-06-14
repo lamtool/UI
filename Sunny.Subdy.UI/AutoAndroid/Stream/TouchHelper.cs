@@ -1,4 +1,4 @@
-﻿namespace Sunny.Subdy.UI.View.DeviceControl
+﻿namespace AutoAndroid.Stream
 {
     public static class TouchHelper
     {

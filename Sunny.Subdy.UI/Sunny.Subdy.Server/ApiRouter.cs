@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -39,12 +41,13 @@ namespace Sunny.Subdy.Server
                                     .ToArray();
 
             _routes.Add((method, regex, paramNames, handler));
+            Debug.WriteLine($"[ApiRouter] Registered: Method={method}, Pattern='{pathPattern}', Generated Regex='{regex.ToString()}'");
             LogManager.Info($"[ApiRouter] Registered: Method={method}, Pattern='{pathPattern}', Generated Regex='{regex.ToString()}'"); // THÊM LOG
         }
 
+
         public void Get(string pathPattern, RequestHandler handler) => AddRoute("GET", pathPattern, handler);
         public void Post(string pathPattern, RequestHandler handler) => AddRoute("POST", pathPattern, handler);
-        // Thêm các phương thức khác nếu cần (Put, Delete)
 
         public async Task RouteRequest(HttpListenerContext context)
         {
@@ -52,9 +55,9 @@ namespace Sunny.Subdy.Server
             HttpListenerResponse response = context.Response;
 
             string method = request.HttpMethod.ToUpper();
-            string rawUrlPath = request.Url.AbsolutePath; // Ví dụ: "/ce031603b4f5a13703/change"
+            string rawUrlPath = request.Url.AbsolutePath;
 
-            LogManager.Info($"[ApiRouter] Incoming Request: Method={method}, Path='{rawUrlPath}'"); // THÊM LOG
+            LogManager.Info($"[ApiRouter] Incoming Request: Method={method}, Path='{rawUrlPath}'");
 
             try
             {
@@ -62,7 +65,8 @@ namespace Sunny.Subdy.Server
                 {
                     if (route.httpMethod.Equals(method, StringComparison.OrdinalIgnoreCase))
                     {
-                        LogManager.Info($"[ApiRouter] Trying to match '{rawUrlPath}' against regex '{route.regex.ToString()}'"); // THÊM LOG
+                        Debug.WriteLine($"[ApiRouter] Trying to match '{rawUrlPath}' against regex '{route.regex.ToString()}'");
+                        LogManager.Info($"[ApiRouter] Trying to match '{rawUrlPath}' against regex '{route.regex.ToString()}'");
                         var match = route.regex.Match(rawUrlPath);
                         if (match.Success)
                         {
@@ -71,13 +75,14 @@ namespace Sunny.Subdy.Server
                             {
                                 routeParams[paramName] = match.Groups[paramName].Value;
                             }
-
+                            Debug.WriteLine($"[ApiRouter] MATCHED! Regex '{route.regex.ToString()}' matched path '{rawUrlPath}'. Executing handler.");
                             LogManager.Info($"[ApiRouter] MATCHED! Regex '{route.regex.ToString()}' matched path '{rawUrlPath}'. Executing handler."); // THÊM LOG
                             await route.handler(context, routeParams);
-                            return; // Đã tìm thấy và xử lý route, thoát
+                            return;
                         }
                         else
                         {
+                            Debug.WriteLine($"[ApiRouter] NO MATCH for '{rawUrlPath}' against regex '{route.regex.ToString()}'");
                             LogManager.Info($"[ApiRouter] NO MATCH for '{rawUrlPath}' against regex '{route.regex.ToString()}'"); // THÊM LOG
                         }
                     }
@@ -87,6 +92,7 @@ namespace Sunny.Subdy.Server
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"[ApiRouter] NO MATCH for '{rawUrlPath}' against regex '{ex.ToString()}'");
                 LogManager.Error(ex);
                 await SendJsonResponse(response, ApiResponse<object>.ErrorResponse($"Internal server error: {ex.Message}"), HttpStatusCode.InternalServerError);
             }

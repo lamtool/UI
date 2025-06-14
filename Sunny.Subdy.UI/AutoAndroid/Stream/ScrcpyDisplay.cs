@@ -1,13 +1,6 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using AutoAndroid;
-using OpenCvSharp;
-using Sunny.Subdy.UI.View.DeviceControl;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Drawing.Imaging;
 
-namespace Sunny.Subdy.UI.View.DeviceControl
+namespace AutoAndroid.Stream
 {
     public partial class ScrcpyDisplay : UserControl
     {
@@ -48,7 +41,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
 
                 scrcpy.Close();
             }
-            View.Image = Properties.Resources.LamTool_net;
+            View.Image = Properties.Resources.LamTool;
         }
 
         public void SetSize(System.Drawing.Size size)
@@ -78,6 +71,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
 
         private async Task LoadBitmap(FrameData frameData)
         {
+
             try
             {
                 if (bmp == null || bmp.Width != frameData.Width || bmp.Height != frameData.Height)
@@ -104,6 +98,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
                         System.Runtime.InteropServices.Marshal.Copy(frameData.Data.ToArray(), 0, data.Scan0, frameData.Data.Length);
 
                     }
+
                 }
                 finally
                 {
@@ -128,6 +123,7 @@ namespace Sunny.Subdy.UI.View.DeviceControl
             catch
             {
             }
+
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -289,6 +285,12 @@ namespace Sunny.Subdy.UI.View.DeviceControl
         private void bellButton_Click(object sender, EventArgs e)
         {
             scrcpy.Shell("input keyevent 4");
+        }
+
+        private void debugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fDebugDevice fDebugDevice = new fDebugDevice(Device);
+            fDebugDevice.Show();
         }
     }
 }

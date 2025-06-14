@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("SunnyUI.Net 是基于.Net Framework4.0+、.Net6、.Net8 框架的 C# WinForm 开源控件库、工具类库、扩展类库、多页面开" +
     "发框架。")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("3.7.2.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.7.2.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("3.7.2.0+a5cdd306bb6bc7da66b70c4c6fb31f084ab1d84d")]
 [assembly: System.Reflection.AssemblyProductAttribute("SunnyUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SunnyUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("3.7.2.0")]

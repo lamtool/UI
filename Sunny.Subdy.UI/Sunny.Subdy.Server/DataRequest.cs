@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Sunny.Subdy.Server
 {
-    public class ApiPhone
+    public class DataRequest
     {
-        public ApiPhone() { }
+        public string? File { get; set; }
     }
 }

@@ -12,8 +12,8 @@ namespace AutoAndroid
     {
         public static bool UnzipTgz(string zipPath, string goalFolder)
         {
-            Stream inStream = null;
-            Stream gzipStream = null;
+            System.IO.Stream inStream = null;
+            System.IO.Stream gzipStream = null;
             TarArchive tarArchive = null;
             try
             {

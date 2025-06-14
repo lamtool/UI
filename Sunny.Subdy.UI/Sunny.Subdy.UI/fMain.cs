@@ -18,10 +18,10 @@ namespace Sunny.Subdy.UI
         }
         public async Task LoadUI()
         {
-            notificationBell1.Notifications = new List<string> { "Thông báo 1", "Thông báo 2", "Thông báo 3" };
             new DragHandler(popupMessageBox, this);
             new DragHandler(uiLabel1, this);
-            int pageIndex = 1000;
+            new DragHandler(uiPanel4, this);
+            int pageIndex = 0;
             popupBoxControl1.RegisterButtonEvents(
           BtnMinimize_Click,
           BtnMaximize_Click,
@@ -29,17 +29,18 @@ namespace Sunny.Subdy.UI
       );
             this.MainTabControl = uiTabControl1;
             uiNavMenu1.TabControl = uiTabControl1;
-            uiNavMenu1.CreateNode(AddPage(new fTest()));
-            TreeNode parent = uiNavMenu1.CreateNode("Ứng dụng", 57512, 24, pageIndex);
+            uiNavMenu1.CreateNode(AddPage(new fTest(), ++pageIndex));
+            TreeNode parent = uiNavMenu1.CreateNode("Ứng dụng", 57512, 24, ++pageIndex);
             uiNavMenu1.CreateChildNode(parent, AddPage(new pageFacebook(), ++pageIndex));
             uiNavMenu1.CreateChildNode(parent, AddPage(new pageTikTok(), ++pageIndex));
-            uiNavMenu1.CreateNode(AddPage(new pagePhone()));
-            uiNavMenu1.CreateNode(AddPage(new pageGroupAccount()));
-            uiNavMenu1.CreateNode(AddPage(new pageScript()));
-            uiNavMenu1.CreateNode(AddPage(new pageApi()));
-            uiNavMenu1.CreateNode(AddPage(new pageSetting()));
-            uiNavMenu1.CreateNode(AddPage(new pageSupport()));
+            uiNavMenu1.CreateNode(AddPage(new pagePhone(), ++pageIndex));
+            uiNavMenu1.CreateNode(AddPage(new pageGroupAccount(), ++pageIndex));
+            uiNavMenu1.CreateNode(AddPage(new pageScript(), ++pageIndex));
+            uiNavMenu1.CreateNode(AddPage(new pageApi(), ++pageIndex));
+            uiNavMenu1.CreateNode(AddPage(new pageSetting(), ++pageIndex));
+            uiNavMenu1.CreateNode(AddPage(new pageSupport(), ++pageIndex));
             uiNavMenu1.MenuItemClick += UiNavMenu1_MenuItemClick;
+            uiNavMenu1.SelectPage(5);
             timer1.Start();
         }
         private void BtnMaximize_Click(object sender, EventArgs e)
