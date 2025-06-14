@@ -112,7 +112,7 @@ namespace Sunny.UI
         /// <summary>
         /// 输入
         /// </summary>
-        public virtual string InputTitle { get; set; } = "Thêm vào";
+        public virtual string InputTitle { get; set; } = "LamTool.net";
 
         /// <summary>
         /// 选择
