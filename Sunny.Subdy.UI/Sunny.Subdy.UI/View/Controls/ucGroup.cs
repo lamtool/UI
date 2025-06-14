@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Sunny.Subdy.Common.ControlMethod;
+﻿using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using Sunny.Subdy.UI.View.Forms;
@@ -76,7 +67,7 @@ namespace Sunny.Subdy.UI.View.Controls
         }
         private void uiSymbolButton3_Click(object sender, EventArgs e)
         {
-            ucdgvAccount uc = new ucdgvAccount(_folder);
+            ucdgvAccount uc = new ucdgvAccount(new List<Folder> { _folder });
             fShow f = new fShow(uc);
             f.ShowDialog();
         }

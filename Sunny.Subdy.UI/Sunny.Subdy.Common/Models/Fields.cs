@@ -12,7 +12,8 @@
         public const string UserAgent = "UserAgent";
         public const string Proxy = "Proxy";
         public const string MailAdress = "Mail khôi phục";
-        public const string Username = "Tên tài khoản";
+        public const string Username = "Username";
+        public const string Phone = "Phone";
         public const string Empty = "";
     }
 }

@@ -24,14 +24,13 @@ namespace Sunny.Subdy.Data.Models
         private string? _userName = "";
         private string? _nameFolder = "";
         private bool _isView = true;
-
+        private bool _checked = false;
         [AppDbContext.SqlKey]
         public Guid Id
         {
             get => _id;
             set { if (_id != value) { _id = value; OnPropertyChanged(nameof(Id)); } }
         }
-
         public string? Uid
         {
             get => _uid;
@@ -138,6 +137,11 @@ namespace Sunny.Subdy.Data.Models
         {
             get => _nameFolder;
             set { if (_nameFolder != value) { _nameFolder = value; OnPropertyChanged(nameof(NameFolder)); } }
+        }
+        public bool Checked
+        {
+            get => _checked;
+            set { if (_checked != value) { _checked = value; OnPropertyChanged(nameof(Checked)); } }
         }
 
         public bool IsView

@@ -10,15 +10,33 @@ namespace Sunny.Subdy.Data.Context
 
         public AccountContext()
         {
-            _db = new AppDbContext("facebook");
+            _db = new AppDbContext("LT_Account");
             _db.EnsureTable<Account>();
         }
 
         private Account MapToAccount(SQLiteDataReader reader)
         {
+            Guid id;
+
+            try
+            {
+                // Luôn ép về string, tránh lỗi nếu data là byte[] do lưu sai kiểu
+                var idStr = reader["Id"]?.ToString();
+
+                id = Guid.TryParse(idStr, out var parsedGuid)
+                    ? parsedGuid
+                    : Guid.Empty;
+            }
+            catch
+            {
+                // Nếu vẫn lỗi (do BLOB hay dữ liệu hỏng), trả về Guid.Empty để không crash
+                id = Guid.Empty;
+            }
+
             return new Account
             {
-                Id = reader["Id"] != DBNull.Value ? Guid.Parse(reader["Id"].ToString()!) : Guid.Empty,
+                Checked = false,
+                Id = id,
                 Uid = reader["Uid"]?.ToString() ?? string.Empty,
                 Password = reader["Password"]?.ToString() ?? string.Empty,
                 Phone = reader["Phone"]?.ToString() ?? string.Empty,

@@ -22,5 +22,31 @@ namespace Sunny.Subdy.Common.Helper
             }
             return controls;
         }
+        public static void LoadFormatFrom(string formattedString, List<ComboBox> cbxs)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(formattedString))
+                {
+                    return;
+                   
+                }
+                string[] listFormats = formattedString.Split('|');
+
+                for (int i = 0; i < Math.Min(listFormats.Length, cbxs.Count); i++)
+                {
+                    try
+                    {
+                        cbxs[i].Text = listFormats[i];
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
     }
 }

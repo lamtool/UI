@@ -10,7 +10,7 @@ namespace Sunny.Subdy.Data.Context
 
         public FormatAccountContext()
         {
-            _db = new AppDbContext("facebook");
+            _db = new AppDbContext("LT_Account");
             _db.EnsureTable<FormatAccount>();
         }
 

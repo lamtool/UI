@@ -238,24 +238,55 @@ namespace Sunny.Subdy.Data
 
                 var type = typeof(T);
                 var tableName = type.Name;
-                var properties = type.GetProperties().Where(p => p.CanRead).ToList();
+                var props = type.GetProperties();
 
                 using var conn = GetConnection();
                 using var transaction = conn.BeginTransaction();
 
-                var columnNames = properties.Select(p => p.Name).ToList();
-                var paramNames = columnNames.Select(name => $"@{name}").ToList();
-                string sql = $"INSERT INTO {tableName} ({string.Join(",", columnNames)}) VALUES ({string.Join(",", paramNames)});";
-
-                using var cmd = new SQLiteCommand(sql, conn, transaction);
-                foreach (var name in columnNames)
-                    cmd.Parameters.Add(new SQLiteParameter($"@{name}"));
-
                 foreach (var entity in entities)
                 {
-                    for (int i = 0; i < properties.Count; i++)
-                        cmd.Parameters[i].Value = properties[i].GetValue(entity) ?? DBNull.Value;
+                    if (entity == null) continue;
 
+                    var columnNames = new List<string>();
+                    var paramNames = new List<string>();
+                    var parameters = new List<SQLiteParameter>();
+
+                    foreach (var prop in props)
+                    {
+                        var value = prop.GetValue(entity);
+
+                        // Nếu là Guid và là Id thì tự tạo mới nếu rỗng
+                        if (prop.Name.Equals("Id", StringComparison.OrdinalIgnoreCase) && prop.PropertyType == typeof(Guid))
+                        {
+                            var guid = (Guid)value;
+                            if (guid == Guid.Empty)
+                            {
+                                guid = Guid.NewGuid();
+                                prop.SetValue(entity, guid);
+                            }
+                            value = guid.ToString();
+                        }
+                        else if (value is Guid g)
+                        {
+                            value = g.ToString();
+                        }
+
+                        // Bỏ qua nếu null
+                        if (value == null) continue;
+
+                        string name = prop.Name;
+                        string param = $"@{name}";
+                        columnNames.Add(name);
+                        paramNames.Add(param);
+                        parameters.Add(new SQLiteParameter(param, value));
+                    }
+
+                    if (columnNames.Count == 0) continue;
+
+                    string sql = $"INSERT INTO {tableName} ({string.Join(",", columnNames)}) VALUES ({string.Join(",", paramNames)});";
+
+                    using var cmd = new SQLiteCommand(sql, conn, transaction);
+                    cmd.Parameters.AddRange(parameters.ToArray());
                     cmd.ExecuteNonQuery();
                 }
 
@@ -268,6 +299,7 @@ namespace Sunny.Subdy.Data
                 return false;
             }
         }
+
 
         public bool UpdateEntity<T>(T entity)
         {

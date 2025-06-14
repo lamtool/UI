@@ -109,6 +109,7 @@
             uiSymbolButton2.Text = "Đóng";
             uiSymbolButton2.TipsColor = Color.DarkRed;
             uiSymbolButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton2.Click += uiSymbolButton2_Click;
             // 
             // panel2
             // 
@@ -186,6 +187,7 @@
             txtType.TabIndex = 9;
             txtType.TextAlignment = ContentAlignment.MiddleLeft;
             txtType.Watermark = "";
+            txtType.SelectedIndexChanged += txtType_SelectedIndexChanged;
             // 
             // uiLabel2
             // 
@@ -222,6 +224,7 @@
             txtLines.Size = new Size(1187, 283);
             txtLines.TabIndex = 6;
             txtLines.WordWrap = false;
+            txtLines.TextChanged += txtLines_TextChanged;
             // 
             // panel3
             // 
@@ -269,6 +272,7 @@
             Padding = new Padding(22);
             ShowIcon = false;
             ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

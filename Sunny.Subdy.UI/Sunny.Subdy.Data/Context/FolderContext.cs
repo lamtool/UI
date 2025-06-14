@@ -15,7 +15,7 @@ namespace Sunny.Subdy.Data.Context
 
         public FolderContext()
         {
-            _db = new AppDbContext("facebook");
+            _db = new AppDbContext("LT_Account");
             _db.EnsureTable<Folder>();
            
         }

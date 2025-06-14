@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle14 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle15 = new DataGridViewCellStyle();
+            components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             uiPanel1 = new Sunny.UI.UIPanel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             uiLabel2 = new Sunny.UI.UILabel();
@@ -47,6 +48,29 @@
             uiTextBox1 = new Sunny.UI.UITextBox();
             uiSymbolButton1 = new Sunny.UI.UISymbolButton();
             uiDataGridView2 = new Sunny.UI.UIDataGridView();
+            Checked = new DataGridViewCheckBoxColumn();
+            Column1 = new DataGridViewTextBoxColumn();
+            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            uidDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            passwordDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            towFADataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            proxyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            cookieDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            tokenDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            emailDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            passMailDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            phoneDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            userNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nameFolderDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            userAgentDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            emailAdressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            resultDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            recentInteractionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            stateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            statusDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            isViewDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            accountBindingSource = new BindingSource(components);
             uiContextMenuStrip1 = new Sunny.UI.UIContextMenuStrip();
             toolStripMenuItem1 = new ToolStripMenuItem();
             tấtCảToolStripMenuItem = new ToolStripMenuItem();
@@ -80,6 +104,7 @@
             uiPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)accountBindingSource).BeginInit();
             uiContextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -253,6 +278,7 @@
             uiSymbolButton2.TabIndex = 13;
             uiSymbolButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
             uiSymbolButton2.TipsForeColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton2.Click += uiSymbolButton2_Click;
             // 
             // uiTextBox1
             // 
@@ -307,28 +333,31 @@
             // 
             uiDataGridView2.AllowUserToAddRows = false;
             uiDataGridView2.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle11.BackColor = Color.White;
-            uiDataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            uiDataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            uiDataGridView2.AutoGenerateColumns = false;
             uiDataGridView2.BackgroundColor = Color.White;
             uiDataGridView2.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = Color.FromArgb(4, 60, 44);
-            dataGridViewCellStyle12.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle12.ForeColor = Color.White;
-            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(4, 60, 44);
-            dataGridViewCellStyle12.SelectionForeColor = Color.DimGray;
-            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
-            uiDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(4, 60, 44);
+            dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(4, 60, 44);
+            dataGridViewCellStyle2.SelectionForeColor = Color.DimGray;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            uiDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             uiDataGridView2.ColumnHeadersHeight = 20;
             uiDataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = Color.White;
-            dataGridViewCellStyle13.Font = new Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle13.ForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(220, 236, 255);
-            dataGridViewCellStyle13.SelectionForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.False;
-            uiDataGridView2.DefaultCellStyle = dataGridViewCellStyle13;
+            uiDataGridView2.Columns.AddRange(new DataGridViewColumn[] { Checked, Column1, idDataGridViewTextBoxColumn, uidDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, towFADataGridViewTextBoxColumn, proxyDataGridViewTextBoxColumn, cookieDataGridViewTextBoxColumn, tokenDataGridViewTextBoxColumn, emailDataGridViewTextBoxColumn, passMailDataGridViewTextBoxColumn, phoneDataGridViewTextBoxColumn, userNameDataGridViewTextBoxColumn, nameFolderDataGridViewTextBoxColumn, userAgentDataGridViewTextBoxColumn, emailAdressDataGridViewTextBoxColumn, resultDataGridViewTextBoxColumn, recentInteractionDataGridViewTextBoxColumn, stateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, isViewDataGridViewCheckBoxColumn });
+            uiDataGridView2.DataSource = accountBindingSource;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 236, 255);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            uiDataGridView2.DefaultCellStyle = dataGridViewCellStyle3;
             uiDataGridView2.Dock = DockStyle.Fill;
             uiDataGridView2.EnableHeadersVisualStyles = false;
             uiDataGridView2.Font = new Font("Microsoft Sans Serif", 12F);
@@ -336,30 +365,209 @@
             uiDataGridView2.Location = new Point(0, 80);
             uiDataGridView2.Name = "uiDataGridView2";
             uiDataGridView2.RectColor = Color.FromArgb(4, 60, 44);
-            dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = Color.FromArgb(243, 249, 255);
-            dataGridViewCellStyle14.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle14.ForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(80, 160, 255);
-            dataGridViewCellStyle14.SelectionForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
-            uiDataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(243, 249, 255);
+            dataGridViewCellStyle4.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(80, 160, 255);
+            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            uiDataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             uiDataGridView2.RowHeadersVisible = false;
-            dataGridViewCellStyle15.BackColor = Color.White;
-            dataGridViewCellStyle15.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle15.ForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(220, 236, 255);
-            dataGridViewCellStyle15.SelectionForeColor = Color.FromArgb(48, 48, 48);
-            uiDataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle15;
-            uiDataGridView2.ScrollBarBackColor = Color.FromArgb(4, 60, 44);
-            uiDataGridView2.ScrollBarColor = Color.FromArgb(4, 60, 44);
-            uiDataGridView2.ScrollBarRectColor = Color.FromArgb(4, 60, 44);
-            uiDataGridView2.ScrollBarStyleInherited = false;
+            dataGridViewCellStyle5.BackColor = Color.White;
+            dataGridViewCellStyle5.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(220, 236, 255);
+            dataGridViewCellStyle5.SelectionForeColor = Color.FromArgb(48, 48, 48);
+            uiDataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            uiDataGridView2.ScrollBarWidth = 5;
             uiDataGridView2.SelectedIndex = -1;
             uiDataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             uiDataGridView2.Size = new Size(1147, 570);
             uiDataGridView2.StripeOddColor = Color.White;
             uiDataGridView2.TabIndex = 8;
+            // 
+            // Checked
+            // 
+            Checked.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            Checked.DataPropertyName = "Checked";
+            Checked.FillWeight = 50F;
+            Checked.HeaderText = "Chọn";
+            Checked.Name = "Checked";
+            Checked.Width = 50;
+            // 
+            // Column1
+            // 
+            Column1.FillWeight = 50F;
+            Column1.HeaderText = "#";
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            Column1.Width = 50;
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            idDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn.HeaderText = "Id";
+            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            idDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // uidDataGridViewTextBoxColumn
+            // 
+            uidDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            uidDataGridViewTextBoxColumn.DataPropertyName = "Uid";
+            uidDataGridViewTextBoxColumn.HeaderText = "Uid";
+            uidDataGridViewTextBoxColumn.Name = "uidDataGridViewTextBoxColumn";
+            uidDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // fullNameDataGridViewTextBoxColumn
+            // 
+            fullNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            fullNameDataGridViewTextBoxColumn.DataPropertyName = "FullName";
+            fullNameDataGridViewTextBoxColumn.HeaderText = "FullName";
+            fullNameDataGridViewTextBoxColumn.Name = "fullNameDataGridViewTextBoxColumn";
+            fullNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // passwordDataGridViewTextBoxColumn
+            // 
+            passwordDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            passwordDataGridViewTextBoxColumn.DataPropertyName = "Password";
+            passwordDataGridViewTextBoxColumn.HeaderText = "Password";
+            passwordDataGridViewTextBoxColumn.Name = "passwordDataGridViewTextBoxColumn";
+            passwordDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // towFADataGridViewTextBoxColumn
+            // 
+            towFADataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            towFADataGridViewTextBoxColumn.DataPropertyName = "TowFA";
+            towFADataGridViewTextBoxColumn.HeaderText = "2FA";
+            towFADataGridViewTextBoxColumn.Name = "towFADataGridViewTextBoxColumn";
+            towFADataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // proxyDataGridViewTextBoxColumn
+            // 
+            proxyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            proxyDataGridViewTextBoxColumn.DataPropertyName = "Proxy";
+            proxyDataGridViewTextBoxColumn.HeaderText = "Proxy";
+            proxyDataGridViewTextBoxColumn.Name = "proxyDataGridViewTextBoxColumn";
+            proxyDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // cookieDataGridViewTextBoxColumn
+            // 
+            cookieDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            cookieDataGridViewTextBoxColumn.DataPropertyName = "Cookie";
+            cookieDataGridViewTextBoxColumn.HeaderText = "Cookie";
+            cookieDataGridViewTextBoxColumn.Name = "cookieDataGridViewTextBoxColumn";
+            cookieDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // tokenDataGridViewTextBoxColumn
+            // 
+            tokenDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            tokenDataGridViewTextBoxColumn.DataPropertyName = "Token";
+            tokenDataGridViewTextBoxColumn.HeaderText = "Token";
+            tokenDataGridViewTextBoxColumn.Name = "tokenDataGridViewTextBoxColumn";
+            tokenDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // emailDataGridViewTextBoxColumn
+            // 
+            emailDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            emailDataGridViewTextBoxColumn.DataPropertyName = "Email";
+            emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            emailDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // passMailDataGridViewTextBoxColumn
+            // 
+            passMailDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            passMailDataGridViewTextBoxColumn.DataPropertyName = "PassMail";
+            passMailDataGridViewTextBoxColumn.HeaderText = "PassMail";
+            passMailDataGridViewTextBoxColumn.Name = "passMailDataGridViewTextBoxColumn";
+            passMailDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // phoneDataGridViewTextBoxColumn
+            // 
+            phoneDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            phoneDataGridViewTextBoxColumn.DataPropertyName = "Phone";
+            phoneDataGridViewTextBoxColumn.HeaderText = "Phone";
+            phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
+            phoneDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // userNameDataGridViewTextBoxColumn
+            // 
+            userNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            userNameDataGridViewTextBoxColumn.DataPropertyName = "UserName";
+            userNameDataGridViewTextBoxColumn.HeaderText = "UserName";
+            userNameDataGridViewTextBoxColumn.Name = "userNameDataGridViewTextBoxColumn";
+            userNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameFolderDataGridViewTextBoxColumn
+            // 
+            nameFolderDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            nameFolderDataGridViewTextBoxColumn.DataPropertyName = "NameFolder";
+            nameFolderDataGridViewTextBoxColumn.HeaderText = "Nhóm";
+            nameFolderDataGridViewTextBoxColumn.Name = "nameFolderDataGridViewTextBoxColumn";
+            nameFolderDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // userAgentDataGridViewTextBoxColumn
+            // 
+            userAgentDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            userAgentDataGridViewTextBoxColumn.DataPropertyName = "UserAgent";
+            userAgentDataGridViewTextBoxColumn.HeaderText = "UserAgent";
+            userAgentDataGridViewTextBoxColumn.Name = "userAgentDataGridViewTextBoxColumn";
+            userAgentDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // emailAdressDataGridViewTextBoxColumn
+            // 
+            emailAdressDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            emailAdressDataGridViewTextBoxColumn.DataPropertyName = "EmailAdress";
+            emailAdressDataGridViewTextBoxColumn.HeaderText = "Mail khôi phục";
+            emailAdressDataGridViewTextBoxColumn.Name = "emailAdressDataGridViewTextBoxColumn";
+            emailAdressDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // resultDataGridViewTextBoxColumn
+            // 
+            resultDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            resultDataGridViewTextBoxColumn.DataPropertyName = "Result";
+            resultDataGridViewTextBoxColumn.HeaderText = "Kết quả";
+            resultDataGridViewTextBoxColumn.Name = "resultDataGridViewTextBoxColumn";
+            resultDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // recentInteractionDataGridViewTextBoxColumn
+            // 
+            recentInteractionDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            recentInteractionDataGridViewTextBoxColumn.DataPropertyName = "RecentInteraction";
+            recentInteractionDataGridViewTextBoxColumn.HeaderText = "Lần tương tác cuối";
+            recentInteractionDataGridViewTextBoxColumn.Name = "recentInteractionDataGridViewTextBoxColumn";
+            recentInteractionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // stateDataGridViewTextBoxColumn
+            // 
+            stateDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            stateDataGridViewTextBoxColumn.DataPropertyName = "State";
+            stateDataGridViewTextBoxColumn.HeaderText = "State";
+            stateDataGridViewTextBoxColumn.Name = "stateDataGridViewTextBoxColumn";
+            stateDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // statusDataGridViewTextBoxColumn
+            // 
+            statusDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            statusDataGridViewTextBoxColumn.DataPropertyName = "Status";
+            statusDataGridViewTextBoxColumn.FillWeight = 200F;
+            statusDataGridViewTextBoxColumn.HeaderText = "Status";
+            statusDataGridViewTextBoxColumn.MinimumWidth = 200;
+            statusDataGridViewTextBoxColumn.Name = "statusDataGridViewTextBoxColumn";
+            statusDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // isViewDataGridViewCheckBoxColumn
+            // 
+            isViewDataGridViewCheckBoxColumn.DataPropertyName = "IsView";
+            isViewDataGridViewCheckBoxColumn.HeaderText = "IsView";
+            isViewDataGridViewCheckBoxColumn.Name = "isViewDataGridViewCheckBoxColumn";
+            isViewDataGridViewCheckBoxColumn.Visible = false;
+            // 
+            // accountBindingSource
+            // 
+            accountBindingSource.DataSource = typeof(Data.Models.Account);
             // 
             // uiContextMenuStrip1
             // 
@@ -582,10 +790,12 @@
             Controls.Add(uiPanel1);
             Name = "ucdgvAccount";
             Size = new Size(1147, 650);
+            Load += ucdgvAccount_Load;
             uiPanel1.ResumeLayout(false);
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)accountBindingSource).EndInit();
             uiContextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -636,5 +846,28 @@
         private ToolStripMenuItem restoreToolStripMenuItem2;
         private ToolStripMenuItem connectToolStripMenuItem;
         private ToolStripMenuItem disconnectToolStripMenuItem;
+        private BindingSource accountBindingSource;
+        private DataGridViewCheckBoxColumn Checked;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn uidDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn towFADataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn proxyDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn cookieDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn tokenDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn passMailDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn phoneDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nameFolderDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn userAgentDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn emailAdressDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn resultDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn recentInteractionDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn stateDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
+        private DataGridViewCheckBoxColumn isViewDataGridViewCheckBoxColumn;
     }
 }
