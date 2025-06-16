@@ -20,6 +20,18 @@
 		<PlatformTarget>x64</PlatformTarget>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ApplicationIcon>Asset\Logo.ico</ApplicationIcon>
+
+		<PackageId>LamToolAutoPhone</PackageId>
+		<Title>LamToolAutoPhone</Title>
+		<Company>LamToolAutoPhone</Company>
+		<Authors>LamTool.net</Authors>
+		<Product>LamToolAutoPhone</Product>
+		<CurrentTime>$([System.DateTime]::Now.ToString("HH.dd.MM.yyyy"))</CurrentTime>
+		<Version>$(CurrentTime)</Version>
+		<FileVersion>$(CurrentTime)</FileVersion>
+		<AssemblyVersion>$(CurrentTime)</AssemblyVersion>
+		<AssemblyName>$(Product)-$(Version)</AssemblyName>
+		
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -29,11 +41,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="DeviceId.Windows" Version="6.9.0" />
 		<PackageReference Include="WinFormsComInterop" Version="0.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
+		<ProjectReference Include="..\Sunny.Subdy.AutoUpdate\Sunny.Subdy.AutoUpdate.csproj" />
 		<ProjectReference Include="..\Sunny.Subdy.Common\Sunny.Subdy.Common.csproj" />
 		<ProjectReference Include="..\Sunny.Subdy.Data\Sunny.Subdy.Data.csproj" />
 		<ProjectReference Include="..\Sunny.Subdy.Server\Sunny.Subdy.Server.csproj" />

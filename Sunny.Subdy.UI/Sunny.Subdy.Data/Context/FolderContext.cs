@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using Sunny.Subdy.Data.Models;
 
 namespace Sunny.Subdy.Data.Context
@@ -55,7 +50,12 @@ namespace Sunny.Subdy.Data.Context
             string query = $"SELECT * FROM {TableName}";
             return _db.GetAllEntities(query, MapFolder);
         }
-
+        public List<Folder>? GetByType(string type)
+        {
+            string query = $"SELECT * FROM {TableName} WHERE Type = @type";
+            var parameters = new Dictionary<string, object> { { "@type", type.ToString() } };
+            return _db.GetAllEntities(query, MapFolder, parameters);
+        }
         public Folder? GetById(Guid id)
         {
             string query = $"SELECT * FROM {TableName} WHERE Id = @id";

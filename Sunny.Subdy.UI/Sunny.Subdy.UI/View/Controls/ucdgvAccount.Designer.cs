@@ -35,6 +35,7 @@
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             uiPanel1 = new Sunny.UI.UIPanel();
+            uiComboBox1 = new Sunny.UI.UIComboBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             uiLabel2 = new Sunny.UI.UILabel();
             uiLabel1 = new Sunny.UI.UILabel();
@@ -110,6 +111,7 @@
             // 
             // uiPanel1
             // 
+            uiPanel1.Controls.Add(uiComboBox1);
             uiPanel1.Controls.Add(flowLayoutPanel1);
             uiPanel1.Controls.Add(uiSymbolButton2);
             uiPanel1.Controls.Add(uiTextBox1);
@@ -127,6 +129,27 @@
             uiPanel1.TabIndex = 1;
             uiPanel1.Text = null;
             uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
+            // 
+            // uiComboBox1
+            // 
+            uiComboBox1.Anchor = AnchorStyles.Right;
+            uiComboBox1.DataSource = null;
+            uiComboBox1.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            uiComboBox1.FillColor = Color.White;
+            uiComboBox1.Font = new Font("Microsoft Sans Serif", 12F);
+            uiComboBox1.ItemHoverColor = Color.FromArgb(155, 200, 255);
+            uiComboBox1.Items.AddRange(new object[] { "[Tất cả tính trạng]" });
+            uiComboBox1.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
+            uiComboBox1.Location = new Point(539, 16);
+            uiComboBox1.Margin = new Padding(4, 5, 4, 5);
+            uiComboBox1.MinimumSize = new Size(63, 0);
+            uiComboBox1.Name = "uiComboBox1";
+            uiComboBox1.Padding = new Padding(0, 0, 30, 2);
+            uiComboBox1.Size = new Size(193, 23);
+            uiComboBox1.SymbolSize = 24;
+            uiComboBox1.TabIndex = 15;
+            uiComboBox1.TextAlignment = ContentAlignment.MiddleLeft;
+            uiComboBox1.Watermark = "";
             // 
             // flowLayoutPanel1
             // 
@@ -285,13 +308,13 @@
             uiTextBox1.Anchor = AnchorStyles.Right;
             uiTextBox1.FillColor = Color.White;
             uiTextBox1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiTextBox1.Location = new Point(733, 16);
+            uiTextBox1.Location = new Point(753, 16);
             uiTextBox1.Margin = new Padding(4, 5, 4, 5);
             uiTextBox1.MinimumSize = new Size(1, 16);
             uiTextBox1.Name = "uiTextBox1";
             uiTextBox1.Padding = new Padding(5);
             uiTextBox1.ShowText = false;
-            uiTextBox1.Size = new Size(294, 23);
+            uiTextBox1.Size = new Size(274, 23);
             uiTextBox1.Symbol = 61442;
             uiTextBox1.TabIndex = 12;
             uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
@@ -869,5 +892,6 @@
         private DataGridViewTextBoxColumn stateDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn isViewDataGridViewCheckBoxColumn;
+        private Sunny.UI.UIComboBox uiComboBox1;
     }
 }

@@ -1,4 +1,9 @@
-﻿using Sunny.Subdy.UI.Services;
+﻿using System.Reflection;
+using DeviceId;
+using Sunny.Subdy.AutoUpdate;
+using Sunny.Subdy.AutoUpdate.Api;
+using Sunny.Subdy.Common.Models;
+using Sunny.Subdy.UI.Services;
 using Sunny.UI;
 
 namespace Sunny.Subdy.UI.View
@@ -25,6 +30,26 @@ namespace Sunny.Subdy.UI.View
             MainForm = new fMain();
             await new BuildConfig().Build();
             await MainForm.LoadUI(); // thực hiện khởi tạo giao diện
+            Globals.DeviceId = new DeviceIdBuilder().OnWindows(windows => windows.AddWindowsDeviceId()).ToString();
+            string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
+            LamTool_API lamtool = new LamTool_API(Globals.DeviceId, Globals.NameApp, version);
+            if (!await lamtool.GetApiResponseAsync())
+            {
+                MessageBox.Show("Đã xảy ra lỗi vui lòng liên hệ admin để được hỗ trợ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+                return;
+            }
+            if (lamtool.IsNewerVersion())
+            {
+                if (MessageBox.Show($"Có phiên bản mới {lamtool._newVersion} bạn có muốn cập nhật không?", "Cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    this.Hide();
+                    fUpdate updateForm = new fUpdate(lamtool._updateUrl);
+                    updateForm.ShowDialog();
+                    Application.Exit();
+                    return;
+                }
+            }
             loadUIFinished = true;
 
             await loadingTask;
@@ -37,7 +62,7 @@ namespace Sunny.Subdy.UI.View
 
         private async Task RunLoadingAsync()
         {
-            int totalDuration = 30000;
+            int totalDuration = 10000;
             int updateInterval = 100;
 
             int elapsed = 0;

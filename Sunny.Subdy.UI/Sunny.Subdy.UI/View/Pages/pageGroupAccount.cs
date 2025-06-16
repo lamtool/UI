@@ -18,7 +18,7 @@ namespace Sunny.Subdy.UI.View.Pages
             _folderContext = new FolderContext();
             new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
             {
-                LoadFolders(uiTextBox1.Text, txtType.SelectedItem.ToString());
+                LoadFolders(uiTextBox1.Text, txtType.Text.Trim());
 
             }), exists: false);
         }
@@ -73,17 +73,17 @@ namespace Sunny.Subdy.UI.View.Pages
         private void uiSymbolButton2_Click(object sender, EventArgs e)
         {
             uiTextBox1.Text = "";
-            LoadFolders(uiTextBox1.Text, txtType.SelectedItem.ToString());
+            LoadFolders(uiTextBox1.Text, txtType.Text.Trim());
         }
 
         private void uiTextBox1_TextChanged(object sender, EventArgs e)
         {
-            LoadFolders(uiTextBox1.Text, txtType.SelectedItem.ToString());
+            LoadFolders(uiTextBox1.Text, txtType.Text.Trim());
         }
 
         private void txtType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadFolders(uiTextBox1.Text, txtType.SelectedItem.ToString());
+            LoadFolders(uiTextBox1.Text, txtType.Text.Trim());
         }
     }
 }

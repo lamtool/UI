@@ -48,6 +48,31 @@ namespace Sunny.Subdy.Common.Json
             form.FormClosing += FormClosing;
             this.exists = exists;
         }
+        public ConfigHelper(Form form, string jConfig)
+        {
+            this.form = form;
+            if (excepts != null)
+            {
+                this.excepts = excepts;
+            }
+
+            if (!string.IsNullOrEmpty(jConfig))
+            {
+                try
+                {
+                    this.jConfig = JObject.Parse(jConfig);
+                }
+                catch
+                {
+                    this.jConfig = new JObject();
+                }
+            }
+            else
+            {
+                this.jConfig = new JObject();
+            }
+            form.Load += FormLoad;
+        }
         private void ReadFile()
         {
             if (File.Exists(configFile))

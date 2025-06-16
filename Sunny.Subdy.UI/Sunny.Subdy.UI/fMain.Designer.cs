@@ -235,13 +235,13 @@ namespace Sunny.Subdy.UI
             uiPanel4.FillColor2 = Color.FromArgb(249, 250, 251);
             uiPanel4.Font = new Font("Microsoft Sans Serif", 12F);
             uiPanel4.ForeColor = Color.Black;
-            uiPanel4.Location = new Point(452, 10);
+            uiPanel4.Location = new Point(593, 10);
             uiPanel4.Margin = new Padding(4, 5, 4, 5);
             uiPanel4.MinimumSize = new Size(1, 1);
             uiPanel4.Name = "uiPanel4";
             uiPanel4.Radius = 30;
             uiPanel4.RectColor = Color.White;
-            uiPanel4.Size = new Size(402, 30);
+            uiPanel4.Size = new Size(382, 30);
             uiPanel4.TabIndex = 2;
             uiPanel4.Text = null;
             uiPanel4.TextAlignment = ContentAlignment.MiddleCenter;
@@ -251,9 +251,9 @@ namespace Sunny.Subdy.UI
             uiLabel6.BackColor = Color.Transparent;
             uiLabel6.Font = new Font("Microsoft Sans Serif", 9.75F);
             uiLabel6.ForeColor = Color.DarkGreen;
-            uiLabel6.Location = new Point(315, 8);
+            uiLabel6.Location = new Point(318, 8);
             uiLabel6.Name = "uiLabel6";
-            uiLabel6.Size = new Size(66, 18);
+            uiLabel6.Size = new Size(64, 18);
             uiLabel6.TabIndex = 4;
             uiLabel6.Text = "68%";
             uiLabel6.TextAlign = ContentAlignment.MiddleLeft;
@@ -263,9 +263,9 @@ namespace Sunny.Subdy.UI
             uiLabel5.BackColor = Color.Transparent;
             uiLabel5.Font = new Font("Microsoft Sans Serif", 9.75F);
             uiLabel5.ForeColor = Color.FromArgb(0, 0, 192);
-            uiLabel5.Location = new Point(202, 8);
+            uiLabel5.Location = new Point(201, 8);
             uiLabel5.Name = "uiLabel5";
-            uiLabel5.Size = new Size(56, 18);
+            uiLabel5.Size = new Size(60, 18);
             uiLabel5.TabIndex = 3;
             uiLabel5.Text = "68%";
             uiLabel5.TextAlign = ContentAlignment.MiddleLeft;
@@ -275,7 +275,7 @@ namespace Sunny.Subdy.UI
             uiLabel3.BackColor = Color.Transparent;
             uiLabel3.Font = new Font("Microsoft Sans Serif", 9.75F);
             uiLabel3.ForeColor = Color.DimGray;
-            uiLabel3.Location = new Point(264, 8);
+            uiLabel3.Location = new Point(267, 8);
             uiLabel3.Name = "uiLabel3";
             uiLabel3.Size = new Size(45, 18);
             uiLabel3.TabIndex = 1;
@@ -287,7 +287,7 @@ namespace Sunny.Subdy.UI
             uiLabel2.BackColor = Color.Transparent;
             uiLabel2.Font = new Font("Microsoft Sans Serif", 9.75F);
             uiLabel2.ForeColor = Color.DimGray;
-            uiLabel2.Location = new Point(154, 8);
+            uiLabel2.Location = new Point(153, 8);
             uiLabel2.Name = "uiLabel2";
             uiLabel2.Size = new Size(42, 18);
             uiLabel2.TabIndex = 0;
@@ -355,10 +355,10 @@ namespace Sunny.Subdy.UI
             // 
             popupBoxControl1.BackColor = Color.Transparent;
             popupBoxControl1.Dock = DockStyle.Right;
-            popupBoxControl1.Location = new Point(854, 10);
+            popupBoxControl1.Location = new Point(975, 10);
             popupBoxControl1.Name = "popupBoxControl1";
             popupBoxControl1.Padding = new Padding(0, 10, 10, 0);
-            popupBoxControl1.Size = new Size(200, 30);
+            popupBoxControl1.Size = new Size(79, 30);
             popupBoxControl1.TabIndex = 0;
             // 
             // timer1

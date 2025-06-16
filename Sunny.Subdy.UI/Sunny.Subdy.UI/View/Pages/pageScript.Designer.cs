@@ -79,6 +79,7 @@
             txtType.TabIndex = 11;
             txtType.TextAlignment = ContentAlignment.MiddleLeft;
             txtType.Watermark = "";
+            txtType.SelectedIndexChanged += txtType_SelectedIndexChanged;
             // 
             // uiSymbolButton2
             // 
@@ -101,7 +102,7 @@
             uiSymbolButton2.RectHoverColor = Color.White;
             uiSymbolButton2.RectPressColor = Color.White;
             uiSymbolButton2.RectSelectedColor = Color.White;
-            uiSymbolButton2.Size = new Size(30, 22);
+            uiSymbolButton2.Size = new Size(28, 22);
             uiSymbolButton2.Symbol = 61473;
             uiSymbolButton2.SymbolColor = Color.CornflowerBlue;
             uiSymbolButton2.SymbolDisableColor = Color.White;
@@ -111,6 +112,7 @@
             uiSymbolButton2.SymbolSize = 25;
             uiSymbolButton2.TabIndex = 10;
             uiSymbolButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton2.Click += uiSymbolButton2_Click;
             // 
             // uiTextBox1
             // 
@@ -127,6 +129,7 @@
             uiTextBox1.TabIndex = 8;
             uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
             uiTextBox1.Watermark = "Tìm kiếm...";
+            uiTextBox1.TextChanged += uiTextBox1_TextChanged;
             // 
             // uiSymbolButton1
             // 
@@ -156,6 +159,7 @@
             uiSymbolButton1.SymbolSize = 25;
             uiSymbolButton1.TabIndex = 7;
             uiSymbolButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton1.Click += uiSymbolButton1_Click;
             // 
             // flowLayoutPanel1
             // 
@@ -171,7 +175,6 @@
             // pageScript
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackColor = SystemColors.Control;
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(800, 450);
             Controls.Add(flowLayoutPanel1);

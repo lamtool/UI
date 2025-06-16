@@ -13,6 +13,12 @@
     <Compile Update="fMain.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\Controls\FEditActionScirpt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Controls\fEditScirpt.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\Controls\ucdgvAccount.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -22,10 +28,22 @@
     <Compile Update="View\Controls\ucGroup.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="View\Controls\ucScipt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="View\fLoading.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\Forms\Actions\fActioc_SpamXu.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\Forms\fAddAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Forms\fDocAPIPhone.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Forms\fListActionFacebook.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="View\Forms\fShow.cs">
@@ -58,10 +76,5 @@
     <Compile Update="View\Pages\pageSupport.cs">
       <SubType>Form</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="View\Pages\pagePhone.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

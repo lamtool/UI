@@ -551,6 +551,7 @@
             uiLinkLabel1.TabStop = true;
             uiLinkLabel1.Text = "Doc Api";
             uiLinkLabel1.VisitedLinkColor = Color.FromArgb(230, 80, 80);
+            uiLinkLabel1.Click += uiLinkLabel1_Click;
             // 
             // uiTextBox1
             // 

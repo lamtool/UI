@@ -3,6 +3,7 @@ using AutoAndroid;
 using AutoAndroid.Stream;
 using Sunny.Subdy.Common.Models;
 using Sunny.Subdy.Common.Services;
+using Sunny.Subdy.UI.View.Forms;
 using Sunny.UI;
 
 namespace Sunny.Subdy.UI.View.Pages
@@ -531,6 +532,12 @@ namespace Sunny.Subdy.UI.View.Pages
                     }
                 }
             }
+        }
+
+        private void uiLinkLabel1_Click(object sender, EventArgs e)
+        {
+            fDocAPIPhone fDocAPI = new fDocAPIPhone();
+            fDocAPI.ShowDialog();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Sunny.Subdy.UI.View.Controls
 {
     public partial class ucdgvAccount : UserControl
     {
-        private List<Folder> _folders;
+        public List<Folder> _folders;
         private AccountContext _accountContext;
         public ucdgvAccount(List<Folder> folders)
         {
@@ -20,7 +20,7 @@ namespace Sunny.Subdy.UI.View.Controls
             _accountContext = new AccountContext();
         }
 
-        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        private async void uiSymbolButton1_Click(object sender, EventArgs e)
         {
             if (_folders == null || !_folders.Any())
             {
@@ -34,6 +34,7 @@ namespace Sunny.Subdy.UI.View.Controls
             }
             fAddAccount fAddAccount = new fAddAccount(_folders.First());
             fAddAccount.ShowDialog();
+            await LoadAccount();
         }
 
         private async void uiSymbolButton2_Click(object sender, EventArgs e)
@@ -41,8 +42,9 @@ namespace Sunny.Subdy.UI.View.Controls
             await LoadAccount();
         }
 
-        private async Task LoadAccount()
+        public async Task LoadAccount()
         {
+            if (_folders == null || !_folders.Any()) return;
             var accountsOld = _accountContext.GetAll(_folders.Select(x => x.Name).ToList(), true);
             if (accountsOld == null || !accountsOld.Any())
             {
@@ -59,7 +61,7 @@ namespace Sunny.Subdy.UI.View.Controls
             uiLabel1.Text = accountsOld.Count.ToString();
             uiLabel4.Text = accountsOld.Where(x => x.State == "LIVE").Count().ToString();
             uiLabel6.Text = accountsOld.Where(x => x.State == "DIE").Count().ToString();
-            uiLabel8.Text =(Convert.ToInt32(uiLabel1.Text)  -(Convert.ToInt32(uiLabel4.Text)+ Convert.ToInt32(uiLabel6.Text))).ToString() ;
+            uiLabel8.Text = (Convert.ToInt32(uiLabel1.Text) - (Convert.ToInt32(uiLabel4.Text) + Convert.ToInt32(uiLabel6.Text))).ToString();
         }
 
         private async void ucdgvAccount_Load(object sender, EventArgs e)

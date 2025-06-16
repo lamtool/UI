@@ -292,5 +292,20 @@ namespace AutoAndroid.Stream
             fDebugDevice fDebugDevice = new fDebugDevice(Device);
             fDebugDevice.Show();
         }
+
+        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        {
+            scrcpy?.Shell("input keyevent 3");
+        }
+
+        private void uiSymbolButton3_Click(object sender, EventArgs e)
+        {
+            scrcpy?.Shell("input keyevent KEYCODE_APP_SWITCH");
+        }
+
+        private void uiSymbolButton2_Click(object sender, EventArgs e)
+        {
+            scrcpy?.Shell("input keyevent 4");
+        }
     }
 }

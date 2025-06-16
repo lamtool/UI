@@ -17,6 +17,6 @@
 		<Assembly Name="mscorlib" Dynamic="Required All" />
 		<Assembly Name="SunnyUI" Dynamic="Required All" />
 		<Assembly Name="AutoAndroid" Dynamic="Required All" />
-		<Assembly Name="Sunny.Subdy.UI" Dynamic="Required All" />
+		<Assembly Name="SunnyUI" Dynamic="Required All" />
 	</Application>
 </Directives>
