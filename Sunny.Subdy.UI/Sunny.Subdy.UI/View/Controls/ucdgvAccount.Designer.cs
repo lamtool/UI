@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle16 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle17 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle18 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle19 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle20 = new DataGridViewCellStyle();
             uiPanel1 = new Sunny.UI.UIPanel();
             uiComboBox1 = new Sunny.UI.UIComboBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
@@ -102,6 +102,7 @@
             restoreToolStripMenuItem2 = new ToolStripMenuItem();
             connectToolStripMenuItem = new ToolStripMenuItem();
             disconnectToolStripMenuItem = new ToolStripMenuItem();
+            uiSymbolButton3 = new Sunny.UI.UISymbolButton();
             uiPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).BeginInit();
@@ -111,6 +112,7 @@
             // 
             // uiPanel1
             // 
+            uiPanel1.Controls.Add(uiSymbolButton3);
             uiPanel1.Controls.Add(uiComboBox1);
             uiPanel1.Controls.Add(flowLayoutPanel1);
             uiPanel1.Controls.Add(uiSymbolButton2);
@@ -140,7 +142,7 @@
             uiComboBox1.ItemHoverColor = Color.FromArgb(155, 200, 255);
             uiComboBox1.Items.AddRange(new object[] { "[Tất cả tính trạng]" });
             uiComboBox1.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            uiComboBox1.Location = new Point(539, 16);
+            uiComboBox1.Location = new Point(629, 16);
             uiComboBox1.Margin = new Padding(4, 5, 4, 5);
             uiComboBox1.MinimumSize = new Size(63, 0);
             uiComboBox1.Name = "uiComboBox1";
@@ -267,10 +269,10 @@
             // uiSymbolButton2
             // 
             uiSymbolButton2.Anchor = AnchorStyles.Right;
-            uiSymbolButton2.BackColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton2.BackColor = Color.White;
             uiSymbolButton2.Cursor = Cursors.Hand;
-            uiSymbolButton2.FillColor = Color.FromArgb(243, 249, 255);
-            uiSymbolButton2.FillColor2 = Color.FromArgb(243, 249, 255);
+            uiSymbolButton2.FillColor = Color.White;
+            uiSymbolButton2.FillColor2 = Color.White;
             uiSymbolButton2.FillDisableColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton2.FillHoverColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton2.FillPressColor = Color.FromArgb(243, 249, 255);
@@ -280,16 +282,17 @@
             uiSymbolButton2.ForeHoverColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton2.ForePressColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton2.ForeSelectedColor = Color.FromArgb(243, 249, 255);
-            uiSymbolButton2.Location = new Point(1034, 16);
+            uiSymbolButton2.LightColor = Color.White;
+            uiSymbolButton2.Location = new Point(855, 16);
             uiSymbolButton2.Margin = new Padding(3, 3, 10, 3);
             uiSymbolButton2.MinimumSize = new Size(1, 1);
             uiSymbolButton2.Name = "uiSymbolButton2";
             uiSymbolButton2.Radius = 15;
-            uiSymbolButton2.RectColor = Color.FromArgb(243, 249, 255);
-            uiSymbolButton2.RectDisableColor = Color.FromArgb(243, 249, 255);
-            uiSymbolButton2.RectHoverColor = Color.FromArgb(243, 249, 255);
-            uiSymbolButton2.RectPressColor = Color.FromArgb(243, 249, 255);
-            uiSymbolButton2.RectSelectedColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton2.RectColor = Color.White;
+            uiSymbolButton2.RectDisableColor = Color.White;
+            uiSymbolButton2.RectHoverColor = Color.White;
+            uiSymbolButton2.RectPressColor = Color.White;
+            uiSymbolButton2.RectSelectedColor = Color.White;
             uiSymbolButton2.Size = new Size(20, 23);
             uiSymbolButton2.Symbol = 61473;
             uiSymbolButton2.SymbolColor = Color.CornflowerBlue;
@@ -308,30 +311,33 @@
             uiTextBox1.Anchor = AnchorStyles.Right;
             uiTextBox1.FillColor = Color.White;
             uiTextBox1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiTextBox1.Location = new Point(753, 16);
+            uiTextBox1.Location = new Point(877, 16);
             uiTextBox1.Margin = new Padding(4, 5, 4, 5);
             uiTextBox1.MinimumSize = new Size(1, 16);
+            uiTextBox1.Multiline = true;
             uiTextBox1.Name = "uiTextBox1";
             uiTextBox1.Padding = new Padding(5);
             uiTextBox1.ShowText = false;
-            uiTextBox1.Size = new Size(274, 23);
+            uiTextBox1.Size = new Size(206, 23);
             uiTextBox1.Symbol = 61442;
+            uiTextBox1.SymbolSize = 30;
             uiTextBox1.TabIndex = 12;
             uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
             uiTextBox1.Watermark = "Tìm kiếm...";
+            uiTextBox1.TextChanged += uiTextBox1_TextChanged;
             // 
             // uiSymbolButton1
             // 
             uiSymbolButton1.Anchor = AnchorStyles.Right;
-            uiSymbolButton1.BackColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton1.BackColor = Color.White;
             uiSymbolButton1.Cursor = Cursors.Hand;
-            uiSymbolButton1.FillColor = Color.FromArgb(243, 249, 255);
-            uiSymbolButton1.FillColor2 = Color.FromArgb(243, 249, 255);
+            uiSymbolButton1.FillColor = Color.White;
+            uiSymbolButton1.FillColor2 = Color.White;
             uiSymbolButton1.FillHoverColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton1.FillPressColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton1.FillSelectedColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiSymbolButton1.Location = new Point(1058, 16);
+            uiSymbolButton1.Location = new Point(829, 16);
             uiSymbolButton1.Margin = new Padding(3, 3, 10, 3);
             uiSymbolButton1.MinimumSize = new Size(1, 1);
             uiSymbolButton1.Name = "uiSymbolButton1";
@@ -356,31 +362,31 @@
             // 
             uiDataGridView2.AllowUserToAddRows = false;
             uiDataGridView2.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            uiDataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle16.BackColor = Color.White;
+            uiDataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
             uiDataGridView2.AutoGenerateColumns = false;
             uiDataGridView2.BackgroundColor = Color.White;
             uiDataGridView2.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(4, 60, 44);
-            dataGridViewCellStyle2.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(4, 60, 44);
-            dataGridViewCellStyle2.SelectionForeColor = Color.DimGray;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            uiDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = Color.FromArgb(4, 60, 44);
+            dataGridViewCellStyle17.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle17.ForeColor = Color.White;
+            dataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(4, 60, 44);
+            dataGridViewCellStyle17.SelectionForeColor = Color.DimGray;
+            dataGridViewCellStyle17.WrapMode = DataGridViewTriState.True;
+            uiDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             uiDataGridView2.ColumnHeadersHeight = 20;
             uiDataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             uiDataGridView2.Columns.AddRange(new DataGridViewColumn[] { Checked, Column1, idDataGridViewTextBoxColumn, uidDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, towFADataGridViewTextBoxColumn, proxyDataGridViewTextBoxColumn, cookieDataGridViewTextBoxColumn, tokenDataGridViewTextBoxColumn, emailDataGridViewTextBoxColumn, passMailDataGridViewTextBoxColumn, phoneDataGridViewTextBoxColumn, userNameDataGridViewTextBoxColumn, nameFolderDataGridViewTextBoxColumn, userAgentDataGridViewTextBoxColumn, emailAdressDataGridViewTextBoxColumn, resultDataGridViewTextBoxColumn, recentInteractionDataGridViewTextBoxColumn, stateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, isViewDataGridViewCheckBoxColumn });
             uiDataGridView2.DataSource = accountBindingSource;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 12F);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(220, 236, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            uiDataGridView2.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle18.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = Color.White;
+            dataGridViewCellStyle18.Font = new Font("Microsoft Sans Serif", 12F);
+            dataGridViewCellStyle18.ForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(220, 236, 255);
+            dataGridViewCellStyle18.SelectionForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle18.WrapMode = DataGridViewTriState.False;
+            uiDataGridView2.DefaultCellStyle = dataGridViewCellStyle18;
             uiDataGridView2.Dock = DockStyle.Fill;
             uiDataGridView2.EnableHeadersVisualStyles = false;
             uiDataGridView2.Font = new Font("Microsoft Sans Serif", 12F);
@@ -388,21 +394,21 @@
             uiDataGridView2.Location = new Point(0, 80);
             uiDataGridView2.Name = "uiDataGridView2";
             uiDataGridView2.RectColor = Color.FromArgb(4, 60, 44);
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(243, 249, 255);
-            dataGridViewCellStyle4.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(80, 160, 255);
-            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            uiDataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle19.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = Color.FromArgb(243, 249, 255);
+            dataGridViewCellStyle19.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle19.ForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle19.SelectionBackColor = Color.FromArgb(80, 160, 255);
+            dataGridViewCellStyle19.SelectionForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle19.WrapMode = DataGridViewTriState.True;
+            uiDataGridView2.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
             uiDataGridView2.RowHeadersVisible = false;
-            dataGridViewCellStyle5.BackColor = Color.White;
-            dataGridViewCellStyle5.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = Color.FromArgb(48, 48, 48);
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(220, 236, 255);
-            dataGridViewCellStyle5.SelectionForeColor = Color.FromArgb(48, 48, 48);
-            uiDataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle20.BackColor = Color.White;
+            dataGridViewCellStyle20.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle20.ForeColor = Color.FromArgb(48, 48, 48);
+            dataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(220, 236, 255);
+            dataGridViewCellStyle20.SelectionForeColor = Color.FromArgb(48, 48, 48);
+            uiDataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle20;
             uiDataGridView2.ScrollBarWidth = 5;
             uiDataGridView2.SelectedIndex = -1;
             uiDataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -804,6 +810,46 @@
             disconnectToolStripMenuItem.Size = new Size(158, 22);
             disconnectToolStripMenuItem.Text = "Disconnect";
             // 
+            // uiSymbolButton3
+            // 
+            uiSymbolButton3.Anchor = AnchorStyles.Right;
+            uiSymbolButton3.BackColor = Color.White;
+            uiSymbolButton3.Cursor = Cursors.Hand;
+            uiSymbolButton3.FillColor = Color.White;
+            uiSymbolButton3.FillColor2 = Color.White;
+            uiSymbolButton3.FillDisableColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.FillHoverColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.FillPressColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.FillSelectedColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            uiSymbolButton3.ForeColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.ForeHoverColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.ForePressColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.ForeSelectedColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.LightColor = Color.White;
+            uiSymbolButton3.Location = new Point(1090, 16);
+            uiSymbolButton3.Margin = new Padding(3, 3, 10, 3);
+            uiSymbolButton3.MinimumSize = new Size(1, 1);
+            uiSymbolButton3.Name = "uiSymbolButton3";
+            uiSymbolButton3.Radius = 15;
+            uiSymbolButton3.RectColor = Color.White;
+            uiSymbolButton3.RectDisableColor = Color.White;
+            uiSymbolButton3.RectHoverColor = Color.White;
+            uiSymbolButton3.RectPressColor = Color.White;
+            uiSymbolButton3.RectSelectedColor = Color.White;
+            uiSymbolButton3.Size = new Size(20, 23);
+            uiSymbolButton3.Symbol = 61442;
+            uiSymbolButton3.SymbolColor = Color.DarkSlateGray;
+            uiSymbolButton3.SymbolDisableColor = Color.White;
+            uiSymbolButton3.SymbolHoverColor = Color.CornflowerBlue;
+            uiSymbolButton3.SymbolPressColor = Color.CornflowerBlue;
+            uiSymbolButton3.SymbolSelectedColor = Color.CornflowerBlue;
+            uiSymbolButton3.SymbolSize = 17;
+            uiSymbolButton3.TabIndex = 16;
+            uiSymbolButton3.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton3.TipsForeColor = Color.FromArgb(243, 249, 255);
+            uiSymbolButton3.Click += uiSymbolButton3_Click;
+            // 
             // ucdgvAccount
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -893,5 +939,6 @@
         private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn isViewDataGridViewCheckBoxColumn;
         private Sunny.UI.UIComboBox uiComboBox1;
+        private Sunny.UI.UISymbolButton uiSymbolButton3;
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using OpenCvSharp;
-using Sunny.Subdy.Data.Context;
+﻿using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.UI.View.Controls;
 using Sunny.UI;
 
@@ -31,6 +29,7 @@ namespace Sunny.Subdy.UI.View.Pages
         private void LoadScripts()
         {
             cbx_Scripts.Items.Clear();
+            cbx_Scripts.Items.Add("Tất cả các kịch bản");
             var scripts = _scriptContext.GetByType("Facebook");
             foreach (var script in scripts)
             {
@@ -44,6 +43,7 @@ namespace Sunny.Subdy.UI.View.Pages
         private void LoadFolders()
         {
             cbx_Folders.Items.Clear();
+            cbx_Folders.Items.Add("Tất cả các nhóm");
             var scripts = _folderContext.GetByType("Facebook");
             foreach (var script in scripts)
             {
@@ -52,6 +52,10 @@ namespace Sunny.Subdy.UI.View.Pages
             if (string.IsNullOrEmpty(cbx_Folders.Text))
             {
                 cbx_Folders.SelectedIndex = 0;
+            }
+            if (scripts.Any())
+            {
+                cbx_Folders.Items.Add("Chọn nhiều kịch bản");
             }
         }
 
@@ -77,11 +81,11 @@ namespace Sunny.Subdy.UI.View.Pages
                 List<Data.Models.Folder> folders = new List<Data.Models.Folder>();
                 if (cbx_Folders.Text == "Tất cả các nhóm")
                 {
-
+                    folders = _folderContext.GetAll();
                 }
                 else if (cbx_Folders.Text == "Chọn nhiều nhóm")
                 {
-                    folders = _folderContext.GetAll();
+                    
                 }
                 else
                 {
@@ -94,6 +98,16 @@ namespace Sunny.Subdy.UI.View.Pages
                 _ucdgvAccount._folders = folders;
                 await _ucdgvAccount.LoadAccount();
             }
+        }
+
+        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiSymbolButton2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

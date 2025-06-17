@@ -64,8 +64,8 @@
             uiSymbolButton3.FillHoverColor = Color.FromArgb(4, 60, 44);
             uiSymbolButton3.FillPressColor = Color.FromArgb(4, 60, 44);
             uiSymbolButton3.FillSelectedColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            uiSymbolButton3.Location = new Point(764, 53);
+            uiSymbolButton3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            uiSymbolButton3.Location = new Point(765, 72);
             uiSymbolButton3.Margin = new Padding(3, 3, 10, 3);
             uiSymbolButton3.MinimumSize = new Size(1, 1);
             uiSymbolButton3.Name = "uiSymbolButton3";
@@ -74,9 +74,9 @@
             uiSymbolButton3.RectHoverColor = Color.FromArgb(4, 60, 44);
             uiSymbolButton3.RectPressColor = Color.FromArgb(4, 60, 44);
             uiSymbolButton3.RectSelectedColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.Size = new Size(128, 34);
+            uiSymbolButton3.Size = new Size(128, 29);
             uiSymbolButton3.Symbol = 361515;
-            uiSymbolButton3.SymbolSize = 22;
+            uiSymbolButton3.SymbolSize = 18;
             uiSymbolButton3.TabIndex = 13;
             uiSymbolButton3.Text = "Bắt đầu";
             uiSymbolButton3.TipsFont = new Font("Microsoft Sans Serif", 9F);
@@ -90,8 +90,8 @@
             uiSymbolButton4.FillHoverColor = Color.DarkRed;
             uiSymbolButton4.FillPressColor = Color.DarkRed;
             uiSymbolButton4.FillSelectedColor = Color.DarkRed;
-            uiSymbolButton4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uiSymbolButton4.Location = new Point(912, 53);
+            uiSymbolButton4.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            uiSymbolButton4.Location = new Point(913, 72);
             uiSymbolButton4.Margin = new Padding(10, 3, 3, 3);
             uiSymbolButton4.MinimumSize = new Size(1, 1);
             uiSymbolButton4.Name = "uiSymbolButton4";
@@ -100,9 +100,9 @@
             uiSymbolButton4.RectHoverColor = Color.DarkRed;
             uiSymbolButton4.RectPressColor = Color.DarkRed;
             uiSymbolButton4.RectSelectedColor = Color.DarkRed;
-            uiSymbolButton4.Size = new Size(128, 34);
+            uiSymbolButton4.Size = new Size(128, 29);
             uiSymbolButton4.Symbol = 61517;
-            uiSymbolButton4.SymbolSize = 20;
+            uiSymbolButton4.SymbolSize = 17;
             uiSymbolButton4.TabIndex = 12;
             uiSymbolButton4.Text = "Đóng";
             uiSymbolButton4.TipsColor = Color.DarkRed;
@@ -148,6 +148,7 @@
             uiSymbolButton2.SymbolSize = 25;
             uiSymbolButton2.TabIndex = 14;
             uiSymbolButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton2.Click += uiSymbolButton2_Click;
             // 
             // cbx_Folders
             // 
@@ -210,6 +211,7 @@
             uiSymbolButton1.SymbolSize = 25;
             uiSymbolButton1.TabIndex = 13;
             uiSymbolButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton1.Click += uiSymbolButton1_Click;
             // 
             // cbx_Scripts
             // 

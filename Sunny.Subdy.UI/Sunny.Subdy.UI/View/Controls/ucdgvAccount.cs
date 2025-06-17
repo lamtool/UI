@@ -1,11 +1,8 @@
-﻿using AutoAndroid;
-using Sunny.Subdy.Common.ControlMethod;
-using Sunny.Subdy.Common.Services;
+﻿using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using Sunny.Subdy.UI.View.Forms;
 using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Sunny.Subdy.UI.View.Controls
 {
@@ -44,6 +41,7 @@ namespace Sunny.Subdy.UI.View.Controls
 
         public async Task LoadAccount()
         {
+            uiDataGridView2.DataSource = null;
             if (_folders == null || !_folders.Any()) return;
             var accountsOld = _accountContext.GetAll(_folders.Select(x => x.Name).ToList(), true);
             if (accountsOld == null || !accountsOld.Any())
@@ -67,6 +65,16 @@ namespace Sunny.Subdy.UI.View.Controls
         private async void ucdgvAccount_Load(object sender, EventArgs e)
         {
             await LoadAccount();
+        }
+
+        private void uiTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiSymbolButton3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
