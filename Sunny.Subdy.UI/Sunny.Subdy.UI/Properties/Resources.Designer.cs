@@ -73,6 +73,16 @@ namespace Sunny.Subdy.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap action_key_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("action_key_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap apk_document_30dp_434343_FILL0_wght400_GRAD0_opsz24 {
             get {
                 object obj = ResourceManager.GetObject("apk_document_30dp_434343_FILL0_wght400_GRAD0_opsz24", resourceCulture);
@@ -103,9 +113,29 @@ namespace Sunny.Subdy.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bring_your_own_ip_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("bring_your_own_ip_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Capture {
             get {
                 object obj = ResourceManager.GetObject("Capture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap check_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("check_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -126,6 +156,36 @@ namespace Sunny.Subdy.UI.Properties {
         internal static System.Drawing.Bitmap checklist_30dp {
             get {
                 object obj = ResourceManager.GetObject("checklist_30dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cloud_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("cloud_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap content_copy_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("content_copy_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cookie_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("cookie_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +243,29 @@ namespace Sunny.Subdy.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap filter_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("filter_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap functions_30dp {
             get {
                 object obj = ResourceManager.GetObject("functions_30dp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap key_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("key_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,6 +323,16 @@ namespace Sunny.Subdy.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mail_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("mail_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap menu_80 {
             get {
                 object obj = ResourceManager.GetObject("menu_80", resourceCulture);
@@ -276,6 +366,16 @@ namespace Sunny.Subdy.UI.Properties {
         internal static System.Drawing.Bitmap PanelThanks {
             get {
                 object obj = ResourceManager.GetObject("PanelThanks", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap password_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("password_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -333,9 +433,39 @@ namespace Sunny.Subdy.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap shield_toggle_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("shield_toggle_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap signal_wifi_4_bar_30dp_434343_FILL0_wght400_GRAD0_opsz24 {
             get {
                 object obj = ResourceManager.GetObject("signal_wifi_4_bar_30dp_434343_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sync_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("sync_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap token_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("token_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -356,6 +486,16 @@ namespace Sunny.Subdy.UI.Properties {
         internal static System.Drawing.Bitmap trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24 {
             get {
                 object obj = ResourceManager.GetObject("trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tune_40dp_434343_FILL0_wght400_GRAD0_opsz40 {
+            get {
+                object obj = ResourceManager.GetObject("tune_40dp_434343_FILL0_wght400_GRAD0_opsz40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

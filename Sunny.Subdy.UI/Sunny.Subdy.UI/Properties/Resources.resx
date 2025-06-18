@@ -127,6 +127,12 @@
   <data name="restart_alt_30dp_434343_FILL0_wght400_GRAD0_opsz24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\restart_alt_30dp_434343_FILL0_wght400_GRAD0_opsz24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="action_key_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\action_key_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="filter_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\filter_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Capture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\Capture.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -145,6 +151,9 @@
   <data name="apps_30dp_434343_FILL0_wght400_GRAD0_opsz24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\apps_30dp_434343_FILL0_wght400_GRAD0_opsz24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bring_your_own_ip_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bring_your_own_ip_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="send_to_mobile_30dp_434343_FILL0_wght400_GRAD0_opsz24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\send_to_mobile_30dp_434343_FILL0_wght400_GRAD0_opsz24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -156,6 +165,15 @@
   </data>
   <data name="Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="password_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\password_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sync_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sync_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield_toggle_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\shield_toggle_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="account" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\account.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,6 +196,18 @@
   <data name="notification" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\notification.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="visibility_30dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Asset\visibility_30dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="content_copy_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\content_copy_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cookie_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cookie_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="docRestoreDevice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Asset\docRestoreDevice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="playlist_add_check_30dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\playlist_add_check_30dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,8 +220,17 @@
   <data name="menu_80" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\menu_80.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="token_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\token_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="key_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\key_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="done_all_30" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\done_all_30.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="check_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\check_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="visibility_off_30dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\visibility_off_30dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -205,11 +244,14 @@
   <data name="select_check_box_30dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\select_check_box_30dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="mail_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mail_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="keyboard_double_arrow_up_30dp_0000F5_FILL0_wght400_GRAD0_opsz241" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\keyboard_double_arrow_up_30dp_0000F5_FILL0_wght400_GRAD0_opsz241.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="visibility_30dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Asset\visibility_30dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="cloud_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cloud_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="docBackDevice" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\docBackDevice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,7 +259,7 @@
   <data name="check_box_outline_blank_30dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Asset\check_box_outline_blank_30dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="docRestoreDevice" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Asset\docRestoreDevice.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="tune_40dp_434343_FILL0_wght400_GRAD0_opsz40" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tune_40dp_434343_FILL0_wght400_GRAD0_opsz40.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

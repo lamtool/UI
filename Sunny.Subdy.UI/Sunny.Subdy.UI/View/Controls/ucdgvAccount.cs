@@ -1,8 +1,8 @@
 ﻿using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
+using Sunny.Subdy.UI.ControlViews.Convertes;
 using Sunny.Subdy.UI.View.Forms;
-using System.ComponentModel;
 
 namespace Sunny.Subdy.UI.View.Controls
 {
@@ -10,11 +10,14 @@ namespace Sunny.Subdy.UI.View.Controls
     {
         public List<Folder> _folders;
         private AccountContext _accountContext;
+        public List<Account> _accounts;
         public ucdgvAccount(List<Folder> folders)
         {
             InitializeComponent();
             _folders = folders;
             _accountContext = new AccountContext();
+            uiDataGridView2.AutoGenerateColumns = false;
+            _accounts = new List<Account>();
         }
 
         private async void uiSymbolButton1_Click(object sender, EventArgs e)
@@ -43,12 +46,12 @@ namespace Sunny.Subdy.UI.View.Controls
         {
             uiDataGridView2.DataSource = null;
             if (_folders == null || !_folders.Any()) return;
-            var accountsOld = _accountContext.GetAll(_folders.Select(x => x.Name).ToList(), true);
-            if (accountsOld == null || !accountsOld.Any())
+            _accounts = _accountContext.GetAll(_folders.Select(x => x.Name).ToList(), true);
+            if (_accounts == null || !_accounts.Any())
             {
                 return;
             }
-            BindingList<Account> bindingList = new BindingList<Account>(accountsOld);
+            SortableBindingList<Account> bindingList = new SortableBindingList<Account>(_accounts);
             uiDataGridView2.DataSource = bindingList;
             for (int i = 0; i < uiDataGridView2.Rows.Count; i++)
             {
@@ -56,10 +59,34 @@ namespace Sunny.Subdy.UI.View.Controls
                 if (!row.IsNewRow && row.Cells["Column1"] != null)
                     row.Cells["Column1"].Value = (i + 1).ToString();
             }
-            uiLabel1.Text = accountsOld.Count.ToString();
-            uiLabel4.Text = accountsOld.Where(x => x.State == "LIVE").Count().ToString();
-            uiLabel6.Text = accountsOld.Where(x => x.State == "DIE").Count().ToString();
-            uiLabel8.Text = (Convert.ToInt32(uiLabel1.Text) - (Convert.ToInt32(uiLabel4.Text) + Convert.ToInt32(uiLabel6.Text))).ToString();
+            var stateCounts = _accounts
+      .GroupBy(x => x.State)
+      .Select(g => (g.Key ?? "UNKNOWN", g.Count())) // tránh null
+      .ToList();
+
+            var menuItems = AddSate("State", stateCounts);
+            satesToolStripMenuItem.DropDownItems.Clear();
+            satesToolStripMenuItem.DropDownItems.AddRange(menuItems.ToArray());
+            int otherCount = 0;
+
+            foreach (var stateCount in stateCounts)
+            {
+                switch (stateCount.Item1)
+                {
+                    case "LIVE":
+                        uiLabel4.Text = stateCount.Item2.ToString();
+                        break;
+                    case "DIE":
+                        uiLabel6.Text = stateCount.Item2.ToString();
+                        break;
+                    default:
+                        otherCount += stateCount.Item2;
+                        break;
+                }
+            }
+            uiLabel8.Text = otherCount.ToString();
+            uiLabel1.Text = _accounts.Count.ToString();
+
         }
 
         private async void ucdgvAccount_Load(object sender, EventArgs e)
@@ -75,6 +102,38 @@ namespace Sunny.Subdy.UI.View.Controls
         private void uiSymbolButton3_Click(object sender, EventArgs e)
         {
 
+        }
+        private List<ToolStripMenuItem> AddSate(string type, List<(string, int)> items)
+        {
+            List<ToolStripMenuItem> toolStripMenuItems = new List<ToolStripMenuItem>();
+            int i = 0;
+            foreach (var item in items)
+            {
+                ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem
+                {
+                    Name = $"{type}_{i}",
+                    Text = $"{item.Item1} ({item.Item2})",
+                    Tag = item.Item1,
+                    Image = Properties.Resources.done_all_30
+                };
+
+                toolStripMenuItem.Click += toolStripMenuItem_Click;
+                toolStripMenuItems.Add(toolStripMenuItem);
+                i++;
+            }
+            return toolStripMenuItems;
+        }
+        private void toolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem menuItem)
+            {
+                string[] parts = menuItem.Name.Split('_');
+                if (parts.Length == 2 && parts[0] == "State")
+                {
+                    string state = parts[1];
+                    uiDataGridView2.DataSource = _accountContext.GetAll($"SELECT * FROM Account WHERE State = '{state}'");
+                }
+            }
         }
     }
 }

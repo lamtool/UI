@@ -1,4 +1,5 @@
 ﻿using Sunny.Subdy.Common.ControlMethod;
+using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Common.Models;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
@@ -10,6 +11,7 @@ namespace Sunny.Subdy.UI.View.Controls
 {
     public partial class FEditActionScirpt : Form
     {
+        Common.Json.ConfigHelper _configHelper;
         private Script _script;
         private ScriptActionContext _scriptActionContext;
         public FEditActionScirpt(Script script)
@@ -18,6 +20,7 @@ namespace Sunny.Subdy.UI.View.Controls
             _script = script;
             _scriptActionContext = new ScriptActionContext();
             LoadData();
+            _configHelper = new Common.Json.ConfigHelper(this, _script.JsonData);
         }
         private void LoadData()
         {
@@ -184,6 +187,7 @@ namespace Sunny.Subdy.UI.View.Controls
                 config += id.ToString() + "|";
             }
             _script.Config = config.TrimEnd('|');
+            _script.JsonData = _configHelper.GetJsonString();
             new ScriptContext().Update(_script);
             CommonMethod.ShowMessageSuccess("Cập nhật thành công", "Thành công");
             this.Close();

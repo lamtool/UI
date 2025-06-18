@@ -10,6 +10,7 @@ namespace Sunny.Subdy.UI.View.Forms
 {
     public partial class fListActionFacebook : Form
     {
+    
         private Script _script;
         private ScriptActionContext _scriptActionContext;
         public fListActionFacebook(Script script)
@@ -26,6 +27,7 @@ namespace Sunny.Subdy.UI.View.Forms
             }
             _script = script;
             _scriptActionContext = new ScriptActionContext();
+           
         }
         private void buttonGetText_Click(object sender, EventArgs e)
         {

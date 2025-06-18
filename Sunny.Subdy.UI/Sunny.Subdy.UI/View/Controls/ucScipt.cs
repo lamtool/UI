@@ -19,7 +19,7 @@ namespace Sunny.Subdy.UI.View.Controls
             this.Tag = _script.Id; // Store the folder ID in the Tag property for later use
             this.uiLabel1.Text = _script.Name;
             this.uiLabel2.Text = _script.DateCreate;
-            this.uiLabel5.Text = _script.Config.Split('|').Count().ToString();
+            this.uiLabel4.Text = _script.Config.Split('|').Count().ToString();
             string type = _script.Type.Trim().ToLower();
             if (type == "facebook")
             {

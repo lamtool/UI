@@ -36,7 +36,6 @@
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             uiPanel1 = new Sunny.UI.UIPanel();
             uiSymbolButton3 = new Sunny.UI.UISymbolButton();
-            uiComboBox1 = new Sunny.UI.UIComboBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             uiLabel2 = new Sunny.UI.UILabel();
             uiLabel1 = new Sunny.UI.UILabel();
@@ -72,48 +71,37 @@
             stateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             statusDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             isViewDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
-            accountBindingSource = new BindingSource(components);
             uiContextMenuStrip1 = new Sunny.UI.UIContextMenuStrip();
             toolStripMenuItem1 = new ToolStripMenuItem();
             tấtCảToolStripMenuItem = new ToolStripMenuItem();
             bôiĐenToolStripMenuItem = new ToolStripMenuItem();
             statusToolStripMenuItem = new ToolStripMenuItem();
+            satesToolStripMenuItem = new ToolStripMenuItem();
             bỏChọnTấtCảToolStripMenuItem = new ToolStripMenuItem();
             tắtViewToolStripMenuItem = new ToolStripMenuItem();
             tắtToolStripMenuItem = new ToolStripMenuItem();
             mởToolStripMenuItem1 = new ToolStripMenuItem();
+            mậtKhẩuToolStripMenuItem = new ToolStripMenuItem();
+            fAToolStripMenuItem = new ToolStripMenuItem();
+            emailToolStripMenuItem = new ToolStripMenuItem();
+            cookieToolStripMenuItem = new ToolStripMenuItem();
+            tokenToolStripMenuItem = new ToolStripMenuItem();
+            proxyToolStripMenuItem = new ToolStripMenuItem();
+            trạngTháiToolStripMenuItem = new ToolStripMenuItem();
             mởToolStripMenuItem = new ToolStripMenuItem();
-            càiĐặtApkToolStripMenuItem = new ToolStripMenuItem();
-            wifiToolStripMenuItem = new ToolStripMenuItem();
-            bậtWifiToolStripMenuItem = new ToolStripMenuItem();
-            tắtWifiToolStripMenuItem = new ToolStripMenuItem();
-            kếtNốiWifiToolStripMenuItem = new ToolStripMenuItem();
-            gỡCàiĐặtPackageToolStripMenuItem = new ToolStripMenuItem();
-            rebootToolStripMenuItem = new ToolStripMenuItem();
-            changeInfoToolStripMenuItem = new ToolStripMenuItem();
             ứngDụngToolStripMenuItem = new ToolStripMenuItem();
             facebookToolStripMenuItem = new ToolStripMenuItem();
-            backupToolStripMenuItem = new ToolStripMenuItem();
-            restoreToolStripMenuItem = new ToolStripMenuItem();
-            tikTokToolStripMenuItem = new ToolStripMenuItem();
-            backupToolStripMenuItem1 = new ToolStripMenuItem();
-            restoreToolStripMenuItem1 = new ToolStripMenuItem();
-            instagramToolStripMenuItem = new ToolStripMenuItem();
-            backupToolStripMenuItem2 = new ToolStripMenuItem();
-            restoreToolStripMenuItem2 = new ToolStripMenuItem();
-            connectToolStripMenuItem = new ToolStripMenuItem();
-            disconnectToolStripMenuItem = new ToolStripMenuItem();
+            accountBindingSource = new BindingSource(components);
             uiPanel1.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)accountBindingSource).BeginInit();
             uiContextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)accountBindingSource).BeginInit();
             SuspendLayout();
             // 
             // uiPanel1
             // 
             uiPanel1.Controls.Add(uiSymbolButton3);
-            uiPanel1.Controls.Add(uiComboBox1);
             uiPanel1.Controls.Add(flowLayoutPanel1);
             uiPanel1.Controls.Add(uiSymbolButton2);
             uiPanel1.Controls.Add(uiTextBox1);
@@ -159,7 +147,7 @@
             uiSymbolButton3.RectHoverColor = Color.White;
             uiSymbolButton3.RectPressColor = Color.White;
             uiSymbolButton3.RectSelectedColor = Color.White;
-            uiSymbolButton3.Size = new Size(20, 23);
+            uiSymbolButton3.Size = new Size(22, 23);
             uiSymbolButton3.Symbol = 61442;
             uiSymbolButton3.SymbolColor = Color.DarkSlateGray;
             uiSymbolButton3.SymbolDisableColor = Color.White;
@@ -171,27 +159,6 @@
             uiSymbolButton3.TipsFont = new Font("Microsoft Sans Serif", 9F);
             uiSymbolButton3.TipsForeColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton3.Click += uiSymbolButton3_Click;
-            // 
-            // uiComboBox1
-            // 
-            uiComboBox1.Anchor = AnchorStyles.Right;
-            uiComboBox1.DataSource = null;
-            uiComboBox1.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
-            uiComboBox1.FillColor = Color.White;
-            uiComboBox1.Font = new Font("Microsoft Sans Serif", 12F);
-            uiComboBox1.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            uiComboBox1.Items.AddRange(new object[] { "[Tất cả tính trạng]" });
-            uiComboBox1.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            uiComboBox1.Location = new Point(629, 16);
-            uiComboBox1.Margin = new Padding(4, 5, 4, 5);
-            uiComboBox1.MinimumSize = new Size(63, 0);
-            uiComboBox1.Name = "uiComboBox1";
-            uiComboBox1.Padding = new Padding(0, 0, 30, 2);
-            uiComboBox1.Size = new Size(193, 23);
-            uiComboBox1.SymbolSize = 24;
-            uiComboBox1.TabIndex = 15;
-            uiComboBox1.TextAlignment = ContentAlignment.MiddleLeft;
-            uiComboBox1.Watermark = "";
             // 
             // flowLayoutPanel1
             // 
@@ -406,6 +373,7 @@
             uiDataGridView2.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             uiDataGridView2.AutoGenerateColumns = false;
             uiDataGridView2.BackgroundColor = Color.White;
+            uiDataGridView2.ClipboardCopyMode = DataGridViewClipboardCopyMode.Disable;
             uiDataGridView2.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(4, 60, 44);
@@ -416,8 +384,8 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             uiDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             uiDataGridView2.ColumnHeadersHeight = 20;
-            uiDataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             uiDataGridView2.Columns.AddRange(new DataGridViewColumn[] { Checked, Column1, idDataGridViewTextBoxColumn, uidDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, towFADataGridViewTextBoxColumn, proxyDataGridViewTextBoxColumn, cookieDataGridViewTextBoxColumn, tokenDataGridViewTextBoxColumn, emailDataGridViewTextBoxColumn, passMailDataGridViewTextBoxColumn, phoneDataGridViewTextBoxColumn, userNameDataGridViewTextBoxColumn, nameFolderDataGridViewTextBoxColumn, userAgentDataGridViewTextBoxColumn, emailAdressDataGridViewTextBoxColumn, resultDataGridViewTextBoxColumn, recentInteractionDataGridViewTextBoxColumn, stateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, isViewDataGridViewCheckBoxColumn });
+            uiDataGridView2.ContextMenuStrip = uiContextMenuStrip1;
             uiDataGridView2.DataSource = accountBindingSource;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
@@ -634,21 +602,17 @@
             isViewDataGridViewCheckBoxColumn.Name = "isViewDataGridViewCheckBoxColumn";
             isViewDataGridViewCheckBoxColumn.Visible = false;
             // 
-            // accountBindingSource
-            // 
-            accountBindingSource.DataSource = typeof(Data.Models.Account);
-            // 
             // uiContextMenuStrip1
             // 
             uiContextMenuStrip1.BackColor = Color.FromArgb(245, 245, 245);
             uiContextMenuStrip1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem, connectToolStripMenuItem, disconnectToolStripMenuItem });
+            uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem });
             uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            uiContextMenuStrip1.Size = new Size(159, 158);
+            uiContextMenuStrip1.Size = new Size(159, 114);
             // 
             // toolStripMenuItem1
             // 
-            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { tấtCảToolStripMenuItem, bôiĐenToolStripMenuItem, statusToolStripMenuItem });
+            toolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { tấtCảToolStripMenuItem, bôiĐenToolStripMenuItem, statusToolStripMenuItem, satesToolStripMenuItem });
             toolStripMenuItem1.ForeColor = SystemColors.ControlText;
             toolStripMenuItem1.Image = Properties.Resources.select_check_box_30dp;
             toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -677,6 +641,13 @@
             statusToolStripMenuItem.Size = new Size(120, 22);
             statusToolStripMenuItem.Text = "Status";
             // 
+            // satesToolStripMenuItem
+            // 
+            satesToolStripMenuItem.Image = Properties.Resources.tune_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            satesToolStripMenuItem.Name = "satesToolStripMenuItem";
+            satesToolStripMenuItem.Size = new Size(120, 22);
+            satesToolStripMenuItem.Text = "Sates";
+            // 
             // bỏChọnTấtCảToolStripMenuItem
             // 
             bỏChọnTấtCảToolStripMenuItem.Image = Properties.Resources.check_box_outline_blank_30dp;
@@ -686,169 +657,100 @@
             // 
             // tắtViewToolStripMenuItem
             // 
-            tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1 });
-            tắtViewToolStripMenuItem.Image = Properties.Resources.mystery_30dp;
+            tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1, mậtKhẩuToolStripMenuItem, fAToolStripMenuItem, emailToolStripMenuItem, cookieToolStripMenuItem, tokenToolStripMenuItem, proxyToolStripMenuItem, trạngTháiToolStripMenuItem });
+            tắtViewToolStripMenuItem.Image = Properties.Resources.content_copy_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             tắtViewToolStripMenuItem.Name = "tắtViewToolStripMenuItem";
             tắtViewToolStripMenuItem.Size = new Size(158, 22);
-            tắtViewToolStripMenuItem.Text = "View";
+            tắtViewToolStripMenuItem.Text = "Sao chép";
             // 
             // tắtToolStripMenuItem
             // 
-            tắtToolStripMenuItem.Image = Properties.Resources.visibility_off_30dp;
+            tắtToolStripMenuItem.Image = Properties.Resources.filter_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             tắtToolStripMenuItem.Name = "tắtToolStripMenuItem";
-            tắtToolStripMenuItem.Size = new Size(94, 22);
-            tắtToolStripMenuItem.Text = "Tắt";
+            tắtToolStripMenuItem.Size = new Size(134, 22);
+            tắtToolStripMenuItem.Text = "Tuỳ chọn";
             // 
             // mởToolStripMenuItem1
             // 
-            mởToolStripMenuItem1.Image = Properties.Resources.visibility_30dp;
+            mởToolStripMenuItem1.Image = Properties.Resources.key_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             mởToolStripMenuItem1.Name = "mởToolStripMenuItem1";
-            mởToolStripMenuItem1.Size = new Size(94, 22);
-            mởToolStripMenuItem1.Text = "Mở";
+            mởToolStripMenuItem1.Size = new Size(134, 22);
+            mởToolStripMenuItem1.Text = "Uid";
+            // 
+            // mậtKhẩuToolStripMenuItem
+            // 
+            mậtKhẩuToolStripMenuItem.Image = Properties.Resources.password_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            mậtKhẩuToolStripMenuItem.Name = "mậtKhẩuToolStripMenuItem";
+            mậtKhẩuToolStripMenuItem.Size = new Size(134, 22);
+            mậtKhẩuToolStripMenuItem.Text = "Mật khẩu";
+            // 
+            // fAToolStripMenuItem
+            // 
+            fAToolStripMenuItem.Image = Properties.Resources.shield_toggle_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            fAToolStripMenuItem.Name = "fAToolStripMenuItem";
+            fAToolStripMenuItem.Size = new Size(134, 22);
+            fAToolStripMenuItem.Text = "2FA";
+            // 
+            // emailToolStripMenuItem
+            // 
+            emailToolStripMenuItem.Image = Properties.Resources.mail_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            emailToolStripMenuItem.Name = "emailToolStripMenuItem";
+            emailToolStripMenuItem.Size = new Size(134, 22);
+            emailToolStripMenuItem.Text = "Email";
+            // 
+            // cookieToolStripMenuItem
+            // 
+            cookieToolStripMenuItem.Image = Properties.Resources.cookie_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            cookieToolStripMenuItem.Name = "cookieToolStripMenuItem";
+            cookieToolStripMenuItem.Size = new Size(134, 22);
+            cookieToolStripMenuItem.Text = "Cookie";
+            // 
+            // tokenToolStripMenuItem
+            // 
+            tokenToolStripMenuItem.Image = Properties.Resources.token_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            tokenToolStripMenuItem.Name = "tokenToolStripMenuItem";
+            tokenToolStripMenuItem.Size = new Size(134, 22);
+            tokenToolStripMenuItem.Text = "Token";
+            // 
+            // proxyToolStripMenuItem
+            // 
+            proxyToolStripMenuItem.Image = Properties.Resources.bring_your_own_ip_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            proxyToolStripMenuItem.Name = "proxyToolStripMenuItem";
+            proxyToolStripMenuItem.Size = new Size(134, 22);
+            proxyToolStripMenuItem.Text = "Proxy";
+            // 
+            // trạngTháiToolStripMenuItem
+            // 
+            trạngTháiToolStripMenuItem.Image = Properties.Resources.cloud_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            trạngTháiToolStripMenuItem.Name = "trạngTháiToolStripMenuItem";
+            trạngTháiToolStripMenuItem.Size = new Size(134, 22);
+            trạngTháiToolStripMenuItem.Text = "Trạng thái";
             // 
             // mởToolStripMenuItem
             // 
-            mởToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { càiĐặtApkToolStripMenuItem, wifiToolStripMenuItem, gỡCàiĐặtPackageToolStripMenuItem, rebootToolStripMenuItem, changeInfoToolStripMenuItem });
-            mởToolStripMenuItem.Image = Properties.Resources.functions_30dp;
+            mởToolStripMenuItem.Image = Properties.Resources.sync_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             mởToolStripMenuItem.Name = "mởToolStripMenuItem";
             mởToolStripMenuItem.Size = new Size(158, 22);
-            mởToolStripMenuItem.Text = "Nâng cao";
-            // 
-            // càiĐặtApkToolStripMenuItem
-            // 
-            càiĐặtApkToolStripMenuItem.Image = Properties.Resources.apk_install_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            càiĐặtApkToolStripMenuItem.Name = "càiĐặtApkToolStripMenuItem";
-            càiĐặtApkToolStripMenuItem.Size = new Size(192, 22);
-            càiĐặtApkToolStripMenuItem.Text = "Cài đặt apk";
-            // 
-            // wifiToolStripMenuItem
-            // 
-            wifiToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { bậtWifiToolStripMenuItem, tắtWifiToolStripMenuItem, kếtNốiWifiToolStripMenuItem });
-            wifiToolStripMenuItem.Image = Properties.Resources.wifi_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            wifiToolStripMenuItem.Name = "wifiToolStripMenuItem";
-            wifiToolStripMenuItem.Size = new Size(192, 22);
-            wifiToolStripMenuItem.Text = "Wifi";
-            // 
-            // bậtWifiToolStripMenuItem
-            // 
-            bậtWifiToolStripMenuItem.Image = Properties.Resources.signal_wifi_4_bar_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            bậtWifiToolStripMenuItem.Name = "bậtWifiToolStripMenuItem";
-            bậtWifiToolStripMenuItem.Size = new Size(135, 22);
-            bậtWifiToolStripMenuItem.Text = "Bật wifi";
-            // 
-            // tắtWifiToolStripMenuItem
-            // 
-            tắtWifiToolStripMenuItem.Image = Properties.Resources.wifi_off_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            tắtWifiToolStripMenuItem.Name = "tắtWifiToolStripMenuItem";
-            tắtWifiToolStripMenuItem.Size = new Size(135, 22);
-            tắtWifiToolStripMenuItem.Text = "Tắt wifi";
-            // 
-            // kếtNốiWifiToolStripMenuItem
-            // 
-            kếtNốiWifiToolStripMenuItem.Image = Properties.Resources.router_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            kếtNốiWifiToolStripMenuItem.Name = "kếtNốiWifiToolStripMenuItem";
-            kếtNốiWifiToolStripMenuItem.Size = new Size(135, 22);
-            kếtNốiWifiToolStripMenuItem.Text = "Kết nối wifi";
-            // 
-            // gỡCàiĐặtPackageToolStripMenuItem
-            // 
-            gỡCàiĐặtPackageToolStripMenuItem.Image = Properties.Resources.apk_document_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            gỡCàiĐặtPackageToolStripMenuItem.Name = "gỡCàiĐặtPackageToolStripMenuItem";
-            gỡCàiĐặtPackageToolStripMenuItem.Size = new Size(192, 22);
-            gỡCàiĐặtPackageToolStripMenuItem.Text = "Gỡ cài đặt package";
-            // 
-            // rebootToolStripMenuItem
-            // 
-            rebootToolStripMenuItem.Image = Properties.Resources.restart_alt_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            rebootToolStripMenuItem.Name = "rebootToolStripMenuItem";
-            rebootToolStripMenuItem.Size = new Size(192, 22);
-            rebootToolStripMenuItem.Text = "Reboot";
-            // 
-            // changeInfoToolStripMenuItem
-            // 
-            changeInfoToolStripMenuItem.Image = Properties.Resources.send_to_mobile_30dp_434343_FILL0_wght400_GRAD0_opsz24;
-            changeInfoToolStripMenuItem.Name = "changeInfoToolStripMenuItem";
-            changeInfoToolStripMenuItem.Size = new Size(192, 22);
-            changeInfoToolStripMenuItem.Text = "Change Info";
+            mởToolStripMenuItem.Text = "Chuyển nhóm";
             // 
             // ứngDụngToolStripMenuItem
             // 
-            ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem, tikTokToolStripMenuItem, instagramToolStripMenuItem });
-            ứngDụngToolStripMenuItem.Image = Properties.Resources.apps_30dp_434343_FILL0_wght400_GRAD0_opsz24;
+            ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem });
+            ứngDụngToolStripMenuItem.Image = Properties.Resources.action_key_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             ứngDụngToolStripMenuItem.Name = "ứngDụngToolStripMenuItem";
             ứngDụngToolStripMenuItem.Size = new Size(158, 22);
-            ứngDụngToolStripMenuItem.Text = "Ứng dụng";
+            ứngDụngToolStripMenuItem.Text = "Chức năng";
             // 
             // facebookToolStripMenuItem
             // 
-            facebookToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem, restoreToolStripMenuItem });
+            facebookToolStripMenuItem.Image = Properties.Resources.check_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             facebookToolStripMenuItem.Name = "facebookToolStripMenuItem";
             facebookToolStripMenuItem.Size = new Size(136, 22);
-            facebookToolStripMenuItem.Text = "Facebook";
+            facebookToolStripMenuItem.Text = "Check live";
             // 
-            // backupToolStripMenuItem
+            // accountBindingSource
             // 
-            backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            backupToolStripMenuItem.Size = new Size(122, 22);
-            backupToolStripMenuItem.Text = "Backup";
-            // 
-            // restoreToolStripMenuItem
-            // 
-            restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
-            restoreToolStripMenuItem.Size = new Size(122, 22);
-            restoreToolStripMenuItem.Text = "Restore";
-            // 
-            // tikTokToolStripMenuItem
-            // 
-            tikTokToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem1, restoreToolStripMenuItem1 });
-            tikTokToolStripMenuItem.Name = "tikTokToolStripMenuItem";
-            tikTokToolStripMenuItem.Size = new Size(136, 22);
-            tikTokToolStripMenuItem.Text = "TikTok";
-            // 
-            // backupToolStripMenuItem1
-            // 
-            backupToolStripMenuItem1.Name = "backupToolStripMenuItem1";
-            backupToolStripMenuItem1.Size = new Size(122, 22);
-            backupToolStripMenuItem1.Text = "Backup";
-            // 
-            // restoreToolStripMenuItem1
-            // 
-            restoreToolStripMenuItem1.Name = "restoreToolStripMenuItem1";
-            restoreToolStripMenuItem1.Size = new Size(122, 22);
-            restoreToolStripMenuItem1.Text = "Restore";
-            // 
-            // instagramToolStripMenuItem
-            // 
-            instagramToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem2, restoreToolStripMenuItem2 });
-            instagramToolStripMenuItem.Name = "instagramToolStripMenuItem";
-            instagramToolStripMenuItem.Size = new Size(136, 22);
-            instagramToolStripMenuItem.Text = "Instagram";
-            // 
-            // backupToolStripMenuItem2
-            // 
-            backupToolStripMenuItem2.Name = "backupToolStripMenuItem2";
-            backupToolStripMenuItem2.Size = new Size(122, 22);
-            backupToolStripMenuItem2.Text = "Backup";
-            // 
-            // restoreToolStripMenuItem2
-            // 
-            restoreToolStripMenuItem2.Name = "restoreToolStripMenuItem2";
-            restoreToolStripMenuItem2.Size = new Size(122, 22);
-            restoreToolStripMenuItem2.Text = "Restore";
-            // 
-            // connectToolStripMenuItem
-            // 
-            connectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_48752C_FILL0_wght400_GRAD0_opsz24;
-            connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            connectToolStripMenuItem.Size = new Size(158, 22);
-            connectToolStripMenuItem.Text = "Connect";
-            // 
-            // disconnectToolStripMenuItem
-            // 
-            disconnectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24;
-            disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            disconnectToolStripMenuItem.Size = new Size(158, 22);
-            disconnectToolStripMenuItem.Text = "Disconnect";
+            accountBindingSource.DataSource = typeof(Data.Models.Account);
             // 
             // ucdgvAccount
             // 
@@ -864,8 +766,8 @@
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)accountBindingSource).EndInit();
             uiContextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)accountBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -895,26 +797,8 @@
         private ToolStripMenuItem tắtToolStripMenuItem;
         private ToolStripMenuItem mởToolStripMenuItem1;
         private ToolStripMenuItem mởToolStripMenuItem;
-        private ToolStripMenuItem càiĐặtApkToolStripMenuItem;
-        private ToolStripMenuItem wifiToolStripMenuItem;
-        private ToolStripMenuItem bậtWifiToolStripMenuItem;
-        private ToolStripMenuItem tắtWifiToolStripMenuItem;
-        private ToolStripMenuItem kếtNốiWifiToolStripMenuItem;
-        private ToolStripMenuItem gỡCàiĐặtPackageToolStripMenuItem;
-        private ToolStripMenuItem rebootToolStripMenuItem;
-        private ToolStripMenuItem changeInfoToolStripMenuItem;
         private ToolStripMenuItem ứngDụngToolStripMenuItem;
         private ToolStripMenuItem facebookToolStripMenuItem;
-        private ToolStripMenuItem backupToolStripMenuItem;
-        private ToolStripMenuItem restoreToolStripMenuItem;
-        private ToolStripMenuItem tikTokToolStripMenuItem;
-        private ToolStripMenuItem backupToolStripMenuItem1;
-        private ToolStripMenuItem restoreToolStripMenuItem1;
-        private ToolStripMenuItem instagramToolStripMenuItem;
-        private ToolStripMenuItem backupToolStripMenuItem2;
-        private ToolStripMenuItem restoreToolStripMenuItem2;
-        private ToolStripMenuItem connectToolStripMenuItem;
-        private ToolStripMenuItem disconnectToolStripMenuItem;
         private BindingSource accountBindingSource;
         private DataGridViewCheckBoxColumn Checked;
         private DataGridViewTextBoxColumn Column1;
@@ -938,7 +822,14 @@
         private DataGridViewTextBoxColumn stateDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
         private DataGridViewCheckBoxColumn isViewDataGridViewCheckBoxColumn;
-        private Sunny.UI.UIComboBox uiComboBox1;
         private Sunny.UI.UISymbolButton uiSymbolButton3;
+        private ToolStripMenuItem mậtKhẩuToolStripMenuItem;
+        private ToolStripMenuItem fAToolStripMenuItem;
+        private ToolStripMenuItem emailToolStripMenuItem;
+        private ToolStripMenuItem cookieToolStripMenuItem;
+        private ToolStripMenuItem tokenToolStripMenuItem;
+        private ToolStripMenuItem proxyToolStripMenuItem;
+        private ToolStripMenuItem trạngTháiToolStripMenuItem;
+        private ToolStripMenuItem satesToolStripMenuItem;
     }
 }

@@ -39,6 +39,7 @@
             uiPanel3 = new Sunny.UI.UIPanel();
             uiLabel5 = new Sunny.UI.UILabel();
             uiLabel3 = new Sunny.UI.UILabel();
+            uiLabel4 = new Sunny.UI.UILabel();
             uiPanel1.SuspendLayout();
             uiPanel2.SuspendLayout();
             uiPanel3.SuspendLayout();
@@ -238,6 +239,7 @@
             // 
             // uiPanel3
             // 
+            uiPanel3.Controls.Add(uiLabel4);
             uiPanel3.Controls.Add(uiLabel5);
             uiPanel3.Controls.Add(uiLabel3);
             uiPanel3.Dock = DockStyle.Fill;
@@ -280,6 +282,19 @@
             uiLabel3.TabIndex = 1;
             uiLabel3.Text = "Số lượng hành động:";
             // 
+            // uiLabel4
+            // 
+            uiLabel4.Anchor = AnchorStyles.Right;
+            uiLabel4.BackColor = Color.White;
+            uiLabel4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            uiLabel4.ForeColor = Color.Black;
+            uiLabel4.Location = new Point(160, 14);
+            uiLabel4.Name = "uiLabel4";
+            uiLabel4.Size = new Size(156, 15);
+            uiLabel4.TabIndex = 4;
+            uiLabel4.Text = "0";
+            uiLabel4.TextAlign = ContentAlignment.MiddleRight;
+            // 
             // ucScipt
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -310,5 +325,6 @@
         private Sunny.UI.UIPanel uiPanel3;
         private Sunny.UI.UILabel uiLabel5;
         private Sunny.UI.UILabel uiLabel3;
+        private Sunny.UI.UILabel uiLabel4;
     }
 }
