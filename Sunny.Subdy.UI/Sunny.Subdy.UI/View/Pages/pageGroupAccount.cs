@@ -11,7 +11,8 @@ namespace Sunny.Subdy.UI.View.Pages
     public partial class pageGroupAccount : UIPage
     {
         private readonly FolderContext _folderContext;
-        public pageGroupAccount()
+        private readonly pageFacebook pageFacebook;
+        public pageGroupAccount(pageFacebook pageFacebook)
         {
             InitializeComponent();
             this.Symbol = 559937; // Set the symbol for the page, can be used for icons
@@ -21,6 +22,7 @@ namespace Sunny.Subdy.UI.View.Pages
                 LoadFolders(uiTextBox1.Text, txtType.Text.Trim());
 
             }), exists: false);
+            this.pageFacebook = pageFacebook;
         }
 
         private void pageGroupAccount_Load(object sender, EventArgs e)
@@ -68,6 +70,7 @@ namespace Sunny.Subdy.UI.View.Pages
             ucFolder ucFolder = new ucFolder();
             ucFolder.ShowDialog();
             LoadFolders();
+            pageFacebook.LoadFolders();
         }
 
         private void uiSymbolButton2_Click(object sender, EventArgs e)

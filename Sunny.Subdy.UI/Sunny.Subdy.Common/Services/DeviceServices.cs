@@ -6,6 +6,7 @@ namespace Sunny.Subdy.Common.Services
 {
     public class DeviceServices
     {
+        public static string Brands = "xiaomi|google|OPPO|Redmi|samsung|vivo|Sharp|ZTE|Sony|Huawei|HTC|Kyocera|HUAWEI|Xiaomi|Nokia|realme|Google|lge|Asus|Verizon|Lenovo|Fujitsu|HONOR|motorola|LGE|YuLong|Micromax|asus|Honor|NEC|micromax|Panasonic|Essential|MetroPCS|VAIO|SHARP|vsmart|FREETEL";
         public static List<DeviceModel> DeviceModels = new List<DeviceModel>();
         public static List<ScrcpyDisplay> DisplayList = new List<ScrcpyDisplay>();
         public static void GetScrcpyDisplays()
@@ -152,7 +153,7 @@ namespace Sunny.Subdy.Common.Services
                     case EmuAction.ChangeInfo:
                         tasks.Add(Task.Run(() =>
                         {
-                            new ADBClient(device).ChangInfo("", false);
+                            new ADBClient(device).ChangInfo("", false, "samsung");
                         }));
                         break;
                     case EmuAction.BackupFB:

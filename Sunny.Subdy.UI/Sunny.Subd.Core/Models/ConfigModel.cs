@@ -6,6 +6,6 @@ namespace Sunny.Subd.Core.Models
     {
         public Script Script { get; set; } = new Script();
         public List<ScriptAction> Actions { get; set; } = new List<ScriptAction>();
-
+        public string JsonSetting { get; set; } = "";
     }
 }

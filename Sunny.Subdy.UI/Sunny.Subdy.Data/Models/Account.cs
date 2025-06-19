@@ -25,6 +25,7 @@ namespace Sunny.Subdy.Data.Models
         private string? _nameFolder = "";
         private bool _isView = true;
         private bool _checked = false;
+        private bool _running = false;
         [AppDbContext.SqlKey]
         public Guid Id
         {
@@ -143,7 +144,11 @@ namespace Sunny.Subdy.Data.Models
             get => _checked;
             set { if (_checked != value) { _checked = value; OnPropertyChanged(nameof(Checked)); } }
         }
-
+        public bool Running
+        {
+            get => _running;
+            set { if (_running != value) { _running = value; OnPropertyChanged(nameof(Running)); } }
+        }
         public bool IsView
         {
             get => _isView;

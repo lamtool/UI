@@ -47,7 +47,7 @@ namespace AutoAndroid
             model.OS = version;
             model.TypeColor = 0;
             model.Check = false;
-      
+
             return model;
         }
         public DeviceModel Device { get; set; }
@@ -125,7 +125,13 @@ namespace AutoAndroid
             Shell("svc data enable");
             LogHelper.SUCCESS($"Đã bật 4G");
         }
-        public bool ChangInfo(string uid, bool backup)
+        public void Disable4G()
+        {
+            LogHelper.SUCCESS($"Đang tắt 4G");
+            Shell("svc data disable");
+            LogHelper.SUCCESS($"Đã tắt 4G");
+        }
+        public bool ChangInfo(string uid, bool backup, string brand)
         {
             if (Shell(" su -c \"whoami\"").Trim() != "root")
             {
@@ -134,7 +140,7 @@ namespace AutoAndroid
             }
             LogHelper.SUCCESS($"Đang thay đổi thiết bị!");
             MaxChangeService maxChangeService = new MaxChangeService(this);
-            return maxChangeService.Change(uid, backup);
+            return maxChangeService.Change(uid, backup, brand);
         }
         public string GetDeviceName()
         {
@@ -1380,12 +1386,7 @@ namespace AutoAndroid
             try
             {
 
-                var result = maxChange.CheckIP();
-                if (result.Contains("Error"))
-                {
-                    return false;
-                }
-                return true;
+                return maxChange.CheckInternet();
             }
             catch
             {
@@ -1397,7 +1398,7 @@ namespace AutoAndroid
             try
             {
 
-                return maxChange.CheckIP();
+                return maxChange.GetIP();
             }
             catch
             {

@@ -7,9 +7,12 @@ namespace Sunny.Subdy.UI
 {
     public partial class fMain : UIForm2
     {
+        private  pageFacebook _pageFacebook;
+        private pageDevice _pagePhone;
         public fMain()
         {
             InitializeComponent();
+           
 
         }
         private void BtnMinimize_Click(object sender, EventArgs e)
@@ -31,10 +34,12 @@ namespace Sunny.Subdy.UI
             uiNavMenu1.TabControl = uiTabControl1;
             uiNavMenu1.CreateNode(AddPage(new fTest(), ++pageIndex));
             TreeNode parent = uiNavMenu1.CreateNode("Ứng dụng", 57512, 24, ++pageIndex);
-            uiNavMenu1.CreateChildNode(parent, AddPage(new pageFacebook(), ++pageIndex));
+            _pagePhone = new pageDevice();
+            _pageFacebook = new pageFacebook(uiNavMenu1, _pagePhone);
+            uiNavMenu1.CreateChildNode(parent, AddPage(_pageFacebook, ++pageIndex));
             uiNavMenu1.CreateChildNode(parent, AddPage(new pageTikTok(), ++pageIndex));
-            uiNavMenu1.CreateNode(AddPage(new pagePhone(), ++pageIndex));
-            uiNavMenu1.CreateNode(AddPage(new pageGroupAccount(), ++pageIndex));
+            uiNavMenu1.CreateNode(AddPage(_pagePhone, ++pageIndex));
+            uiNavMenu1.CreateNode(AddPage(new pageGroupAccount(_pageFacebook), ++pageIndex));
             uiNavMenu1.CreateNode(AddPage(new pageScript(), ++pageIndex));
             uiNavMenu1.CreateNode(AddPage(new pageApi(), ++pageIndex));
             uiNavMenu1.CreateNode(AddPage(new pageSetting(), ++pageIndex));

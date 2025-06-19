@@ -64,6 +64,9 @@
             label4 = new Label();
             checkBox9 = new CheckBox();
             groupBox9 = new GroupBox();
+            label6 = new Label();
+            numericUpDown3 = new NumericUpDown();
+            label5 = new Label();
             nud_IndexFailProxy = new NumericUpDown();
             cbb_ListTypeProxy = new ComboBox();
             label39 = new Label();
@@ -82,6 +85,7 @@
             panel1.SuspendLayout();
             tabPage2.SuspendLayout();
             groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nud_IndexFailProxy).BeginInit();
             SuspendLayout();
             // 
@@ -143,10 +147,11 @@
             // textBox4
             // 
             textBox4.Dock = DockStyle.Fill;
+            textBox4.Font = new Font("Microsoft Sans Serif", 11.25F);
             textBox4.Location = new Point(0, 0);
             textBox4.Name = "textBox4";
             textBox4.ReadOnly = true;
-            textBox4.Size = new Size(234, 21);
+            textBox4.Size = new Size(234, 24);
             textBox4.TabIndex = 2;
             // 
             // button4
@@ -158,18 +163,20 @@
             button4.TabIndex = 1;
             button4.Text = "chọn";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // checkBox8
             // 
             checkBox8.AutoSize = true;
             checkBox8.Checked = true;
             checkBox8.CheckState = CheckState.Checked;
-            checkBox8.Location = new Point(29, 227);
+            checkBox8.Location = new Point(29, 224);
             checkBox8.Name = "checkBox8";
             checkBox8.Size = new Size(139, 19);
             checkBox8.TabIndex = 44;
             checkBox8.Text = "Cài lại app khi crash:";
             checkBox8.UseVisualStyleBackColor = true;
+            checkBox8.CheckedChanged += checkBox8_CheckedChanged;
             // 
             // checkBox7
             // 
@@ -194,6 +201,7 @@
             checkBox6.TabIndex = 42;
             checkBox6.Text = "Xóa backup profile khi bị session expired";
             checkBox6.UseVisualStyleBackColor = true;
+            checkBox6.CheckedChanged += checkBox6_CheckedChanged;
             // 
             // panel6
             // 
@@ -206,11 +214,10 @@
             // 
             // label3
             // 
-            label3.AutoSize = true;
             label3.Dock = DockStyle.Left;
             label3.Location = new Point(60, 0);
             label3.Name = "label3";
-            label3.Size = new Size(31, 15);
+            label3.Size = new Size(31, 23);
             label3.TabIndex = 1;
             label3.Text = "phút";
             // 
@@ -221,12 +228,11 @@
             numericUpDown2.Name = "numericUpDown2";
             numericUpDown2.Size = new Size(60, 21);
             numericUpDown2.TabIndex = 0;
+            numericUpDown2.Value = new decimal(new int[] { 30, 0, 0, 0 });
             // 
             // checkBox5
             // 
             checkBox5.AutoSize = true;
-            checkBox5.Checked = true;
-            checkBox5.CheckState = CheckState.Checked;
             checkBox5.Location = new Point(287, 160);
             checkBox5.Name = "checkBox5";
             checkBox5.Size = new Size(104, 19);
@@ -245,13 +251,14 @@
             // 
             // label2
             // 
-            label2.AutoSize = true;
             label2.Dock = DockStyle.Left;
+            label2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Location = new Point(60, 0);
             label2.Name = "label2";
-            label2.Size = new Size(24, 15);
+            label2.Size = new Size(24, 23);
             label2.TabIndex = 1;
             label2.Text = "lần";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // numericUpDown1
             // 
@@ -260,18 +267,18 @@
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(60, 21);
             numericUpDown1.TabIndex = 0;
+            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // checkBox4
             // 
             checkBox4.AutoSize = true;
-            checkBox4.Checked = true;
-            checkBox4.CheckState = CheckState.Checked;
             checkBox4.Location = new Point(29, 158);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(147, 19);
             checkBox4.TabIndex = 38;
             checkBox4.Text = "Reboot khi mất mạng:";
             checkBox4.UseVisualStyleBackColor = true;
+            checkBox4.CheckedChanged += checkBox4_CheckedChanged;
             // 
             // panel4
             // 
@@ -285,10 +292,11 @@
             // textBox3
             // 
             textBox3.Dock = DockStyle.Fill;
+            textBox3.Font = new Font("Microsoft Sans Serif", 11.25F);
             textBox3.Location = new Point(0, 0);
             textBox3.Name = "textBox3";
             textBox3.ReadOnly = true;
-            textBox3.Size = new Size(234, 21);
+            textBox3.Size = new Size(234, 24);
             textBox3.TabIndex = 2;
             // 
             // button3
@@ -300,6 +308,7 @@
             button3.TabIndex = 1;
             button3.Text = "chọn";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // checkBox3
             // 
@@ -312,6 +321,7 @@
             checkBox3.TabIndex = 36;
             checkBox3.Text = "Backup profile (root):";
             checkBox3.UseVisualStyleBackColor = true;
+            checkBox3.CheckedChanged += checkBox3_CheckedChanged;
             // 
             // panel3
             // 
@@ -325,10 +335,11 @@
             // textBox2
             // 
             textBox2.Dock = DockStyle.Fill;
+            textBox2.Font = new Font("Microsoft Sans Serif", 11.25F);
             textBox2.Location = new Point(0, 0);
             textBox2.Name = "textBox2";
             textBox2.ReadOnly = true;
-            textBox2.Size = new Size(234, 21);
+            textBox2.Size = new Size(234, 24);
             textBox2.TabIndex = 2;
             // 
             // button2
@@ -340,6 +351,7 @@
             button2.TabIndex = 1;
             button2.Text = "chọn";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // checkBox2
             // 
@@ -352,6 +364,7 @@
             checkBox2.TabIndex = 34;
             checkBox2.Text = "Backup device (root):";
             checkBox2.UseVisualStyleBackColor = true;
+            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
             // 
             // groupBox1
             // 
@@ -377,11 +390,13 @@
             // textBox1
             // 
             textBox1.Dock = DockStyle.Fill;
+            textBox1.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             textBox1.Location = new Point(139, 0);
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
-            textBox1.Size = new Size(234, 21);
+            textBox1.Size = new Size(234, 24);
             textBox1.TabIndex = 2;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // button1
             // 
@@ -392,6 +407,7 @@
             button1.TabIndex = 1;
             button1.Text = "chọn";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label1
             // 
@@ -414,6 +430,7 @@
             checkBox1.TabIndex = 32;
             checkBox1.Text = "Change device (root)";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // tabPage2
             // 
@@ -473,6 +490,9 @@
             // 
             // groupBox9
             // 
+            groupBox9.Controls.Add(label6);
+            groupBox9.Controls.Add(numericUpDown3);
+            groupBox9.Controls.Add(label5);
             groupBox9.Controls.Add(nud_IndexFailProxy);
             groupBox9.Controls.Add(cbb_ListTypeProxy);
             groupBox9.Controls.Add(label39);
@@ -480,14 +500,44 @@
             groupBox9.Controls.Add(chk_CheckProxy);
             groupBox9.Location = new Point(559, 64);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(406, 118);
+            groupBox9.Size = new Size(406, 150);
             groupBox9.TabIndex = 87;
             groupBox9.TabStop = false;
             groupBox9.Text = "Cấu hình IP";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.ForeColor = SystemColors.ActiveCaptionText;
+            label6.Location = new Point(210, 107);
+            label6.Name = "label6";
+            label6.Size = new Size(12, 15);
+            label6.TabIndex = 86;
+            label6.Text = "s";
+            // 
+            // numericUpDown3
+            // 
+            numericUpDown3.Location = new Point(145, 103);
+            numericUpDown3.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericUpDown3.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown3.Name = "numericUpDown3";
+            numericUpDown3.Size = new Size(59, 23);
+            numericUpDown3.TabIndex = 85;
+            numericUpDown3.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.ForeColor = SystemColors.ActiveCaptionText;
+            label5.Location = new Point(22, 107);
+            label5.Name = "label5";
+            label5.Size = new Size(78, 15);
+            label5.TabIndex = 84;
+            label5.Text = "Delay kết nối:";
+            // 
             // nud_IndexFailProxy
             // 
-            nud_IndexFailProxy.Location = new Point(138, 47);
+            nud_IndexFailProxy.Location = new Point(145, 47);
             nud_IndexFailProxy.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nud_IndexFailProxy.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nud_IndexFailProxy.Name = "nud_IndexFailProxy";
@@ -517,7 +567,7 @@
             // 
             label34.AutoSize = true;
             label34.ForeColor = SystemColors.ActiveCaptionText;
-            label34.Location = new Point(15, 49);
+            label34.Location = new Point(22, 49);
             label34.Name = "label34";
             label34.Size = new Size(117, 15);
             label34.TabIndex = 82;
@@ -552,10 +602,8 @@
             panel7.ResumeLayout(false);
             panel7.PerformLayout();
             panel6.ResumeLayout(false);
-            panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
             panel5.ResumeLayout(false);
-            panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
@@ -569,6 +617,7 @@
             tabPage2.PerformLayout();
             groupBox9.ResumeLayout(false);
             groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
             ((System.ComponentModel.ISupportInitialize)nud_IndexFailProxy).EndInit();
             ResumeLayout(false);
         }
@@ -616,5 +665,8 @@
         private ComboBox comboBox1;
         private Label label4;
         private CheckBox checkBox9;
+        private NumericUpDown numericUpDown3;
+        private Label label5;
+        private Label label6;
     }
 }

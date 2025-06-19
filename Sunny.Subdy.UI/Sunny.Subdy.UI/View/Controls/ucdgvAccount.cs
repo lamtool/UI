@@ -135,5 +135,27 @@ namespace Sunny.Subdy.UI.View.Controls
                 }
             }
         }
+
+        private void tấtCảToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _accounts.ForEach(x => x.Checked = true);
+        }
+
+        private void bôiĐenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _accounts.ForEach(x => x.Checked = false);
+            foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
+            {
+                if (row.DataBoundItem is Account account)
+                {
+                    account.Checked = true;
+                }
+            }
+        }
+
+        private void bỏChọnTấtCảToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _accounts.ForEach(x => x.Checked = false);
+        }
     }
 }

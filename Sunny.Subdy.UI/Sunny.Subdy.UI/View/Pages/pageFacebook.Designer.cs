@@ -38,10 +38,13 @@
             uiSymbolButton1 = new Sunny.UI.UISymbolButton();
             cbx_Scripts = new Sunny.UI.UIComboBox();
             toolStrip1 = new ToolStrip();
+            toolStripLabel1 = new ToolStripLabel();
+            tsbTimeRun = new ToolStripLabel();
             panel2 = new Panel();
             panel1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
+            toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -104,9 +107,10 @@
             uiSymbolButton4.Symbol = 61517;
             uiSymbolButton4.SymbolSize = 17;
             uiSymbolButton4.TabIndex = 12;
-            uiSymbolButton4.Text = "Đóng";
+            uiSymbolButton4.Text = "Dừng";
             uiSymbolButton4.TipsColor = Color.DarkRed;
             uiSymbolButton4.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton4.Click += uiSymbolButton4_Click;
             // 
             // groupBox2
             // 
@@ -118,7 +122,7 @@
             groupBox2.Size = new Size(292, 58);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Nhóm tài khoản: 0 tài khoản";
+            groupBox2.Text = "Nhóm tài khoản:";
             // 
             // uiSymbolButton2
             // 
@@ -232,15 +236,31 @@
             cbx_Scripts.TabIndex = 12;
             cbx_Scripts.TextAlignment = ContentAlignment.MiddleLeft;
             cbx_Scripts.Watermark = "";
+            cbx_Scripts.SelectedIndexChanged += cbx_Scripts_SelectedIndexChanged;
             // 
             // toolStrip1
             // 
             toolStrip1.Dock = DockStyle.Bottom;
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, tsbTimeRun });
             toolStrip1.Location = new Point(0, 583);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1067, 25);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            toolStripLabel1.ForeColor = Color.Gray;
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new Size(87, 22);
+            toolStripLabel1.Text = "Thời gian chạy:";
+            // 
+            // tsbTimeRun
+            // 
+            tsbTimeRun.ForeColor = Color.FromArgb(48, 48, 48);
+            tsbTimeRun.Name = "tsbTimeRun";
+            tsbTimeRun.Size = new Size(49, 22);
+            tsbTimeRun.Text = "00.00.00";
             // 
             // panel2
             // 
@@ -266,6 +286,8 @@
             panel1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -283,5 +305,7 @@
         private Sunny.UI.UISymbolButton uiSymbolButton4;
         private ToolStrip toolStrip1;
         private Panel panel2;
+        private ToolStripLabel toolStripLabel1;
+        private ToolStripLabel tsbTimeRun;
     }
 }

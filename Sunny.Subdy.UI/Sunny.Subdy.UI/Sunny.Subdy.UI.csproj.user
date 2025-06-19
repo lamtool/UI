@@ -19,6 +19,9 @@
     <Compile Update="View\Controls\fEditScirpt.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\Controls\fSelectBrandModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\Controls\ucdgvAccount.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -46,14 +49,20 @@
     <Compile Update="View\Forms\fListActionFacebook.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\Forms\fSelectDevices.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\Forms\fShow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Pages\pageDevice.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="View\Pages\pageFacebook.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="View\Pages\pagePhone.cs">
-      <SubType>Form</SubType>
+    <Compile Update="View\Pages\ucManagerDevices.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="View\Pages\pageDashboard.cs">
       <SubType>Form</SubType>

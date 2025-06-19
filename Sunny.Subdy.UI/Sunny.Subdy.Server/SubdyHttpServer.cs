@@ -182,7 +182,7 @@ namespace Sunny.Subdy.Server
                 var client = new ADBClient(idValue);
                 client.Connect();
 
-                if (!client.ChangInfo("", false))
+                if (!client.ChangInfo("", false, "samsung"))
                 {
                     await ApiRouter.SendJsonResponse(
                         context.Response,

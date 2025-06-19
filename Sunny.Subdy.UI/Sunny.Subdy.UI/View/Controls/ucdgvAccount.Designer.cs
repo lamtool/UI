@@ -608,7 +608,7 @@
             uiContextMenuStrip1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem });
             uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            uiContextMenuStrip1.Size = new Size(159, 114);
+            uiContextMenuStrip1.Size = new Size(181, 136);
             // 
             // toolStripMenuItem1
             // 
@@ -616,7 +616,7 @@
             toolStripMenuItem1.ForeColor = SystemColors.ControlText;
             toolStripMenuItem1.Image = Properties.Resources.select_check_box_30dp;
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(158, 22);
+            toolStripMenuItem1.Size = new Size(180, 22);
             toolStripMenuItem1.Text = "Chọn";
             // 
             // tấtCảToolStripMenuItem
@@ -625,6 +625,7 @@
             tấtCảToolStripMenuItem.Name = "tấtCảToolStripMenuItem";
             tấtCảToolStripMenuItem.Size = new Size(120, 22);
             tấtCảToolStripMenuItem.Text = "Tất cả";
+            tấtCảToolStripMenuItem.Click += tấtCảToolStripMenuItem_Click;
             // 
             // bôiĐenToolStripMenuItem
             // 
@@ -632,6 +633,7 @@
             bôiĐenToolStripMenuItem.Name = "bôiĐenToolStripMenuItem";
             bôiĐenToolStripMenuItem.Size = new Size(120, 22);
             bôiĐenToolStripMenuItem.Text = "Bôi đen";
+            bôiĐenToolStripMenuItem.Click += bôiĐenToolStripMenuItem_Click;
             // 
             // statusToolStripMenuItem
             // 
@@ -652,15 +654,16 @@
             // 
             bỏChọnTấtCảToolStripMenuItem.Image = Properties.Resources.check_box_outline_blank_30dp;
             bỏChọnTấtCảToolStripMenuItem.Name = "bỏChọnTấtCảToolStripMenuItem";
-            bỏChọnTấtCảToolStripMenuItem.Size = new Size(158, 22);
+            bỏChọnTấtCảToolStripMenuItem.Size = new Size(180, 22);
             bỏChọnTấtCảToolStripMenuItem.Text = "Bỏ chọn tất cả";
+            bỏChọnTấtCảToolStripMenuItem.Click += bỏChọnTấtCảToolStripMenuItem_Click;
             // 
             // tắtViewToolStripMenuItem
             // 
             tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1, mậtKhẩuToolStripMenuItem, fAToolStripMenuItem, emailToolStripMenuItem, cookieToolStripMenuItem, tokenToolStripMenuItem, proxyToolStripMenuItem, trạngTháiToolStripMenuItem });
             tắtViewToolStripMenuItem.Image = Properties.Resources.content_copy_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             tắtViewToolStripMenuItem.Name = "tắtViewToolStripMenuItem";
-            tắtViewToolStripMenuItem.Size = new Size(158, 22);
+            tắtViewToolStripMenuItem.Size = new Size(180, 22);
             tắtViewToolStripMenuItem.Text = "Sao chép";
             // 
             // tắtToolStripMenuItem
@@ -730,7 +733,7 @@
             // 
             mởToolStripMenuItem.Image = Properties.Resources.sync_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             mởToolStripMenuItem.Name = "mởToolStripMenuItem";
-            mởToolStripMenuItem.Size = new Size(158, 22);
+            mởToolStripMenuItem.Size = new Size(180, 22);
             mởToolStripMenuItem.Text = "Chuyển nhóm";
             // 
             // ứngDụngToolStripMenuItem
@@ -738,7 +741,7 @@
             ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem });
             ứngDụngToolStripMenuItem.Image = Properties.Resources.action_key_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             ứngDụngToolStripMenuItem.Name = "ứngDụngToolStripMenuItem";
-            ứngDụngToolStripMenuItem.Size = new Size(158, 22);
+            ứngDụngToolStripMenuItem.Size = new Size(180, 22);
             ứngDụngToolStripMenuItem.Text = "Chức năng";
             // 
             // facebookToolStripMenuItem

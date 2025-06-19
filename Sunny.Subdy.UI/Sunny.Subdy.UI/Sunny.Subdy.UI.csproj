@@ -47,6 +47,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
+		<ProjectReference Include="..\Sunny.Subd.Core\Sunny.Subd.Core.csproj" />
 		<ProjectReference Include="..\Sunny.Subdy.AutoUpdate\Sunny.Subdy.AutoUpdate.csproj" />
 		<ProjectReference Include="..\Sunny.Subdy.Common\Sunny.Subdy.Common.csproj" />
 		<ProjectReference Include="..\Sunny.Subdy.Data\Sunny.Subdy.Data.csproj" />
@@ -104,7 +105,11 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-
+	<ItemGroup>
+		<Content Include="App\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="Asset\Logo.ico" />
 	  <Content Include="Libs\ffmpeg\avcodec-58.dll" />
@@ -122,6 +127,10 @@
 	  <Content Include="Libs\ffmpeg\swresample-4.dll" />
 	  <Content Include="Libs\ffmpeg\swscale-5.dll" />
 	  <Content Include="Libs\ffmpeg\swscale-6.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="App\" />
 	</ItemGroup>
 	
 </Project>
