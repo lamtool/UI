@@ -77,6 +77,8 @@
             restoreToolStripMenuItem2 = new ToolStripMenuItem();
             connectToolStripMenuItem = new ToolStripMenuItem();
             disconnectToolStripMenuItem = new ToolStripMenuItem();
+            dDToolStripMenuItem = new ToolStripMenuItem();
+            facebookToolStripMenuItem1 = new ToolStripMenuItem();
             deviceModelBindingSource = new BindingSource(components);
             groupBox2 = new GroupBox();
             uiSymbolButton3 = new Sunny.UI.UISymbolButton();
@@ -256,9 +258,9 @@
             // 
             uiContextMenuStrip1.BackColor = Color.FromArgb(245, 245, 245);
             uiContextMenuStrip1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem, connectToolStripMenuItem, disconnectToolStripMenuItem });
+            uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem, connectToolStripMenuItem, disconnectToolStripMenuItem, dDToolStripMenuItem });
             uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            uiContextMenuStrip1.Size = new Size(159, 158);
+            uiContextMenuStrip1.Size = new Size(177, 180);
             // 
             // toolStripMenuItem1
             // 
@@ -266,7 +268,7 @@
             toolStripMenuItem1.ForeColor = SystemColors.ControlText;
             toolStripMenuItem1.Image = Properties.Resources.select_check_box_30dp;
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(158, 22);
+            toolStripMenuItem1.Size = new Size(176, 22);
             toolStripMenuItem1.Text = "Chọn";
             // 
             // tấtCảToolStripMenuItem
@@ -297,7 +299,7 @@
             // 
             bỏChọnTấtCảToolStripMenuItem.Image = Properties.Resources.check_box_outline_blank_30dp;
             bỏChọnTấtCảToolStripMenuItem.Name = "bỏChọnTấtCảToolStripMenuItem";
-            bỏChọnTấtCảToolStripMenuItem.Size = new Size(158, 22);
+            bỏChọnTấtCảToolStripMenuItem.Size = new Size(176, 22);
             bỏChọnTấtCảToolStripMenuItem.Text = "Bỏ chọn tất cả";
             bỏChọnTấtCảToolStripMenuItem.Click += bỏChọnTấtCảToolStripMenuItem_Click;
             // 
@@ -306,7 +308,7 @@
             tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1 });
             tắtViewToolStripMenuItem.Image = Properties.Resources.mystery_30dp;
             tắtViewToolStripMenuItem.Name = "tắtViewToolStripMenuItem";
-            tắtViewToolStripMenuItem.Size = new Size(158, 22);
+            tắtViewToolStripMenuItem.Size = new Size(176, 22);
             tắtViewToolStripMenuItem.Text = "View";
             // 
             // tắtToolStripMenuItem
@@ -330,7 +332,7 @@
             mởToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { càiĐặtApkToolStripMenuItem, wifiToolStripMenuItem, gỡCàiĐặtPackageToolStripMenuItem, rebootToolStripMenuItem, changeInfoToolStripMenuItem });
             mởToolStripMenuItem.Image = Properties.Resources.functions_30dp;
             mởToolStripMenuItem.Name = "mởToolStripMenuItem";
-            mởToolStripMenuItem.Size = new Size(158, 22);
+            mởToolStripMenuItem.Size = new Size(176, 22);
             mởToolStripMenuItem.Text = "Nâng cao";
             // 
             // càiĐặtApkToolStripMenuItem
@@ -402,18 +404,20 @@
             ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem, tikTokToolStripMenuItem, instagramToolStripMenuItem });
             ứngDụngToolStripMenuItem.Image = Properties.Resources.apps_30dp_434343_FILL0_wght400_GRAD0_opsz24;
             ứngDụngToolStripMenuItem.Name = "ứngDụngToolStripMenuItem";
-            ứngDụngToolStripMenuItem.Size = new Size(158, 22);
+            ứngDụngToolStripMenuItem.Size = new Size(176, 22);
             ứngDụngToolStripMenuItem.Text = "Ứng dụng";
             // 
             // facebookToolStripMenuItem
             // 
             facebookToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem, restoreToolStripMenuItem });
+            facebookToolStripMenuItem.Image = Properties.Resources.icons8_facebook_40;
             facebookToolStripMenuItem.Name = "facebookToolStripMenuItem";
             facebookToolStripMenuItem.Size = new Size(136, 22);
             facebookToolStripMenuItem.Text = "Facebook";
             // 
             // backupToolStripMenuItem
             // 
+            backupToolStripMenuItem.Image = Properties.Resources.backup_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             backupToolStripMenuItem.Name = "backupToolStripMenuItem";
             backupToolStripMenuItem.Size = new Size(122, 22);
             backupToolStripMenuItem.Text = "Backup";
@@ -421,6 +425,7 @@
             // 
             // restoreToolStripMenuItem
             // 
+            restoreToolStripMenuItem.Image = Properties.Resources.drive_folder_upload_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             restoreToolStripMenuItem.Name = "restoreToolStripMenuItem";
             restoreToolStripMenuItem.Size = new Size(122, 22);
             restoreToolStripMenuItem.Text = "Restore";
@@ -429,12 +434,14 @@
             // tikTokToolStripMenuItem
             // 
             tikTokToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem1, restoreToolStripMenuItem1 });
+            tikTokToolStripMenuItem.Image = Properties.Resources.icons8_tiktok_40;
             tikTokToolStripMenuItem.Name = "tikTokToolStripMenuItem";
             tikTokToolStripMenuItem.Size = new Size(136, 22);
             tikTokToolStripMenuItem.Text = "TikTok";
             // 
             // backupToolStripMenuItem1
             // 
+            backupToolStripMenuItem1.Image = Properties.Resources.backup_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             backupToolStripMenuItem1.Name = "backupToolStripMenuItem1";
             backupToolStripMenuItem1.Size = new Size(122, 22);
             backupToolStripMenuItem1.Text = "Backup";
@@ -442,6 +449,7 @@
             // 
             // restoreToolStripMenuItem1
             // 
+            restoreToolStripMenuItem1.Image = Properties.Resources.drive_folder_upload_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             restoreToolStripMenuItem1.Name = "restoreToolStripMenuItem1";
             restoreToolStripMenuItem1.Size = new Size(122, 22);
             restoreToolStripMenuItem1.Text = "Restore";
@@ -450,12 +458,14 @@
             // instagramToolStripMenuItem
             // 
             instagramToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem2, restoreToolStripMenuItem2 });
+            instagramToolStripMenuItem.Image = Properties.Resources.icons8_instagram_40;
             instagramToolStripMenuItem.Name = "instagramToolStripMenuItem";
             instagramToolStripMenuItem.Size = new Size(136, 22);
             instagramToolStripMenuItem.Text = "Instagram";
             // 
             // backupToolStripMenuItem2
             // 
+            backupToolStripMenuItem2.Image = Properties.Resources.backup_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             backupToolStripMenuItem2.Name = "backupToolStripMenuItem2";
             backupToolStripMenuItem2.Size = new Size(122, 22);
             backupToolStripMenuItem2.Text = "Backup";
@@ -463,6 +473,7 @@
             // 
             // restoreToolStripMenuItem2
             // 
+            restoreToolStripMenuItem2.Image = Properties.Resources.drive_folder_upload_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             restoreToolStripMenuItem2.Name = "restoreToolStripMenuItem2";
             restoreToolStripMenuItem2.Size = new Size(122, 22);
             restoreToolStripMenuItem2.Text = "Restore";
@@ -472,7 +483,7 @@
             // 
             connectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_48752C_FILL0_wght400_GRAD0_opsz24;
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            connectToolStripMenuItem.Size = new Size(158, 22);
+            connectToolStripMenuItem.Size = new Size(176, 22);
             connectToolStripMenuItem.Text = "Connect";
             connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
@@ -480,8 +491,24 @@
             // 
             disconnectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24;
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            disconnectToolStripMenuItem.Size = new Size(158, 22);
+            disconnectToolStripMenuItem.Size = new Size(176, 22);
             disconnectToolStripMenuItem.Text = "Disconnect";
+            // 
+            // dDToolStripMenuItem
+            // 
+            dDToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem1 });
+            dDToolStripMenuItem.Image = Properties.Resources.app_registration_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
+            dDToolStripMenuItem.Name = "dDToolStripMenuItem";
+            dDToolStripMenuItem.Size = new Size(176, 22);
+            dDToolStripMenuItem.Text = "Đăng kí tài khoản";
+            // 
+            // facebookToolStripMenuItem1
+            // 
+            facebookToolStripMenuItem1.Image = Properties.Resources.icons8_facebook_40;
+            facebookToolStripMenuItem1.Name = "facebookToolStripMenuItem1";
+            facebookToolStripMenuItem1.Size = new Size(136, 22);
+            facebookToolStripMenuItem1.Text = "Facebook";
+            facebookToolStripMenuItem1.Click += facebookToolStripMenuItem1_Click;
             // 
             // deviceModelBindingSource
             // 
@@ -549,7 +576,7 @@
             uiSymbolButton4.Symbol = 61517;
             uiSymbolButton4.SymbolSize = 17;
             uiSymbolButton4.TabIndex = 14;
-            uiSymbolButton4.Text = "Dừng";
+            uiSymbolButton4.Text = "Đóng";
             uiSymbolButton4.TipsColor = Color.DarkRed;
             uiSymbolButton4.TipsFont = new Font("Microsoft Sans Serif", 9F);
             uiSymbolButton4.Click += uiSymbolButton4_Click;
@@ -838,5 +865,7 @@
         private Sunny.UI.UISymbolButton uiSymbolButton3;
         private Sunny.UI.UISymbolButton uiSymbolButton4;
         public GroupBox groupBox2;
+        private ToolStripMenuItem dDToolStripMenuItem;
+        private ToolStripMenuItem facebookToolStripMenuItem1;
     }
 }

@@ -32,6 +32,7 @@ namespace Sunny.Subdy.UI.View
             await MainForm.LoadUI(); // thực hiện khởi tạo giao diện
             Globals.DeviceId = new DeviceIdBuilder().OnWindows(windows => windows.AddWindowsDeviceId()).ToString();
             string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
+            MainForm.uiLabel7.Text = "v" + version;
             LamTool_API lamtool = new LamTool_API(Globals.DeviceId, Globals.NameApp, version);
             if (!await lamtool.GetApiResponseAsync())
             {

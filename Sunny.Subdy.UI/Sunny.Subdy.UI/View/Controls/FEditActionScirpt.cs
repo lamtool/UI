@@ -155,7 +155,7 @@ namespace Sunny.Subdy.UI.View.Controls
             {
                 case TypeAction.FB_SpamXu:
                     {
-                        fActioc_SpamXu form = new fActioc_SpamXu(TypeAction.GetNameAction(action.Name), action.Json);
+                        fAction_SpamXu form = new fAction_SpamXu(TypeAction.GetNameAction(action.Name), action.Json);
                         form.ShowDialog();
                         config = form._Json;
                         name = form._Name.Trim();

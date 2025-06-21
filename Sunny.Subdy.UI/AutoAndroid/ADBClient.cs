@@ -119,6 +119,20 @@ namespace AutoAndroid
             }
             return false;
         }
+        public void EnabePlane()
+        {
+            LogHelper.SUCCESS($"Đang bật máy bay");
+            Shell("settings put global airplane_mode_on 1");
+            Shell("am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true");
+            LogHelper.SUCCESS($"Đã bật máy bay");
+        }
+        public void DisablePlane()
+        {
+            LogHelper.SUCCESS($"Đang tắt máy bay");
+            Shell("settings put global airplane_mode_on 0");
+            Shell("am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true");
+            LogHelper.SUCCESS($"Đã tắt máy bay");
+        }
         public void Enabel4G()
         {
             LogHelper.SUCCESS($"Đang bật 4G");
@@ -131,7 +145,7 @@ namespace AutoAndroid
             Shell("svc data disable");
             LogHelper.SUCCESS($"Đã tắt 4G");
         }
-        public bool ChangInfo(string uid, bool backup, string brand)
+        public bool ChangInfo(string uid, bool backup, string brand, string country)
         {
             if (Shell(" su -c \"whoami\"").Trim() != "root")
             {
@@ -140,7 +154,7 @@ namespace AutoAndroid
             }
             LogHelper.SUCCESS($"Đang thay đổi thiết bị!");
             MaxChangeService maxChangeService = new MaxChangeService(this);
-            return maxChangeService.Change(uid, backup, brand);
+            return maxChangeService.Change(uid, backup, brand, country);
         }
         public string GetDeviceName()
         {

@@ -1,4 +1,5 @@
 ﻿using Sunny.Subdy.UI.View.Pages;
+using Sunny.UI;
 
 namespace Sunny.Subdy.UI
 {
@@ -20,24 +21,26 @@ namespace Sunny.Subdy.UI
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
-            uiPanel1 = new Sunny.UI.UIPanel();
-            uiNavMenu1 = new Sunny.UI.UINavMenu();
-            uiTabControl1 = new Sunny.UI.UITabControl();
-            uiPanel2 = new Sunny.UI.UIPanel();
-            uiImageButton1 = new Sunny.UI.UIImageButton();
-            uiLabel1 = new Sunny.UI.UILabel();
-            uiPanel3 = new Sunny.UI.UIPanel();
-            uiLabel4 = new Sunny.UI.UILabel();
+            uiPanel1 = new UIPanel();
+            uiNavMenu1 = new UINavMenu();
+            uiTabControl1 = new UITabControl();
+            uiPanel2 = new UIPanel();
+            uiImageButton1 = new UIImageButton();
+            uiLabel1 = new UILabel();
+            uiPanel3 = new UIPanel();
+            uiLabel4 = new UILabel();
             notificationBell1 = new Sunny.Subdy.UI.ControlViews.NotificationBell();
-            uiImageButton2 = new Sunny.UI.UIImageButton();
-            uiPanel4 = new Sunny.UI.UIPanel();
-            uiLabel6 = new Sunny.UI.UILabel();
-            uiLabel5 = new Sunny.UI.UILabel();
-            uiLabel3 = new Sunny.UI.UILabel();
-            uiLabel2 = new Sunny.UI.UILabel();
-            uiPanel5 = new Sunny.UI.UIPanel();
-            popupMessageBox = new Sunny.UI.UIPanel();
-            uiLabel7 = new Sunny.UI.UILabel();
+            uiImageButton2 = new UIImageButton();
+            uiPanel4 = new UIPanel();
+            toolStrip1 = new ToolStrip();
+            uiLabel6 = new ToolStripLabel();
+            toolStripLabel2 = new ToolStripLabel();
+            uiLabel5 = new ToolStripLabel();
+            toolStripLabel4 = new ToolStripLabel();
+            toolStripLabel5 = new ToolStripLabel();
+            uiPanel5 = new UIPanel();
+            popupMessageBox = new UIPanel();
+            uiLabel7 = new UILabel();
             popupBoxControl1 = new Sunny.Subdy.UI.ControlViews.PopupBoxControl();
             timer1 = new System.Windows.Forms.Timer(components);
             uiPanel1.SuspendLayout();
@@ -46,6 +49,7 @@ namespace Sunny.Subdy.UI
             uiPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiImageButton2).BeginInit();
             uiPanel4.SuspendLayout();
+            toolStrip1.SuspendLayout();
             uiPanel5.SuspendLayout();
             popupMessageBox.SuspendLayout();
             SuspendLayout();
@@ -84,7 +88,7 @@ namespace Sunny.Subdy.UI
             uiNavMenu1.HoverColor = Color.Gray;
             uiNavMenu1.ItemHeight = 50;
             uiNavMenu1.Location = new Point(0, 75);
-            uiNavMenu1.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
+            uiNavMenu1.MenuStyle = UIMenuStyle.Custom;
             uiNavMenu1.Name = "uiNavMenu1";
             uiNavMenu1.SelectedForeColor = Color.White;
             uiNavMenu1.ShowLines = false;
@@ -105,7 +109,7 @@ namespace Sunny.Subdy.UI
             uiTabControl1.ItemSize = new Size(0, 1);
             uiTabControl1.Location = new Point(24, 24);
             uiTabControl1.MainPage = "";
-            uiTabControl1.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
+            uiTabControl1.MenuStyle = UIMenuStyle.Custom;
             uiTabControl1.Name = "uiTabControl1";
             uiTabControl1.SelectedIndex = 0;
             uiTabControl1.ShowToolTips = true;
@@ -183,7 +187,7 @@ namespace Sunny.Subdy.UI
             uiPanel3.Radius = 12;
             uiPanel3.RectColor = Color.White;
             uiPanel3.Size = new Size(1066, 73);
-            uiPanel3.Style = Sunny.UI.UIStyle.Custom;
+            uiPanel3.Style = UIStyle.Custom;
             uiPanel3.TabIndex = 4;
             uiPanel3.Text = null;
             uiPanel3.TextAlignment = ContentAlignment.MiddleCenter;
@@ -226,73 +230,82 @@ namespace Sunny.Subdy.UI
             // 
             // uiPanel4
             // 
-            uiPanel4.Controls.Add(uiLabel6);
-            uiPanel4.Controls.Add(uiLabel5);
-            uiPanel4.Controls.Add(uiLabel3);
-            uiPanel4.Controls.Add(uiLabel2);
+            uiPanel4.Controls.Add(toolStrip1);
             uiPanel4.Dock = DockStyle.Right;
             uiPanel4.FillColor = Color.White;
             uiPanel4.FillColor2 = Color.FromArgb(249, 250, 251);
             uiPanel4.Font = new Font("Microsoft Sans Serif", 12F);
             uiPanel4.ForeColor = Color.Black;
-            uiPanel4.Location = new Point(593, 10);
+            uiPanel4.Location = new Point(533, 10);
             uiPanel4.Margin = new Padding(4, 5, 4, 5);
             uiPanel4.MinimumSize = new Size(1, 1);
             uiPanel4.Name = "uiPanel4";
             uiPanel4.Radius = 30;
             uiPanel4.RectColor = Color.White;
-            uiPanel4.Size = new Size(382, 30);
+            uiPanel4.Size = new Size(442, 30);
             uiPanel4.TabIndex = 2;
             uiPanel4.Text = null;
             uiPanel4.TextAlignment = ContentAlignment.MiddleCenter;
             // 
+            // toolStrip1
+            // 
+            toolStrip1.BackColor = Color.White;
+            toolStrip1.Dock = DockStyle.Fill;
+            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.Items.AddRange(new ToolStripItem[] { uiLabel6, toolStripLabel2, uiLabel5, toolStripLabel4, toolStripLabel5 });
+            toolStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            toolStrip1.Location = new Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Padding = new Padding(0, 0, 5, 0);
+            toolStrip1.RenderMode = ToolStripRenderMode.System;
+            toolStrip1.Size = new Size(442, 30);
+            toolStrip1.TabIndex = 5;
+            toolStrip1.Text = "toolStrip1";
+            // 
             // uiLabel6
             // 
-            uiLabel6.BackColor = Color.Transparent;
-            uiLabel6.Font = new Font("Microsoft Sans Serif", 9.75F);
+            uiLabel6.Alignment = ToolStripItemAlignment.Right;
             uiLabel6.ForeColor = Color.DarkGreen;
-            uiLabel6.Location = new Point(318, 8);
             uiLabel6.Name = "uiLabel6";
-            uiLabel6.Size = new Size(64, 18);
-            uiLabel6.TabIndex = 4;
-            uiLabel6.Text = "68%";
-            uiLabel6.TextAlign = ContentAlignment.MiddleLeft;
+            uiLabel6.Padding = new Padding(0, 0, 0, 15);
+            uiLabel6.Size = new Size(16, 27);
+            uiLabel6.Text = "...";
+            // 
+            // toolStripLabel2
+            // 
+            toolStripLabel2.Alignment = ToolStripItemAlignment.Right;
+            toolStripLabel2.ForeColor = Color.DimGray;
+            toolStripLabel2.Name = "toolStripLabel2";
+            toolStripLabel2.Padding = new Padding(10, 0, 0, 0);
+            toolStripLabel2.Size = new Size(46, 27);
+            toolStripLabel2.Text = "RAM:";
             // 
             // uiLabel5
             // 
-            uiLabel5.BackColor = Color.Transparent;
-            uiLabel5.Font = new Font("Microsoft Sans Serif", 9.75F);
+            uiLabel5.Alignment = ToolStripItemAlignment.Right;
             uiLabel5.ForeColor = Color.FromArgb(0, 0, 192);
-            uiLabel5.Location = new Point(201, 8);
             uiLabel5.Name = "uiLabel5";
-            uiLabel5.Size = new Size(60, 18);
-            uiLabel5.TabIndex = 3;
-            uiLabel5.Text = "68%";
-            uiLabel5.TextAlign = ContentAlignment.MiddleLeft;
+            uiLabel5.Padding = new Padding(10, 0, 0, 0);
+            uiLabel5.Size = new Size(26, 27);
+            uiLabel5.Text = "...";
             // 
-            // uiLabel3
+            // toolStripLabel4
             // 
-            uiLabel3.BackColor = Color.Transparent;
-            uiLabel3.Font = new Font("Microsoft Sans Serif", 9.75F);
-            uiLabel3.ForeColor = Color.DimGray;
-            uiLabel3.Location = new Point(267, 8);
-            uiLabel3.Name = "uiLabel3";
-            uiLabel3.Size = new Size(45, 18);
-            uiLabel3.TabIndex = 1;
-            uiLabel3.Text = "RAM:";
-            uiLabel3.TextAlign = ContentAlignment.MiddleRight;
+            toolStripLabel4.Alignment = ToolStripItemAlignment.Right;
+            toolStripLabel4.ForeColor = Color.DimGray;
+            toolStripLabel4.Name = "toolStripLabel4";
+            toolStripLabel4.Padding = new Padding(10, 0, 0, 0);
+            toolStripLabel4.Size = new Size(43, 27);
+            toolStripLabel4.Text = "CPU:";
             // 
-            // uiLabel2
+            // toolStripLabel5
             // 
-            uiLabel2.BackColor = Color.Transparent;
-            uiLabel2.Font = new Font("Microsoft Sans Serif", 9.75F);
-            uiLabel2.ForeColor = Color.DimGray;
-            uiLabel2.Location = new Point(153, 8);
-            uiLabel2.Name = "uiLabel2";
-            uiLabel2.Size = new Size(42, 18);
-            uiLabel2.TabIndex = 0;
-            uiLabel2.Text = "CPU:";
-            uiLabel2.TextAlign = ContentAlignment.MiddleRight;
+            toolStripLabel5.Alignment = ToolStripItemAlignment.Right;
+            toolStripLabel5.ForeColor = Color.DarkOrange;
+            toolStripLabel5.Name = "toolStripLabel5";
+            toolStripLabel5.Padding = new Padding(10, 0, 0, 0);
+            toolStripLabel5.Size = new Size(59, 27);
+            toolStripLabel5.Text = "00:00:00";
             // 
             // uiPanel5
             // 
@@ -313,6 +326,7 @@ namespace Sunny.Subdy.UI
             uiPanel5.TabIndex = 5;
             uiPanel5.Text = null;
             uiPanel5.TextAlignment = ContentAlignment.MiddleCenter;
+            uiPanel5.Click += uiPanel5_Click;
             // 
             // popupMessageBox
             // 
@@ -389,7 +403,7 @@ namespace Sunny.Subdy.UI
             RightToLeft = RightToLeft.No;
             ShowDragStretch = true;
             ShowTitle = false;
-            Style = Sunny.UI.UIStyle.Custom;
+            Style = UIStyle.Custom;
             Text = "";
             TextAlignment = StringAlignment.Center;
             ZoomScaleRect = new Rectangle(15, 15, 800, 450);
@@ -399,6 +413,9 @@ namespace Sunny.Subdy.UI
             uiPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)uiImageButton2).EndInit();
             uiPanel4.ResumeLayout(false);
+            uiPanel4.PerformLayout();
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             uiPanel5.ResumeLayout(false);
             popupMessageBox.ResumeLayout(false);
             ResumeLayout(false);
@@ -420,11 +437,17 @@ namespace Sunny.Subdy.UI
         private Sunny.UI.UIPanel popupMessageBox;
         private ControlViews.PopupBoxControl popupBoxControl1;
         private Sunny.UI.UITabControl uiTabControl1;
-        private Sunny.UI.UILabel uiLabel6;
-        private Sunny.UI.UILabel uiLabel5;
-        private Sunny.UI.UILabel uiLabel7;
+
         private ControlViews.NotificationBell notificationBell1;
         private System.Windows.Forms.Timer timer1;
         private Sunny.UI.UILabel uiLabel4;
+        public Sunny.UI.UILabel uiLabel7;
+        private ToolStrip toolStrip1;
+        private ToolStripLabel toolStripLabel1;
+        private ToolStripLabel toolStripLabel2;
+        private ToolStripLabel uiLabel5;
+        private ToolStripLabel uiLabel6;
+        private ToolStripLabel toolStripLabel4;
+        private ToolStripLabel toolStripLabel5;
     }
 }

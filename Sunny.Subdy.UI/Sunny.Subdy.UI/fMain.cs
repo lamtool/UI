@@ -7,12 +7,13 @@ namespace Sunny.Subdy.UI
 {
     public partial class fMain : UIForm2
     {
-        private  pageFacebook _pageFacebook;
+        public static DateTime? StartTime = null;
+        private pageFacebook _pageFacebook;
         private pageDevice _pagePhone;
         public fMain()
         {
             InitializeComponent();
-           
+
 
         }
         private void BtnMinimize_Click(object sender, EventArgs e)
@@ -88,26 +89,28 @@ namespace Sunny.Subdy.UI
             string cpu = $"{SystemUsageMonitor.GetCpuUsage():0.00}%";
             string ram = $"{SystemUsageMonitor.GetRamUsage():0.00}%";
 
-            if (uiLabel6.InvokeRequired)
+            uiLabel6.Text = ram;
+
+            uiLabel5.Text = cpu;
+            if (StartTime.HasValue)
             {
-                uiLabel6.Invoke(new Action(() => uiLabel6.Text = ram));
-            }
-            else
-            {
-                uiLabel6.Text = ram;
+                TimeSpan elapsedTime = DateTime.Now - StartTime.Value;
+                toolStripLabel5.Text = elapsedTime.ToString(@"hh\:mm\:ss");
             }
 
-            if (uiLabel5.InvokeRequired)
-            {
-                uiLabel5.Invoke(new Action(() => uiLabel5.Text = cpu));
-            }
-            else
-            {
-                uiLabel5.Text = cpu;
-            }
         }
 
         private void uiTabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiPanel5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uiLedStopwatch1_TimerTick(object sender, EventArgs e)
         {
 
         }

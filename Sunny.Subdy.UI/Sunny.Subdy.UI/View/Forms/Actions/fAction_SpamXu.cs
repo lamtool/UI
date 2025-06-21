@@ -6,12 +6,12 @@ using Sunny.UI;
 
 namespace Sunny.Subdy.UI.View.Forms.Actions
 {
-    public partial class fActioc_SpamXu : Form
+    public partial class fAction_SpamXu : Form
     {
         Common.Json.ConfigHelper _configHelper;
         public string _Name;
         public string _Json;
-        public fActioc_SpamXu(string name, string json)
+        public fAction_SpamXu(string name, string json)
         {
             InitializeComponent();
             LoadCheckBox();

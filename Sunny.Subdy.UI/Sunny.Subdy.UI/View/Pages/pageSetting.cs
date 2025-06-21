@@ -1,20 +1,11 @@
-﻿using OpenCvSharp;
+﻿using System.Text.RegularExpressions;
 using Sunny.Subd.Core.Facebook;
 using Sunny.Subd.Core.Proxies;
+using Sunny.Subd.Core.Utils;
 using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.UI.View.Controls;
 using Sunny.UI;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sunny.Subdy.UI.View.Pages
 {
@@ -23,9 +14,10 @@ namespace Sunny.Subdy.UI.View.Pages
         public pageSetting()
         {
             InitializeComponent();
-            cbb_ListTypeProxy.Items.AddRange(ProxyService.Proxies.ToArray());
+            cbb_ListTypeProxy.Items.AddRange(ProxyService.ProxyTypes.ToArray());
+            cbbScript.Items.AddRange(SubdyHelper.Countries.ToArray());
             comboBox1.Items.AddRange(FacebookHander.TypeLogin.ToArray());
-            this.Symbol = 559576; // Set the symbol for the page, can be used for icons
+            this.Symbol = 559576;
             new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
             {
                 LoadForm();
@@ -65,6 +57,10 @@ namespace Sunny.Subdy.UI.View.Pages
             if (string.IsNullOrEmpty(comboBox1.Text))
             {
                 comboBox1.SelectedIndex = 0;
+            }
+            if (string.IsNullOrEmpty(cbbScript.Text))
+            {
+                cbbScript.SelectedIndex = 0;
             }
         }
         private void pageSetting_Load(object sender, EventArgs e)
@@ -161,6 +157,51 @@ namespace Sunny.Subdy.UI.View.Pages
             {
                 textBox4.Text = openFileDialog.FileName;
             }
+        }
+
+        private void pageSetting_Initialize(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbb_ListTypeProxy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(cbb_ListTypeProxy.Text))
+            {
+                return;
+            }
+            if (cbb_ListTypeProxy.SelectedIndex == 0 || cbb_ListTypeProxy.SelectedIndex == 1 || cbb_ListTypeProxy.SelectedIndex == 2)
+            {
+                groupBox2.Enabled = false;
+            }
+            else
+            {
+                groupBox2.Enabled = true;
+            }
+            if (cbb_ListTypeProxy.SelectedIndex == 3 || cbb_ListTypeProxy.SelectedIndex == 4 || cbb_ListTypeProxy.SelectedIndex == 5)
+            {
+                txtLines.PlaceholderText = "   Ví dụ: key";
+                label7.Text = "Mỗi key 1 dòng";
+                label9.Text = "Danh sách key (0):";
+            }
+            if (cbb_ListTypeProxy.SelectedIndex == 6)
+            {
+                txtLines.PlaceholderText = "   Ví dụ: ip:port|Link hoặc ip:port:user:password|Link";
+                label7.Text = "Mỗi proxy 1 dòng";
+                label9.Text = "Danh sách proxy (0):";
+            }
+            if (cbb_ListTypeProxy.SelectedIndex == 7)
+            {
+                txtLines.PlaceholderText = "   Ví dụ: ip:port hoặc ip:port:user:password";
+                label7.Text = "Mỗi proxy 1 dòng";
+                label9.Text = "Danh sách proxy (0):";
+            }
+        }
+
+        private void txtLines_TextChanged(object sender, EventArgs e)
+        {
+            int newCount = txtLines.Lines.Length;
+            label9.Text = Regex.Replace(label9.Text, @"\(\d+\)", $"({newCount}):");
         }
     }
 }

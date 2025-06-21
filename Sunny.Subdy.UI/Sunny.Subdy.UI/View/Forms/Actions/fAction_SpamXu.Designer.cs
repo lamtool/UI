@@ -1,6 +1,6 @@
 ﻿namespace Sunny.Subdy.UI.View.Forms.Actions
 {
-    partial class fActioc_SpamXu
+    partial class fAction_SpamXu
     {
         /// <summary>
         /// Required designer variable.

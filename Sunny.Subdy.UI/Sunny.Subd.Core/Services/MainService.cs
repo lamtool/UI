@@ -2,6 +2,7 @@
 using AutoAndroid;
 using OpenCvSharp.Text;
 using Sunny.Subd.Core.Facebook;
+using Sunny.Subd.Core.Facebook.ScriptActions;
 using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Utils;
 using Sunny.Subdy.Common;
@@ -22,6 +23,12 @@ namespace Sunny.Subd.Core.Services
         private readonly string _platform;
         private readonly Stopwatch _stopwatch = new();
         private JsonHelper _jsonHelper;
+        private int Timeout = 0;
+
+        private readonly ActionExecutor _executor = new ActionExecutor(new List<IActionHandler>
+{
+    new FbSpamXuHandler(),
+});
 
         public MainService(string platform, ADBClient device, Account account, ConfigModel config, CancellationToken ct)
         {
@@ -31,6 +38,11 @@ namespace Sunny.Subd.Core.Services
             _platform = platform ?? throw new ArgumentNullException(nameof(platform));
             _ct = ct;
             _facebookService = new FacebookService();
+            _jsonHelper = new JsonHelper(_config.JsonSetting);
+            if (_jsonHelper.GetBooleanValue("ckbTimeoutAccount"))
+            {
+                Timeout = SubdyHelper.RandomValue(_jsonHelper.GetIntType("numericUpDown2", 40), _jsonHelper.GetIntType("numericUpDown3", 60)) * 60000;
+            }
         }
 
         private void SetStatus(string status)
@@ -39,13 +51,24 @@ namespace Sunny.Subd.Core.Services
             if (_device?.Device != null) _device.Device.Status = status;
         }
 
-        private async Task Stop() => await Task.Yield(); // Tạm thời giữ chỗ nếu cần thêm logic
-
-        private async Task DoAction(JsonHelper jsonHelper)
+        private async Task Stop()
         {
-            // Thực hiện hành động, tuỳ thuộc vào nội dung jsonHelper
-            await Task.Yield();
+            if (_ct.IsCancellationRequested)
+            {
+                throw new SubdyExtension(SubdyEnum.Stop, "Bạn đã dừng tài khoản.");
+            }
+            if (Timeout != 0)
+            {
+                if (_stopwatch.ElapsedMilliseconds > Timeout)
+                {
+                    _stopwatch.Restart();
+                    SetStatus("Đã quá thời gian thực hiện thao tác, dừng tài khoản.");
+                    throw new SubdyExtension(SubdyEnum.Stop, "Đã quá thời gian thực hiện thao tác, dừng tài khoản.");
+                }
+            }
         }
+
+
 
         private void ExtractAndUpdateAuthenticationInfo()
         {
@@ -75,7 +98,7 @@ namespace Sunny.Subd.Core.Services
 
         public async Task RunAsync()
         {
-            _jsonHelper = new JsonHelper(_config.JsonSetting);
+
             _device.AppClear(FacebookHander.Package());
 
             string profileDir = _jsonHelper.GetValuesFromInputString("textBox3", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Profile"));
@@ -104,17 +127,20 @@ namespace Sunny.Subd.Core.Services
 
         private async Task DoScript()
         {
-            string doneScript = GetDoneScriptFlag();
+
             if (string.IsNullOrEmpty(_config.Script.Config))
                 throw new SubdyExtension(SubdyEnum.None, "Không có tương tác nào để thực hiện.");
 
-            var scriptIds = SubdyHelper.Shuffle(_config.Script.Config.Split('|').Where(id => !string.IsNullOrWhiteSpace(id)).ToList());
-            if (!scriptIds.Any())
+            var actionIds = SubdyHelper.Shuffle(_config.Script.Config.Split('|').Where(id => !string.IsNullOrWhiteSpace(id)).ToList());
+            if (!actionIds.Any())
                 throw new SubdyExtension(SubdyEnum.None, "Không có tương tác nào để thực hiện.");
 
             var scriptContext = new ScriptActionContext();
 
-            foreach (var id in scriptIds)
+
+
+
+            foreach (var id in actionIds)
             {
                 if (!Guid.TryParse(id, out var scriptGuid))
                     continue;
@@ -124,12 +150,14 @@ namespace Sunny.Subd.Core.Services
                     continue;
 
                 SetStatus($"Đang thực hiện kịch bản [{_config.Script.Name}] -> [{action.Name}]");
-                var json = new JsonHelper(action.Json);
 
                 await Stop();
 
-                await DoAction(json);
+                await _executor.ExecuteAsync(action.Type, action.Json, _account, _device);
             }
+
+            await ScrollNewsFeedAsync();
+
         }
 
         private string GetDoneScriptFlag()
@@ -140,6 +168,21 @@ namespace Sunny.Subd.Core.Services
             if (scriptHelper.GetBooleanValue("check_Interaction_3"))
                 return "LIKE";
             return string.Empty;
+        }
+
+
+        private async Task ScrollNewsFeedAsync()
+        {
+            string doneScript = GetDoneScriptFlag();
+            if (string.IsNullOrEmpty(doneScript))
+            {
+                return;
+            }
+            while (true)
+            {
+                await Stop();
+
+            }
         }
     }
 }

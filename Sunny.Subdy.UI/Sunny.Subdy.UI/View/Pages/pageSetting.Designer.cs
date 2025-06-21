@@ -53,6 +53,8 @@
             button2 = new Button();
             checkBox2 = new CheckBox();
             groupBox1 = new GroupBox();
+            label8 = new Label();
+            cbbScript = new ComboBox();
             panel1 = new Panel();
             textBox1 = new TextBox();
             button1 = new Button();
@@ -63,15 +65,20 @@
             comboBox1 = new ComboBox();
             label4 = new Label();
             checkBox9 = new CheckBox();
-            groupBox9 = new GroupBox();
+            tabPage3 = new TabPage();
+            groupBox2 = new GroupBox();
+            txtLines = new TextBox();
+            panel2 = new Panel();
+            label7 = new Label();
+            label9 = new Label();
+            chk_CheckProxy = new CheckBox();
+            label34 = new Label();
             label6 = new Label();
+            label39 = new Label();
             numericUpDown3 = new NumericUpDown();
+            cbb_ListTypeProxy = new ComboBox();
             label5 = new Label();
             nud_IndexFailProxy = new NumericUpDown();
-            cbb_ListTypeProxy = new ComboBox();
-            label39 = new Label();
-            label34 = new Label();
-            chk_CheckProxy = new CheckBox();
             uiTabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             panel7.SuspendLayout();
@@ -84,7 +91,9 @@
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             tabPage2.SuspendLayout();
-            groupBox9.SuspendLayout();
+            tabPage3.SuspendLayout();
+            groupBox2.SuspendLayout();
+            panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nud_IndexFailProxy).BeginInit();
             SuspendLayout();
@@ -93,6 +102,7 @@
             // 
             uiTabControl1.Controls.Add(tabPage1);
             uiTabControl1.Controls.Add(tabPage2);
+            uiTabControl1.Controls.Add(tabPage3);
             uiTabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             uiTabControl1.FillColor = Color.White;
             uiTabControl1.Font = new Font("Microsoft Sans Serif", 12F);
@@ -139,7 +149,7 @@
             // 
             panel7.Controls.Add(textBox4);
             panel7.Controls.Add(button4);
-            panel7.Location = new Point(184, 220);
+            panel7.Location = new Point(184, 245);
             panel7.Name = "panel7";
             panel7.Size = new Size(309, 26);
             panel7.TabIndex = 45;
@@ -170,7 +180,7 @@
             checkBox8.AutoSize = true;
             checkBox8.Checked = true;
             checkBox8.CheckState = CheckState.Checked;
-            checkBox8.Location = new Point(29, 224);
+            checkBox8.Location = new Point(29, 249);
             checkBox8.Name = "checkBox8";
             checkBox8.Size = new Size(139, 19);
             checkBox8.TabIndex = 44;
@@ -183,7 +193,7 @@
             checkBox7.AutoSize = true;
             checkBox7.Checked = true;
             checkBox7.CheckState = CheckState.Checked;
-            checkBox7.Location = new Point(295, 192);
+            checkBox7.Location = new Point(295, 217);
             checkBox7.Name = "checkBox7";
             checkBox7.Size = new Size(198, 19);
             checkBox7.TabIndex = 43;
@@ -195,7 +205,7 @@
             checkBox6.AutoSize = true;
             checkBox6.Checked = true;
             checkBox6.CheckState = CheckState.Checked;
-            checkBox6.Location = new Point(29, 192);
+            checkBox6.Location = new Point(29, 217);
             checkBox6.Name = "checkBox6";
             checkBox6.Size = new Size(249, 19);
             checkBox6.TabIndex = 42;
@@ -207,7 +217,7 @@
             // 
             panel6.Controls.Add(label3);
             panel6.Controls.Add(numericUpDown2);
-            panel6.Location = new Point(390, 158);
+            panel6.Location = new Point(390, 183);
             panel6.Name = "panel6";
             panel6.Size = new Size(103, 23);
             panel6.TabIndex = 41;
@@ -220,6 +230,7 @@
             label3.Size = new Size(31, 23);
             label3.TabIndex = 1;
             label3.Text = "phút";
+            label3.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // numericUpDown2
             // 
@@ -233,7 +244,7 @@
             // checkBox5
             // 
             checkBox5.AutoSize = true;
-            checkBox5.Location = new Point(287, 160);
+            checkBox5.Location = new Point(287, 185);
             checkBox5.Name = "checkBox5";
             checkBox5.Size = new Size(104, 19);
             checkBox5.TabIndex = 40;
@@ -244,7 +255,7 @@
             // 
             panel5.Controls.Add(label2);
             panel5.Controls.Add(numericUpDown1);
-            panel5.Location = new Point(184, 158);
+            panel5.Location = new Point(184, 183);
             panel5.Name = "panel5";
             panel5.Size = new Size(89, 23);
             panel5.TabIndex = 39;
@@ -272,7 +283,7 @@
             // checkBox4
             // 
             checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(29, 158);
+            checkBox4.Location = new Point(29, 183);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(147, 19);
             checkBox4.TabIndex = 38;
@@ -284,7 +295,7 @@
             // 
             panel4.Controls.Add(textBox3);
             panel4.Controls.Add(button3);
-            panel4.Location = new Point(184, 120);
+            panel4.Location = new Point(184, 145);
             panel4.Name = "panel4";
             panel4.Size = new Size(309, 26);
             panel4.TabIndex = 37;
@@ -315,7 +326,7 @@
             checkBox3.AutoSize = true;
             checkBox3.Checked = true;
             checkBox3.CheckState = CheckState.Checked;
-            checkBox3.Location = new Point(29, 122);
+            checkBox3.Location = new Point(29, 147);
             checkBox3.Name = "checkBox3";
             checkBox3.Size = new Size(139, 19);
             checkBox3.TabIndex = 36;
@@ -327,7 +338,7 @@
             // 
             panel3.Controls.Add(textBox2);
             panel3.Controls.Add(button2);
-            panel3.Location = new Point(184, 88);
+            panel3.Location = new Point(184, 113);
             panel3.Name = "panel3";
             panel3.Size = new Size(309, 26);
             panel3.TabIndex = 35;
@@ -358,7 +369,7 @@
             checkBox2.AutoSize = true;
             checkBox2.Checked = true;
             checkBox2.CheckState = CheckState.Checked;
-            checkBox2.Location = new Point(29, 89);
+            checkBox2.Location = new Point(29, 114);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(140, 19);
             checkBox2.TabIndex = 34;
@@ -368,14 +379,34 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label8);
+            groupBox1.Controls.Add(cbbScript);
             groupBox1.Controls.Add(panel1);
             groupBox1.Controls.Add(checkBox1);
             groupBox1.Location = new Point(18, 19);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(502, 63);
+            groupBox1.Size = new Size(502, 88);
             groupBox1.TabIndex = 33;
             groupBox1.TabStop = false;
             groupBox1.Text = "                      ";
+            // 
+            // label8
+            // 
+            label8.Location = new Point(27, 58);
+            label8.Name = "label8";
+            label8.Size = new Size(123, 23);
+            label8.TabIndex = 35;
+            label8.Text = "Quốc gia:";
+            label8.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // cbbScript
+            // 
+            cbbScript.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbScript.FormattingEnabled = true;
+            cbbScript.Location = new Point(166, 59);
+            cbbScript.Name = "cbbScript";
+            cbbScript.Size = new Size(309, 23);
+            cbbScript.TabIndex = 34;
             // 
             // panel1
             // 
@@ -488,102 +519,164 @@
             checkBox9.Text = "Check live trước khi chạy";
             checkBox9.UseVisualStyleBackColor = true;
             // 
-            // groupBox9
+            // tabPage3
             // 
-            groupBox9.Controls.Add(label6);
-            groupBox9.Controls.Add(numericUpDown3);
-            groupBox9.Controls.Add(label5);
-            groupBox9.Controls.Add(nud_IndexFailProxy);
-            groupBox9.Controls.Add(cbb_ListTypeProxy);
-            groupBox9.Controls.Add(label39);
-            groupBox9.Controls.Add(label34);
-            groupBox9.Controls.Add(chk_CheckProxy);
-            groupBox9.Location = new Point(559, 64);
-            groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(406, 150);
-            groupBox9.TabIndex = 87;
-            groupBox9.TabStop = false;
-            groupBox9.Text = "Cấu hình IP";
+            tabPage3.BackColor = Color.White;
+            tabPage3.Controls.Add(groupBox2);
+            tabPage3.Controls.Add(chk_CheckProxy);
+            tabPage3.Controls.Add(label34);
+            tabPage3.Controls.Add(label6);
+            tabPage3.Controls.Add(label39);
+            tabPage3.Controls.Add(numericUpDown3);
+            tabPage3.Controls.Add(cbb_ListTypeProxy);
+            tabPage3.Controls.Add(label5);
+            tabPage3.Controls.Add(nud_IndexFailProxy);
+            tabPage3.Font = new Font("Microsoft Sans Serif", 9F);
+            tabPage3.Location = new Point(0, 40);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Size = new Size(539, 289);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Cấu hình IP";
             // 
-            // label6
+            // groupBox2
             // 
-            label6.AutoSize = true;
-            label6.ForeColor = SystemColors.ActiveCaptionText;
-            label6.Location = new Point(210, 107);
-            label6.Name = "label6";
-            label6.Size = new Size(12, 15);
-            label6.TabIndex = 86;
-            label6.Text = "s";
+            groupBox2.Controls.Add(txtLines);
+            groupBox2.Controls.Add(panel2);
+            groupBox2.Location = new Point(20, 112);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(494, 161);
+            groupBox2.TabIndex = 151;
+            groupBox2.TabStop = false;
             // 
-            // numericUpDown3
+            // txtLines
             // 
-            numericUpDown3.Location = new Point(145, 103);
-            numericUpDown3.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
-            numericUpDown3.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numericUpDown3.Name = "numericUpDown3";
-            numericUpDown3.Size = new Size(59, 23);
-            numericUpDown3.TabIndex = 85;
-            numericUpDown3.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            txtLines.BorderStyle = BorderStyle.FixedSingle;
+            txtLines.Dock = DockStyle.Fill;
+            txtLines.Location = new Point(3, 44);
+            txtLines.MaxLength = int.MaxValue;
+            txtLines.Multiline = true;
+            txtLines.Name = "txtLines";
+            txtLines.PlaceholderText = "     Ví dụ: ip:port";
+            txtLines.ScrollBars = ScrollBars.Both;
+            txtLines.Size = new Size(488, 114);
+            txtLines.TabIndex = 6;
+            txtLines.WordWrap = false;
+            txtLines.TextChanged += txtLines_TextChanged;
             // 
-            // label5
+            // panel2
             // 
-            label5.AutoSize = true;
-            label5.ForeColor = SystemColors.ActiveCaptionText;
-            label5.Location = new Point(22, 107);
-            label5.Name = "label5";
-            label5.Size = new Size(78, 15);
-            label5.TabIndex = 84;
-            label5.Text = "Delay kết nối:";
+            panel2.Controls.Add(label7);
+            panel2.Controls.Add(label9);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(3, 17);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(488, 27);
+            panel2.TabIndex = 0;
             // 
-            // nud_IndexFailProxy
+            // label7
             // 
-            nud_IndexFailProxy.Location = new Point(145, 47);
-            nud_IndexFailProxy.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
-            nud_IndexFailProxy.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            nud_IndexFailProxy.Name = "nud_IndexFailProxy";
-            nud_IndexFailProxy.Size = new Size(59, 23);
-            nud_IndexFailProxy.TabIndex = 83;
-            nud_IndexFailProxy.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            label7.AutoSize = true;
+            label7.Dock = DockStyle.Right;
+            label7.Location = new Point(362, 0);
+            label7.Name = "label7";
+            label7.Padding = new Padding(20, 5, 5, 5);
+            label7.Size = new Size(126, 25);
+            label7.TabIndex = 1;
+            label7.Text = "Mỗi proxy 1 dòng";
+            label7.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // cbb_ListTypeProxy
+            // label9
             // 
-            cbb_ListTypeProxy.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbb_ListTypeProxy.FormattingEnabled = true;
-            cbb_ListTypeProxy.Location = new Point(138, 76);
-            cbb_ListTypeProxy.Name = "cbb_ListTypeProxy";
-            cbb_ListTypeProxy.Size = new Size(253, 23);
-            cbb_ListTypeProxy.TabIndex = 77;
-            // 
-            // label39
-            // 
-            label39.AutoSize = true;
-            label39.Location = new Point(18, 79);
-            label39.Name = "label39";
-            label39.Size = new Size(114, 15);
-            label39.TabIndex = 37;
-            label39.Text = "Tùy chọn change IP:";
-            // 
-            // label34
-            // 
-            label34.AutoSize = true;
-            label34.ForeColor = SystemColors.ActiveCaptionText;
-            label34.Location = new Point(22, 49);
-            label34.Name = "label34";
-            label34.Size = new Size(117, 15);
-            label34.TabIndex = 82;
-            label34.Text = "Thử lại nếu proxy lỗi:";
+            label9.AutoSize = true;
+            label9.Dock = DockStyle.Left;
+            label9.Location = new Point(0, 0);
+            label9.Name = "label9";
+            label9.Padding = new Padding(20, 5, 5, 5);
+            label9.Size = new Size(144, 25);
+            label9.TabIndex = 0;
+            label9.Text = "Danh sách proxy (0):";
+            label9.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // chk_CheckProxy
             // 
             chk_CheckProxy.AutoSize = true;
             chk_CheckProxy.Checked = true;
             chk_CheckProxy.CheckState = CheckState.Checked;
-            chk_CheckProxy.Location = new Point(22, 22);
+            chk_CheckProxy.Location = new Point(34, 18);
             chk_CheckProxy.Name = "chk_CheckProxy";
-            chk_CheckProxy.Size = new Size(150, 19);
+            chk_CheckProxy.Size = new Size(151, 19);
             chk_CheckProxy.TabIndex = 31;
             chk_CheckProxy.Text = "Check IP trước khi chạy";
             chk_CheckProxy.UseVisualStyleBackColor = true;
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.ForeColor = SystemColors.ActiveCaptionText;
+            label34.Location = new Point(30, 46);
+            label34.Name = "label34";
+            label34.Size = new Size(119, 15);
+            label34.TabIndex = 82;
+            label34.Text = "Thử lại nếu proxy lỗi:";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.ForeColor = SystemColors.ActiveCaptionText;
+            label6.Location = new Point(382, 46);
+            label6.Name = "label6";
+            label6.Size = new Size(13, 15);
+            label6.TabIndex = 86;
+            label6.Text = "s";
+            // 
+            // label39
+            // 
+            label39.AutoSize = true;
+            label39.Location = new Point(34, 81);
+            label39.Name = "label39";
+            label39.Size = new Size(117, 15);
+            label39.TabIndex = 37;
+            label39.Text = "Tùy chọn change IP:";
+            // 
+            // numericUpDown3
+            // 
+            numericUpDown3.Location = new Point(317, 43);
+            numericUpDown3.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericUpDown3.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown3.Name = "numericUpDown3";
+            numericUpDown3.Size = new Size(59, 21);
+            numericUpDown3.TabIndex = 85;
+            numericUpDown3.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // cbb_ListTypeProxy
+            // 
+            cbb_ListTypeProxy.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbb_ListTypeProxy.FormattingEnabled = true;
+            cbb_ListTypeProxy.Location = new Point(154, 78);
+            cbb_ListTypeProxy.Name = "cbb_ListTypeProxy";
+            cbb_ListTypeProxy.Size = new Size(253, 23);
+            cbb_ListTypeProxy.TabIndex = 77;
+            cbb_ListTypeProxy.SelectedIndexChanged += cbb_ListTypeProxy_SelectedIndexChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.ForeColor = SystemColors.ActiveCaptionText;
+            label5.Location = new Point(233, 46);
+            label5.Name = "label5";
+            label5.Size = new Size(80, 15);
+            label5.TabIndex = 84;
+            label5.Text = "Delay kết nối:";
+            // 
+            // nud_IndexFailProxy
+            // 
+            nud_IndexFailProxy.Location = new Point(157, 43);
+            nud_IndexFailProxy.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            nud_IndexFailProxy.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nud_IndexFailProxy.Name = "nud_IndexFailProxy";
+            nud_IndexFailProxy.Size = new Size(59, 21);
+            nud_IndexFailProxy.TabIndex = 83;
+            nud_IndexFailProxy.Value = new decimal(new int[] { 5, 0, 0, 0 });
             // 
             // pageSetting
             // 
@@ -591,10 +684,10 @@
             BackColor = Color.White;
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(1142, 668);
-            Controls.Add(groupBox9);
             Controls.Add(uiTabControl1);
             Name = "pageSetting";
             Text = "Cài Đặt";
+            Initialize += pageSetting_Initialize;
             Load += pageSetting_Load;
             uiTabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -615,8 +708,12 @@
             panel1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
-            groupBox9.ResumeLayout(false);
-            groupBox9.PerformLayout();
+            tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
             ((System.ComponentModel.ISupportInitialize)nud_IndexFailProxy).EndInit();
             ResumeLayout(false);
@@ -631,7 +728,6 @@
         private Panel panel1;
         private Label label1;
         private CheckBox checkBox1;
-        private GroupBox groupBox9;
         private NumericUpDown nud_IndexFailProxy;
         private ComboBox cbb_ListTypeProxy;
         private Label label39;
@@ -668,5 +764,13 @@
         private NumericUpDown numericUpDown3;
         private Label label5;
         private Label label6;
+        private Label label8;
+        private ComboBox cbbScript;
+        private TabPage tabPage3;
+        private GroupBox groupBox2;
+        private TextBox txtLines;
+        private Panel panel2;
+        private Label label7;
+        private Label label9;
     }
 }

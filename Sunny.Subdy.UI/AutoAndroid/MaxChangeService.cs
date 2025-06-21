@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -65,7 +66,7 @@ namespace AutoAndroid
             SetEnableModule();
             return true;
         }
-        public bool Change(string pathDevice, bool backup, string brand)
+        public bool Change(string pathDevice, bool backup, string brand, string country)
         {
             Install();
             bool flag = false;
@@ -74,7 +75,7 @@ namespace AutoAndroid
                 string text = GetInfoDeviceName(10);
                 flag = text != "";
             }
-            if (!flag && (flag = ChangeDeviceName(brand)))
+            if (!flag && (flag = ChangeDeviceName(brand, country)))
             {
                 if (backup)
                 {
@@ -87,7 +88,7 @@ namespace AutoAndroid
         }
         private bool Restore(string pathDevice)
         {
-        
+
             if (string.IsNullOrEmpty(pathDevice) || !File.Exists(pathDevice))
             {
                 return false;
@@ -164,7 +165,7 @@ namespace AutoAndroid
             return "";
         }
 
-        private bool ChangeDeviceName(string brand)
+        private bool ChangeDeviceName(string brand, string country)
         {
 
             try
@@ -172,7 +173,7 @@ namespace AutoAndroid
                 service.Shell($"pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
                 service.Shell($"pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
 
-                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --es brand {brand} --ez on true";
+                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --es brand {brand} --ez on true --ez country {country}";
                 bool flag2 = service.Shell(text2).Contains("Broadcast completed");
                 if (flag2)
                 {

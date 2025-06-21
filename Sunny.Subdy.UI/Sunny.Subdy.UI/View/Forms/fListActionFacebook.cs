@@ -49,7 +49,7 @@ namespace Sunny.Subdy.UI.View.Forms
             {
                 case TypeAction.FB_SpamXu:
                     {
-                        fActioc_SpamXu form = new fActioc_SpamXu(TypeAction.GetNameAction(text), string.Empty);
+                        fAction_SpamXu form = new fAction_SpamXu(TypeAction.GetNameAction(text), string.Empty);
                         form.ShowDialog();
                         config = form._Json;
                         name = form._Name.Trim();

@@ -231,7 +231,7 @@ namespace Sunny.Subdy.UI.View.Pages
                     {
                         typeProxy = 0; // Default to "Không đổi IP"
                     }
-                    string proxyType = ProxyService.Proxies[typeProxy];
+                    string proxyType = ProxyService.ProxyTypes[typeProxy];
                     switch (proxyType)
                     {
                         case "4G Mobile":

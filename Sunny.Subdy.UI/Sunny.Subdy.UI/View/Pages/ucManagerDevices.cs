@@ -1,12 +1,16 @@
 ﻿using System.ComponentModel;
+using System.Threading;
 using AutoAndroid;
 using AutoAndroid.Stream;
+using Sunny.Subd.Core.Facebook;
 using Sunny.Subdy.Common.ControlMethod;
+using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Common.Models;
 using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Data.Models;
 using Sunny.Subdy.UI.ControlViews.Convertes;
 using Sunny.Subdy.UI.View.Forms;
+using Sunny.Subdy.UI.View.Forms.Actions;
 using Sunny.UI;
 
 namespace Sunny.Subdy.UI.View.Pages
@@ -17,6 +21,7 @@ namespace Sunny.Subdy.UI.View.Pages
         private int startIndex = 0;
         public bool IsStart = false;
         private bool isLoading = false;
+        private CancellationTokenSource cancellationTokenSource;
         public ucManagerDevices()
         {
             InitializeComponent();
@@ -146,9 +151,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
 
         }
-
-
-
         private void uiSymbolButton1_Click(object sender, EventArgs e)
         {
             uiSymbolButton2.Enabled = false;
@@ -195,7 +197,6 @@ namespace Sunny.Subdy.UI.View.Pages
             uiSymbolButton2.Enabled = true;
             uiSymbolButton1.Enabled = true;
         }
-
         private async void mởToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             List<ScrcpyDisplay> displays = new List<ScrcpyDisplay>();
@@ -213,7 +214,6 @@ namespace Sunny.Subdy.UI.View.Pages
             if (!displays.Any()) return;
             await DeviceServices.ConnectScrcpies(displays);
         }
-
         private async void tắtToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<ScrcpyDisplay> displays = new List<ScrcpyDisplay>();
@@ -231,7 +231,6 @@ namespace Sunny.Subdy.UI.View.Pages
             if (!displays.Any()) return;
             await DeviceServices.DisConnectScrcpies(displays);
         }
-
         private async void càiĐặtApkToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string file = string.Empty;
@@ -259,7 +258,6 @@ namespace Sunny.Subdy.UI.View.Pages
             await DeviceServices.HandleEmulators(devices, EmuAction.InstallApk, file);
             CommonMethod.ShowMessageSuccess("Cài đặt APK thành công!");
         }
-
         private async void bậtWifiToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -271,7 +269,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.EnableWifi);
         }
-
         private async void tắtWifiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -282,7 +279,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.DisableWifi);
         }
-
         private async void kếtNốiWifiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -302,7 +298,6 @@ namespace Sunny.Subdy.UI.View.Pages
             //    await DeviceServices.HandleEmulators(devices, EmuAction.ConnectWifi, value);
             //}
         }
-
         private async void gỡCàiĐặtPackageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -321,7 +316,6 @@ namespace Sunny.Subdy.UI.View.Pages
             //    await DeviceServices.HandleEmulators(devices, EmuAction.UninstallApp, value);
             //}
         }
-
         private async void rebootToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -332,7 +326,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.Reboot);
         }
-
         private async void changeInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -343,7 +336,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.ChangeInfo);
         }
-
         private async void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -371,7 +363,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.BackupFB, value);
         }
-
         private async void backupToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -399,7 +390,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.BackupTikTok, value);
         }
-
         private async void backupToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -427,7 +417,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.BackupIG, value);
         }
-
         private async void restoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -455,7 +444,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.RestoreFB, value);
         }
-
         private async void restoreToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -483,7 +471,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.RestoreTikTok, value);
         }
-
         private async void restoreToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
@@ -511,7 +498,6 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             await DeviceServices.HandleEmulators(devices, EmuAction.RestoreIG, value);
         }
-
         private void uiTextBox1_TextChanged(object sender, EventArgs e)
         {
             string searchText = uiTextBox1.Text.Trim().ToLower();
@@ -534,13 +520,11 @@ namespace Sunny.Subdy.UI.View.Pages
                 }
             }
         }
-
         private void uiLinkLabel1_Click(object sender, EventArgs e)
         {
             fDocAPIPhone fDocAPI = new fDocAPIPhone();
             fDocAPI.ShowDialog();
         }
-
         private void uiSymbolButton4_Click(object sender, EventArgs e)
         {
             var parentForm = this.FindForm();
@@ -550,10 +534,9 @@ namespace Sunny.Subdy.UI.View.Pages
                 parentForm.Close();
             }
         }
-
         private void uiSymbolButton3_Click(object sender, EventArgs e)
         {
-            if (DeviceServices.DeviceModels.Where(x=>x.Check).Any())
+            if (DeviceServices.DeviceModels.Where(x => x.Check).Any())
             {
                 var parentForm = this.FindForm();
                 if (parentForm != null)
@@ -566,6 +549,40 @@ namespace Sunny.Subdy.UI.View.Pages
             {
                 CommonMethod.ShowMessageWarning("Vui lòng kết nối thiết bị trước khi bắt đầu!");
             }
+        }
+        private void facebookToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (!DeviceServices.DeviceModels.Where(x => x.Check).Any())
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                return;
+            }
+            fAction_RegFB fAction_RegFB = new fAction_RegFB();
+            var value = fAction_RegFB.ShowDialog();
+            if (value == DialogResult.Cancel)
+            {
+                return;
+            }
+            groupBox2.Visible = true;
+            uiSymbolButton4.Text = "Dừng";
+            uiSymbolButton3.Enabled = false;
+        }
+        private async Task RunAsync()
+        {
+            cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken ct = cancellationTokenSource.Token;
+            List<Task> tasks = new List<Task>();
+            JsonHelper settingRegsiner = SettingsTool.GetSettings(nameof(fAction_RegFB), true);
+            JsonHelper settingGeneral = SettingsTool.GetSettings(nameof(pageSetting), true);
+            foreach (var device in DeviceServices.DeviceModels.Where(x => x.Check))
+            {
+                FacebookRegsiner facebook = new FacebookRegsiner(device, settingRegsiner, settingGeneral, ct);
+                tasks.Add(Task.Run(async () =>
+                {
+                    await facebook.RegisterAsync();
+                }));
+            }
+            await Task.WhenAll(tasks);
         }
     }
 }
