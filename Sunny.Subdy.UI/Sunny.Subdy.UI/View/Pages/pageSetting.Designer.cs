@@ -534,7 +534,7 @@
             tabPage3.Font = new Font("Microsoft Sans Serif", 9F);
             tabPage3.Location = new Point(0, 40);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(539, 289);
+            tabPage3.Size = new Size(200, 60);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Cấu hình IP";
             // 
