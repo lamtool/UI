@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace AutoAndroid
@@ -167,13 +161,24 @@ namespace AutoAndroid
 
         private bool ChangeDeviceName(string brand, string country)
         {
-
+            string countryCode = string.Empty;
+            string countryName = string.Empty;
+            if (string.IsNullOrEmpty(country) || country == "Random")
+            {
+                countryCode = "84";
+                countryName = "VN";
+            }
+            else
+            {
+                countryName = country.Split('|')[0].Trim();
+                countryCode = country.Split('|')[1].Trim();
+            }
             try
             {
                 service.Shell($"pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
                 service.Shell($"pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
 
-                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --es brand {brand} --ez on true --ez country {country}";
+                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --es brand {brand} --ez on true --es  country {countryCode} --es countryName {countryName}";
                 bool flag2 = service.Shell(text2).Contains("Broadcast completed");
                 if (flag2)
                 {

@@ -1,4 +1,5 @@
-﻿using Sunny.Subdy.UI.Commons;
+﻿using Sunny.Subdy.Common.Models;
+using Sunny.Subdy.UI.Commons;
 using Sunny.Subdy.UI.Helper;
 using Sunny.Subdy.UI.View.Pages;
 using Sunny.UI;
@@ -48,6 +49,7 @@ namespace Sunny.Subdy.UI
             uiNavMenu1.MenuItemClick += UiNavMenu1_MenuItemClick;
             uiNavMenu1.SelectPage(5);
             timer1.Start();
+            Globals.DataGridView = _pageFacebook._ucdgvAccount.uiDataGridView2;
         }
         private void BtnMaximize_Click(object sender, EventArgs e)
         {

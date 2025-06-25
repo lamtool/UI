@@ -657,12 +657,10 @@
             // radioButton1
             // 
             radioButton1.AutoSize = true;
-            radioButton1.Checked = true;
             radioButton1.Location = new Point(152, 5);
             radioButton1.Name = "radioButton1";
             radioButton1.Size = new Size(143, 19);
             radioButton1.TabIndex = 2;
-            radioButton1.TabStop = true;
             radioButton1.Text = "Ngẫu nhiên (Random)";
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.CheckedChanged += radioButton1_CheckedChanged;

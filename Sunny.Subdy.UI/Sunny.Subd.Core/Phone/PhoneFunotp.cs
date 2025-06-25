@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Sunny.Subdy.Common.Logs;
 
 namespace Sunny.Subd.Core.Phone
 {
@@ -66,6 +67,7 @@ namespace Sunny.Subd.Core.Phone
             catch (Exception ex)
             {
                 error = "ERROR" + ex.Message;
+                LogManager.Error(ex);
             }
             if (string.IsNullOrEmpty(otp))
             {

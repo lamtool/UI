@@ -52,6 +52,9 @@
     <Compile Update="View\Forms\fListActionFacebook.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\Forms\fLogRegsiner.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\Forms\fSelectDevices.cs">
       <SubType>Form</SubType>
     </Compile>

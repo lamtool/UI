@@ -1,14 +1,54 @@
-﻿using Sunny.Subdy.Common.Models;
+﻿using Sunny.Subd.Core.Proxies;
+using Sunny.Subdy.Common.ControlMethod;
+using Sunny.Subdy.Common.Models;
 using Sunny.Subdy.Data.Context;
+using Sunny.Subdy.Data.Models;
 
 namespace Sunny.Subdy.UI.View.Forms.Actions
 {
     public partial class fAction_RegFB : Form
     {
         private FolderContext _folderContext;
+        public Folder Folder { get; set; } = new Folder();
         public fAction_RegFB()
         {
             InitializeComponent();
+            uiComboBox1.Clear();
+            uiComboBox1.Items.AddRange(RegistrationType.AllTypes.ToArray());
+            if (string.IsNullOrEmpty(uiComboBox1.Text))
+            {
+                uiComboBox1.SelectedIndex = 0;
+            }
+
+            cbb_Email.Items.Clear();
+            cbb_Email.Items.AddRange(RegistrationType.EmailTypes.ToArray());
+            if (string.IsNullOrEmpty(cbb_Email.Text.Trim()))
+            {
+                cbb_Email.SelectedIndex = 0;
+            }
+
+            comboBox1.Items.Clear();
+            comboBox1.Items.AddRange(RegistrationType.PhoneNumberTypes.ToArray());
+            if (string.IsNullOrEmpty(comboBox1.Text.Trim()))
+            {
+                comboBox1.SelectedIndex = 0;
+            }
+
+
+            comboBox2.Items.Clear();
+            comboBox2.Items.AddRange(RegistrationType.EmailTypes.ToArray());
+            if (string.IsNullOrEmpty(comboBox2.Text.Trim()))
+            {
+                comboBox2.SelectedIndex = 0;
+            }
+            comboBox2.Items.Clear();
+            comboBox2.Items.AddRange(RegistrationType.EmailTypes.ToArray());
+            if (string.IsNullOrEmpty(comboBox2.Text.Trim()))
+            {
+                comboBox2.SelectedIndex = 0;
+            }
+
+
             _folderContext = new FolderContext();
             new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
             {
@@ -74,32 +114,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
         }
         private void LoadUI()
         {
-            uiComboBox1.Clear();
-            uiComboBox1.Items.AddRange(RegistrationType.AllTypes.ToArray());
-            if (string.IsNullOrEmpty(uiComboBox1.Text))
-            {
-                uiComboBox1.SelectedIndex = 0;
-            }
             LoadFolder();
-            cbb_Email.Items.Clear();
-            cbb_Email.Items.AddRange(RegistrationType.EmailTypes.ToArray());
-            if (string.IsNullOrEmpty(cbb_Email.Text.Trim()))
-            {
-                cbb_Email.SelectedIndex = 0;
-            }
-            comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(RegistrationType.PhoneNumberTypes.ToArray());
-            if (string.IsNullOrEmpty(comboBox1.Text.Trim()))
-            {
-                comboBox1.SelectedIndex = 0;
-            }
-
-            comboBox2.Items.Clear();
-            comboBox2.Items.AddRange(RegistrationType.EmailTypes.ToArray());
-            if (string.IsNullOrEmpty(comboBox2.Text.Trim()))
-            {
-                comboBox2.SelectedIndex = 0;
-            }
         }
         private void uiSymbolButton1_Click(object sender, EventArgs e)
         {
@@ -166,7 +181,12 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
 
         private void uiSymbolButton3_Click(object sender, EventArgs e)
         {
-
+            if(string.IsNullOrEmpty(cbx_Folders.Text.Trim()) ||cbx_Folders.Text.Trim() == "Tạo nhóm tài khoản trước khi chạy.")
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng chọn nhóm tài khoản cần lưu.");
+                return;
+            }
+            Folder  = _folderContext.GetByName(cbx_Folders.Text.Trim());
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

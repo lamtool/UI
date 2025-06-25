@@ -20,9 +20,9 @@ namespace Sunny.Subd.Core.Email
                 string domain = await GetDomain();
                 if (string.IsNullOrEmpty(domain))
                 {
-                    return "ERROR:NO get domain.";
+                    return string.Empty;
                 }
-                string email = SubdyHelper.RandomString(length: SubdyHelper.RandomValue(6, 20)) + domain;
+                string email = (SubdyHelper.RandomString(length: SubdyHelper.RandomValue(6, 20)) + "@" + domain).ToLower();
                 var options = new RestClientOptions("https://inboxes.com")
                 {
                     Timeout = TimeSpan.FromSeconds(60),
@@ -32,13 +32,13 @@ namespace Sunny.Subd.Core.Email
                 RestResponse response = await client.ExecuteAsync(request);
                 if (response.Content.Contains("msgs"))
                 {
-                    return $"success|{email}";
+                    return email;
                 }
-                return "ERROR:";
+                return string.Empty;
             }
             catch (Exception ex)
             {
-                return "ERROR:";
+                return string.Empty;
             }
         }
         private static async Task<string> GetDomain()
@@ -82,59 +82,35 @@ namespace Sunny.Subd.Core.Email
             }
             return "";
         }
-        public static async Task<string> GetOTP(string email, int timeOut = 120)
+        public static async Task<string> GetCode(string email)
         {
             try
             {
                 string urlId = string.Empty;
-                int tickCount = Environment.TickCount;
-                while (timeOut > 0)
+
+                var repont = await RequestService.Get($"https://inboxes.com/api/v2/inbox/{email}");
+                var data = JObject.Parse(repont);
+                JArray messages = (JArray)data["msgs"];
+                urlId = messages
+.FirstOrDefault(msg => msg["f"]?.ToString() == "Facebook")?["uid"]?.ToString();
+                if (string.IsNullOrEmpty(urlId))
                 {
-                    try
-                    {
-                        var repont = await RequestService.Get($"https://inboxes.com/api/v2/inbox/{email}");
-                        var data = JObject.Parse(repont);
-                        JArray messages = (JArray)data["msgs"];
-
-                        // Lọc danh sách tin nhắn có nguồn từ Facebook
-                        urlId = messages
-    .FirstOrDefault(msg => msg["f"]?.ToString() == "Facebook")?["uid"]?.ToString();
-                        if (string.IsNullOrEmpty(urlId))
-                        {
-                            await Task.Delay(2000);
-                            timeOut -= 2;
-                            continue;
-                        }
-                        var content = await RequestService.Get($"https://inboxes.com/api/v2/message/{urlId}");
-                        data = JObject.Parse(content);
-                        string textContent = data["text"]?.ToString();
-                        string cleanedText = Regex.Replace(textContent, @"[^\d\s]", "");
-                        string pattern = @"\b\d{4,8}(?!\S)";
-                        MatchCollection matches = Regex.Matches(cleanedText, pattern);
-
-                        foreach (Match match in matches)
-                        {
-                            if (match.Value != Regex.Replace(email, @"[^\d\s]", ""))
-                            {
-                                return match.Value;
-                            }
-                        }
-                        if (string.IsNullOrEmpty(urlId))
-                        {
-                            await Task.Delay(2000);
-                            timeOut -= 2;
-                            continue;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogManager.Error(ex);
-                    }
-
-                    await Task.Delay(2000);
-                    timeOut -= 2;
+                    return string.Empty;
                 }
+                var content = await RequestService.Get($"https://inboxes.com/api/v2/message/{urlId}");
+                data = JObject.Parse(content);
+                string textContent = data["text"]?.ToString();
+                string cleanedText = Regex.Replace(textContent, @"[^\d\s]", "");
+                string pattern = @"\b\d{4,8}(?!\S)";
+                MatchCollection matches = Regex.Matches(cleanedText, pattern);
 
+                foreach (Match match in matches)
+                {
+                    if (match.Value != Regex.Replace(email, @"[^\d\s]", ""))
+                    {
+                        return match.Value;
+                    }
+                }
                 return null;
             }
             catch (Exception ex)

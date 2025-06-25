@@ -111,14 +111,14 @@ namespace Sunny.Subd.Core.Facebook
             _device.SendTextSlow("//*[@class='android.widget.EditText']", uid, xml: elements[0].OuterXml);
             SetStatus($"Đang nhập {_account.Password}...");
             _device.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password, xml: elements[1].OuterXml);
-            _device.ElementWithAttributes(_device.FindElement("", XpathManager.Get(XpathType.NavigationButton), 10));
+            _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             return;
         }
         private async Task ImportPassword()
         {
             SetStatus($"Đang nhập {_account.Password}...");
             _device.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password);
-            _device.ElementWithAttributes(_device.FindElement("", XpathManager.Get(XpathType.NavigationButton), 10));
+            _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             return;
         }
         private async Task Import2FA()
@@ -134,7 +134,7 @@ namespace Sunny.Subd.Core.Facebook
             if (element == "//*[@content-desc='Try another way']")
             {
                 _device.ElementWithAttributes("//*[@content-desc='Authentication app, Get a code from your authentication app.']", 10);
-                _device.ElementWithAttributes(_device.FindElement("", XpathManager.Get(XpathType.NavigationButton), 10));
+                _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             }
             else if (element == "//*[@text=\"OK\"]")
             {
@@ -142,7 +142,7 @@ namespace Sunny.Subd.Core.Facebook
             }
             string code = FacebookHander.GetCodeTowFA(_account.TowFA);
             _device.SendTextSlow("//*[@class='android.widget.EditText']", code);
-            _device.ElementWithAttributes(_device.FindElement("", XpathManager.Get(XpathType.NavigationButton), 10));
+            _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             return;
         }
 

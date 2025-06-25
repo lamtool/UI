@@ -14,5 +14,8 @@
         InputUserName,
         InputPassword,
         NavigationButton,
+        Regsiner_Facebook,
+        ExistEmail,
+        Confim_Register,
     }
 }

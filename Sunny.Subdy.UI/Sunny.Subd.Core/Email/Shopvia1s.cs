@@ -13,7 +13,7 @@ namespace Sunny.Subd.Core.Email
                 var form = new MultipartFormDataContent
         {
             { new StringContent("buyProduct"), "action" },
-            { new StringContent("22781"), "id" },
+            { new StringContent("22691"), "id" },
             { new StringContent("1"), "amount" },
             { new StringContent(token), "api_key" }
         };
@@ -38,7 +38,7 @@ namespace Sunny.Subd.Core.Email
             }
             return string.Empty;
         }
-        public static async Task<string> GetOTPHotmail(string email, string refresh_token, string client_id)
+        public static async Task<string> GetCode(string email, string refresh_token, string client_id)
         {
             try
             {

@@ -1,4 +1,6 @@
-﻿namespace Sunny.Subdy.Common.Models
+﻿using System.Windows.Forms;
+
+namespace Sunny.Subdy.Common.Models
 {
     public class Globals
     {
@@ -36,5 +38,7 @@
         };
         public static string DeviceId = Guid.NewGuid().ToString();
         public static string NameApp = "LamToolAutoPhone";
+        public static DataGridView DataGridView { get; set; } = new DataGridView();
+        
     }
 }

@@ -9,7 +9,7 @@ namespace AutoAndroid
 {
     public class AdbJoinWifiService
     {
-        public static string Path = AppDomain.CurrentDomain.BaseDirectory + "Android\\App\\adbjoinwifi.apk";
+        public static string PathApk = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App", "adbjoinwifi.apk");
         public static string Package = "com.steinwurf.adbjoinwifi";
         private ADBClient _service;
         public AdbJoinWifiService(ADBClient service)
@@ -24,7 +24,7 @@ namespace AutoAndroid
                 {
                     break;
                 }
-                _service.InstallApp(Path);
+                _service.InstallApp(PathApk);
                 _service.Delay(2);
             }
             return true;

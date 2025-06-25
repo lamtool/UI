@@ -21,7 +21,7 @@ namespace Sunny.Subd.Core.Facebook
         }
         public static string Package(string platform = "facebook")
         {
-            switch(platform.ToLower())
+            switch (platform.ToLower())
             {
                 case "facebook":
                     return "com.facebook.katana";
@@ -204,6 +204,25 @@ namespace Sunny.Subd.Core.Facebook
             {
             }
             return uid + "|" + token + "|" + cookie;
+        }
+
+
+        public static List<string> Regsiner_Facebook()
+        {
+            var xpaths = XpathManager.Combine
+                (
+                    XpathType.CP282,
+                    XpathType.Loading,
+                    XpathType.Captcha,
+                    XpathType.CP956,
+                    XpathType.Logout,
+                    XpathType.ExistEmail,
+                    XpathType.Success,
+                    XpathType.CashApp,
+                    XpathType.Regsiner_Facebook,
+                    XpathType.NavigationButton
+                );
+            return xpaths;
         }
     }
 }

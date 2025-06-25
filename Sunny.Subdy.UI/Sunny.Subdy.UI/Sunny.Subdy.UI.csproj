@@ -128,9 +128,5 @@
 	  <Content Include="Libs\ffmpeg\swscale-5.dll" />
 	  <Content Include="Libs\ffmpeg\swscale-6.dll" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="App\" />
-	</ItemGroup>
 	
 </Project>

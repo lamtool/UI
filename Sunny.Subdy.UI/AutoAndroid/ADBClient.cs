@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.XPath;
 using Newtonsoft.Json.Linq;
 using static AutoAndroid.AtxDeviceInfo;
 
@@ -167,65 +169,6 @@ namespace AutoAndroid
             VATProxyService proxyService = new VATProxyService(this);
             return proxyService.ConnectProxy(proxy);
         }
-        private bool College_Proxy(string proxy)
-        {
-            if (string.IsNullOrEmpty(proxy)) return false;
-            string[] proxyParts = proxy.Split(':');
-            if (proxyParts.Length < 2) return false;
-
-
-
-            List<string> proxyList = new List<string>
-            {
-                "//*[@text=\"OK\"]",
-                "//*[@text=\"START PROXY SERVICE\"]",
-                "//*[@text=\"STOP PROXY SERVICE\"]",
-
-            };
-
-            for (int i = 0; i < 5; i++)
-            {
-                AppClear("com.cell47.College_Proxy");
-                AppStart("com.cell47.College_Proxy", true, true, wait: true);
-                stopwatch.Restart();
-                while (stopwatch.ElapsedMilliseconds < 60000)
-                {
-
-                    var element = FindElement("", proxyList, 10);
-                    if (string.IsNullOrEmpty(element)) break;
-                    switch (element)
-                    {
-                        case "//*[@text=\"STOP PROXY SERVICE\"]":
-                            {
-
-                                return true;
-                            }
-                        case "//*[@text=\"OK\"]":
-                            {
-                                ElementWithAttributes(element, 1, "", true);
-                                break;
-                            }
-                        case "//*[@text=\"START PROXY SERVICE\"]":
-                            {
-                                SendTextADB("//*[@resource-id=\"com.cell47.College_Proxy:id/editText_address\"]", proxyParts[0], 1, "", true);
-                                SendTextADB("//*[@resource-id=\"com.cell47.College_Proxy:id/editText_port\"]", proxyParts[1], 1, "", true);
-                                ElementWithAttributes(element, 1, "", true);
-
-                                break;
-                            }
-                    }
-
-                }
-            }
-
-
-            return false;
-        }
-
-
-
-
-
         public bool Connect()
         {
             try
@@ -630,7 +573,8 @@ namespace AutoAndroid
             {
                 string data = Convert.ToBase64String(Encoding.UTF8.GetBytes(c.ToString()));
                 string type = "ADB_INPUT_TEXT";
-                var s = Shell("am", "broadcast", "-a", type, "--es", "text", data);  // Gửi từng ký tự Unicode
+                //    var s = Shell("am", "broadcast", "-a", type, "--es", "text", data);  // Gửi từng ký tự Unicode
+                ADB.Shell($"am broadcast -a {type} --es text {data}");  // Gửi từng ký tự Unicode
                 Thread.Sleep(random.Next(min, max)); // Tạo độ trễ ngẫu nhiên
             }
         }
@@ -834,7 +778,7 @@ namespace AutoAndroid
 
             return attributeValues;
         }
-        public List<string> FindElements(string xmlContent, string xpath, int timout = 10)
+        public List<string> FindBounds(string xmlContent, string xpath, int timout = 10)
         {
             List<string> attributeValues = new List<string>();
             try
@@ -850,29 +794,20 @@ namespace AutoAndroid
                         }
                         if (!string.IsNullOrEmpty(xmlContent))
                         {
-                            xmlContent = xmlContent.ToLower();
-                            xpath = xpath.ToLower();
-
-                            XmlDocument xmlDoc = new XmlDocument();
-                            xmlDoc.LoadXml(xmlContent);
-                            //Appium
-                            XmlNodeList nodeList = xmlDoc.SelectNodes(xpath);
-                            for (int i = 0; i < nodeList.Count; i++)
+                            using (var reader = XmlReader.Create(new StringReader(xmlContent.ToLower())))
                             {
-                                try
-
+                                var doc = new XPathDocument(reader);
+                                var nav = doc.CreateNavigator();
+                                var nodes = nav.Select(xpath.ToLower());
+                                while (nodes.MoveNext())
                                 {
-                                    var s = nodeList[i];
-                                    attributeValues.Add(nodeList[i].OuterXml);
-                                }
-                                catch
-                                {
+                                    var bounds = nodes.Current.GetAttribute("bounds", "");
+                                    if (!string.IsNullOrEmpty(bounds))
+                                        attributeValues.Add(bounds);
                                 }
                             }
-                        }
-                        if (attributeValues.Count > 0)
-                        {
-                            return attributeValues;
+                            if (attributeValues.Count > 0)
+                                return attributeValues;
                         }
                         xmlContent = string.Empty;
                     }
@@ -893,55 +828,129 @@ namespace AutoAndroid
         }
         public bool ElementWithAttributes(string element, int timeoutInSeconds = 5, string xmlsoucre = "", bool click = true)
         {
-            try
+            stopwatch.Restart();
+            while (stopwatch.ElapsedMilliseconds < timeoutInSeconds * 1000)
             {
-                if (string.IsNullOrEmpty(element)) return false;
-                LogHelper.Log("Find " + element + "");
-                string attributeValue = GetBoundsValues(timeoutInSeconds, xmlsoucre, element).FirstOrDefault();
-                if (!string.IsNullOrEmpty(attributeValue))
+                try
                 {
-                    if (click)
+                    if (string.IsNullOrEmpty(xmlsoucre))
+                        xmlsoucre = GetXMLSource();
+                    using (var stringReader = new StringReader(xmlsoucre.ToLower()))
                     {
-                        var point = new RectangleArea(attributeValue).GetCenterPoint();
-                        return Click(Convert.ToSingle(point.X), Convert.ToSingle(point.Y));
-                    }
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Log(ex.Message);
-            }
+                        var xpathDoc = new XPathDocument(stringReader);
+                        var navigator = xpathDoc.CreateNavigator();
 
-            return false;
-        }
-        public bool ElementWithAttributes(List<string> elements, int timeoutInSeconds = 5, string xmlsoucre = "", bool click = true)
-        {
-            try
-            {
-                for (int i = 0; i < timeoutInSeconds; i++)
-                {
-                    foreach (string element in elements)
-                    {
-                        LogHelper.SUCCESS("Tap " + element + "");
-                        string attributeValue = GetBoundsValues(1, xmlsoucre, element).FirstOrDefault();
-                        if (!string.IsNullOrEmpty(attributeValue))
+                        try
                         {
-                            if (click)
+                            var nodeIterator = navigator.Select(element.ToLower());
+                            while (nodeIterator.MoveNext())
                             {
-                                var point = new RectangleArea(attributeValue).GetCenterPoint();
-                                return Click(Convert.ToSingle(point.X), Convert.ToSingle(point.Y));
+                                var bounds = nodeIterator.Current?.GetAttribute("bounds", "");
+                                if (!string.IsNullOrEmpty(bounds))
+                                {
+                                    if (click)
+                                    {
+                                        var point = new RectangleArea(bounds).GetCenterPoint();
+                                        return Click(point.X, point.Y);
+                                    }
+                                    return true;
+                                }
                             }
-                            return true;
+                        }
+                        catch
+                        {
+                            // ignore xpath error
                         }
                     }
                 }
+                catch
+                {
+
+                }
+
+                xmlsoucre = string.Empty;
+            }
+            return false;
+        }
+        //public bool ElementWithAttributes(List<string> elements, int timeoutInSeconds = 5, string xmlsoucre = "", bool click = true)
+        //{
+        //    try
+        //    {
+        //        for (int i = 0; i < timeoutInSeconds; i++)
+        //        {
+        //            foreach (string element in elements)
+        //            {
+        //                LogHelper.SUCCESS("Tap " + element + "");
+        //                string attributeValue = GetBoundsValues(1, xmlsoucre, element).FirstOrDefault();
+        //                if (!string.IsNullOrEmpty(attributeValue))
+        //                {
+        //                    if (click)
+        //                    {
+        //                        var point = new RectangleArea(attributeValue).GetCenterPoint();
+        //                        return Click(Convert.ToSingle(point.X), Convert.ToSingle(point.Y));
+        //                    }
+        //                    return true;
+        //                }
+        //            }
+        //        }
 
 
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogHelper.ERROR(ex.Message);
+        //    }
+
+        //    return false;
+        //}
+        public bool ElementWithAttributes(List<string> xpaths, int timeoutInSeconds = 5, string xmlSource = "", bool click = true)
+        {
+            try
+            {
+                int startTick = Environment.TickCount;
+
+                while (Environment.TickCount - startTick < timeoutInSeconds * 1000)
+                {
+                    // Lấy XML mới nếu chưa có
+                    if (string.IsNullOrEmpty(xmlSource))
+                        xmlSource = GetXMLSource();
+
+                    if (!string.IsNullOrEmpty(xmlSource))
+                    {
+                        using var reader = new StringReader(xmlSource.ToLower());
+                        var xpathDoc = new XPathDocument(reader);
+                        var nav = xpathDoc.CreateNavigator();
+
+                        foreach (var xpath in xpaths)
+                        {
+                            try
+                            {
+                                var nodes = nav.Select(xpath.ToLower());
+                                while (nodes.MoveNext())
+                                {
+                                    string bounds = nodes.Current?.GetAttribute("bounds", "");
+                                    if (!string.IsNullOrEmpty(bounds))
+                                    {
+                                        if (click)
+                                        {
+                                            var point = new RectangleArea(bounds).GetCenterPoint();
+                                            return Click(point.X, point.Y);
+                                        }
+                                        return true;
+                                    }
+                                }
+                            }
+                            catch { /* XPath lỗi thì bỏ qua */ }
+                        }
+                    }
+
+                    Thread.Sleep(150); // Nhẹ hơn nhưng vẫn giảm tải CPU
+                    xmlSource = ""; // Để vòng lặp sau lấy mới
+                }
             }
             catch (Exception ex)
             {
-                LogHelper.ERROR(ex.Message);
+                LogHelper.ERROR("ElementWithAttributes: " + ex.Message);
             }
 
             return false;
@@ -1287,6 +1296,67 @@ namespace AutoAndroid
             }
             return false;
         }
+        //public string FindElement(string xmlContent, List<string> xpaths, int timeoutInSeconds)
+        //{
+        //    try
+        //    {
+        //        int startTick = Environment.TickCount;
+        //        while (true)
+        //        {
+        //            // Lấy nội dung XML nếu chưa có
+        //            if (string.IsNullOrEmpty(xmlContent))
+        //            {
+        //                xmlContent = GetXMLSource();
+        //            }
+        //            if (!string.IsNullOrEmpty(xmlContent) && xpaths != null && xpaths.Count > 0)
+        //            {
+        //                xmlContent = xmlContent.ToLower();
+
+        //                XmlDocument xmlDoc = new XmlDocument();
+        //                xmlDoc.LoadXml(xmlContent);
+
+        //                // Duyệt qua từng xpath trong danh sách
+        //                foreach (var xpath in xpaths)
+        //                {
+        //                    try
+        //                    {
+        //                        XmlNodeList nodeList = xmlDoc.SelectNodes(xpath.ToLower());
+        //                        if (nodeList != null && nodeList.Count > 0)
+        //                        {
+        //                            // Duyệt qua từng node và kiểm tra thuộc tính "bounds"
+        //                            foreach (XmlNode node in nodeList)
+        //                            {
+        //                                if (node.Attributes["bounds"] != null)
+        //                                {
+        //                                    return xpath; // Trả về xpath đầu tiên thỏa mãn
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                    catch
+        //                    {
+        //                        // Bỏ qua lỗi nếu xpath không hợp lệ
+        //                    }
+        //                }
+        //            }
+
+        //            // Kiểm tra nếu đã hết thời gian chờ
+        //            if (Environment.TickCount - startTick >= timeoutInSeconds * 1000)
+        //            {
+        //                break;
+        //            }
+
+        //            // Làm mới nội dung XML nếu cần
+        //            xmlContent = "";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogHelper.ERROR(ex.Message);
+        //    }
+
+        //    return null; // Không tìm thấy phần tử phù hợp
+        //}
         public string FindElement(string xmlContent, List<string> xpaths, int timeoutInSeconds)
         {
             try
@@ -1294,50 +1364,47 @@ namespace AutoAndroid
                 int startTick = Environment.TickCount;
                 while (true)
                 {
-                    // Lấy nội dung XML nếu chưa có
+                    // Gọi XML nếu cần
                     if (string.IsNullOrEmpty(xmlContent))
                     {
                         xmlContent = GetXMLSource();
                     }
+
                     if (!string.IsNullOrEmpty(xmlContent) && xpaths != null && xpaths.Count > 0)
                     {
-                        xmlContent = xmlContent.ToLower();
-
-                        XmlDocument xmlDoc = new XmlDocument();
-                        xmlDoc.LoadXml(xmlContent);
-
-                        // Duyệt qua từng xpath trong danh sách
-                        foreach (var xpath in xpaths)
+                        using (var stringReader = new StringReader(xmlContent.ToLower()))
                         {
-                            try
+                            var xpathDoc = new XPathDocument(stringReader);
+                            var navigator = xpathDoc.CreateNavigator();
+
+                            foreach (var xpath in xpaths)
                             {
-                                XmlNodeList nodeList = xmlDoc.SelectNodes(xpath.ToLower());
-                                if (nodeList != null && nodeList.Count > 0)
+                                try
                                 {
-                                    // Duyệt qua từng node và kiểm tra thuộc tính "bounds"
-                                    foreach (XmlNode node in nodeList)
+                                    var nodeIterator = navigator.Select(xpath.ToLower());
+                                    while (nodeIterator.MoveNext())
                                     {
-                                        if (node.Attributes["bounds"] != null)
+                                        var bounds = nodeIterator.Current?.GetAttribute("bounds", "");
+                                        if (!string.IsNullOrEmpty(bounds))
                                         {
-                                            return xpath; // Trả về xpath đầu tiên thỏa mãn
+                                            return xpath;
                                         }
                                     }
                                 }
-                            }
-                            catch
-                            {
-                                // Bỏ qua lỗi nếu xpath không hợp lệ
+                                catch
+                                {
+                                    // ignore xpath error
+                                }
                             }
                         }
                     }
 
-                    // Kiểm tra nếu đã hết thời gian chờ
+                    // Check timeout
                     if (Environment.TickCount - startTick >= timeoutInSeconds * 1000)
-                    {
                         break;
-                    }
 
-                    // Làm mới nội dung XML nếu cần
+                    // Wait before next check
+                    Thread.Sleep(200); // tránh spam CPU
                     xmlContent = "";
                 }
             }
@@ -1346,7 +1413,7 @@ namespace AutoAndroid
                 LogHelper.ERROR(ex.Message);
             }
 
-            return null; // Không tìm thấy phần tử phù hợp
+            return null;
         }
         public void AppStopAll(params string[] excludes)
         {
@@ -1406,6 +1473,18 @@ namespace AutoAndroid
             {
                 return false;
             }
+        }
+        public void GrantAppPermissions(string package)
+        {
+            this.Shell(" pm grant " + package + " android.permission.READ_CONTACTS");
+            this.Shell(" pm grant " + package + " android.permission.READ_EXTERNAL_STORAGE");
+            this.Shell(" pm grant " + package + " android.permission.WRITE_EXTERNAL_STORAGE");
+            this.Shell(" pm grant " + package + " android.permission.CAMERA");
+            this.Shell(" pm grant " + package + " android.permission.RECORD_AUDIO");
+            this.Shell(" pm grant " + package + " android.permission.CALL_PHONE");
+            this.Shell("pm grant " + package + " android.permission.MANAGE_EXTERNAL_STORAGE");
+            this.Shell("pm grant " + package + " android.permission.MANAGE_EXTERNAL_STORAGE");
+
         }
         public string GetIp()
         {

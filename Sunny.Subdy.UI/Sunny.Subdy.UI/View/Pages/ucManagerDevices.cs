@@ -1,10 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 using AutoAndroid;
 using AutoAndroid.Stream;
 using Sunny.Subd.Core.Facebook;
+using Sunny.Subd.Core.Gmail;
+using Sunny.Subd.Core.Proxies;
 using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Common.Json;
+using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.Common.Models;
 using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Data.Models;
@@ -527,12 +532,21 @@ namespace Sunny.Subdy.UI.View.Pages
         }
         private void uiSymbolButton4_Click(object sender, EventArgs e)
         {
-            var parentForm = this.FindForm();
-            if (parentForm != null)
+            if (uiSymbolButton4.Text == "Dừng" && cancellationTokenSource != null)
             {
-                parentForm.DialogResult = DialogResult.Cancel;
-                parentForm.Close();
+                cancellationTokenSource.Cancel();
+                uiSymbolButton4.Enabled = false;
             }
+            else
+            {
+                var parentForm = this.FindForm();
+                if (parentForm != null)
+                {
+                    parentForm.DialogResult = DialogResult.Cancel;
+                    parentForm.Close();
+                }
+            }
+
         }
         private void uiSymbolButton3_Click(object sender, EventArgs e)
         {
@@ -550,7 +564,7 @@ namespace Sunny.Subdy.UI.View.Pages
                 CommonMethod.ShowMessageWarning("Vui lòng kết nối thiết bị trước khi bắt đầu!");
             }
         }
-        private void facebookToolStripMenuItem1_Click(object sender, EventArgs e)
+        private async void facebookToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (!DeviceServices.DeviceModels.Where(x => x.Check).Any())
             {
@@ -566,23 +580,42 @@ namespace Sunny.Subdy.UI.View.Pages
             groupBox2.Visible = true;
             uiSymbolButton4.Text = "Dừng";
             uiSymbolButton3.Enabled = false;
+            await RunAsync(fAction_RegFB.Folder);
+            groupBox2.Visible = false;
+            uiSymbolButton4.Text = "Đóng";
+            uiSymbolButton3.Enabled = true;
         }
-        private async Task RunAsync()
+        private async Task RunAsync(Folder folder)
         {
+            LogManager.LogRegsiner.Clear();
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken ct = cancellationTokenSource.Token;
             List<Task> tasks = new List<Task>();
             JsonHelper settingRegsiner = SettingsTool.GetSettings(nameof(fAction_RegFB), true);
             JsonHelper settingGeneral = SettingsTool.GetSettings(nameof(pageSetting), true);
+            ProxyService.Proxies.Clear();
+            ProxyService.Proxies.AddRange(settingGeneral.GetValuesList("txtLines"));
+            GmailService.Gmails.Clear();
+            string file = settingRegsiner.GetValuesFromInputString("txtGmail");
+            if (File.Exists(file))
+            {
+                GmailService.Gmails.AddRange(File.ReadAllLines(file));
+            }
             foreach (var device in DeviceServices.DeviceModels.Where(x => x.Check))
             {
-                FacebookRegsiner facebook = new FacebookRegsiner(device, settingRegsiner, settingGeneral, ct);
+                FacebookRegsiner facebook = new FacebookRegsiner(device, settingRegsiner, settingGeneral, ct, folder);
                 tasks.Add(Task.Run(async () =>
                 {
                     await facebook.RegisterAsync();
                 }));
             }
             await Task.WhenAll(tasks);
+        }
+
+        private void uiHeaderButton1_Click(object sender, EventArgs e)
+        {
+            fLogRegsiner logRegsiner = new fLogRegsiner();
+            logRegsiner.Show();
         }
     }
 }

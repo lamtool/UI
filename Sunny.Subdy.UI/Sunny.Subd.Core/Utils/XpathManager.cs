@@ -14,6 +14,8 @@ namespace Sunny.Subd.Core.Utils
       });
             _xpathGroups.TryAdd(XpathType.CP282, new List<string>
           {
+             "//*[@text=\"Type the text\"]",
+             "//*[contains(@content-desc, \"confirm you're human to use your account\")]",
              $"//*[contains(text, \"Record a video of yourself\")]",
              $"//*[contains(text, \"Enter the characters you see\")]",
              $"//*[contains(text, \"Vietnam (+84)\")]",
@@ -23,6 +25,8 @@ namespace Sunny.Subd.Core.Utils
              $"//*[contains(text, \"Access Denied\")]",
              $"//*[contains(text, \"Appeal\")]",
              $"//*[contains(text, \"Send by SMS\")]",
+             "//*[@text=\"Enter text\"]",
+             "//*[@text=\"This page is currently not displayed\"]",
              $"//*[contains(text, \"we suspended your account\")]",
              $"//*[contains(text, \"read more about this rule\")]",
              $"//*[contains(text, \"Upload image or take photo\")]",
@@ -30,7 +34,6 @@ namespace Sunny.Subd.Core.Utils
           });
             _xpathGroups.TryAdd(XpathType.CP956, new List<string>
           {
-             $"//*[contains(text, \"Get started\")]",
              $"//*[contains(text, \"Check your WhatsApp messages\")]",
              $"//*[contains(text, \"check your email\")]",
           });
@@ -74,9 +77,11 @@ namespace Sunny.Subd.Core.Utils
       });
             _xpathGroups.TryAdd(XpathType.NavigationButton, new List<string>
       {
+
+          "//*[@text=\"Continue using English (US)\"]",
+          "//*[@text=\"Get started\"]",
           "//*[@text=\"Log in\"]",
           "//*[@content-desc=\"Log in\"]",
-          "//*[@text=\"I already have an account\"]",
           "//*[@text=\"Deny\"]",
           "//*[@content-desc=\"Next\"]",
           "//*[@text=\"Tiếp\"]",
@@ -119,6 +124,80 @@ namespace Sunny.Subd.Core.Utils
       {
           $"//*[contains(text, \"Enter Password\")]",
       });
+
+            _xpathGroups.TryAdd(XpathType.Regsiner_Facebook, new List<string>
+            {
+
+                "//*[@text=\"Male\"]",
+                "//*[@text=\"Female\"]",
+                "//*[@text=\"Add a mobile number to your account\"]",
+                "//*[@text=\"Add a profile picture\"]",
+                "//*[@text=\"Save login info?\"]",
+                "//*[@text=\"Add friends\"]",
+                "//*[@text=\"Turn on contact uploading\"]",
+                "//*[@text=\"What is your mobile number?\"]",
+                "//*[@text=\"Sign up with email\"]",
+                "//*[@text=\"Choose your name\"]",
+                "//*[@content-desc=\"Go to profile\"]",
+                "//*[@text=\"This page is currently not displayed\"]",
+                "//*[@content-desc=\"Appeal\"]",
+                "//*[@text=\"Enter text\"]",
+                "//*[@text=\"I agree\"]",
+                "//*[@text=\"Select your name\"]",
+                "//*[@text=\"Couldn't create account\"]",
+                "//*[@text=\"Enter email\"]",
+                "//*[@text=\"Confirm with email\"]",
+                "//*[@text=\"I didn't receive a code\"]",
+                "//*[@text=\"Please log in again.\"]",
+                "//*[@text=\"IMPORT CONTACTS\"]",
+                "//*[@text=\"Sign up\"]",
+                "//*[@text=\"Get started\"]",
+                "//*[@text=\"Create new account\"]",
+                "//*[@content-desc=\"Create new account\"]",
+                "//*[@content-desc=\"Join Facebook\"]",
+                "//*[@content-desc=\"No, create new account\"]",
+                "//*[@content-desc=\"Create new Facebook account\"]",
+                "//*[@text=\"Continue creating account\"]",
+                "//*[@content-desc=\"Continue creating account\"]",
+                "//*[@text=\"No, create account\"]",
+                "//*[@text=\"What's your name?\"]",
+                "//*[@text=\"When is your date of birth?\"]",
+                "//*[@text=\"SET\"]",
+                "//*[@text=\"What is your gender?\"]",
+                "//*[@text=\"What is your email?\"]",
+                "//*[@text=\"Sign up with mobile number\"]",
+                "//*[@text=\"Create a password\"]",
+                "//*[contains(@text, \"sent to\")]",
+
+            });
+            _xpathGroups.TryAdd(XpathType.ExistEmail, new List<string>
+            {
+                "//*[@text=\"This Page Isn't Available Right Now\"]",
+                "//*[@text=\"There is already an account linked to this email address.\"]",
+                "//*[@text=\"An account already exists linked to this email.\"]",
+            });
+            _xpathGroups.TryAdd(XpathType.Confim_Register, new List<string>
+            {
+                "//*[@text=\"Continue creating account\"]",
+ "//*[@text=\"Confirm by email\"]",
+ "//*[@text=\"Enter an email\"]",
+ "//*[@text=\"I didn’t get the code\"]",
+ "//*[@text=\"Continue using English (US)\"]",
+
+ "//*[@text=\"Enter email\"]",
+ "//*[@text=\"Confirm with email\"]",
+ "//*[@text=\"I didn't receive a code\"]",
+ "//*[@text=\"I agree\"]",
+ "//*[@text=\"Please log in again.\"]",
+ "//*[@text=\"Sign up\"]",
+ "//*[@text=\"Create new account\"]",
+ "//*[@text=\"Create new account\"]",
+ "//*[@content-desc=\"Create new account\"]",
+      "//*[@text=\"Get started\"]",
+ "//*[@content-desc=\"Join Facebook\"]",
+ "//*[@text=\"Get started\"]",
+ "//*[@content-desc=\"No, create new account\"]",
+            });
         }
         public static List<string> Get(XpathType group)
         {

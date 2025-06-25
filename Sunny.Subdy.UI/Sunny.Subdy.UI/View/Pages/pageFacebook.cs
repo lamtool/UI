@@ -23,7 +23,7 @@ namespace Sunny.Subdy.UI.View.Pages
     {
         private FolderContext _folderContext;
         private ScriptContext _scriptContext;
-        private ucdgvAccount _ucdgvAccount;
+        public ucdgvAccount _ucdgvAccount;
         Sunny.UI.UINavMenu _mainTabControl;
         private pageDevice _formPhone;
         private CancellationTokenSource cancellationTokenSource;
@@ -220,7 +220,7 @@ namespace Sunny.Subdy.UI.View.Pages
                             Directory.CreateDirectory(folder);
                             filePath = Path.Combine(folder, $"{account.Uid}.tar.gz");
                         }
-                        client.ChangInfo(filePath, jsonHelper.GetBooleanValue("checkBox2", true), bards[random.Next(bards.Count)]);
+                        client.ChangInfo(filePath, jsonHelper.GetBooleanValue("checkBox2", true), bards[random.Next(bards.Count)], "");
                     }
                     ///////////////////////////////////
 

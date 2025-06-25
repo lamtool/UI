@@ -36,7 +36,7 @@
             BackColor = Color.White;
             ClientSize = new Size(800, 450);
             Name = "pageDevice";
-            Text = "pageDevice";
+            Text = "Thiết bị";
             ResumeLayout(false);
         }
 

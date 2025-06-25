@@ -1,5 +1,6 @@
 ﻿using Sunny.Subdy.Common.Logs;
 using System.Data.SQLite;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace Sunny.Subdy.Data
 {
     public class AppDbContext
     {
-        [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+        [AttributeUsage(AttributeTargets.Property)]
         public sealed class SqlKeyAttribute : Attribute { }
 
         private readonly string _connectionString;
@@ -15,8 +16,8 @@ namespace Sunny.Subdy.Data
 
         public AppDbContext(string databaseName)
         {
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            string dataDir = Path.Combine(baseDir, "data");
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            var dataDir = Path.Combine(baseDir, "data");
             if (!Directory.Exists(dataDir))
                 Directory.CreateDirectory(dataDir);
 
@@ -28,376 +29,286 @@ namespace Sunny.Subdy.Data
         private void EnsureDatabaseFile()
         {
             if (!File.Exists(_dbPath))
-            {
                 SQLiteConnection.CreateFile(_dbPath);
-            }
         }
 
         private string? MapTypeToSqlite(Type type)
         {
             if (type == typeof(int) || type == typeof(long)) return "INTEGER";
             if (type == typeof(string)) return "TEXT";
-            if (type == typeof(double) || type == typeof(float)) return "REAL";
             if (type == typeof(bool)) return "INTEGER";
+            if (type == typeof(double) || type == typeof(float)) return "REAL";
             if (type == typeof(DateTime)) return "TEXT";
-            if (type == typeof(Guid)) return "TEXT"; // Thêm dòng này
+            if (type == typeof(Guid)) return "TEXT";
             return null;
         }
 
         public SQLiteConnection GetConnection()
         {
-            try
-            {
-                var conn = new SQLiteConnection(_connectionString);
-                conn.Open();
-                return conn;
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-                throw;
-            }
+            var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
+            return conn;
         }
 
-        public void EnsureTable<T>()
+        public void EnsureTable<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>()
         {
-            try
+            var type = typeof(T);
+            var tableName = type.Name;
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            using var conn = GetConnection();
+
+            // Check existing table
+            var existingCols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            using (var cmd = new SQLiteCommand($"PRAGMA table_info({tableName})", conn))
+            using (var reader = cmd.ExecuteReader())
+                while (reader.Read())
+                    existingCols.Add(reader["name"].ToString());
+
+            if (existingCols.Count == 0)
             {
-                var type = typeof(T);
-                var tableName = type.Name;
-                var properties = type.GetProperties();
-
-                using var conn = GetConnection();
-
-                var existingColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                using (var cmd = new SQLiteCommand($"PRAGMA table_info({tableName})", conn))
-                using (var reader = cmd.ExecuteReader())
+                var columns = new List<string>();
+                foreach (var prop in props)
                 {
-                    while (reader.Read())
-                    {
-                        existingColumns.Add(reader["name"].ToString());
-                    }
+                    var sqliteType = MapTypeToSqlite(prop.PropertyType);
+                    if (sqliteType == null) continue;
+                    bool isKey = prop.GetCustomAttribute<SqlKeyAttribute>() != null;
+                    columns.Add($"  {prop.Name} {sqliteType}{(isKey ? " PRIMARY KEY" : "")}");
                 }
 
-                if (existingColumns.Count == 0)
-                {
-                    var sb = new StringBuilder();
-                    sb.AppendLine($"CREATE TABLE IF NOT EXISTS {tableName} (");
+                if (columns.Count == 0)
+                    throw new InvalidOperationException($"Type {type.Name} has no valid properties.");
 
-                    foreach (var prop in properties)
-                    {
-                        string name = prop.Name;
-                        string typeStr = MapTypeToSqlite(prop.PropertyType);
-                        if (typeStr == null) continue;
-
-                        bool isKey = prop.GetCustomAttribute<SqlKeyAttribute>() != null;
-                        sb.AppendLine($"  {name} {typeStr}{(isKey ? " PRIMARY KEY" : "")},");
-                    }
-
-                    sb.Length -= 3;
-                    sb.AppendLine(");");
-
-                    using var createCmd = new SQLiteCommand(sb.ToString(), conn);
-                    createCmd.ExecuteNonQuery();
-                }
-                else
-                {
-                    foreach (var prop in properties)
-                    {
-                        string name = prop.Name;
-                        string typeStr = MapTypeToSqlite(prop.PropertyType);
-                        if (typeStr == null) continue;
-
-                        if (!existingColumns.Contains(name))
-                        {
-                            string alterSql = $"ALTER TABLE {tableName} ADD COLUMN {name} {typeStr};";
-                            using var alterCmd = new SQLiteCommand(alterSql, conn);
-                            alterCmd.ExecuteNonQuery();
-                        }
-                    }
-                }
+                string createSql = $"CREATE TABLE IF NOT EXISTS {tableName} (\n{string.Join(",\n", columns)}\n);";
+                using var createCmd = new SQLiteCommand(createSql, conn);
+                createCmd.ExecuteNonQuery();
             }
-            catch (Exception ex)
+            else
             {
-                LogManager.Error(ex);
+                foreach (var prop in props)
+                {
+                    if (existingCols.Contains(prop.Name)) continue;
+                    var typeStr = MapTypeToSqlite(prop.PropertyType);
+                    if (typeStr == null) continue;
+
+                    string alterSql = $"ALTER TABLE {tableName} ADD COLUMN {prop.Name} {typeStr};";
+                    using var alterCmd = new SQLiteCommand(alterSql, conn);
+                    alterCmd.ExecuteNonQuery();
+                }
             }
         }
-
-        public bool ExecuteNonQuery(string sql)
+        public bool UpdateEntities<T>(List<T> entities)
         {
-            try
-            {
-                using var conn = GetConnection();
-                using var cmd = new SQLiteCommand(sql, conn);
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
+            if (entities == null || entities.Count == 0)
                 return false;
+
+            var type = typeof(T);
+            var tableName = type.Name;
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var keyProp = props.FirstOrDefault(p => p.GetCustomAttribute<SqlKeyAttribute>() != null);
+
+            if (keyProp == null)
+                throw new InvalidOperationException($"Type '{type.Name}' does not contain a property marked with [SqlKey].");
+
+            using var conn = GetConnection();
+            using var transaction = conn.BeginTransaction();
+
+            foreach (var entity in entities)
+            {
+                if (entity == null) continue;
+
+                var setClauses = new List<string>();
+                var parameters = new List<SQLiteParameter>();
+
+                foreach (var prop in props)
+                {
+                    if (prop == keyProp) continue;
+
+                    object? value = prop.GetValue(entity);
+                    if (value is Guid g) value = g.ToString();
+
+                    string paramName = $"@{prop.Name}";
+                    setClauses.Add($"{prop.Name} = {paramName}");
+                    parameters.Add(new SQLiteParameter(paramName, value ?? DBNull.Value));
+                }
+
+                var keyValue = keyProp.GetValue(entity);
+                if (keyValue == null)
+                    throw new InvalidOperationException("Primary key value cannot be null.");
+
+                if (keyValue is Guid kg) keyValue = kg.ToString();
+                parameters.Add(new SQLiteParameter("@Id", keyValue));
+
+                string sql = $"UPDATE {tableName} SET {string.Join(", ", setClauses)} WHERE {keyProp.Name} = @Id;";
+                using var cmd = new SQLiteCommand(sql, conn, transaction);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.ExecuteNonQuery();
             }
+
+            transaction.Commit();
+            return true;
         }
-
-        public bool ExecuteNonQuery(string sql, Dictionary<string, object> parameters)
+        public bool InsertEntity<T>(T entity)
         {
-            try
-            {
-                using var conn = GetConnection();
-                using var cmd = new SQLiteCommand(sql, conn);
-                foreach (var param in parameters)
-                    cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+            if (entity == null) return false;
 
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch (Exception ex)
+            var type = typeof(T);
+            var tableName = type.Name;
+            var props = type.GetProperties();
+
+            var columnNames = new List<string>();
+            var paramNames = new List<string>();
+            var parameters = new List<SQLiteParameter>();
+
+            foreach (var prop in props)
             {
-                LogManager.Error(ex);
-                return false;
+                var value = prop.GetValue(entity);
+                if (value == null) continue;
+
+                if (value is Guid g) value = g.ToString();
+
+                columnNames.Add(prop.Name);
+                string paramName = $"@{prop.Name}";
+                paramNames.Add(paramName);
+                parameters.Add(new SQLiteParameter(paramName, value));
             }
+
+            if (columnNames.Count == 0) return false;
+
+            string sql = $"INSERT INTO {tableName} ({string.Join(",", columnNames)}) VALUES ({string.Join(",", paramNames)});";
+
+            using var conn = GetConnection();
+            using var cmd = new SQLiteCommand(sql, conn);
+            cmd.Parameters.AddRange(parameters.ToArray());
+            return cmd.ExecuteNonQuery() > 0;
         }
 
         public List<T> GetAllEntities<T>(string query, Func<SQLiteDataReader, T> map, Dictionary<string, object>? parameters = null)
         {
             var resultList = new List<T>();
-            try
-            {
-                using var connection = GetConnection();
-                using var command = new SQLiteCommand(query, connection);
+            using var conn = GetConnection();
+            using var cmd = new SQLiteCommand(query, conn);
 
-                if (parameters != null)
-                {
-                    foreach (var param in parameters)
-                        command.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
-                }
+            if (parameters != null)
+                foreach (var kv in parameters)
+                    cmd.Parameters.AddWithValue(kv.Key, kv.Value ?? DBNull.Value);
 
-                using var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    resultList.Add(map(reader));
-                }
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-            }
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+                resultList.Add(map(reader));
+
             return resultList;
         }
 
-        public bool InsertEntity<T>(T entity)
+        public bool UpdateEntity<T>(T entity)
         {
-            try
-            {
-                if (entity == null) return false;
+            if (entity == null) return false;
 
-                var type = typeof(T);
-                var tableName = type.Name;
-                var properties = type.GetProperties()
-                    .Where(p => p.GetValue(entity) != null)
-                    .ToList();
+            var type = typeof(T);
+            var tableName = type.Name;
+            var props = type.GetProperties().Where(p => p.CanRead).ToList();
+            var keyProp = props.FirstOrDefault(p => p.GetCustomAttribute<SqlKeyAttribute>() != null);
+
+            if (keyProp == null)
+                throw new InvalidOperationException("Missing primary key attribute.");
+
+            var setClauses = new List<string>();
+            var cmd = new SQLiteCommand();
+
+            foreach (var prop in props)
+            {
+                if (prop == keyProp) continue;
+
+                var value = prop.GetValue(entity);
+                if (value is Guid g) value = g.ToString();
+
+                string paramName = $"@{prop.Name}";
+                setClauses.Add($"{prop.Name} = {paramName}");
+                cmd.Parameters.AddWithValue(paramName, value ?? DBNull.Value);
+            }
+
+            var keyValue = keyProp.GetValue(entity);
+            if (keyValue is Guid kg) keyValue = kg.ToString();
+            cmd.Parameters.AddWithValue("@Id", keyValue);
+
+            string sql = $"UPDATE {tableName} SET {string.Join(", ", setClauses)} WHERE {keyProp.Name} = @Id;";
+            cmd.CommandText = sql;
+
+            using var conn = GetConnection();
+            cmd.Connection = conn;
+            return cmd.ExecuteNonQuery() > 0;
+        }
+
+        public bool ExecuteNonQuery(string sql, Dictionary<string, object>? parameters = null)
+        {
+            using var conn = GetConnection();
+            using var cmd = new SQLiteCommand(sql, conn);
+
+            if (parameters != null)
+                foreach (var kv in parameters)
+                    cmd.Parameters.AddWithValue(kv.Key, kv.Value ?? DBNull.Value);
+
+            return cmd.ExecuteNonQuery() > 0;
+        }
+        public bool InsertEntities<T>(List<T> entities)
+        {
+            if (entities == null || entities.Count == 0)
+                return false;
+
+            var type = typeof(T);
+            var tableName = type.Name;
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            var keyProp = props.FirstOrDefault(p => p.GetCustomAttribute<SqlKeyAttribute>() != null);
+
+            using var conn = GetConnection();
+            using var transaction = conn.BeginTransaction();
+
+            foreach (var entity in entities)
+            {
+                if (entity == null) continue;
 
                 var columnNames = new List<string>();
                 var paramNames = new List<string>();
                 var parameters = new List<SQLiteParameter>();
 
-                foreach (var prop in properties)
+                foreach (var prop in props)
                 {
-                    var value = prop.GetValue(entity);
-                    if (value != null)
+                    object? value = prop.GetValue(entity);
+
+                    // Tự tạo Guid nếu là khóa chính và rỗng
+                    if (prop == keyProp && prop.PropertyType == typeof(Guid))
                     {
-                        string name = prop.Name;
-                        string param = $"@{name}";
-                        columnNames.Add(name);
-                        paramNames.Add(param);
-
-                        // Ép kiểu nếu là Guid
-                        object dbValue = value is Guid guid ? guid.ToString() : value;
-
-                        parameters.Add(new SQLiteParameter(param, dbValue));
+                        var guid = (Guid)value!;
+                        if (guid == Guid.Empty)
+                        {
+                            guid = Guid.NewGuid();
+                            prop.SetValue(entity, guid);
+                            value = guid;
+                        }
                     }
+
+                    if (value == null) continue;
+                    if (value is Guid g) value = g.ToString();
+
+                    string name = prop.Name;
+                    string param = $"@{name}";
+
+                    columnNames.Add(name);
+                    paramNames.Add(param);
+                    parameters.Add(new SQLiteParameter(param, value));
                 }
+
+                if (columnNames.Count == 0) continue;
 
                 string sql = $"INSERT INTO {tableName} ({string.Join(",", columnNames)}) VALUES ({string.Join(",", paramNames)});";
-
-                using var conn = GetConnection();
-                using var cmd = new SQLiteCommand(sql, conn);
+                using var cmd = new SQLiteCommand(sql, conn, transaction);
                 cmd.Parameters.AddRange(parameters.ToArray());
-                return cmd.ExecuteNonQuery() > 0;
+                cmd.ExecuteNonQuery();
             }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-                return false;
-            }
-        }
 
-        public bool InsertEntities<T>(List<T> entities)
-        {
-            try
-            {
-                if (entities == null || entities.Count == 0) return false;
-
-                var type = typeof(T);
-                var tableName = type.Name;
-                var props = type.GetProperties();
-
-                using var conn = GetConnection();
-                using var transaction = conn.BeginTransaction();
-
-                foreach (var entity in entities)
-                {
-                    if (entity == null) continue;
-
-                    var columnNames = new List<string>();
-                    var paramNames = new List<string>();
-                    var parameters = new List<SQLiteParameter>();
-
-                    foreach (var prop in props)
-                    {
-                        var value = prop.GetValue(entity);
-
-                        // Nếu là Guid và là Id thì tự tạo mới nếu rỗng
-                        if (prop.Name.Equals("Id", StringComparison.OrdinalIgnoreCase) && prop.PropertyType == typeof(Guid))
-                        {
-                            var guid = (Guid)value;
-                            if (guid == Guid.Empty)
-                            {
-                                guid = Guid.NewGuid();
-                                prop.SetValue(entity, guid);
-                            }
-                            value = guid.ToString();
-                        }
-                        else if (value is Guid g)
-                        {
-                            value = g.ToString();
-                        }
-
-                        // Bỏ qua nếu null
-                        if (value == null) continue;
-
-                        string name = prop.Name;
-                        string param = $"@{name}";
-                        columnNames.Add(name);
-                        paramNames.Add(param);
-                        parameters.Add(new SQLiteParameter(param, value));
-                    }
-
-                    if (columnNames.Count == 0) continue;
-
-                    string sql = $"INSERT INTO {tableName} ({string.Join(",", columnNames)}) VALUES ({string.Join(",", paramNames)});";
-
-                    using var cmd = new SQLiteCommand(sql, conn, transaction);
-                    cmd.Parameters.AddRange(parameters.ToArray());
-                    cmd.ExecuteNonQuery();
-                }
-
-                transaction.Commit();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-                return false;
-            }
-        }
-
-
-        public bool UpdateEntity<T>(T entity)
-        {
-            try
-            {
-                if (entity == null) return false;
-
-                var type = typeof(T);
-                var tableName = type.Name;
-                var properties = type.GetProperties().Where(p => p.CanRead).ToList();
-                var keyProp = properties.FirstOrDefault(p => p.GetCustomAttribute<SqlKeyAttribute>() != null);
-
-                if (keyProp == null)
-                    throw new InvalidOperationException("Không tìm thấy thuộc tính khóa chính (SqlKeyAttribute).");
-
-                var cmd = new SQLiteCommand();
-                var setClauses = new List<string>();
-
-                foreach (var prop in properties)
-                {
-                    if (prop == keyProp) continue;
-
-                    var value = prop.GetValue(entity);
-                    if (value is Guid guidVal) value = guidVal.ToString(); // Ép Guid về string
-
-                    var paramName = $"@{prop.Name}";
-                    setClauses.Add($"{prop.Name} = {paramName}");
-                    cmd.Parameters.AddWithValue(paramName, value ?? DBNull.Value);
-                }
-
-                var keyValue = keyProp.GetValue(entity);
-                if (keyValue is Guid keyGuid) keyValue = keyGuid.ToString(); // Ép khóa chính Guid về string
-
-                cmd.Parameters.AddWithValue("@Id", keyValue);
-
-                string sql = $"UPDATE {tableName} SET {string.Join(", ", setClauses)} WHERE {keyProp.Name} = @Id;";
-                cmd.CommandText = sql;
-
-                using var conn = GetConnection();
-                cmd.Connection = conn;
-
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-                return false;
-            }
-        }
-
-        public bool UpdateEntities<T>(List<T> entities)
-        {
-            try
-            {
-                if (entities == null || entities.Count == 0)
-                    return false;
-
-                var type = typeof(T);
-                var tableName = type.Name;
-                var properties = type.GetProperties().Where(p => p.CanRead).ToList();
-                var keyProp = properties.FirstOrDefault(p => p.GetCustomAttribute<SqlKeyAttribute>() != null);
-                if (keyProp == null)
-                    throw new InvalidOperationException("Không tìm thấy khóa chính (SqlKeyAttribute).");
-
-                using var conn = GetConnection();
-                using var transaction = conn.BeginTransaction();
-
-                foreach (var entity in entities)
-                {
-                    var setClauses = new List<string>();
-                    var cmd = new SQLiteCommand { Connection = conn, Transaction = transaction };
-
-                    foreach (var prop in properties)
-                    {
-                        if (prop == keyProp) continue;
-
-                        var value = prop.GetValue(entity) ?? DBNull.Value;
-                        string paramName = $"@{prop.Name}";
-                        setClauses.Add($"{prop.Name} = {paramName}");
-                        cmd.Parameters.AddWithValue(paramName, value);
-                    }
-
-                    var keyValue = keyProp.GetValue(entity);
-                    cmd.Parameters.AddWithValue("@Id", keyValue);
-
-                    string sql = $"UPDATE {tableName} SET {string.Join(", ", setClauses)} WHERE {keyProp.Name} = @Id;";
-                    cmd.CommandText = sql;
-                    cmd.ExecuteNonQuery();
-                }
-
-                transaction.Commit();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-                return false;
-            }
+            transaction.Commit();
+            return true;
         }
     }
 }

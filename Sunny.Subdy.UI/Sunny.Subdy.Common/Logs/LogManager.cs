@@ -5,7 +5,7 @@ namespace Sunny.Subdy.Common.Logs
     public static class LogManager
     {
         private static readonly string BaseLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
-
+        public static List<string> LogRegsiner = new List<string>();
         private static void WriteLog(string nameLog, string message)
         {
             try

@@ -11,6 +11,7 @@
         Captcha,
         Block,
         Success,
+        EmailExist,
     }
     public class SubdyExtension : Exception
     {

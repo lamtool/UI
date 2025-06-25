@@ -22,62 +22,55 @@ namespace Sunny.Subd.Core.Email
                 string mail = Convert.ToString(data["email"]);
                 if (data != null && !string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(mail))
                 {
-                    return "success|" + mail;
+                    return mail;
                 }
-                return contentData;
+                return string.Empty;
             }
             catch (Exception ex)
             {
                 LogManager.Error(ex);
-                return "ERROR: " + ex.Message;
+                return string.Empty;
             }
         }
-        public static async Task<string> GetOTP(string email, int timeOut = 30)
+        public static async Task<string> GetCode(string email)
         {
-            int tickCount = Environment.TickCount;
-            var p = email.Split("|");
-            string name = email.Split("|").First();
-            string token = email.Split("|").Last();
-            while (Environment.TickCount - tickCount <= timeOut * 1000)
+
+            try
             {
-                try
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.internal.temp-mail.io/api/v3/email/{email}/messages");
+                var response = await client.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+                string content = await response.Content.ReadAsStringAsync();
+
+                var dataV2 = JArray.Parse(content); // Sử dụng JArray thay vì JObject
+                string firstId = dataV2.Last?["id"]?.ToString(); // Lấy id của phần tử đầu tiên
+                if (dataV2 != null && !string.IsNullOrEmpty(firstId))
                 {
-                    var client = new HttpClient();
-                    var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.internal.temp-mail.io/api/v3/email/{name}/messages");
-                    var response = await client.SendAsync(request);
+                    request = new HttpRequestMessage(HttpMethod.Get, $"https://api.internal.temp-mail.io/api/v3/message/{firstId}");
+                    response = await client.SendAsync(request);
                     response.EnsureSuccessStatusCode();
-                    string content = await response.Content.ReadAsStringAsync();
+                    content = await response.Content.ReadAsStringAsync();
+                    var data = JObject.Parse(content);
+                    string textContent = data["body_text"]?.ToString();
+                    string cleanedText = Regex.Replace(textContent, @"[^\d\s]", "");
+                    string pattern = @"\b\d{4,8}(?!\S)";
+                    MatchCollection matches = Regex.Matches(cleanedText, pattern);
 
-                    var dataV2 = JArray.Parse(content); // Sử dụng JArray thay vì JObject
-                    string firstId = dataV2.Last?["id"]?.ToString(); // Lấy id của phần tử đầu tiên
-                    if (dataV2 != null && !string.IsNullOrEmpty(firstId))
+                    foreach (Match match in matches)
                     {
-                        request = new HttpRequestMessage(HttpMethod.Get, $"https://api.internal.temp-mail.io/api/v3/message/{firstId}");
-                        response = await client.SendAsync(request);
-                        response.EnsureSuccessStatusCode();
-                        content = await response.Content.ReadAsStringAsync();
-                        var data = JObject.Parse(content);
-                        string textContent = data["body_text"]?.ToString();
-                        string cleanedText = Regex.Replace(textContent, @"[^\d\s]", "");
-                        string pattern = @"\b\d{4,8}(?!\S)";
-                        MatchCollection matches = Regex.Matches(cleanedText, pattern);
-
-                        foreach (Match match in matches)
+                        if (match.Value != Regex.Replace(email, @"[^\d\s]", ""))
                         {
-                            if (match.Value != Regex.Replace(email, @"[^\d\s]", ""))
-                            {
-                                return match.Value;
-                            }
+                            return match.Value;
                         }
                     }
-                    continue;
-
                 }
-                catch (Exception ex)
-                {
-                }
-                await Task.Delay(2000); // Delay 2 seconds before retrying
             }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+            }
+
             return string.Empty;
         }
 

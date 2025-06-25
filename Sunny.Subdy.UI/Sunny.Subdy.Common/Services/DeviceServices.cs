@@ -153,7 +153,7 @@ namespace Sunny.Subdy.Common.Services
                     case EmuAction.ChangeInfo:
                         tasks.Add(Task.Run(() =>
                         {
-                            new ADBClient(device).ChangInfo("", false, "samsung");
+                            new ADBClient(device).ChangInfo("", false, "samsung", "Random");
                         }));
                         break;
                     case EmuAction.BackupFB:

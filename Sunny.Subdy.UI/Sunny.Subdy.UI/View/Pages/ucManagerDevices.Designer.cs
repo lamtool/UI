@@ -709,6 +709,7 @@
             uiHeaderButton1.TabIndex = 3;
             uiHeaderButton1.TipsColor = Color.White;
             uiHeaderButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiHeaderButton1.Click += uiHeaderButton1_Click;
             // 
             // uiSymbolButton1
             // 

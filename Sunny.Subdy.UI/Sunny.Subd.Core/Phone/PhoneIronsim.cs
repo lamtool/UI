@@ -12,7 +12,7 @@ namespace Sunny.Subd.Core.Phone
             try
             {
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Get, $"https://ironsim.com/api/phone/new-session?token={token}&service=16&network=1,2,3,6");
+                var request = new HttpRequestMessage(HttpMethod.Get, $"https://ironsim.com/api/phone/new-session?token={token}&service=7&network=1,2,3,6");
                 var response = await client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
                 string json = await response.Content.ReadAsStringAsync();
