@@ -34,10 +34,15 @@
             edtPassword = new UITextBox();
             btnLogin = new UISymbolButton();
             btnCancel = new UISymbolButton();
-            lblTitle = new UILabel();
-            lblSubText = new UILabel();
             uiPanel1 = new UIPanel();
+            uiHeaderButton1 = new UIHeaderButton();
+            panel1 = new System.Windows.Forms.Panel();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            uiHeaderButton2 = new UIHeaderButton();
+            edtPassword.SuspendLayout();
             uiPanel1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // uiAvatar1
@@ -70,6 +75,7 @@
             // 
             edtUser.Cursor = System.Windows.Forms.Cursors.IBeam;
             edtUser.EnterAsTab = true;
+            edtUser.FillColor = System.Drawing.Color.White;
             edtUser.Font = new System.Drawing.Font("Segoe UI", 9F);
             edtUser.Location = new System.Drawing.Point(4, 121);
             edtUser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -81,12 +87,13 @@
             edtUser.Symbol = 361447;
             edtUser.SymbolSize = 22;
             edtUser.TabIndex = 0;
-            edtUser.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             edtUser.Watermark = "Tài khoản";
             // 
             // edtPassword
             // 
+            edtPassword.Controls.Add(uiHeaderButton1);
             edtPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
+            edtPassword.FillColor = System.Drawing.Color.White;
             edtPassword.Font = new System.Drawing.Font("Segoe UI", 9F);
             edtPassword.Location = new System.Drawing.Point(4, 162);
             edtPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -99,7 +106,6 @@
             edtPassword.Symbol = 361475;
             edtPassword.SymbolSize = 22;
             edtPassword.TabIndex = 1;
-            edtPassword.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             edtPassword.Watermark = "Mật khẩu";
             edtPassword.DoEnter += btnLogin_Click;
             // 
@@ -145,33 +151,6 @@
             btnCancel.TipsFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 134);
             btnCancel.Click += btnCancel_Click;
             // 
-            // lblTitle
-            // 
-            lblTitle.BackColor = System.Drawing.Color.Transparent;
-            lblTitle.Font = new System.Drawing.Font("Segoe UI", 15.75F);
-            lblTitle.ForeColor = System.Drawing.Color.Navy;
-            lblTitle.Location = new System.Drawing.Point(44, 35);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new System.Drawing.Size(694, 32);
-            lblTitle.Style = UIStyle.Custom;
-            lblTitle.StyleCustomMode = true;
-            lblTitle.TabIndex = 6;
-            lblTitle.Text = "SunnyUI.Net";
-            lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblSubText
-            // 
-            lblSubText.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            lblSubText.BackColor = System.Drawing.Color.Transparent;
-            lblSubText.Font = new System.Drawing.Font("Segoe UI", 9F);
-            lblSubText.ForeColor = System.Drawing.Color.FromArgb(48, 48, 48);
-            lblSubText.Location = new System.Drawing.Point(426, 421);
-            lblSubText.Name = "lblSubText";
-            lblSubText.Size = new System.Drawing.Size(310, 26);
-            lblSubText.TabIndex = 7;
-            lblSubText.Text = "SunnyUI";
-            lblSubText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // uiPanel1
             // 
             uiPanel1.Controls.Add(uiAvatar1);
@@ -182,7 +161,7 @@
             uiPanel1.Controls.Add(btnLogin);
             uiPanel1.FillColor = System.Drawing.Color.White;
             uiPanel1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            uiPanel1.Location = new System.Drawing.Point(433, 126);
+            uiPanel1.Location = new System.Drawing.Point(514, 81);
             uiPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             uiPanel1.MinimumSize = new System.Drawing.Size(1, 1);
             uiPanel1.Name = "uiPanel1";
@@ -193,17 +172,101 @@
             uiPanel1.StyleCustomMode = true;
             uiPanel1.TabIndex = 9;
             uiPanel1.Text = null;
-            uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // uiHeaderButton1
+            // 
+            uiHeaderButton1.BackColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.CircleColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.CircleHoverColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.CircleSize = 15;
+            uiHeaderButton1.FillColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.FillDisableColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.FillHoverColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.FillPressColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.FillSelectedColor = System.Drawing.Color.Transparent;
+            uiHeaderButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            uiHeaderButton1.Location = new System.Drawing.Point(162, 0);
+            uiHeaderButton1.MinimumSize = new System.Drawing.Size(1, 1);
+            uiHeaderButton1.Name = "uiHeaderButton1";
+            uiHeaderButton1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 3);
+            uiHeaderButton1.Radius = 0;
+            uiHeaderButton1.RadiusSides = UICornerRadiusSides.None;
+            uiHeaderButton1.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
+            uiHeaderButton1.Size = new System.Drawing.Size(20, 29);
+            uiHeaderButton1.Symbol = 61552;
+            uiHeaderButton1.SymbolColor = System.Drawing.Color.Gray;
+            uiHeaderButton1.SymbolSize = 15;
+            uiHeaderButton1.TabIndex = 3;
+            uiHeaderButton1.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            // 
+            // panel1
+            // 
+            panel1.BackColor = System.Drawing.Color.White;
+            panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(label2);
+            panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(252, 450);
+            panel1.TabIndex = 10;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = System.Drawing.Color.Transparent;
+            label1.Font = new System.Drawing.Font("Segoe UI Semibold", 24F);
+            label1.ForeColor = System.Drawing.Color.White;
+            label1.Location = new System.Drawing.Point(29, 112);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(198, 45);
+            label1.TabIndex = 0;
+            label1.Text = "LamTool.net";
+            // 
+            // label2
+            // 
+            label2.BackColor = System.Drawing.Color.Transparent;
+            label2.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            label2.ForeColor = System.Drawing.Color.White;
+            label2.Location = new System.Drawing.Point(120, 157);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(107, 29);
+            label2.TabIndex = 1;
+            label2.Text = "Giải pháp MMO";
+            label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // uiHeaderButton2
+            // 
+            uiHeaderButton2.BackColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.CircleColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.CircleHoverColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.FillColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.FillDisableColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.FillHoverColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.FillPressColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.FillSelectedColor = System.Drawing.Color.Transparent;
+            uiHeaderButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            uiHeaderButton2.Location = new System.Drawing.Point(321, 234);
+            uiHeaderButton2.MinimumSize = new System.Drawing.Size(1, 1);
+            uiHeaderButton2.Name = "uiHeaderButton2";
+            uiHeaderButton2.Padding = new System.Windows.Forms.Padding(0, 8, 0, 3);
+            uiHeaderButton2.Radius = 0;
+            uiHeaderButton2.RadiusSides = UICornerRadiusSides.None;
+            uiHeaderButton2.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
+            uiHeaderButton2.Size = new System.Drawing.Size(54, 55);
+            uiHeaderButton2.Symbol = 161570;
+            uiHeaderButton2.SymbolSize = 35;
+            uiHeaderButton2.TabIndex = 4;
+            uiHeaderButton2.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             // 
             // UILoginForm
             // 
             AllowShowTitle = false;
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            BackgroundImage = Properties.Resources.Login1;
             ClientSize = new System.Drawing.Size(750, 450);
+            Controls.Add(uiHeaderButton2);
+            Controls.Add(panel1);
             Controls.Add(uiPanel1);
-            Controls.Add(lblSubText);
-            Controls.Add(lblTitle);
             EscClose = true;
             MaximumSize = new System.Drawing.Size(750, 450);
             MinimumSize = new System.Drawing.Size(750, 450);
@@ -213,9 +276,13 @@
             ShowInTaskbar = false;
             ShowTitle = false;
             Text = "UILogin";
+            TopMost = true;
             ZoomScaleRect = new System.Drawing.Rectangle(15, 15, 750, 450);
             Shown += UILoginForm_Shown;
+            edtPassword.ResumeLayout(false);
             uiPanel1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -225,10 +292,13 @@
         private UILine uiLine1;
         private UITextBox edtUser;
         private UITextBox edtPassword;
-        protected UILabel lblTitle;
         private UISymbolButton btnLogin;
         private UISymbolButton btnCancel;
         protected UIPanel uiPanel1;
-        protected UILabel lblSubText;
+        private UIHeaderButton uiHeaderButton1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private UIHeaderButton uiHeaderButton2;
     }
 }

@@ -55,6 +55,7 @@
 
 	<!-- Project References -->
 	<ItemGroup>
+		<ProjectReference Include="..\HttpRequestLib\HttpRequestLib\HttpRequestLib.vcxproj" />
 		<ProjectReference Include="..\SunnyUI\SunnyUI.csproj" />
 		<TrimmerRootAssembly Include="SunnyUI" />
 		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />

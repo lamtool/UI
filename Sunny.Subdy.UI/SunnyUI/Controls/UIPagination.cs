@@ -74,6 +74,7 @@ namespace Sunny.UI
         /// </summary>
         [Browsable(false)]
         [Description("总页数"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int PageCount { get; private set; }
 
         private int pagerCount = 7;

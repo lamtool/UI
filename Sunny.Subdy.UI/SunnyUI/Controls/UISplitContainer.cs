@@ -215,6 +215,7 @@ namespace Sunny.UI
         /// 折叠与展开状态
         /// </summary>
         [Description("折叠与展开状态"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UISplitPanelState SplitPanelState
         {
             get => _splitPanelState;

@@ -43,7 +43,8 @@ namespace Sunny.UI
 
         /// <summary>
         /// 是否OK
-        /// </summary>
+        /// </summary>        
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsOK
         {
             get; private set;

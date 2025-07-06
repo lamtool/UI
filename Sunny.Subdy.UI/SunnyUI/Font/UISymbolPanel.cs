@@ -190,7 +190,7 @@ namespace Sunny.UI
         }
 
         public int SelectedValue { get => SelectedIndex >= 0 && SelectedIndex < Symbols.Count ? Symbols[SelectedIndex].Value : 0; }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedIndex { get; private set; } = -1;
 
         public int GridCount => ColumnCount * RowCount;

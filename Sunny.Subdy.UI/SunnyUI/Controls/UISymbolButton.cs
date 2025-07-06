@@ -50,6 +50,7 @@ namespace Sunny.UI
 
         [Browsable(false)]
         [Description("自动大小"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool AutoSize
         {
             get => autoSize;

@@ -1,4 +1,5 @@
-﻿using Sunny.Subdy.Common.Logs;
+﻿using Sunny.Subdy.Common.API;
+using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.UI.View;
 using System;
 using System.Diagnostics;
@@ -17,7 +18,9 @@ namespace Sunny.Subdy.UI
         [STAThread]
         static void Main()
         {
-           
+
+            API_LamTool.Authentication("LamTool.net", "Lam01675293121");
+
             int currentId = Process.GetCurrentProcess().Id;
 
             foreach (var process in Process.GetProcesses())

@@ -102,6 +102,7 @@ namespace Sunny.UI
         /// 计时
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TimeSpan TimeSpan { get; private set; }
 
         private DateTime StartTime;
