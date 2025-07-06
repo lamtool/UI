@@ -598,6 +598,16 @@ namespace Sunny.Subdy.UI.Properties {
                 object obj = ResourceManager.GetObject("wifi_off_30dp_434343_FILL0_wght400_GRAD0_opsz24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
+        } /// <summary>
+          ///   Looks up a localized resource of type System.Drawing.Bitmap.
+          /// </summary>
+        internal static System.Drawing.Bitmap icons8_gmail_40
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_gmail_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
         }
     }
 }

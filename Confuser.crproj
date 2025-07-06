@@ -1,0 +1,3 @@
+<project outputDir="E:\UI\Sunny.Subdy.UI\Sunny.Subdy.UI\bin\Release\net9.0-windows\Confused" baseDir="E:\UI\Sunny.Subdy.UI\Sunny.Subdy.UI\bin\Release\net9.0-windows" xmlns="http://confuser.codeplex.com">
+  <module path="AutoAndroid.dll" forceResolve="true" />
+</project>

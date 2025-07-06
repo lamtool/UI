@@ -178,7 +178,7 @@ namespace AutoAndroid
                 service.Shell($"pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
                 service.Shell($"pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
 
-                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --es brand {brand} --ez on true --es  country {countryCode} --es countryName {countryName}";
+                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --ez on false --es  country {countryCode} --es countryName {countryName}";
                 bool flag2 = service.Shell(text2).Contains("Broadcast completed");
                 if (flag2)
                 {

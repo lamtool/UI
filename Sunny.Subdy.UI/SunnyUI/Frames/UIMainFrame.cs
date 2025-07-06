@@ -61,19 +61,19 @@ namespace Sunny.UI
             MainContainer.BringToFront();
             base.OnShown(e);
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool TabVisible
         {
             get => MainContainer.TabVisible;
             set => MainContainer.TabVisible = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool TabShowCloseButton
         {
             get => MainContainer.ShowCloseButton;
             set => MainContainer.ShowCloseButton = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool TabShowActiveCloseButton
         {
             get => MainContainer.ShowActiveCloseButton;

@@ -611,6 +611,7 @@ namespace Sunny.UI
         private bool checkBoxes;
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool CheckBoxes
         {
             get => checkBoxes;

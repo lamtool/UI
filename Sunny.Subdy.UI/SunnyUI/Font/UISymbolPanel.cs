@@ -49,7 +49,7 @@ namespace Sunny.UI
             LoadFont(fonttype, symbolType, columnCount);
         }
 
-        private Color selectedColor = Color.Red;
+        private Color selectedColor = Color.Red; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color SelectedColor
         {
             get => selectedColor;
@@ -102,7 +102,7 @@ namespace Sunny.UI
             UpdateStyles();
         }
 
-        private int symbolSize = 32;
+        private int symbolSize = 32; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SymbolSize
         {
             get => symbolSize;
@@ -114,7 +114,7 @@ namespace Sunny.UI
             }
         }
 
-        private int column = 24;
+        private int column = 24; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ColumnCount
         {
             get => column;
@@ -126,7 +126,7 @@ namespace Sunny.UI
             }
         }
 
-        private int row = 4;
+        private int row = 4; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int RowCount
         {
             get => row;
@@ -247,7 +247,7 @@ namespace Sunny.UI
 
         public event OnSymbolValueChanged ValueChanged;
 
-        private string filter = "";
+        private string filter = ""; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Filter { get => filter; set { filter = value; Invalidate(); } }
     }
 

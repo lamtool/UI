@@ -1,4 +1,7 @@
-﻿namespace AutoAndroid.Stream
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace AutoAndroid.Stream
 {
     partial class fDebugDevice
     {

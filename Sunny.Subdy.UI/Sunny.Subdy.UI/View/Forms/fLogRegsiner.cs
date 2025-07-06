@@ -1,10 +1,14 @@
 ﻿using Sunny.Subdy.Common.Logs;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.UI.View.Forms
 {
     public partial class fLogRegsiner : Form
     {
-     
+
         private HashSet<string> liveSet = new HashSet<string>();
         private HashSet<string> dieSet = new HashSet<string>();
         public fLogRegsiner()
@@ -15,7 +19,7 @@ namespace Sunny.Subdy.UI.View.Forms
 
         private void fLogRegsiner_Load(object sender, EventArgs e)
         {
-      
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -42,3 +46,4 @@ namespace Sunny.Subdy.UI.View.Forms
         }
     }
 }
+

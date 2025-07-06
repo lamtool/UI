@@ -342,7 +342,7 @@ namespace Sunny.UI
         }
 
         private DateTime date;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateTime Date
         {
             get => date;
@@ -763,6 +763,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color PrimaryColor { get; set; } = UIColor.Blue;
 
         private void p1_MouseLeave(object sender, EventArgs e)

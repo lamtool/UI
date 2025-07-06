@@ -217,6 +217,7 @@ namespace Sunny.UI
         }
 
         [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string Text
         {
             get => Value == null ? string.Empty : Value.ToString();

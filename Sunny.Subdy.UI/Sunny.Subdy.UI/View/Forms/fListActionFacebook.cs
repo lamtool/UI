@@ -5,6 +5,9 @@ using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using Sunny.Subdy.UI.View.Forms.Actions;
 using Sunny.UI;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.UI.View.Forms
 {
@@ -27,7 +30,7 @@ namespace Sunny.Subdy.UI.View.Forms
             }
             _script = script;
             _scriptActionContext = new ScriptActionContext();
-           
+
         }
         private void buttonGetText_Click(object sender, EventArgs e)
         {

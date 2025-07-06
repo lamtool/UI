@@ -1062,13 +1062,13 @@ namespace Sunny.UI
 
             [DefaultValue(typeof(Color), "155, 200, 255")]
             public Color HoverColor { get; set; } = Color.FromArgb(155, 200, 255);
-
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public Color SelectedColor { get; set; } = Color.FromArgb(80, 160, 255);
-
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public Color SelectedForeColor { get; set; } = Color.White;
-
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public Color FillColor { get; set; } = Color.White;
-
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool ShowLinesEx
             {
                 get => showLines;
@@ -1429,7 +1429,7 @@ namespace Sunny.UI
                     SetParentNodeCheckedState(e.Node, true);
                 }
             }
-
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool TreeNodeStateSync { get; set; } = true;
 
             private void SetParentNodeCheckedState(TreeNode currNode, bool ByMouse = false)
@@ -1486,7 +1486,7 @@ namespace Sunny.UI
                     }
                 }
             }
-
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public bool NodeClickChangeCheckBoxes { get; set; }
 
             protected override void OnNodeMouseClick(TreeNodeMouseClickEventArgs e)

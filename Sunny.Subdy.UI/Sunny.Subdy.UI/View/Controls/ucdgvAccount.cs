@@ -1,8 +1,15 @@
 ﻿using Sunny.Subdy.Common.ControlMethod;
+using Sunny.Subdy.Common.Models;
+using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using Sunny.Subdy.UI.ControlViews.Convertes;
 using Sunny.Subdy.UI.View.Forms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.UI.View.Controls
 {
@@ -19,79 +26,160 @@ namespace Sunny.Subdy.UI.View.Controls
             uiDataGridView2.AutoGenerateColumns = false;
             _accounts = new List<Account>();
         }
-
-        private async void uiSymbolButton1_Click(object sender, EventArgs e)
+        private async Task uiSymbolButton1_ClickSafe()
         {
-            if (_folders == null || !_folders.Any())
+            try
             {
-                CommonMethod.ShowMessageSuccess("Không có thư mục nào để thêm tài khoản.");
-                return;
+                if (_folders == null || !_folders.Any())
+                {
+                    CommonMethod.ShowMessageSuccess("Không có thư mục nào để thêm tài khoản.");
+                    return;
+                }
+                if (_folders.Count > 1)
+                {
+                    CommonMethod.ShowMessageSuccess("Chỉ thêm tài khoản vào 1 folder duy nhất.");
+                    return;
+                }
+                fAddAccount fAddAccount = new fAddAccount(_folders.First());
+                fAddAccount.ShowDialog();
+                await LoadAccount();
             }
-            if (_folders.Count > 1)
+            catch (Exception ex)
             {
-                CommonMethod.ShowMessageSuccess("Chỉ thêm tài khoản vào 1 folder duy nhất.");
-                return;
+                CommonMethod.ShowMessageError(ex.Message);
             }
-            fAddAccount fAddAccount = new fAddAccount(_folders.First());
-            fAddAccount.ShowDialog();
-            await LoadAccount();
+        }
+        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        {
+            _ = uiSymbolButton1_ClickSafe();
         }
 
-        private async void uiSymbolButton2_Click(object sender, EventArgs e)
+        private void uiSymbolButton2_Click(object sender, EventArgs e)
         {
-            await LoadAccount();
+            try
+            {
+                _ = LoadAccount();
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+
         }
 
+        //  public async Task LoadAccount()
+        //  {
+        //      uiDataGridView2.DataSource = null;
+        //      if (_folders == null || !_folders.Any()) return;
+        //      _accounts = _accountContext.GetAll(_folders.Select(x => x.Name).ToList(), true);
+        //      if (_accounts == null || !_accounts.Any())
+        //      {
+        //          return;
+        //      }
+        //      SortableBindingList<Account> bindingList = new SortableBindingList<Account>(_accounts);
+        //      uiDataGridView2.DataSource = bindingList;
+        //      for (int i = 0; i < uiDataGridView2.Rows.Count; i++)
+        //      {
+        //          var row = uiDataGridView2.Rows[i];
+        //          if (!row.IsNewRow && row.Cells["Column1"] != null)
+        //              row.Cells["Column1"].Value = (i + 1).ToString();
+        //      }
+        //      var stateCounts = _accounts
+        //.GroupBy(x => x.State)
+        //.Select(g => (g.Key ?? "UNKNOWN", g.Count())) // tránh null
+        //.ToList();
+
+        //      var menuItems = AddSate("State", stateCounts);
+        //      satesToolStripMenuItem.DropDownItems.Clear();
+        //      satesToolStripMenuItem.DropDownItems.AddRange(menuItems.ToArray());
+        //      int otherCount = 0;
+
+        //      foreach (var stateCount in stateCounts)
+        //      {
+        //          switch (stateCount.Item1)
+        //          {
+        //              case "LIVE":
+        //                  uiLabel4.Text = stateCount.Item2.ToString();
+        //                  break;
+        //              case "DIE":
+        //                  uiLabel6.Text = stateCount.Item2.ToString();
+        //                  break;
+        //              default:
+        //                  otherCount += stateCount.Item2;
+        //                  break;
+        //          }
+        //      }
+        //      uiLabel8.Text = otherCount.ToString();
+        //      uiLabel1.Text = _accounts.Count.ToString();
+
+        //  }
         public async Task LoadAccount()
         {
-            uiDataGridView2.DataSource = null;
+            uiDataGridView2.Invoke(() => uiDataGridView2.DataSource = null);
+
             if (_folders == null || !_folders.Any()) return;
-            _accounts = _accountContext.GetAll(_folders.Select(x => x.Name).ToList(), true);
-            if (_accounts == null || !_accounts.Any())
-            {
-                return;
-            }
-            SortableBindingList<Account> bindingList = new SortableBindingList<Account>(_accounts);
-            uiDataGridView2.DataSource = bindingList;
-            for (int i = 0; i < uiDataGridView2.Rows.Count; i++)
-            {
-                var row = uiDataGridView2.Rows[i];
-                if (!row.IsNewRow && row.Cells["Column1"] != null)
-                    row.Cells["Column1"].Value = (i + 1).ToString();
-            }
-            var stateCounts = _accounts
-      .GroupBy(x => x.State)
-      .Select(g => (g.Key ?? "UNKNOWN", g.Count())) // tránh null
-      .ToList();
 
-            var menuItems = AddSate("State", stateCounts);
-            satesToolStripMenuItem.DropDownItems.Clear();
-            satesToolStripMenuItem.DropDownItems.AddRange(menuItems.ToArray());
-            int otherCount = 0;
+            var accounts = await Task.Run(() =>
+                _accountContext.GetAll(_folders.Select(x => x.Name).ToList(), true)
+            );
 
-            foreach (var stateCount in stateCounts)
+            if (accounts == null || !accounts.Any()) return;
+
+            _accounts = accounts;
+
+            uiDataGridView2.Invoke(() =>
             {
-                switch (stateCount.Item1)
+                var bindingList = new SortableBindingList<Account>(_accounts);
+                uiDataGridView2.DataSource = bindingList;
+
+                for (int i = 0; i < uiDataGridView2.Rows.Count; i++)
                 {
-                    case "LIVE":
-                        uiLabel4.Text = stateCount.Item2.ToString();
-                        break;
-                    case "DIE":
-                        uiLabel6.Text = stateCount.Item2.ToString();
-                        break;
-                    default:
-                        otherCount += stateCount.Item2;
-                        break;
+                    var row = uiDataGridView2.Rows[i];
+                    if (!row.IsNewRow && row.Cells["Column1"] != null)
+                        row.Cells["Column1"].Value = (i + 1).ToString();
                 }
-            }
-            uiLabel8.Text = otherCount.ToString();
-            uiLabel1.Text = _accounts.Count.ToString();
 
+                var stateCounts = _accounts
+                    .GroupBy(x => x.State)
+                    .Select(g => (g.Key ?? "UNKNOWN", g.Count()))
+                    .ToList();
+
+                var menuItems = AddSate("State", stateCounts);
+                satesToolStripMenuItem.DropDownItems.Clear();
+                satesToolStripMenuItem.DropDownItems.AddRange(menuItems.ToArray());
+
+                int otherCount = 0;
+                foreach (var stateCount in stateCounts)
+                {
+                    switch (stateCount.Item1)
+                    {
+                        case "LIVE":
+                            uiLabel4.Text = stateCount.Item2.ToString();
+                            break;
+                        case "DIE":
+                            uiLabel6.Text = stateCount.Item2.ToString();
+                            break;
+                        default:
+                            otherCount += stateCount.Item2;
+                            break;
+                    }
+                }
+
+                uiLabel8.Text = otherCount.ToString();
+                uiLabel1.Text = _accounts.Count.ToString();
+            });
         }
-
-        private async void ucdgvAccount_Load(object sender, EventArgs e)
+        private void ucdgvAccount_Load(object sender, EventArgs e)
         {
-            await LoadAccount();
+            try
+            {
+                _ = LoadAccount();
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+
         }
 
         private void uiTextBox1_TextChanged(object sender, EventArgs e)

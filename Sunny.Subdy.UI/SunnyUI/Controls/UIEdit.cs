@@ -159,7 +159,7 @@ namespace Sunny.UI
             base.OnPaint(e);
             DrawWaterMark();
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual Color ForeDisableColor { get; set; } = Color.FromArgb(109, 109, 103);
 
         protected override void OnInvalidated(InvalidateEventArgs e)
@@ -269,7 +269,7 @@ namespace Sunny.UI
             }
         }
 
-        private Color _waterMarkColor = Color.Gray;
+        private Color _waterMarkColor = Color.Gray; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color WaterMarkColor
         {
             get => _waterMarkColor;
@@ -281,7 +281,7 @@ namespace Sunny.UI
         }
 
         private Color _waterMarkActiveColor = Color.Gray;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color WaterMarkActiveForeColor
         {
             get => _waterMarkActiveColor;
@@ -362,7 +362,7 @@ namespace Sunny.UI
 
             base.OnKeyDown(e);
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool EnterAsTab { get; set; }
 
         public event EventHandler EnterKeyPress;

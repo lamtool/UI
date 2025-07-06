@@ -2,131 +2,129 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows</TargetFramework>
-		<UseWindowsForms>true</UseWindowsForms>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
-
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<!-- Native AOT -->
+		<PublishTrimmed>false</PublishTrimmed>
 		<PublishAot>true</PublishAot>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+		<UseWindowsForms>true</UseWindowsForms>
 		<CustomResourceTypesSupport>true</CustomResourceTypesSupport>
-		<PublishTrimmed>true</PublishTrimmed>
-		<IsPublishable>True</IsPublishable>
-		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-
-		<!-- Không tạo file .pdb -->
-		<DebugSymbols>false</DebugSymbols>
-		<BaseOutputPath></BaseOutputPath>
-		<PlatformTarget>x64</PlatformTarget>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<!-- Icon + Manifest -->
+		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ApplicationIcon>Asset\Logo.ico</ApplicationIcon>
 
-		<PackageId>LamToolAutoPhone</PackageId>
-		<Title>LamToolAutoPhone</Title>
-		<Company>LamToolAutoPhone</Company>
-		<Authors>LamTool.net</Authors>
-		<Product>LamToolAutoPhone</Product>
+		<!-- Auto Versioning -->
 		<CurrentTime>$([System.DateTime]::Now.ToString("HH.dd.MM.yyyy"))</CurrentTime>
 		<Version>$(CurrentTime)</Version>
-		<FileVersion>$(CurrentTime)</FileVersion>
 		<AssemblyVersion>$(CurrentTime)</AssemblyVersion>
-		<AssemblyName>$(Product)-$(Version)</AssemblyName>
-		
+		<FileVersion>$(CurrentTime)</FileVersion>
+		<AssemblyName>LamToolAutoPhone-$(Version)</AssemblyName>
+		<Product>LamToolAutoPhone</Product>
+		<Company>LamToolAutoPhone</Company>
+		<Copyright>LamToolAutoPhone</Copyright>
+		<PackageId>LamToolAutoPhone</PackageId>
+		<Title>LamToolAutoPhone</Title>
+		<PackageProjectUrl>https://lamtool.net/</PackageProjectUrl>
+	</PropertyGroup>
+	<ItemGroup>
+		<TrimmerRootAssembly Include="System.ComponentModel" />
+		<TrimmerRootAssembly Include="System.ComponentModel.TypeConverter" />
+		<TrimmerRootAssembly Include="System.Resources.Extensions" />
+		<TrimmerRootAssembly Include="System.Drawing.Common" />
+	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<IsAotCompatible>True</IsAotCompatible>
+		<Prefer32Bit>True</Prefer32Bit>
+		<PreferNativeArm64>True</PreferNativeArm64>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="Asset\LamTool.net.png" />
-		<None Remove="Asset\menu_80.png" />
-		<None Remove="Asset\select_check_box_30dp.png" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<IsAotCompatible>True</IsAotCompatible>
+		<Prefer32Bit>True</Prefer32Bit>
+		<PreferNativeArm64>True</PreferNativeArm64>
+	</PropertyGroup>
 
+	<!-- NuGet Packages -->
 	<ItemGroup>
+		<PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.0" />
 		<PackageReference Include="DeviceId.Windows" Version="6.9.0" />
 		<PackageReference Include="WinFormsComInterop" Version="0.5.0" />
 	</ItemGroup>
 
+	<!-- Project References -->
 	<ItemGroup>
-		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
-		<ProjectReference Include="..\Sunny.Subd.Core\Sunny.Subd.Core.csproj" />
-		<ProjectReference Include="..\Sunny.Subdy.AutoUpdate\Sunny.Subdy.AutoUpdate.csproj" />
-		<ProjectReference Include="..\Sunny.Subdy.Common\Sunny.Subdy.Common.csproj" />
-		<ProjectReference Include="..\Sunny.Subdy.Data\Sunny.Subdy.Data.csproj" />
-		<ProjectReference Include="..\Sunny.Subdy.Server\Sunny.Subdy.Server.csproj" />
 		<ProjectReference Include="..\SunnyUI\SunnyUI.csproj" />
+		<TrimmerRootAssembly Include="SunnyUI" />
+		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
+		<TrimmerRootAssembly Include="AutoAndroid" />
+		<ProjectReference Include="..\Sunny.Subdy.Common\Sunny.Subdy.Common.csproj" />
+		<TrimmerRootAssembly Include="Sunny.Subdy.Common" />
+		<ProjectReference Include="..\Sunny.Subdy.Server\Sunny.Subdy.Server.csproj" />
+		<TrimmerRootAssembly Include="Sunny.Subdy.Server" />
+		<ProjectReference Include="..\Sunny.Subdy.Data\Sunny.Subdy.Data.csproj" />
+		<TrimmerRootAssembly Include="Sunny.Subdy.Data" />
+		<ProjectReference Include="..\Sunny.Subdy.AutoUpdate\Sunny.Subdy.AutoUpdate.csproj" />
+		<TrimmerRootAssembly Include="Sunny.Subdy.AutoUpdate" />
+		<ProjectReference Include="..\Sunny.Subd.Core\Sunny.Subd.Core.csproj" />
+		<TrimmerRootAssembly Include="Sunny.Subd.Core" />
 	</ItemGroup>
 
+	<!-- COM Interop -->
 	<ItemGroup>
-		<Resource Include="Asset\LamTool.net.png">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Asset\menu_80.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Asset\select_check_box_30dp.png">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</Resource>
+		<COMReference Include="IWshRuntimeLibrary">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMajor>1</VersionMajor>
+			<VersionMinor>0</VersionMinor>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+			<Guid>f935dc20-1cf0-11d0-adb9-00c04fd58a0b</Guid>
+		</COMReference>
 	</ItemGroup>
 
+	<!-- Content -->
 	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-		<RdXmlFile Include="rd.xml" />
-		<RdXmlFile Include="Forms.xml" />
-	</ItemGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
-		<PublishAot>true</PublishAot>
-		<PublishTrimmed>true</PublishTrimmed>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-		<PublishAot>false</PublishAot>
-		<PublishTrimmed>false</PublishTrimmed>
-	</PropertyGroup>
-	<ItemGroup>
-		<Content Include="Libs\ffmpeg\*.dll">
-			<Link>%(Filename)%(Extension)</Link>
+		<Content Include="Assets\**\*.*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>
-	<ItemGroup>
+		<Content Include="Libs\ffmpeg\**\*.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 		<Content Include="Libs\Scrcpy\**\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="App\**\*">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
+		<Content Include="Asset\Logo.ico" />
 	</ItemGroup>
+
+	<!-- Trimming Rules -->
 	<ItemGroup>
-	  <Content Include="Asset\Logo.ico" />
-	  <Content Include="Libs\ffmpeg\avcodec-58.dll" />
-	  <Content Include="Libs\ffmpeg\avcodec-59.dll" />
-	  <Content Include="Libs\ffmpeg\avdevice-58.dll" />
-	  <Content Include="Libs\ffmpeg\avdevice-59.dll" />
-	  <Content Include="Libs\ffmpeg\avfilter-7.dll" />
-	  <Content Include="Libs\ffmpeg\avfilter-8.dll" />
-	  <Content Include="Libs\ffmpeg\avformat-58.dll" />
-	  <Content Include="Libs\ffmpeg\avformat-59.dll" />
-	  <Content Include="Libs\ffmpeg\avutil-56.dll" />
-	  <Content Include="Libs\ffmpeg\avutil-57.dll" />
-	  <Content Include="Libs\ffmpeg\swresample-2.dll" />
-	  <Content Include="Libs\ffmpeg\swresample-3.dll" />
-	  <Content Include="Libs\ffmpeg\swresample-4.dll" />
-	  <Content Include="Libs\ffmpeg\swscale-5.dll" />
-	  <Content Include="Libs\ffmpeg\swscale-6.dll" />
+		<TrimmerRootAssembly Include="System.Drawing.Common" />
+		<TrimmerRootAssembly Include="System.Resources.Extensions" />
+		<TrimmerRootAssembly Include="mscorlib" />
+		<TrimmableAssembly Include="System.Windows.Forms" />
 	</ItemGroup>
+
 	
+
+	<!-- AOT Reflection Config -->
+	<ItemGroup>
+		<RdXmlFile Include="rd.xml" />
+		<RdXmlFile Include="Forms.xml" />
+	</ItemGroup>
+
+	<Target Name="PreserveReflectionForAutoAndroid" BeforeTargets="PrepareForILLink">
+		<ItemGroup>
+			<DynamicDependency Include="AutoAndroid.DeviceModel" DynamicallyAccessedMemberTypes="All" />
+		</ItemGroup>
+	</Target>
+
+	<!-- Optional: workaround for crash in parallel merge sort -->
+	<ItemGroup>
+		<IlcCompileInput Include="--parallelism:1" />
+	</ItemGroup>
+
 </Project>

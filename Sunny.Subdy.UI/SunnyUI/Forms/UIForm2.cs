@@ -617,19 +617,19 @@ namespace Sunny.UI
         }
 
         public event HotKeyEventHandler HotKeyEventHandler;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new Point Location
         {
             get => winState == FormWindowState.Normal ? base.Location : FormRect.Location;
             set => base.Location = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new int Top
         {
             get => Location.Y;
             set => base.Top = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new int Left
         {
             get => Location.X;
@@ -639,19 +639,19 @@ namespace Sunny.UI
         public new int Right => FormRect.Right;
 
         public new int Bottom => FormRect.Bottom;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new Size Size
         {
             get => winState == FormWindowState.Normal ? base.Size : FormRect.Size;
             set => base.Size = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new int Width
         {
             get => Size.Width;
             set => base.Width = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new int Height
         {
             get => Size.Height;

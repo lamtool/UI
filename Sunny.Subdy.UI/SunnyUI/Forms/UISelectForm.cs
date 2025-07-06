@@ -20,6 +20,7 @@
 ******************************************************************************/
 
 using System.Collections;
+using System.ComponentModel;
 
 namespace Sunny.UI
 {
@@ -49,13 +50,13 @@ namespace Sunny.UI
                 ComboBox.Items.Add(item);
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Description
         {
             get => label.Text;
             set => label.Text = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Title
         {
             get => Text;
@@ -65,6 +66,7 @@ namespace Sunny.UI
         /// <summary>
         /// 选择框索引
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedIndex
         {
             get => ComboBox.SelectedIndex;

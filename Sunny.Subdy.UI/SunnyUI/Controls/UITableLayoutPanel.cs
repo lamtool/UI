@@ -66,7 +66,7 @@ namespace Sunny.UI
         {
             get;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string TagString
         {
             get; set;

@@ -364,6 +364,7 @@ namespace Sunny.UI
         internal bool SizeMultipled = false;
 
         private int sizeMultiple = 1;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SizeMultiple
         {
             get => sizeMultiple;
@@ -418,7 +419,7 @@ namespace Sunny.UI
         }
 
         private DateTime date;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateTime Date
         {
             get => date;
@@ -453,7 +454,7 @@ namespace Sunny.UI
         public UIDateType ShowType { get; set; }
 
         private int year;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Year
         {
             get => year;
@@ -464,7 +465,7 @@ namespace Sunny.UI
                 SetYears(iy);
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Month { get; set; }
 
         private void SetYearMonth(int iYear, int iMonth)
@@ -703,7 +704,7 @@ namespace Sunny.UI
         }
 
         private int activeYear = -1;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowToday { get; set; }
 
         private void p1_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
@@ -896,7 +897,7 @@ namespace Sunny.UI
             DoValueChanged(this, Date);
             Close();
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color PrimaryColor { get; set; } = UIColor.Blue;
 
         private void p1_MouseLeave(object sender, EventArgs e)

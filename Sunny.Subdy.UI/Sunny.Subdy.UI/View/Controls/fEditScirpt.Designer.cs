@@ -1,4 +1,8 @@
-﻿namespace Sunny.Subdy.UI.View.Controls
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Sunny.Subdy.UI.View.Controls
 {
     partial class fEditScirpt
     {

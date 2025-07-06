@@ -1,6 +1,7 @@
 ﻿using AutoAndroid;
 using Sunny.Subd.Core.Models;
 using Sunny.Subdy.Data.Models;
+using System.Diagnostics;
 
 namespace Sunny.Subd.Core.Facebook.ScriptActions
 {
@@ -13,15 +14,15 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
             _handlers = handlers.ToDictionary(h => h.TypeAction, StringComparer.OrdinalIgnoreCase);
         }
 
-        public async Task<SubdyExtension> ExecuteAsync(string typeAction, string json, Account account, ADBClient device)
+        public async Task<SubdyExtension> ExecuteAsync(string typeAction, Account account, ADBClient device)
         {
             if (_handlers.TryGetValue(typeAction, out var handler))
             {
-             return   await handler.ExecuteAsync(json, account, device);
+             return   await handler.ExecuteAsync(account, device);
             }
             else
             {
-                Console.WriteLine($"⚠️ Không tìm thấy handler cho {typeAction}");
+               Debug.WriteLine($"⚠️ Không tìm thấy handler cho {typeAction}");
             }
             return new SubdyExtension(SubdyEnum.None, $"Không tìm thấy handler cho {typeAction}");
         }

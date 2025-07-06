@@ -1,4 +1,7 @@
-﻿namespace Sunny.Subdy.UI.View.Forms.Actions
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Sunny.Subdy.UI.View.Forms.Actions
 {
     partial class fAction_RegFB
     {
@@ -30,7 +33,7 @@
         {
             tabControl1 = new TabControl();
             tabPage2 = new TabPage();
-            uiComboBox1 = new Sunny.UI.UIComboBox();
+            checkBox2 = new CheckBox();
             panel1 = new Panel();
             groupBox2 = new GroupBox();
             label6 = new Label();
@@ -56,8 +59,7 @@
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
             groupBox3 = new GroupBox();
-            uiSymbolButton2 = new Sunny.UI.UISymbolButton();
-            cbx_Folders = new Sunny.UI.UIComboBox();
+            comboBox3 = new ComboBox();
             groupBox6 = new GroupBox();
             panel8 = new Panel();
             label9 = new Label();
@@ -102,9 +104,7 @@
             comboBox2 = new ComboBox();
             radioButton5 = new RadioButton();
             checkBox1 = new CheckBox();
-            uiLabel1 = new Sunny.UI.UILabel();
-            uiSymbolButton3 = new Sunny.UI.UISymbolButton();
-            uiSymbolButton4 = new Sunny.UI.UISymbolButton();
+            label3 = new Label();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
             panel1.SuspendLayout();
@@ -144,48 +144,40 @@
             tabControl1.Location = new Point(12, 57);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(524, 393);
+            tabControl1.Size = new Size(524, 429);
             tabControl1.TabIndex = 95;
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(uiComboBox1);
+            tabPage2.Controls.Add(checkBox2);
             tabPage2.Controls.Add(panel1);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(516, 365);
+            tabPage2.Size = new Size(516, 401);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Cấu hình kiểu reg";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // uiComboBox1
+            // checkBox2
             // 
-            uiComboBox1.DataSource = null;
-            uiComboBox1.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
-            uiComboBox1.FillColor = Color.White;
-            uiComboBox1.Font = new Font("Microsoft Sans Serif", 12F);
-            uiComboBox1.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            uiComboBox1.Items.AddRange(new object[] { "Tất cả", "Facebook", "Instagram", "TikTok", "Gmail" });
-            uiComboBox1.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            uiComboBox1.Location = new Point(48, 18);
-            uiComboBox1.Margin = new Padding(4, 5, 4, 5);
-            uiComboBox1.MinimumSize = new Size(63, 0);
-            uiComboBox1.Name = "uiComboBox1";
-            uiComboBox1.Padding = new Padding(0, 0, 30, 2);
-            uiComboBox1.Size = new Size(421, 26);
-            uiComboBox1.SymbolSize = 24;
-            uiComboBox1.TabIndex = 246;
-            uiComboBox1.TextAlignment = ContentAlignment.MiddleLeft;
-            uiComboBox1.Watermark = "";
-            uiComboBox1.SelectedIndexChanged += uiComboBox1_SelectedIndexChanged;
+            checkBox2.AutoSize = true;
+            checkBox2.Checked = true;
+            checkBox2.CheckState = CheckState.Checked;
+            checkBox2.ForeColor = Color.Red;
+            checkBox2.Location = new Point(48, 52);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(309, 19);
+            checkBox2.TabIndex = 247;
+            checkBox2.Text = "Reg NVR (nên reg bằng domain, sau này change sau).";
+            checkBox2.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
             panel1.Controls.Add(groupBox2);
             panel1.Controls.Add(groupBox8);
             panel1.Controls.Add(groupBox15);
-            panel1.Location = new Point(26, 62);
+            panel1.Location = new Point(31, 89);
             panel1.Name = "panel1";
             panel1.Size = new Size(457, 297);
             panel1.TabIndex = 245;
@@ -388,7 +380,7 @@
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(516, 365);
+            tabPage3.Size = new Size(516, 401);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Cấu hình chung";
             tabPage3.UseVisualStyleBackColor = true;
@@ -421,8 +413,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(uiSymbolButton2);
-            groupBox3.Controls.Add(cbx_Folders);
+            groupBox3.Controls.Add(comboBox3);
             groupBox3.Location = new Point(42, 56);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(426, 63);
@@ -430,58 +421,17 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Chọn nhóm tài khoản cần sao lưu.";
             // 
-            // uiSymbolButton2
+            // comboBox3
             // 
-            uiSymbolButton2.BackColor = Color.White;
-            uiSymbolButton2.Cursor = Cursors.Hand;
-            uiSymbolButton2.FillColor = Color.White;
-            uiSymbolButton2.FillColor2 = Color.White;
-            uiSymbolButton2.FillDisableColor = Color.White;
-            uiSymbolButton2.FillHoverColor = Color.White;
-            uiSymbolButton2.FillPressColor = Color.White;
-            uiSymbolButton2.FillSelectedColor = Color.White;
-            uiSymbolButton2.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiSymbolButton2.Location = new Point(337, 26);
-            uiSymbolButton2.Margin = new Padding(3, 3, 10, 3);
-            uiSymbolButton2.MinimumSize = new Size(1, 1);
-            uiSymbolButton2.Name = "uiSymbolButton2";
-            uiSymbolButton2.Radius = 15;
-            uiSymbolButton2.RectColor = Color.White;
-            uiSymbolButton2.RectDisableColor = Color.White;
-            uiSymbolButton2.RectHoverColor = Color.White;
-            uiSymbolButton2.RectPressColor = Color.White;
-            uiSymbolButton2.RectSelectedColor = Color.White;
-            uiSymbolButton2.Size = new Size(30, 22);
-            uiSymbolButton2.Symbol = 61473;
-            uiSymbolButton2.SymbolColor = Color.CornflowerBlue;
-            uiSymbolButton2.SymbolDisableColor = Color.White;
-            uiSymbolButton2.SymbolHoverColor = Color.CornflowerBlue;
-            uiSymbolButton2.SymbolPressColor = Color.CornflowerBlue;
-            uiSymbolButton2.SymbolSelectedColor = Color.CornflowerBlue;
-            uiSymbolButton2.SymbolSize = 25;
-            uiSymbolButton2.TabIndex = 14;
-            uiSymbolButton2.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            uiSymbolButton2.Click += uiSymbolButton2_Click_1;
-            // 
-            // cbx_Folders
-            // 
-            cbx_Folders.DataSource = null;
-            cbx_Folders.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
-            cbx_Folders.FillColor = Color.White;
-            cbx_Folders.Font = new Font("Microsoft Sans Serif", 12F);
-            cbx_Folders.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            cbx_Folders.Items.AddRange(new object[] { "Tất cả", "Facebook", "Instagram", "TikTok", "Gmail" });
-            cbx_Folders.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
-            cbx_Folders.Location = new Point(14, 24);
-            cbx_Folders.Margin = new Padding(4, 5, 4, 5);
-            cbx_Folders.MinimumSize = new Size(63, 0);
-            cbx_Folders.Name = "cbx_Folders";
-            cbx_Folders.Padding = new Padding(0, 0, 30, 2);
-            cbx_Folders.Size = new Size(317, 26);
-            cbx_Folders.SymbolSize = 24;
-            cbx_Folders.TabIndex = 13;
-            cbx_Folders.TextAlignment = ContentAlignment.MiddleLeft;
-            cbx_Folders.Watermark = "";
+            comboBox3.Dock = DockStyle.Fill;
+            comboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Items.AddRange(new object[] { "https://inboxes.com/", "https://temp-mail.io/" });
+            comboBox3.Location = new Point(3, 19);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(420, 29);
+            comboBox3.TabIndex = 1;
             // 
             // groupBox6
             // 
@@ -697,7 +647,7 @@
             tabPage4.Location = new Point(4, 24);
             tabPage4.Name = "tabPage4";
             tabPage4.Padding = new Padding(3);
-            tabPage4.Size = new Size(516, 365);
+            tabPage4.Size = new Size(516, 401);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Khi đăng kí xong tài khoản thì";
             tabPage4.UseVisualStyleBackColor = true;
@@ -707,7 +657,7 @@
             groupBox9.Controls.Add(panel11);
             groupBox9.Controls.Add(panel12);
             groupBox9.Controls.Add(panel13);
-            groupBox9.Location = new Point(19, 221);
+            groupBox9.Location = new Point(16, 219);
             groupBox9.Name = "groupBox9";
             groupBox9.Size = new Size(458, 112);
             groupBox9.TabIndex = 245;
@@ -838,7 +788,7 @@
             // 
             groupBox4.Controls.Add(panel3);
             groupBox4.Controls.Add(checkBox1);
-            groupBox4.Location = new Point(19, 15);
+            groupBox4.Location = new Point(19, 18);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(455, 175);
             groupBox4.TabIndex = 2;
@@ -938,79 +888,24 @@
             checkBox1.UseVisualStyleBackColor = true;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
-            // uiLabel1
+            // label3
             // 
-            uiLabel1.Dock = DockStyle.Top;
-            uiLabel1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uiLabel1.ForeColor = Color.DodgerBlue;
-            uiLabel1.Location = new Point(0, 0);
-            uiLabel1.Name = "uiLabel1";
-            uiLabel1.Size = new Size(536, 45);
-            uiLabel1.TabIndex = 96;
-            uiLabel1.Text = "Đăng kí tài khoản facebook";
-            uiLabel1.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // uiSymbolButton3
-            // 
-            uiSymbolButton3.Anchor = AnchorStyles.Right;
-            uiSymbolButton3.FillColor = Color.Green;
-            uiSymbolButton3.FillColor2 = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.FillHoverColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.FillPressColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.FillSelectedColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uiSymbolButton3.Location = new Point(138, 466);
-            uiSymbolButton3.Margin = new Padding(3, 3, 10, 3);
-            uiSymbolButton3.MinimumSize = new Size(1, 1);
-            uiSymbolButton3.Name = "uiSymbolButton3";
-            uiSymbolButton3.Radius = 15;
-            uiSymbolButton3.RectColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.RectHoverColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.RectPressColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.RectSelectedColor = Color.FromArgb(4, 60, 44);
-            uiSymbolButton3.Size = new Size(128, 32);
-            uiSymbolButton3.Symbol = 361515;
-            uiSymbolButton3.SymbolSize = 18;
-            uiSymbolButton3.TabIndex = 98;
-            uiSymbolButton3.Text = "Bắt đầu";
-            uiSymbolButton3.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            uiSymbolButton3.Click += uiSymbolButton3_Click;
-            // 
-            // uiSymbolButton4
-            // 
-            uiSymbolButton4.Anchor = AnchorStyles.Right;
-            uiSymbolButton4.FillColor = Color.Red;
-            uiSymbolButton4.FillColor2 = Color.DarkRed;
-            uiSymbolButton4.FillHoverColor = Color.DarkRed;
-            uiSymbolButton4.FillPressColor = Color.DarkRed;
-            uiSymbolButton4.FillSelectedColor = Color.DarkRed;
-            uiSymbolButton4.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            uiSymbolButton4.Location = new Point(286, 466);
-            uiSymbolButton4.Margin = new Padding(10, 3, 3, 3);
-            uiSymbolButton4.MinimumSize = new Size(1, 1);
-            uiSymbolButton4.Name = "uiSymbolButton4";
-            uiSymbolButton4.Radius = 15;
-            uiSymbolButton4.RectColor = Color.DarkRed;
-            uiSymbolButton4.RectHoverColor = Color.DarkRed;
-            uiSymbolButton4.RectPressColor = Color.DarkRed;
-            uiSymbolButton4.RectSelectedColor = Color.DarkRed;
-            uiSymbolButton4.Size = new Size(128, 32);
-            uiSymbolButton4.Symbol = 61453;
-            uiSymbolButton4.SymbolSize = 17;
-            uiSymbolButton4.TabIndex = 97;
-            uiSymbolButton4.Text = "Đóng";
-            uiSymbolButton4.TipsColor = Color.DarkRed;
-            uiSymbolButton4.TipsFont = new Font("Microsoft Sans Serif", 9F);
-            uiSymbolButton4.Click += uiSymbolButton4_Click;
+            label3.Dock = DockStyle.Top;
+            label3.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.DodgerBlue;
+            label3.Location = new Point(0, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(536, 41);
+            label3.TabIndex = 96;
+            label3.Text = "Cấu hình đăng kí tài khoản";
+            label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // fAction_RegFB
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(536, 510);
-            Controls.Add(uiSymbolButton3);
-            Controls.Add(uiSymbolButton4);
-            Controls.Add(uiLabel1);
+            ClientSize = new Size(536, 548);
+            Controls.Add(label3);
             Controls.Add(tabControl1);
             MaximizeBox = false;
             MinimizeBox = false;
@@ -1021,6 +916,7 @@
             Load += fAction_RegFB_Load;
             tabControl1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
             panel1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -1111,7 +1007,6 @@
         private RadioButton check_NameRandom;
         private RadioButton radioButton3;
         private GroupBox groupBox3;
-        private Sunny.UI.UIComboBox uiComboBox1;
         private TabPage tabPage4;
         private GroupBox groupBox4;
         private CheckBox checkBox1;
@@ -1141,10 +1036,13 @@
         private Label label14;
         public TextBox textBox3;
         private Label label15;
-        private Sunny.UI.UIComboBox cbx_Folders;
         private Panel panel3;
         private Label label2;
         private NumericUpDown numericUpDown1;
         private Label label1;
+        private CheckBox checkBox2;
+        private Sunny.UI.UIComboBox uiComboBox1;
+        private ComboBox comboBox3;
+        private Label label3;
     }
 }

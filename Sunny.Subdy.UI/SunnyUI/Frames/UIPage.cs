@@ -97,6 +97,7 @@ namespace Sunny.UI
         protected UIStyle _style = UIStyle.Inherited;
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IFrame Frame
         {
             get; set;
@@ -140,6 +141,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new IButtonControl AcceptButton
         {
             get => base.AcceptButton;
@@ -147,6 +149,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new IButtonControl CancelButton
         {
             get => base.CancelButton;
@@ -154,6 +157,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new SizeGripStyle SizeGripStyle
         {
             get => base.SizeGripStyle;
@@ -161,6 +165,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new FormStartPosition StartPosition
         {
             get => base.StartPosition;
@@ -168,6 +173,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool AutoScroll
         {
             get => base.AutoScroll;
@@ -175,6 +181,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool ShowIcon
         {
             get => base.ShowIcon;
@@ -182,6 +189,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool ShowInTaskbar
         {
             get => base.ShowInTaskbar;
@@ -189,6 +197,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool IsMdiContainer
         {
             get => base.IsMdiContainer;
@@ -399,6 +408,7 @@ namespace Sunny.UI
         public int PageIndex { get; set; } = -1;
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Guid PageGuid { get; set; } = Guid.Empty;
 
         [Browsable(false), DefaultValue(null)]
@@ -409,6 +419,7 @@ namespace Sunny.UI
         /// </summary>
         /// <value>The color of the border style.</value>
         [Description("边框颜色"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color RectColor
         {
             get => _rectColor;
@@ -896,7 +907,7 @@ namespace Sunny.UI
         }
 
         private int imageInterval = 6;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ImageInterval
         {
             get => imageInterval;
@@ -1075,12 +1086,14 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool MinimizeBox
         {
             get; set;
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool MaximizeBox
         {
             get; set;

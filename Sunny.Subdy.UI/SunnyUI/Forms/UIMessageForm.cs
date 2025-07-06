@@ -22,6 +22,7 @@
 ******************************************************************************/
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -52,7 +53,8 @@ namespace Sunny.UI
 
         /// <summary>
         /// 显示取消按钮
-        /// </summary>
+        /// </summary>        
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowCancel
         {
             get => _showCancel;
@@ -154,7 +156,7 @@ namespace Sunny.UI
                 lbMsg.ScrollBarColor = uiColor.RectColor;
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UIMessageDialogButtons DefaultButton { get; set; } = UIMessageDialogButtons.Ok;
 
         /// <summary>
@@ -190,7 +192,7 @@ namespace Sunny.UI
         }
 
         int delay = 0;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Delay
         {
             set

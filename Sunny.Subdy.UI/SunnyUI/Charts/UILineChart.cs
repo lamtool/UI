@@ -1028,6 +1028,7 @@ namespace Sunny.UI
 
         private Point StartPoint, StopPoint;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UILineChartMouseDownType MouseDownType { get; set; } = UILineChartMouseDownType.Zoom;
 
         /// <summary>

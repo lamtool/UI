@@ -2,10 +2,16 @@
 using Sunny.Subdy.Common.Helper;
 using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.Common.Models;
+using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using Sunny.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.UI.View.Forms
 {
@@ -126,29 +132,40 @@ namespace Sunny.Subdy.UI.View.Forms
                 _formatAccountContext.Update(formats);
             }
         }
-        private async void uiSymbolButton1_Click(object sender, EventArgs e)
+        private async Task uiSymbolButton1_ClickSafe()
         {
-            uiSymbolButton2.Enabled = false;
-            uiSymbolButton1.Enabled = false;
-            SaveCombobox();
-            this.ShowWaitForm(desc: "Đang lưu thông tin vui lòng đợi");
-            List<string> lines = new List<string>();
-            if (string.IsNullOrEmpty(txtLines.Text.Trim()))
+            try
             {
-                CommonMethod.ShowMessageWarning("Danh sách tài khoản không được để trống.");
+                uiSymbolButton2.Enabled = false;
+                uiSymbolButton1.Enabled = false;
+                SaveCombobox();
+                this.ShowWaitForm(desc: "Đang lưu thông tin vui lòng đợi");
+                List<string> lines = new List<string>();
+                if (string.IsNullOrEmpty(txtLines.Text.Trim()))
+                {
+                    CommonMethod.ShowMessageWarning("Danh sách tài khoản không được để trống.");
+                    this.HideWaitForm();
+                    return;
+                }
+                lines = txtLines.Lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
+                if (_add)
+                {
+                    await AddAccounts(lines);
+                    _fol.Count = new AccountContext().GetAll(new List<string> { _fol.Name }, true).Count.ToString();
+                    new FolderContext().Update(_fol);
+                }
                 this.HideWaitForm();
-                return;
+                uiSymbolButton1.Enabled = true;
+                uiSymbolButton2.Enabled = true;
             }
-            lines = txtLines.Lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
-            if (_add)
+            catch (Exception ex)
             {
-                await AddAccounts(lines);
-                _fol.Count =  new AccountContext().GetAll(new List<string> { _fol.Name }, true).Count.ToString();
-                new FolderContext().Update(_fol);
+                CommonMethod.ShowMessageError(ex.Message);
             }
-            this.HideWaitForm();
-            uiSymbolButton1.Enabled = true;
-            uiSymbolButton2.Enabled = true;
+        }
+        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        {
+            _ = uiSymbolButton1_ClickSafe();
         }
         private async Task AddAccounts(List<string> lines)
         {

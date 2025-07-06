@@ -46,7 +46,7 @@ namespace Sunny.UI
             rectColor = UIStyles.Blue.RectColor;
         }
 
-        private UIDataGridView dgv;
+        private UIDataGridView dgv; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UIDataGridView DataGridView
         {
             get => dgv;
@@ -72,7 +72,7 @@ namespace Sunny.UI
         }
 
         private readonly Dictionary<string, string> dictionary = new Dictionary<string, string>();
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string this[string name]
         {
             get => dictionary.ContainsKey(name) ? dictionary[name] : "";

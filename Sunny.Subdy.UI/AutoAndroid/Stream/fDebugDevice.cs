@@ -1,4 +1,6 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 namespace AutoAndroid.Stream

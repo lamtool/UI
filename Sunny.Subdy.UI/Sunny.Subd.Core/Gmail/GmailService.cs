@@ -43,14 +43,12 @@ namespace Sunny.Subd.Core.Gmail
         }
         public bool RemoveAccount()
         {
-
-            var value = _client.Shell("dumpsys account");
-            if (!value.Contains(", type=com.google}"))
+            if (!GetAccount().Any())
             {
-                return false;
+                return true;
             }
             bool check = false;
-            _client.Shell("am start -a android.settings.SYNC_SETTINGS");
+            _client.Shell("am force-stop com.android.settings");
             _client.Delay(3);
             _client.Shell("am start -a android.settings.SYNC_SETTINGS");
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -67,10 +65,10 @@ namespace Sunny.Subd.Core.Gmail
                 }
                 if (!GetAccount().Any())
                 {
-                    break;
+                    return true;
                 }
             }
-            return true;
+            return GetAccount().Any();
         }
         public string GetCode()
         {
@@ -124,7 +122,7 @@ namespace Sunny.Subd.Core.Gmail
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error in GetCode: {ex.Message}");
+                    Debug.WriteLine($"Error in GetCode: {ex.Message}");
                 }
             }
 

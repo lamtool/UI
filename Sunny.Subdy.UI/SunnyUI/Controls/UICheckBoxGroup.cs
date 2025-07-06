@@ -82,7 +82,8 @@ namespace Sunny.UI
         /// 获取和设置条目值
         /// </summary>
         /// <param name="index"></param>
-        /// <returns></returns>
+        /// <returns></returns>       
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool this[int index]
         {
             get => GetItemCheckState(index);
@@ -306,6 +307,7 @@ namespace Sunny.UI
         /// 选中状态列表
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<int> SelectedIndexes
         {
             get

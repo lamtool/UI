@@ -1083,7 +1083,7 @@ namespace AutoAndroid
             // Tắt xác minh cài đặt nếu có thể (tùy thiết bị)
             Shell("settings", "put", "global", "verifier_verify_adb_installs", "0");
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 3; i++)
             {
                 string result = "";
                 if (Push(path_APK, remotePath))

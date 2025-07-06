@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Sunny.Subd.Core.Utils
 {
@@ -74,7 +76,69 @@ namespace Sunny.Subd.Core.Utils
         {
             return lines[_random.Next(lines.Count)];
         }
+        private static readonly string[] SupportedExtensions = { ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp" };
+        private static readonly Random random = new Random();
 
+        public static string RemoveSpecialAndVietnameseChars(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return string.Empty;
+            string normalized = input.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder();
+            foreach (char c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(c);
+                }
+            }
+            string cleaned = Regex.Replace(sb.ToString(), "[^a-zA-Z0-9]", "");
+
+            return cleaned;
+        }
+        public static string RandomPhoneVN()
+        {
+            string line = _random.Next(2) == 0 ? "84" : "0";
+            line += vietnamPrefixes[_random.Next(vietnamPrefixes.Count)] + RandomString("0123456789", 7);
+            return line;
+        }
+        public static string RandomPhoneUS()
+        {
+            string line = "1" + tollFreePrefixes[_random.Next(tollFreePrefixes.Count)] + RandomString("0123456789", 7);
+            return line;
+        }
+        public static readonly List<string> tollFreePrefixes = new List<string>
+{
+    "800", "888", "877", "866", "855", "844", "833"
+};
+        public static string GetRandomImage(string folderPath)
+        {
+            if (!Directory.Exists(folderPath))
+                return "";
+
+            var imageFiles = Directory.GetFiles(folderPath)
+                .Where(file => SupportedExtensions.Contains(Path.GetExtension(file).ToLower()))
+                .ToArray();
+
+            if (imageFiles.Length == 0)
+                return "";
+
+            int index = random.Next(imageFiles.Length);
+            return imageFiles[index];
+        }
+
+        public static readonly List<string> vietnamPrefixes = new List<string>
+{
+    "32", "33", "34", "35", "36", "37", "38", "39",
+    "7", "76", "77", "78", "79",
+    "81", "82", "83", "84", "85", "88",
+    "56", "58",
+    "59",
+    "86", "96", "97", "98",
+    "9", "93",
+    "91", "94",
+    "92",
+    "99"
+};
         public static readonly List<string> FirstnameVN = new List<string>
 {
     "Nguyễn",

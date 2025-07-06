@@ -23,7 +23,7 @@ namespace Sunny.UI
             btnCancel.SetDPIScale();
             uiCheckBox1.SetDPIScale();
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowSelectedAllCheckBox
         {
             get => uiCheckBox1.Visible;
@@ -41,7 +41,7 @@ namespace Sunny.UI
                 panel.Visible = CheckBoxes;
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool CanSelectRootNode { get; set; }
 
         public UIComboTreeViewItem()

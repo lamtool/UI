@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 
 namespace Sunny.UI
@@ -503,7 +504,7 @@ namespace Sunny.UI
         private float m_opacity = 1;
 
         private bool lockColorTable = false;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color SelectedColor
         {
             get { return Color.FromArgb((int)Math.Floor(255f * m_opacity), m_selectedColor); }

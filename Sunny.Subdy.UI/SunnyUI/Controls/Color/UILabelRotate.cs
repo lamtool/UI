@@ -42,7 +42,7 @@ namespace Sunny.UI
             if (DefaultFontSize < 0) DefaultFontSize = this.Font.Size;
             this.SetDPIScaleFont(DefaultFontSize);
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string Text
         {
             get { return base.Text; }
@@ -52,7 +52,7 @@ namespace Sunny.UI
                 Refresh();
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float TextAngle
         {
             get { return m_textAngle; }
@@ -62,7 +62,7 @@ namespace Sunny.UI
                 Invalidate();
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ContentAlignment TextAlign
         {
             get { return m_textAlignment; }
@@ -72,7 +72,7 @@ namespace Sunny.UI
                 Invalidate();
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ContentAlignment RotatePointAlignment
         {
             get { return m_rotatePointAlignment; }
@@ -84,7 +84,7 @@ namespace Sunny.UI
         }
 
         private Color m_frameColor = UIColor.Blue;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color FrameColor
         {
             get => m_frameColor;

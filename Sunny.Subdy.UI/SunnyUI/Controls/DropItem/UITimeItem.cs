@@ -21,6 +21,7 @@
 ******************************************************************************/
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -438,7 +439,7 @@ namespace Sunny.UI
         }
 
         internal bool SizeMultipled = false;
-        private int sizeMultiple = 1;
+        private int sizeMultiple = 1; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SizeMultiple
         {
             get => sizeMultiple;
@@ -486,7 +487,7 @@ namespace Sunny.UI
         }
 
         private DateTime time;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateTime Time
         {
             get => time;
@@ -503,7 +504,7 @@ namespace Sunny.UI
         private int hour;
         private int minute;
         private int second;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Hour
         {
             get => hour;
@@ -513,7 +514,7 @@ namespace Sunny.UI
                 hc.Text = hour.ToString();
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Minute
         {
             get => minute;
@@ -523,7 +524,7 @@ namespace Sunny.UI
                 mc.Text = minute.ToString();
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Second
         {
             get => second;

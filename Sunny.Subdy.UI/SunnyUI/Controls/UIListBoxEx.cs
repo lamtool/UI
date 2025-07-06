@@ -50,7 +50,7 @@ namespace Sunny.UI
             if (DefaultFontSize < 0) DefaultFontSize = this.Font.Size;
             this.SetDPIScaleFont(DefaultFontSize);
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UIScrollBar Bar
         {
             get => bar;
@@ -261,6 +261,7 @@ namespace Sunny.UI
         }
 
         [Category("SunnyUI"), Description("The border color used to paint the control.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color ItemSelectBackColor
         {
             get => _itemSelectBackColor;
@@ -275,6 +276,7 @@ namespace Sunny.UI
         }
 
         [Category("SunnyUI"), Description("The border color used to paint the control.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color ItemSelectForeColor
         {
             get => _itemSelectForeColor;
@@ -295,7 +297,7 @@ namespace Sunny.UI
         public event OnBeforeDrawItem AfterDrawItem;
 
         private StringAlignment textAlignment = StringAlignment.Near;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public StringAlignment TextAlignment
         {
             get => textAlignment;
@@ -390,6 +392,7 @@ namespace Sunny.UI
         private int mouseIndex = -1;
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int MouseIndex
         {
             get => mouseIndex;

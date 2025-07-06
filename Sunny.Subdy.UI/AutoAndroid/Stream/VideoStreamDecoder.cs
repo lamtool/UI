@@ -1,12 +1,5 @@
 ﻿using FFmpeg.AutoGen;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoAndroid.Stream
 {
@@ -100,7 +93,6 @@ namespace AutoAndroid.Stream
         private readonly AVFrame* frame;
         private readonly AVPacket* packet;
 
-
         public VideoStreamDecoder()
         {
             codec = ffmpeg.avcodec_find_decoder(AVCodecID.AV_CODEC_ID_H264);
@@ -161,8 +153,7 @@ namespace AutoAndroid.Stream
                 }
             }
         }
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        static extern IntPtr GetStdHandle(int nStdHandle);
+
         private void DecodePacket()
         {
             int ret = ffmpeg.avcodec_send_packet(ctx, packet);
@@ -225,13 +216,13 @@ namespace AutoAndroid.Stream
                             //Interlocked.Exchange(ref lastFrameRefCount, 0);
                             lastFrameRefCount = 0;
                         }
+
                         // FrameData takes ownership of the destBufferPtr and will free it when disposed!
                         lastFrame = new FrameData(destBufferPtr, destSize, frame->width, frame->height, ctx->frame_number, AVPixelFormat.AV_PIX_FMT_BGRA);
                         OnFrame?.Invoke(this, lastFrame);
                     }
                     else
                     {
-
                         // Manually free the destBufferPtr when we don't create a FrameData object.
                         ffmpeg.av_free(destBufferPtr);
                     }

@@ -21,6 +21,7 @@
  * 2024-08-10: V3.6.8 重构文字显示位置，重绘
 ******************************************************************************/
 
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -88,7 +89,7 @@ namespace Sunny.UI
         Color SymbolColor = UIStyles.Green.ButtonFillColor;
         private Color Color;
         private Color foreColor;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Message { get; set; }
         private void UIMessageForm2_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
@@ -142,7 +143,7 @@ namespace Sunny.UI
         }
 
         int delay = 0;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Delay
         {
             set

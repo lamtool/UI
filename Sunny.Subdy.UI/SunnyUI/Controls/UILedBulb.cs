@@ -92,12 +92,14 @@ namespace Sunny.UI
         /// Dark shade of the LED color used for gradient
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color DarkColor { get; protected set; }
 
         /// <summary>
         /// Very dark shade of the LED color used for gradient
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color DarkDarkColor { get; protected set; }
 
         /// <summary>

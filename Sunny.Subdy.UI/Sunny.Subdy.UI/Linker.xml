@@ -6,6 +6,10 @@
 	<assembly fullname="Sunny.UI">
 		<type fullname="Sunny.UI.UINotifier" preserve="all"/>
 		<type fullname="Sunny.UI.Properties.Resources" preserve="all"/>
-		<!-- Thêm các lớp khác nếu cần -->
+		<Type Name="System.Drawing.Bitmap" Dynamic="Required All" />
+	</assembly>
+	<assembly fullname="System.Resources.Extensions" preserve="all"/>
+	<assembly fullname="System.Drawing.Common">
+		<type fullname="System.Drawing.Bitmap" preserve="all" />
 	</assembly>
 </linker>

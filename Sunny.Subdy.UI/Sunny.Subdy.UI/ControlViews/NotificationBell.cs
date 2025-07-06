@@ -16,7 +16,7 @@ namespace Sunny.Subdy.UI.ControlViews
     {
         private NotificationPopupForm popupForm;
         private List<string> _notifications = new List<string>();
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<string> Notifications
         {
             get => _notifications;

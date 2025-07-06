@@ -274,7 +274,7 @@ namespace Sunny.UI
             set => SafeInvoke(() => edit.TouchPressClick = value);
         }
 
-        private bool _autoSize = false;
+        private bool _autoSize = false; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool AutoSize
         {
             get => _autoSize;
@@ -1418,7 +1418,7 @@ namespace Sunny.UI
             get => SafeInvoke(() => edit.AutoCompleteSource, AutoCompleteSource.None);
             set => SafeInvoke(() => edit.AutoCompleteSource = value);
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public AutoCompleteStringCollection AutoCompleteCustomSource
         {
             get => SafeInvoke(() => edit.AutoCompleteCustomSource, null) ?? new AutoCompleteStringCollection();
@@ -1506,7 +1506,7 @@ namespace Sunny.UI
             get => SafeInvoke(() => edit.HideSelection, true);
             set => SafeInvoke(() => edit.HideSelection = value);
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string[] Lines
         {
             get => SafeInvoke(() => edit.Lines, null) ?? Array.Empty<string>();

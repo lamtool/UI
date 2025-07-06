@@ -38,7 +38,7 @@ namespace Sunny.Subd.Core.Services
             _platform = platform ?? throw new ArgumentNullException(nameof(platform));
             _ct = ct;
             _facebookService = new FacebookService();
-            _jsonHelper = new JsonHelper(_config.JsonSetting);
+            _jsonHelper = new JsonHelper(_config.JsonSetting, true);
             if (_jsonHelper.GetBooleanValue("ckbTimeoutAccount"))
             {
                 Timeout = SubdyHelper.RandomValue(_jsonHelper.GetIntType("numericUpDown2", 40), _jsonHelper.GetIntType("numericUpDown3", 60)) * 60000;
@@ -153,7 +153,7 @@ namespace Sunny.Subd.Core.Services
 
                 await Stop();
 
-                await _executor.ExecuteAsync(action.Type, action.Json, _account, _device);
+                await _executor.ExecuteAsync(action.Type,  _account, _device);
             }
 
             await ScrollNewsFeedAsync();
@@ -162,7 +162,7 @@ namespace Sunny.Subd.Core.Services
 
         private string GetDoneScriptFlag()
         {
-            var scriptHelper = new JsonHelper(_config.Script.JsonData);
+            var scriptHelper = new JsonHelper(_config.Script.JsonData, true);
             if (scriptHelper.GetBooleanValue("check_Interaction_2"))
                 return "Swipe";
             if (scriptHelper.GetBooleanValue("check_Interaction_3"))

@@ -358,6 +358,7 @@ namespace Sunny.UI
                 return Option.Dictionary[dataPropertyName].Value;
             }
         }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 
         public bool IsOK { get; protected set; }
 

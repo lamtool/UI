@@ -216,7 +216,6 @@ namespace AutoAndroid.Stream
             Name = "ScrcpyDisplay";
             Padding = new Padding(5);
             Size = new Size(233, 389);
-            Load += ScrcpyDisplay_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)View).EndInit();

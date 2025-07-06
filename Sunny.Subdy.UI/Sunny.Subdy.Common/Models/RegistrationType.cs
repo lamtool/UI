@@ -2,13 +2,14 @@
 {
     public class RegistrationType
     {
+        public const string NVR = "NVR";
         public const string Domain = "Domain";
         public const string Gmail = "Gmail";
         public const string PhoneNumber = "PhoneNumber";
         public const string Domain_BaitPhoneNumber = "Domain mồi số điện thoại";
         public const string Gmail_BaitPhoneNumber = "Gmail mồi số điện thoại";
         public const string PhoneNumber_BaitPhoneNumber = "PhoneNumber mồi số điện thoại";
-        public static List<string> AllTypes = new List<string>
+        public static List<string> RegFacebook_AllTypes = new List<string>
         {
             Domain,
             Gmail,
@@ -40,6 +41,13 @@
         };
 
 
+        public const string RegFacebook = "RegFacebook";
+        public const string RegGmail = "RegGmail";
 
+        public static List<string> RegGmail_AllTypes = new List<string>
+        {
+            NVR,
+            PhoneNumber,
+        };
     }
 }

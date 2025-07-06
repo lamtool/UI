@@ -217,9 +217,11 @@ namespace Sunny.UI
         public int TextInterval { get; set; } = 8;
 
         [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Font SubFont { get; set; }
 
         [Browsable(true)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Font LegendFont { get; set; }
         protected void DrawTitle(Graphics g, UITitle title)
         {

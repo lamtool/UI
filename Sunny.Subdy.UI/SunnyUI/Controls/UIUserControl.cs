@@ -734,6 +734,7 @@ namespace Sunny.UI
         /// 文字对齐方向
         /// </summary>
         [Description("文字对齐方向"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ContentAlignment TextAlignment
         {
             get => _textAlignment;
@@ -773,6 +774,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool AutoScroll { get; set; } = false;
     }
 }

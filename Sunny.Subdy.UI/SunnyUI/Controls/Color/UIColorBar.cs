@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace Sunny.UI
 {
@@ -10,6 +11,7 @@ namespace Sunny.UI
 
         private Orientation m_orientation = Orientation.Vertical;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Orientation Orientation
         {
             get { return m_orientation; }
@@ -24,6 +26,7 @@ namespace Sunny.UI
 
         private eNumberOfColors m_numberOfColors = eNumberOfColors.Use3Colors;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public eNumberOfColors NumberOfColors
         {
             get { return m_numberOfColors; }
@@ -38,6 +41,7 @@ namespace Sunny.UI
 
         private eValueOrientation m_valueOrientation = eValueOrientation.MinToMax;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public eValueOrientation ValueOrientation
         {
             get { return m_valueOrientation; }
@@ -46,6 +50,7 @@ namespace Sunny.UI
 
         private float m_percent = 0;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public float Percent
         {
             get { return m_percent; }
@@ -68,18 +73,21 @@ namespace Sunny.UI
         private Color m_color2 = Color.FromArgb(255, 127, 127, 127);
         private Color m_color3 = Color.White;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color Color1
         {
             get { return m_color1; }
             set { m_color1 = value; }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color Color2
         {
             get { return m_color2; }
             set { m_color2 = value; }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color Color3
         {
             get { return m_color3; }
@@ -88,6 +96,7 @@ namespace Sunny.UI
 
         private Padding m_barPadding = new Padding(12, 5, 24, 10);
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Padding BarPadding
         {
             get { return m_barPadding; }
@@ -284,6 +293,7 @@ namespace Sunny.UI
     {
         private HSLColor m_selectedColor = new HSLColor();
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HSLColor SelectedHSLColor
         {
             get { return m_selectedColor; }

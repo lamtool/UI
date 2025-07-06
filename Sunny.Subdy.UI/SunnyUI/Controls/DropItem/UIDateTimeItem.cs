@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -692,7 +693,9 @@ namespace Sunny.UI
         private readonly List<string> months = new List<string>();
         private readonly List<int> years = new List<int>();
         private readonly List<DateTime> days = new List<DateTime>();
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color PrimaryColor { get; set; } = UIColor.Blue;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowToday { get; set; }
 
         public UIDateTimeItem()
@@ -764,7 +767,7 @@ namespace Sunny.UI
 
         internal bool SizeMultipled = false;
 
-        private int sizeMultiple = 1;
+        private int sizeMultiple = 1; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SizeMultiple
         {
             get => sizeMultiple;
@@ -827,7 +830,7 @@ namespace Sunny.UI
         }
 
         private DateTime date;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateTime Date
         {
             get => date;
@@ -847,7 +850,7 @@ namespace Sunny.UI
         }
 
         private int year;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Year
         {
             get => year;
@@ -858,7 +861,7 @@ namespace Sunny.UI
                 SetYears(iy);
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Month { get; set; }
 
         private void SetYearMonth(int iYear, int iMonth)
@@ -1098,7 +1101,7 @@ namespace Sunny.UI
         private int hour;
         private int minute;
         private int second;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Hour
         {
             get => hour;
@@ -1108,7 +1111,7 @@ namespace Sunny.UI
                 hc.Text = hour.ToString();
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Minute
         {
             get => minute;
@@ -1118,7 +1121,7 @@ namespace Sunny.UI
                 mc.Text = minute.ToString();
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Second
         {
             get => second;

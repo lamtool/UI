@@ -1,4 +1,7 @@
-﻿namespace Sunny.Subdy.UI.View.Pages
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Sunny.Subdy.UI.View.Pages
 {
     partial class ucManagerDevices
     {
@@ -90,6 +93,7 @@
             toolStripLabel3 = new ToolStripLabel();
             toolStripLabel4 = new ToolStripLabel();
             uiPanel1 = new Sunny.UI.UIPanel();
+            uiSymbolButton5 = new Sunny.UI.UISymbolButton();
             uiLinkLabel1 = new Sunny.UI.UILinkLabel();
             uiTextBox1 = new Sunny.UI.UITextBox();
             uiHeaderButton1 = new Sunny.UI.UIHeaderButton();
@@ -97,6 +101,7 @@
             uiSymbolButton2 = new Sunny.UI.UISymbolButton();
             groupBox1 = new GroupBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            gmailToolStripMenuItem = new ToolStripMenuItem();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).BeginInit();
@@ -186,7 +191,6 @@
             uiDataGridView2.ScrollBarColor = Color.FromArgb(4, 60, 44);
             uiDataGridView2.ScrollBarRectColor = Color.FromArgb(4, 60, 44);
             uiDataGridView2.ScrollBarStyleInherited = false;
-            uiDataGridView2.SelectedIndex = -1;
             uiDataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             uiDataGridView2.Size = new Size(500, 420);
             uiDataGridView2.StripeOddColor = Color.White;
@@ -260,7 +264,7 @@
             uiContextMenuStrip1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem, connectToolStripMenuItem, disconnectToolStripMenuItem, dDToolStripMenuItem });
             uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            uiContextMenuStrip1.Size = new Size(177, 180);
+            uiContextMenuStrip1.Size = new Size(181, 202);
             // 
             // toolStripMenuItem1
             // 
@@ -268,7 +272,7 @@
             toolStripMenuItem1.ForeColor = SystemColors.ControlText;
             toolStripMenuItem1.Image = Properties.Resources.select_check_box_30dp;
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(176, 22);
+            toolStripMenuItem1.Size = new Size(180, 22);
             toolStripMenuItem1.Text = "Chọn";
             // 
             // tấtCảToolStripMenuItem
@@ -299,7 +303,7 @@
             // 
             bỏChọnTấtCảToolStripMenuItem.Image = Properties.Resources.check_box_outline_blank_30dp;
             bỏChọnTấtCảToolStripMenuItem.Name = "bỏChọnTấtCảToolStripMenuItem";
-            bỏChọnTấtCảToolStripMenuItem.Size = new Size(176, 22);
+            bỏChọnTấtCảToolStripMenuItem.Size = new Size(180, 22);
             bỏChọnTấtCảToolStripMenuItem.Text = "Bỏ chọn tất cả";
             bỏChọnTấtCảToolStripMenuItem.Click += bỏChọnTấtCảToolStripMenuItem_Click;
             // 
@@ -308,7 +312,7 @@
             tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1 });
             tắtViewToolStripMenuItem.Image = Properties.Resources.mystery_30dp;
             tắtViewToolStripMenuItem.Name = "tắtViewToolStripMenuItem";
-            tắtViewToolStripMenuItem.Size = new Size(176, 22);
+            tắtViewToolStripMenuItem.Size = new Size(180, 22);
             tắtViewToolStripMenuItem.Text = "View";
             // 
             // tắtToolStripMenuItem
@@ -332,7 +336,7 @@
             mởToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { càiĐặtApkToolStripMenuItem, wifiToolStripMenuItem, gỡCàiĐặtPackageToolStripMenuItem, rebootToolStripMenuItem, changeInfoToolStripMenuItem });
             mởToolStripMenuItem.Image = Properties.Resources.functions_30dp;
             mởToolStripMenuItem.Name = "mởToolStripMenuItem";
-            mởToolStripMenuItem.Size = new Size(176, 22);
+            mởToolStripMenuItem.Size = new Size(180, 22);
             mởToolStripMenuItem.Text = "Nâng cao";
             // 
             // càiĐặtApkToolStripMenuItem
@@ -404,7 +408,7 @@
             ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem, tikTokToolStripMenuItem, instagramToolStripMenuItem });
             ứngDụngToolStripMenuItem.Image = Properties.Resources.apps_30dp_434343_FILL0_wght400_GRAD0_opsz24;
             ứngDụngToolStripMenuItem.Name = "ứngDụngToolStripMenuItem";
-            ứngDụngToolStripMenuItem.Size = new Size(176, 22);
+            ứngDụngToolStripMenuItem.Size = new Size(180, 22);
             ứngDụngToolStripMenuItem.Text = "Ứng dụng";
             // 
             // facebookToolStripMenuItem
@@ -483,7 +487,7 @@
             // 
             connectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_48752C_FILL0_wght400_GRAD0_opsz24;
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            connectToolStripMenuItem.Size = new Size(176, 22);
+            connectToolStripMenuItem.Size = new Size(180, 22);
             connectToolStripMenuItem.Text = "Connect";
             connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
@@ -491,22 +495,22 @@
             // 
             disconnectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24;
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            disconnectToolStripMenuItem.Size = new Size(176, 22);
+            disconnectToolStripMenuItem.Size = new Size(180, 22);
             disconnectToolStripMenuItem.Text = "Disconnect";
             // 
             // dDToolStripMenuItem
             // 
-            dDToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem1 });
+            dDToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem1, gmailToolStripMenuItem });
             dDToolStripMenuItem.Image = Properties.Resources.app_registration_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             dDToolStripMenuItem.Name = "dDToolStripMenuItem";
-            dDToolStripMenuItem.Size = new Size(176, 22);
+            dDToolStripMenuItem.Size = new Size(180, 22);
             dDToolStripMenuItem.Text = "Đăng kí tài khoản";
             // 
             // facebookToolStripMenuItem1
             // 
             facebookToolStripMenuItem1.Image = Properties.Resources.icons8_facebook_40;
             facebookToolStripMenuItem1.Name = "facebookToolStripMenuItem1";
-            facebookToolStripMenuItem1.Size = new Size(136, 22);
+            facebookToolStripMenuItem1.Size = new Size(180, 22);
             facebookToolStripMenuItem1.Text = "Facebook";
             facebookToolStripMenuItem1.Click += facebookToolStripMenuItem1_Click;
             // 
@@ -626,6 +630,7 @@
             // uiPanel1
             // 
             uiPanel1.BackColor = Color.White;
+            uiPanel1.Controls.Add(uiSymbolButton5);
             uiPanel1.Controls.Add(uiLinkLabel1);
             uiPanel1.Controls.Add(uiTextBox1);
             uiPanel1.Controls.Add(uiHeaderButton1);
@@ -646,7 +651,39 @@
             uiPanel1.Size = new Size(500, 133);
             uiPanel1.TabIndex = 0;
             uiPanel1.Text = null;
-            uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
+            // 
+            // uiSymbolButton5
+            // 
+            uiSymbolButton5.BackColor = Color.White;
+            uiSymbolButton5.Cursor = Cursors.Hand;
+            uiSymbolButton5.FillColor = Color.White;
+            uiSymbolButton5.FillColor2 = Color.White;
+            uiSymbolButton5.FillDisableColor = Color.White;
+            uiSymbolButton5.FillHoverColor = Color.White;
+            uiSymbolButton5.FillPressColor = Color.White;
+            uiSymbolButton5.FillSelectedColor = Color.White;
+            uiSymbolButton5.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            uiSymbolButton5.Location = new Point(3, 3);
+            uiSymbolButton5.Margin = new Padding(3, 3, 10, 3);
+            uiSymbolButton5.MinimumSize = new Size(1, 1);
+            uiSymbolButton5.Name = "uiSymbolButton5";
+            uiSymbolButton5.Radius = 15;
+            uiSymbolButton5.RectColor = Color.White;
+            uiSymbolButton5.RectDisableColor = Color.White;
+            uiSymbolButton5.RectHoverColor = Color.White;
+            uiSymbolButton5.RectPressColor = Color.White;
+            uiSymbolButton5.RectSelectedColor = Color.White;
+            uiSymbolButton5.Size = new Size(42, 23);
+            uiSymbolButton5.Symbol = 362498;
+            uiSymbolButton5.SymbolColor = Color.CornflowerBlue;
+            uiSymbolButton5.SymbolDisableColor = Color.White;
+            uiSymbolButton5.SymbolHoverColor = Color.CornflowerBlue;
+            uiSymbolButton5.SymbolPressColor = Color.CornflowerBlue;
+            uiSymbolButton5.SymbolSelectedColor = Color.CornflowerBlue;
+            uiSymbolButton5.SymbolSize = 25;
+            uiSymbolButton5.TabIndex = 11;
+            uiSymbolButton5.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiSymbolButton5.Click += uiSymbolButton5_Click;
             // 
             // uiLinkLabel1
             // 
@@ -676,7 +713,6 @@
             uiTextBox1.Size = new Size(195, 35);
             uiTextBox1.Symbol = 61442;
             uiTextBox1.TabIndex = 5;
-            uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
             uiTextBox1.Watermark = "Tìm kiếm...";
             uiTextBox1.TextChanged += uiTextBox1_TextChanged;
             // 
@@ -784,6 +820,14 @@
             flowLayoutPanel1.Size = new Size(610, 619);
             flowLayoutPanel1.TabIndex = 0;
             // 
+            // gmailToolStripMenuItem
+            // 
+            gmailToolStripMenuItem.Image = Properties.Resources.icons8_gmail_40;
+            gmailToolStripMenuItem.Name = "gmailToolStripMenuItem";
+            gmailToolStripMenuItem.Size = new Size(180, 22);
+            gmailToolStripMenuItem.Text = "Gmail";
+            gmailToolStripMenuItem.Click += gmailToolStripMenuItem_Click;
+            // 
             // ucManagerDevices
             // 
             BackColor = Color.White;
@@ -868,5 +912,7 @@
         public GroupBox groupBox2;
         private ToolStripMenuItem dDToolStripMenuItem;
         private ToolStripMenuItem facebookToolStripMenuItem1;
+        private Sunny.UI.UISymbolButton uiSymbolButton5;
+        private ToolStripMenuItem gmailToolStripMenuItem;
     }
 }

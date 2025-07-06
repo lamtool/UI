@@ -169,6 +169,7 @@ namespace Sunny.UI
         /// </summary>
         [Description("总条目数")]
         [Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TotalCount
         {
             get => totalCount;

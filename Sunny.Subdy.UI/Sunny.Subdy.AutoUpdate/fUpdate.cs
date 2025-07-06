@@ -18,29 +18,39 @@ namespace Sunny.Subdy.AutoUpdate
             _tempZipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"update_{Guid.NewGuid()}.zip");
             _extractPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UpdateTemp");
         }
-
-        private async void Form1_Load(object sender, EventArgs e)
+        private async Task Form1_LoadSafe()
         {
-            uiLabel2.Text = "Đang tải bản cập nhật...";
             try
             {
-                await DownloadFileAsync(_link, _tempZipPath);
-                uiLabel2.Text = "Đang giải nén...";
-                await ExtractZipAsync(_tempZipPath, _extractPath);
-                uiLabel2.Text = "Hoàn tất cập nhật.";
-                await Task.Delay(1000);
-                CreateUpdateBatAndRestart();
-                Application.Exit();
+                uiLabel2.Text = "Đang tải bản cập nhật...";
+                try
+                {
+                    await DownloadFileAsync(_link, _tempZipPath);
+                    uiLabel2.Text = "Đang giải nén...";
+                    await ExtractZipAsync(_tempZipPath, _extractPath);
+                    uiLabel2.Text = "Hoàn tất cập nhật.";
+                    await Task.Delay(1000);
+                    CreateUpdateBatAndRestart();
+                    Application.Exit();
+                }
+                catch (Exception ex)
+                {
+                    uiLabel2.Text = "Lỗi: " + ex.Message;
+                }
+                finally
+                {
+                    if (File.Exists(_tempZipPath))
+                        File.Delete(_tempZipPath);
+                }
             }
             catch (Exception ex)
             {
-                uiLabel2.Text = "Lỗi: " + ex.Message;
+                MessageBox.Show(ex.Message);
             }
-            finally
-            {
-                if (File.Exists(_tempZipPath))
-                    File.Delete(_tempZipPath);
-            }
+        }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            _ = Form1_LoadSafe();
         }
 
         private async Task DownloadFileAsync(string url, string destinationPath)

@@ -150,6 +150,7 @@ namespace Sunny.UI
         /// 背景图片
         /// </summary>
         [Description("背景图片"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new Image BackgroundImage
         {
             get => _backImage;
@@ -176,6 +177,7 @@ namespace Sunny.UI
         /// 箭头图片
         /// </summary>
         [Description("箭头图片"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Image AngleImage
         {
             get => _angleImage;
@@ -210,6 +212,7 @@ namespace Sunny.UI
         /// BackgroundImageLayout
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new ImageLayout BackgroundImageLayout { get; set; }
 
         /// <summary>

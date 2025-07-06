@@ -371,7 +371,7 @@ namespace Sunny.UI
         }
 
         internal bool SizeMultipled = false;
-        private int sizeMultiple = 1;
+        private int sizeMultiple = 1; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SizeMultiple
         {
             get => sizeMultiple;

@@ -459,6 +459,7 @@ namespace Sunny.UI
         }
 
         private int symbolSize = 24;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SymbolSize
         {
             get => symbolSize;

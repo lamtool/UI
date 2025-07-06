@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AutoAndroid
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public class DeviceModel : INotifyPropertyChanged
     {
         private string _status;
@@ -15,10 +12,12 @@ namespace AutoAndroid
         private bool _check;
         private int _color;
         private int _index;
-        private string _serial { get; set; }
+        private string _serial;  // ✅ CHỈ là field, KHÔNG có { get; set; }
+        private bool _isScrcpy;
+
         public int Port { get; set; }
         public int PortScrcpy { get; set; }
-        private bool _isScrcpy;
+
         public bool IsScrcpy
         {
             get => _isScrcpy;
@@ -44,6 +43,7 @@ namespace AutoAndroid
                 }
             }
         }
+
         public string Serial
         {
             get => _serial;
@@ -56,6 +56,7 @@ namespace AutoAndroid
                 }
             }
         }
+
         public string OS
         {
             get => _os;
@@ -68,6 +69,7 @@ namespace AutoAndroid
                 }
             }
         }
+
         public string NameDevice
         {
             get => _name;
@@ -80,6 +82,7 @@ namespace AutoAndroid
                 }
             }
         }
+
         public bool Check
         {
             get => _check;
@@ -92,6 +95,7 @@ namespace AutoAndroid
                 }
             }
         }
+
         public int Index
         {
             get => _index;
@@ -104,6 +108,7 @@ namespace AutoAndroid
                 }
             }
         }
+
         public int TypeColor
         {
             get => _color;
@@ -118,9 +123,22 @@ namespace AutoAndroid
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
+
+        protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            var handler = PropertyChanged;
+            if (handler == null) return;
+
+            var context = SynchronizationContext.Current;
+            if (context != null)
+            {
+                context.Post(_ => handler(this, new PropertyChangedEventArgs(propertyName)), null);
+            }
+            else
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
+
 }

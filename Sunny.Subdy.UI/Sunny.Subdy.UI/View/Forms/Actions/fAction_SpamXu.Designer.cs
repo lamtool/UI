@@ -1,4 +1,7 @@
-﻿namespace Sunny.Subdy.UI.View.Forms.Actions
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Sunny.Subdy.UI.View.Forms.Actions
 {
     partial class fAction_SpamXu
     {

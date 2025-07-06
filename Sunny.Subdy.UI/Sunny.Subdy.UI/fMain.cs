@@ -3,6 +3,12 @@ using Sunny.Subdy.UI.Commons;
 using Sunny.Subdy.UI.Helper;
 using Sunny.Subdy.UI.View.Pages;
 using Sunny.UI;
+using System;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.UI
 {
@@ -14,7 +20,7 @@ namespace Sunny.Subdy.UI
         public fMain()
         {
             InitializeComponent();
-
+            this.Text = "LamToolAutoPhone";
 
         }
         private void BtnMinimize_Click(object sender, EventArgs e)

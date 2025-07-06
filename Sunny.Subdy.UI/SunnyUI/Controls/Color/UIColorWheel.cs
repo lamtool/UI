@@ -26,6 +26,7 @@ namespace Sunny.UI
             m_brush?.Dispose();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HSLColor SelectedHSLColor
         {
             get { return m_selectedColor; }
@@ -78,7 +79,7 @@ namespace Sunny.UI
             SelectedColorChanged?.Invoke(this, null);
             Refresh();//Invalidate(UIColorUtil.Rect(ColorSelectorRectangle));
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color SelectedColor
         {
             get { return m_selectedColor.Color; }
@@ -88,7 +89,7 @@ namespace Sunny.UI
                     SelectedHSLColor = new HSLColor(value);
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color FrameColor
         {
             get => m_frameColor;

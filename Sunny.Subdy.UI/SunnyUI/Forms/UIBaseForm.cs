@@ -210,6 +210,7 @@ namespace Sunny.UI
         private StringAlignment textAlignment = StringAlignment.Near;
 
         [Description("文字对齐方式"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public StringAlignment TextAlignment
         {
             get => textAlignment;
@@ -237,6 +238,7 @@ namespace Sunny.UI
         /// 是否以全屏模式进入最大化
         /// </summary>
         [Description("是否以全屏模式进入最大化"), Category("WindowStyle")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowFullScreen
         {
             get => showFullScreen;
@@ -362,6 +364,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool IsMdiContainer
         {
             get => base.IsMdiContainer;
@@ -369,6 +372,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new bool AutoScroll
         {
             get => base.AutoScroll;
@@ -776,6 +780,7 @@ namespace Sunny.UI
         /// </summary>
         /// <value>The color of the border style.</value>
         [Description("边框颜色"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color RectColor
         {
             get => rectColor;

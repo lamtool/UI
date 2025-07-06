@@ -94,13 +94,13 @@ namespace Sunny.UI
             processBar.Value = value;
             Show();
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Description
         {
             get => labelDescription.Text;
             set => labelDescription.Text = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int DecimalPlaces
         {
             get => processBar.DecimalPlaces;

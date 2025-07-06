@@ -1,10 +1,18 @@
-﻿using System.Reflection;
-using DeviceId;
+﻿using DeviceId;
 using Sunny.Subdy.AutoUpdate;
 using Sunny.Subdy.AutoUpdate.Api;
+using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Common.Models;
+using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.UI.Services;
 using Sunny.UI;
+using System;
+using System.Drawing;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+using Application = System.Windows.Forms.Application;
 
 namespace Sunny.Subdy.UI.View
 {
@@ -15,47 +23,59 @@ namespace Sunny.Subdy.UI.View
         public fLoading()
         {
             InitializeComponent();
-
+            this.Text = "LamToolAutoPhone";
             this.BackColor = Color.Magenta;
             this.TransparencyKey = Color.Magenta;
             this.FormBorderStyle = FormBorderStyle.None;
             this.AllowTransparency = true;
             uiRoundProcess1.BackColor = Color.Transparent;
         }
-
-        private async void fLoading_Load(object sender, EventArgs e)
+        private async Task fLoading_LoadSafe()
         {
-            var loadingTask = RunLoadingAsync();
+            try
+            {
+                var loadingTask = RunLoadingAsync();
 
-            MainForm = new fMain();
-            await new BuildConfig().Build();
-            await MainForm.LoadUI(); // thực hiện khởi tạo giao diện
-            Globals.DeviceId = new DeviceIdBuilder().OnWindows(windows => windows.AddWindowsDeviceId()).ToString();
-            string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
-            MainForm.uiLabel7.Text = "v" + version;
-            LamTool_API lamtool = new LamTool_API(Globals.DeviceId, Globals.NameApp, version);
-            if (!await lamtool.GetApiResponseAsync())
-            {
-                MessageBox.Show("Đã xảy ra lỗi vui lòng liên hệ admin để được hỗ trợ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-                return;
-            }
-            if (lamtool.IsNewerVersion())
-            {
-                if (MessageBox.Show($"Có phiên bản mới {lamtool._newVersion} bạn có muốn cập nhật không?", "Cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                MainForm = new fMain();
+                await new BuildConfig().Build();
+                await MainForm.LoadUI(); // thực hiện khởi tạo giao diện
+                Globals.DeviceId = new DeviceIdBuilder().OnWindows(windows => windows.AddWindowsDeviceId())
+                    .ToString();
+                string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
+                MainForm.uiLabel7.Text = "v" + version;
+                LamTool_API lamtool = new LamTool_API(Globals.DeviceId, Globals.NameApp, version);
+                if (!await lamtool.GetApiResponseAsync())
                 {
-                    this.Hide();
-                    fUpdate updateForm = new fUpdate(lamtool._updateUrl);
-                    updateForm.ShowDialog();
-                    Application.Exit();
+                    MessageBox.Show("Đã xảy ra lỗi vui lòng liên hệ admin để được hỗ trợ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    System.Windows.Forms.Application.Exit();
                     return;
                 }
-            }
-            loadUIFinished = true;
+                if (lamtool.IsNewerVersion())
+                {
+                    if (MessageBox.Show($"Có phiên bản mới {lamtool._newVersion} bạn có muốn cập nhật không?", "Cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        this.Hide();
+                        fUpdate updateForm = new fUpdate(lamtool._updateUrl);
+                        updateForm.ShowDialog();
+                        Application.Exit();
+                        return;
+                    }
+                }
+                loadUIFinished = true;
 
-            await loadingTask;
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+                await loadingTask;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+                Application.Exit();
+            }
+        }
+        private void fLoading_Load(object sender, EventArgs e)
+        {
+            _ = fLoading_LoadSafe();
         }
 
         private int loadingProgress = 0;

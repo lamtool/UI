@@ -542,7 +542,7 @@ namespace Sunny.UI
             [DefaultValue(null)]
             [Description("获取或设置包含有关控件的数据的对象字符串"), Category("SunnyUI")]
             public string TagString { get; set; }
-
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public UIScrollBar Bar
             {
                 get => bar;
@@ -748,6 +748,7 @@ namespace Sunny.UI
             }
 
             [Category("SunnyUI"), Description("The border color used to paint the control.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public Color ItemSelectBackColor
             {
                 get => _itemSelectBackColor;
@@ -762,6 +763,7 @@ namespace Sunny.UI
             }
 
             [Category("SunnyUI"), Description("The border color used to paint the control.")]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public Color ItemSelectForeColor
             {
                 get => _itemSelectForeColor;
@@ -894,6 +896,7 @@ namespace Sunny.UI
             private int mouseIndex = -1;
 
             [Browsable(false)]
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
             public int MouseIndex
             {
                 get => mouseIndex;

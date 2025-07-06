@@ -12,7 +12,7 @@ namespace Sunny.UI
     public sealed class UIColorTable : LabelRotate
     {
         public event EventHandler SelectedIndexChanged;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color SelectedItem
         {
             get
@@ -41,6 +41,7 @@ namespace Sunny.UI
         private int m_cols;
         private int m_rows;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Cols
         {
             get { return m_cols; }
@@ -54,7 +55,7 @@ namespace Sunny.UI
         }
 
         private Size m_fieldSize = new Size(12, 12);
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Size FieldSize
         {
             get { return m_fieldSize; }
@@ -166,7 +167,7 @@ namespace Sunny.UI
                     Invalidate(GetRectangle(m_colors.Count - 1));
             }
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color[] Colors
         {
             get { return m_colors.ToArray(); }

@@ -20,6 +20,8 @@
  * 2024-05-30: V3.6.6 修复调用时自定义主题参数不起作用的问题
 ******************************************************************************/
 
+using System.ComponentModel;
+
 namespace Sunny.UI
 {
     public sealed partial class UIInputForm : UIEditForm
@@ -28,7 +30,7 @@ namespace Sunny.UI
         {
             InitializeComponent();
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int MaxLength
         {
             get => edit.MaxLength;
@@ -38,7 +40,7 @@ namespace Sunny.UI
         public UITextBox Editor => edit;
 
         public UILabel Label => label;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool CheckInputEmpty
         {
             get; set;

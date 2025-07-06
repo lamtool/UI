@@ -1,4 +1,7 @@
-﻿namespace Sunny.Subdy.UI.View.Pages
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Sunny.Subdy.UI.View.Pages
 {
     partial class fTest
     {

@@ -1,5 +1,6 @@
 ﻿using AutoAndroid;
 using Sunny.Subd.Core.Email;
+using Sunny.Subd.Core.Facebook.ScriptActions;
 using Sunny.Subd.Core.Gmail;
 using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Phone;
@@ -9,21 +10,13 @@ using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.Common.Models;
 using Sunny.Subdy.Common.Services;
+using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Sunny.Subd.Core.Facebook
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Text.RegularExpressions;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Sunny.Subdy.Data.Context;
-    using Sunny.UI;
-
     public class FacebookRegsiner
     {
         private readonly Random _random = new Random();
@@ -41,6 +34,10 @@ namespace Sunny.Subd.Core.Facebook
         private readonly PhoneService _phoneService;
         private readonly EmailService _emailService;
         private AccountContext _accountContext = new AccountContext();
+        private ActionExecutor _actionExecutor;
+        private int _indexGmail = 0;
+        private int _recoGmail = 0;
+        private bool _isNVR = false;
         public FacebookRegsiner(DeviceModel device, JsonHelper settingRegsiner, JsonHelper settingGeneral, CancellationToken ct, Folder folder)
         {
             _device = device ?? throw new ArgumentNullException(nameof(device));
@@ -50,7 +47,7 @@ namespace Sunny.Subd.Core.Facebook
             _folder = folder ?? throw new ArgumentNullException(nameof(folder));
 
             _client = new ADBClient(_device);
-            _typeRegister = RegistrationType.AllTypes[_settingRegsiner.GetIntType("uiComboBox1", 0)];
+            _typeRegister = RegistrationType.RegFacebook_AllTypes[_settingRegsiner.GetIntType("uiComboBox1", 0)];
             _timeOut = _settingRegsiner.GetIntType("numericUpDown1", 30) * 1000 * 60;
             _gmailService = new GmailService(_client);
 
@@ -60,10 +57,41 @@ namespace Sunny.Subd.Core.Facebook
 
             string siteEmail = RegistrationType.EmailTypes[_settingRegsiner.GetIntType("cbb_Email", 0)];
             _emailService = new EmailService(siteEmail);
-        }
 
+            var handlers = new List<IActionHandler>
+{
+    new FbTurn2FAHandler(),
+};
+            _actionExecutor = new ActionExecutor(handlers);
+
+        }
+        private void writeFile(string message)
+        {
+            string dateFolder = DateTime.Now.ToString("yyyy-MM-dd");
+            string logFolderPath = Path.Combine("Logs_Create", dateFolder, _folder.Type);
+
+            Directory.CreateDirectory(logFolderPath);
+
+            string liveFilePath = Path.Combine(logFolderPath, "live.txt");
+            string dieFilePath = Path.Combine(logFolderPath, "die.txt");
+            using (StreamWriter liveWriter = new StreamWriter(liveFilePath, true))
+            using (StreamWriter dieWriter = new StreamWriter(dieFilePath, true))
+            {
+                if (message.Contains("LIVE"))
+                {
+                    liveWriter.WriteLine(message); // ghi vào file
+                }
+                else
+                {
+                    dieWriter.WriteLine(message); // ghi vào file
+                }
+            }
+        }
         public async Task RegisterAsync()
         {
+            _isNVR = _settingRegsiner.GetBooleanValue("checkBox2", true);
+            _recoGmail = _settingRegsiner.GetIntType("nudSwicthGmail", 2);
+            _indexGmail = _recoGmail + 1;
             while (!_ct.IsCancellationRequested)
             {
                 if (!await ConnectAndPrepareDevice()) continue;
@@ -75,15 +103,30 @@ namespace Sunny.Subd.Core.Facebook
 
                 _stopwatch.Restart();
                 string logAccount = string.Empty;
+
                 try
                 {
 
                     var message = await ImportInfo();
                     if (message.SubdyEnum == SubdyEnum.Success)
                     {
+                        string value = FacebookHander.GetAuthenticationInfo(_client);
+                        if (!string.IsNullOrEmpty(value) && value.Contains("|"))
+                        {
+                            string[] lines = value.Split('|');
+                            _account.Id = Guid.NewGuid();
+                            _account.Uid = lines[0];
+                            _account.Token = lines[1];
+                            _account.Cookie = lines[2];
+                        }
                         _account.State = "LIVE";
                         _account.Status = "Đăng ký thành công!";
                         _accountContext.Add(_account);
+                        if (!_isNVR)
+                        {
+                            await UpdateInfo();
+                        }
+
                     }
                 }
                 catch (Exception ex)
@@ -91,20 +134,124 @@ namespace Sunny.Subd.Core.Facebook
                     _account.State = "DIE";
                     LogManager.Error(ex); // Ghi log lỗi để dễ debug
                 }
-                string line = FacebookHander.GetAuthenticationInfo(_client);
-                if (!string.IsNullOrEmpty(line) && line.Contains("|"))
+
+
+                if (string.IsNullOrEmpty(_account.Uid))
                 {
-                    string[] lines = line.Split('|');
-                    _account.Uid = lines[0];
-                    _account.Cookie = lines[1];
-                    _account.Token = lines[2];
+                    string line = FacebookHander.GetAuthenticationInfo(_client);
+                    if (!string.IsNullOrEmpty(line) && line.Contains("|"))
+                    {
+                        string[] lines = line.Split('|');
+                        _account.Id = Guid.NewGuid();
+                        _account.Uid = lines[0];
+                        _account.Token = lines[1];
+                        _account.Cookie = lines[2];
+                        _accountContext.Add(_account);
+                    }
                 }
                 logAccount = $"{_account.Uid}|{_account.Password}|{_account.TowFA}|{_account.Email}|{_account.PassMail}|{_account.Cookie}|{_account.Token}|{_account.State}|{_account.Status}";
                 LogManager.LogRegsiner.Add(logAccount);
+                writeFile(logAccount);
             }
             _device.Status = "Đã hoàn thành.";
         }
+        private async Task<SubdyExtension> UpdateInfo()
+        {
+            List<string> typeActions = new List<string>();
+            if (_settingRegsiner.GetBooleanValue("check_Avatar"))
+            {
+                typeActions.Add(Sunny.Subdy.Common.Models.TypeAction.FB_ChangeAvatar);
+            }
+            if (_settingRegsiner.GetBooleanValue("check_Bia"))
+            {
+                typeActions.Add(Sunny.Subdy.Common.Models.TypeAction.FB_ChangeCover);
+            }
+            if (_settingRegsiner.GetBooleanValue("checkBox1"))
+            {
+                if (_settingRegsiner.GetBooleanValue("radioButton4"))
+                {
+                    typeActions.Add(Sunny.Subdy.Common.Models.TypeAction.FB_ChangeMail);
+                    typeActions.Add(Sunny.Subdy.Common.Models.TypeAction.FB_RemoveMail);
+                }
+                else
+                {
+                    typeActions.Add(Sunny.Subdy.Common.Models.TypeAction.FB_ChangeMail);
+                }
+            }
 
+            if (!typeActions.Any())
+            {
+                return new SubdyExtension(SubdyEnum.Success, "Đã hoàn thành. Không cập nhật thông tin gì thêm.");
+            }
+            foreach (var type in typeActions)
+            {
+                if (_stopwatch.ElapsedMilliseconds > _timeOut || _ct.IsCancellationRequested)
+                {
+                    return new SubdyExtension(SubdyEnum.Stop, "Đã hết thời gian.");
+                }
+                switch (type)
+                {
+                    case Sunny.Subdy.Common.Models.TypeAction.FB_ChangeAvatar:
+                        {
+                            string imagePath = SubdyHelper.GetRandomImage(_settingRegsiner.GetValuesFromInputString("txtAvatar"));
+                            if (string.IsNullOrEmpty(imagePath))
+                            {
+                                _client.LogHelper.ERROR("Không tìm thấy ảnh nào.");
+                                continue;
+                            }
+                            FacebookHander.SendImage(_client, imagePath);
+                            await _actionExecutor.ExecuteAsync(type, _account, _client);
+                            FacebookHander.DeleteImage(_client, imagePath);
+                            break;
+                        }
+                    case Sunny.Subdy.Common.Models.TypeAction.FB_ChangeCover:
+                        {
+                            string imagePath = SubdyHelper.GetRandomImage(_settingRegsiner.GetValuesFromInputString("txtBia"));
+                            if (string.IsNullOrEmpty(imagePath))
+                            {
+                                _client.LogHelper.ERROR("Không tìm thấy ảnh nào.");
+                                continue;
+                            }
+                            FacebookHander.SendImage(_client, imagePath);
+                            await _actionExecutor.ExecuteAsync(type, _account, _client);
+                            FacebookHander.DeleteImage(_client, imagePath);
+                            break;
+                        }
+                    case Sunny.Subdy.Common.Models.TypeAction.FB_Turn2FA:
+                        {
+                            _client.StopApp(FacebookHander.Package());
+                            _client.Shell("am start -a android.intent.action.VIEW -d \"fb://facewebmodal/f?href=https://accountscenter.facebook.com/password_and_security/two_factor\"");
+                            _client.Delay(5);
+                            var message = await _actionExecutor.ExecuteAsync(type, _account, _client);
+                            if (message.SubdyEnum == SubdyEnum.Error && message.Message == "ImportCodeMail")
+                            {
+                                _client.Delay(10);
+                                string code = await GetCode();
+                                if (string.IsNullOrEmpty(code))
+                                {
+                                    _client.LogHelper.ERROR("Không nhận được mã xác nhận.");
+                                    throw new SubdyExtension(SubdyEnum.Stop, "Không nhận được mã xác nhận.");
+                                }
+
+                                if (_typeRegister == RegistrationType.Gmail_BaitPhoneNumber || _typeRegister == RegistrationType.Gmail)
+                                {
+                                    _client.Shell("input keyevent KEYCODE_APP_SWITCH");
+                                    _client.ElementWithAttributes("//*[@content-desc=\"Facebook\"]");
+                                }
+
+                                _client.Delay(2);
+                                _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", code, timeout: 10);
+                                _client.ElementWithAttributes(new List<string> { "//*[@text=\"Next\"]", "//*[@content-desc=\"Next\"]" }, 5);
+                                _client.Delay(10);
+                                await _actionExecutor.ExecuteAsync(type, _account, _client);
+                            }
+                            break;
+                        }
+                }
+
+            }
+            return new SubdyExtension(SubdyEnum.Success, "Đã xảy ra lỗi khi đang update tài khoản.");
+        }
         private async Task<bool> ConnectAndPrepareDevice()
         {
             if (!_client.Connect()) return false;
@@ -161,22 +308,37 @@ namespace Sunny.Subd.Core.Facebook
         {
             if (_settingRegsiner.GetBooleanValue("radioButton2", false) && !string.IsNullOrEmpty(_settingRegsiner.GetValuesFromInputString("txtPass", "")))
                 return _settingRegsiner.GetValuesFromInputString("txtPass", "").Trim();
-            return SubdyHelper.RandomPassword(SubdyHelper.RandomValue(7, 18));
+            return SubdyHelper.RandomPassword(SubdyHelper.RandomValue(7, 18), digit: false);
         }
 
         private void ChangeInfo()
         {
             if (!_settingGeneral.GetBooleanValue("checkBox1", true)) return;
+            try
+            {
+                List<string> brands = _settingGeneral.GetValuesFromInputString("textBox1", DeviceServices.Brands).Split('|').ToList();
+                _client.ChangInfo("", false, brands[_random.Next(brands.Count)], SubdyHelper.Countries[_settingGeneral.GetIntType("cbbScript", 0)]);
+            }
+            catch (Exception ex)
+            {
 
-            List<string> brands = _settingGeneral.GetValuesFromInputString("textBox1", DeviceServices.Brands).Split('|').ToList();
-            _client.ChangInfo("", false, brands[_random.Next(brands.Count)], SubdyHelper.Countries[_settingGeneral.GetIntType("cbbScript", 0)]);
+            }
+
         }
 
         private async Task ChangeProxy()
         {
             _client.Shell("settings put global http_proxy :0");
             string proxy = string.Empty;
-            var proxyType = ProxyService.ProxyTypes[_settingGeneral.GetIntType("cbb_ListTypeProxy", 0)];
+            var proxyType = ProxyService.NoIP;
+            try
+            {
+                proxyType = ProxyService.ProxyTypes[_settingGeneral.GetIntType("cbb_ListTypeProxy", 0)];
+            }
+            catch (Exception ex)
+            {
+
+            }
             switch (proxyType)
             {
                 case ProxyService.NoIP:
@@ -207,17 +369,20 @@ namespace Sunny.Subd.Core.Facebook
                     return;
             }
 
-            if (string.IsNullOrEmpty(proxy)) return;
+            if (!string.IsNullOrEmpty(proxy))
+            {
+                _client.ConnectProxy(proxy);
+            }
 
-            _client.ConnectProxy(proxy);
+
             _client.Delay(_settingGeneral.GetIntType("numericUpDown3", 10));
-
             if (proxyType == ProxyService.Mobile4G)
             {
                 _client.DisablePlane();
                 _client.Enabel4G();
                 _client.Delay(5);
             }
+
         }
 
         private async Task<string> GetProxyAsync(Func<string, Task<string>> newProxyFunc, Func<string, Task<string>> getProxyFunc)
@@ -266,6 +431,13 @@ namespace Sunny.Subd.Core.Facebook
         {
             if (GmailService.Gmails.Count == 0) return false;
 
+            if (_indexGmail >= _recoGmail)
+            {
+                _gmailService.RemoveAccount();
+                _indexGmail = 0;
+            }
+
+
             string value;
             lock (GmailService.Gmails)
             {
@@ -280,7 +452,7 @@ namespace Sunny.Subd.Core.Facebook
             string password = parts.Length > 1 ? parts[1].Trim() : string.Empty;
             _account.Email = email;
             _account.PassMail = password;
-
+            _indexGmail++;
             return _gmailService.Login(email, password);
         }
 
@@ -304,6 +476,11 @@ namespace Sunny.Subd.Core.Facebook
 
                 if (IsConfirmationCase(currentCase))
                 {
+                    if (_isNVR)
+                    {
+                        return new SubdyExtension(SubdyEnum.Success, "Đăng ký thành công!");
+                    }
+
                     await HandleConfirmationCode();
                     continue;
                 }
@@ -423,7 +600,8 @@ namespace Sunny.Subd.Core.Facebook
 
         private async Task HandlePhoneInput()
         {
-            if (!_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
+            _client.Delay(5);
+            if (!_client.ElementWithAttributes(new List<string> { "//*[@text=\"What is your mobile number?\"]", "//*[@text=\"Sign up with email\"]" }) || !_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
             switch (_typeRegister)
             {
                 case RegistrationType.Domain_BaitPhoneNumber:
@@ -444,14 +622,15 @@ namespace Sunny.Subd.Core.Facebook
                     {
                         rawPhone = _account.Phone.Split('|')[1].Trim();
                     }
-
-
-                    // Nếu chưa bắt đầu bằng 84 hoặc +84 → thêm vào
-                    if (!rawPhone.StartsWith("84") && !rawPhone.StartsWith("+84"))
+                    if (!rawPhone.StartsWith("1") && !rawPhone.StartsWith("0") && !rawPhone.StartsWith("84") && !rawPhone.StartsWith("+84"))
                     {
                         rawPhone = "+84" + rawPhone;
                     }
-                    else if (!rawPhone.StartsWith("+")) // Đã có 84 nhưng thiếu "+"
+                    else if (!rawPhone.StartsWith("1") && !rawPhone.StartsWith("0") && !rawPhone.StartsWith("+")) // Đã có 84 nhưng thiếu "+"
+                    {
+                        rawPhone = "+" + rawPhone;
+                    }
+                    else if (rawPhone.StartsWith("1") && !rawPhone.StartsWith("+")) // Đã có 84 nhưng thiếu "+"
                     {
                         rawPhone = "+" + rawPhone;
                     }
@@ -552,6 +731,7 @@ namespace Sunny.Subd.Core.Facebook
 
         private void HandlePasswordInput()
         {
+            _client.Delay(2);
             if (!_client.ElementWithAttributes("//*[@class=\"android.widget.EditText\"]", timeoutInSeconds: 1, click: false) || !_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
 
             _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", _account.Password, timeout: 5);
@@ -615,9 +795,12 @@ namespace Sunny.Subd.Core.Facebook
 
         private string GetRandomPhoneNumber()
         {
-            string country = SubdyHelper.Countries[_settingGeneral.GetIntType("cbbScript", 0)];
-            string countryCode = country == "Random" ? "84" : country.Split('|')[1].Trim();
-            return countryCode + SubdyHelper.RandomString("123456789", 9);
+            string country = SubdyHelper.RandomPhoneVN();
+            if (_settingRegsiner.GetBooleanValue("radioButton1"))
+            {
+                country = SubdyHelper.RandomPhoneUS();
+            }
+            return country;
         }
 
         private async Task<SubdyExtension> Agreement()
@@ -660,7 +843,10 @@ namespace Sunny.Subd.Core.Facebook
                                 }
                         }
                     }
-
+                    if (_isNVR)
+                    {
+                        return new SubdyExtension(SubdyEnum.Success, "Đăng ký thành công!");
+                    }
 
 
                     await HandleConfirmationCode();
@@ -695,6 +881,30 @@ namespace Sunny.Subd.Core.Facebook
                         return new SubdyExtension(SubdyEnum.Success, "LIVE");
                     case "//*[@text=\"Enter the confirmation code\"]":
                         {
+                            switch (_typeRegister)
+                            {
+                                case RegistrationType.Gmail_BaitPhoneNumber:
+                                case RegistrationType.Domain_BaitPhoneNumber:
+                                    {
+                                        _client.ElementWithAttributes("//*[@text=\"I didn’t get the code\"]", 5);
+                                        _client.Delay(5);
+                                        if (!_client.ElementWithAttributes("//*[@text=\"Confirm by email\"]", 25)) continue;
+                                        await GetEmail();
+                                        if (string.IsNullOrEmpty(_account.Email))
+                                        {
+                                            _client.LogHelper.ERROR("Không nhận được email.");
+                                            return new SubdyExtension(SubdyEnum.Error, "Không nhận được email.");
+                                        }
+                                        _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", _account.Email.Split('|')[0], timeout: 25);
+                                        _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+                                        _client.Delay(10);
+                                        break;
+                                    }
+                            }
+                            if (_isNVR)
+                            {
+                                return new SubdyExtension(SubdyEnum.Success, "Đăng ký thành công!");
+                            }
                             await HandleConfirmationCode();
                             break;
                         }

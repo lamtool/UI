@@ -1,4 +1,8 @@
-﻿using System.Drawing.Imaging;
+﻿using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace AutoAndroid.Stream
 {
@@ -48,101 +52,73 @@ namespace AutoAndroid.Stream
         {
             this.Size = size;
         }
-        private async void OnFrame(object sender, FrameData frameData)
+        private void OnFrame(object sender, FrameData frameData)
+        {
+            _ = HandleFrameAsync(frameData); // Fire-and-forget
+        }
+        private async Task HandleFrameAsync(FrameData frameData)
         {
             try
             {
-                if (View.IsDisposed)
-                {
-                    return;
-                }
-                if (View.InvokeRequired)
-                {
-                    View.Invoke(new Action(() => OnFrame(sender, frameData)));
-                    return;
-                }
                 await LoadBitmap(frameData);
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine($"Error in HandleFrameAsync: {ex.Message}");
             }
         }
+       
+
+        private readonly object bitmapLock = new();
 
         private async Task LoadBitmap(FrameData frameData)
         {
-
             try
             {
-                if (bmp == null || bmp.Width != frameData.Width || bmp.Height != frameData.Height)
-                {
-                    bmp?.Dispose();
-                    bmp = new Bitmap(frameData.Width, frameData.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                }
                 BitmapData data = null;
-                try
+                lock (bitmapLock)
                 {
-                    data = bmp.LockBits(
-                    new Rectangle(0, 0, frameData.Width, frameData.Height),
-                    System.Drawing.Imaging.ImageLockMode.WriteOnly,
-                    bmp.PixelFormat);
-                }
-                catch
-                {
-
-                }
-                try
-                {
-                    if (data != null && frameData.Data != null && frameData.Data.Length == data.Stride * data.Height)
+                    if (bmp == null || bmp.Width != frameData.Width || bmp.Height != frameData.Height)
                     {
-                        System.Runtime.InteropServices.Marshal.Copy(frameData.Data.ToArray(), 0, data.Scan0, frameData.Data.Length);
-
+                        bmp?.Dispose();
+                        bmp = new Bitmap(frameData.Width, frameData.Height, PixelFormat.Format32bppArgb);
                     }
 
-                }
-                finally
-                {
-                    bmp.UnlockBits(data);
-                }
-                if (bmp != null)
-                {
-                    await Task.Run(() =>
+                    try
                     {
-                        if (View.InvokeRequired)
+                        data = bmp.LockBits(
+                            new Rectangle(0, 0, frameData.Width, frameData.Height),
+                            ImageLockMode.WriteOnly,
+                            bmp.PixelFormat);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        if (data != null && frameData.Data != null && frameData.Data.Length == data.Stride * data.Height)
                         {
-                            View.Invoke(new Action(() => View.Image = bmp));
+                            Marshal.Copy(frameData.Data.ToArray(), 0, data.Scan0, frameData.Data.Length);
                         }
-                        else
-                        {
-                            View.Image = bmp;
-                        }
-                    }).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        bmp.UnlockBits(data);
+                    }
                 }
 
+                if (bmp != null && View != null && !View.IsDisposed)
+                {
+                    if (View.InvokeRequired)
+                        View.Invoke(() => View.Image = (Bitmap)bmp.Clone());
+                    else
+                        View.Image = (Bitmap)bmp.Clone();
+                }
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"Error in LoadBitmap: {ex.Message}");
             }
-
         }
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            scrcpy.Shell("input keyevent 4");
-        }
-
-
-
-
         private void button1_Click(object sender, EventArgs e)
         {
             scrcpy.Close();
@@ -209,7 +185,9 @@ namespace AutoAndroid.Stream
                 msg.Position.ScreenSize.Width = (ushort)scrcpy.Width;
                 msg.Position.ScreenSize.Height = (ushort)scrcpy.Height;
                 TouchHelper.ScaleToScreenSize(msg.Position, scrcpy.Width, scrcpy.Height);
-                scrcpy.SendControlCommand(msg);
+                scrcpy.SendControlCommand(msg); 
+                Debug.WriteLine($"📍 Touch {action} tại ({msg.Position.Point.X}, {msg.Position.Point.Y}), " +
+                                $"ScreenSize: {msg.Position.ScreenSize.Width}x{msg.Position.ScreenSize.Height}");
             }
         }
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -255,36 +233,6 @@ namespace AutoAndroid.Stream
                 this.Dispose();
             }
 
-        }
-
-        private async void ScrcpyDisplay_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiHeaderButton2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiHeaderButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uiHeaderButton1_Click_1(object sender, EventArgs e)
-        {
-            scrcpy.Shell("input keyevent 3");
-        }
-
-        private void uiHeaderButton2_Click_1(object sender, EventArgs e)
-        {
-            scrcpy.Shell("input keyevent KEYCODE_APP_SWITCH");
-        }
-
-        private void bellButton_Click(object sender, EventArgs e)
-        {
-            scrcpy.Shell("input keyevent 4");
         }
 
         private void debugToolStripMenuItem_Click(object sender, EventArgs e)

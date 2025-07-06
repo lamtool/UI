@@ -1,9 +1,14 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sunny.Subdy.Data.Models
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public class Account : INotifyPropertyChanged
     {
+        public Account()
+        {
+        }
         private Guid _id;
         private string? _uid = "";
         private string? _password = "";
@@ -158,7 +163,23 @@ namespace Sunny.Subdy.Data.Models
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            var handler = PropertyChanged;
+            if (handler == null) return;
+
+            var context = SynchronizationContext.Current;
+            if (context != null)
+            {
+                context.Post(_ =>
+                {
+                    handler.Invoke(this, new PropertyChangedEventArgs(name));
+                }, null);
+            }
+            else
+            {
+                // Fallback (UI thread hoặc không có context)
+                handler.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+            //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 

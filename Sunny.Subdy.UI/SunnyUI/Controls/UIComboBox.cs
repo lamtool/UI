@@ -768,7 +768,7 @@ namespace Sunny.UI
             ListBox.SetStyleColor(uiColor.DropDownStyle);
             FilterListBox.SetStyleColor(uiColor.DropDownStyle);
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public object DataSource
         {
             get => ListBox.DataSource;

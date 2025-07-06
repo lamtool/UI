@@ -279,6 +279,7 @@ namespace Sunny.UI
         }
 
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public LBAnalogMeterRenderer Renderer
         {
             get { return renderer; }

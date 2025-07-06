@@ -160,6 +160,7 @@ namespace Sunny.UI
         }
 
         [Description("选中时间"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateTime Value
         {
             get => item.Time;

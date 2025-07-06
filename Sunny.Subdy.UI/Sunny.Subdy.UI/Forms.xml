@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Directives>
+<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
 	<!--
 	  This file is part of RdXmlLibrary project.
 	  Visit https://github.com/kant2002/rdxmllibrary for latest version.
@@ -72,5 +72,8 @@
 			<Type Name="System.Windows.Forms.Form" Dynamic="Required All" />
 			<Type Name="System.Windows.Forms.UserControl" Dynamic="Required All" />
 		</Assembly>
+		
+		
+
 	</Application>
 </Directives>

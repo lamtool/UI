@@ -209,7 +209,7 @@ namespace Sunny.UI
             }
         }
 
-        private Color foreColor2 = Color.Black;
+        private Color foreColor2 = Color.Black; [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color ForeColor2
         {
             get => foreColor2;

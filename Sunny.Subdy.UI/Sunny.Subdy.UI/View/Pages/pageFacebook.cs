@@ -1,21 +1,27 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.DirectoryServices.ActiveDirectory;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoAndroid;
+﻿using AutoAndroid;
 using Sunny.Subd.Core.Facebook;
 using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Proxies;
 using Sunny.Subd.Core.Services;
 using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Common.Json;
+using Sunny.Subdy.Common.Models;
 using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using Sunny.Subdy.UI.View.Controls;
 using Sunny.Subdy.UI.View.Forms;
 using Sunny.UI;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.UI.View.Pages
 {
@@ -54,9 +60,9 @@ namespace Sunny.Subdy.UI.View.Pages
             };
             _timer.Tick += Timer_Tick;
         }
-        private async void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            await Task.Run(() =>
+            try
             {
                 if (!IsHandleCreated || IsDisposed)
                     return;
@@ -73,7 +79,12 @@ namespace Sunny.Subdy.UI.View.Pages
                     TimeSpan elapsedTime = DateTime.Now - startTime;
                     tsbTimeRun.Text = elapsedTime.ToString(@"hh\:mm\:ss");
                 }
-            });
+            }
+            catch
+            {
+                
+            }
+           
 
         }
         private void LoadScripts()
@@ -124,11 +135,22 @@ namespace Sunny.Subdy.UI.View.Pages
             uiSymbolButton3.Enabled = enable;
             uiSymbolButton4.Enabled = !enable;
         }
-        private async void uiSymbolButton3_Click(object sender, EventArgs e)
+        private async Task uiSymbolButton3_ClickSafe()
         {
-            EnableControls(false);
-            await Start();
-            EnableControls(true);
+            try
+            {
+                EnableControls(false);
+                await Start();
+                EnableControls(true);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void uiSymbolButton3_Click(object sender, EventArgs e)
+        {
+            _ = uiSymbolButton3_ClickSafe();
         }
         private bool SelectPhone()
         {
@@ -356,33 +378,44 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             ConfigModel model = new ConfigModel();
             model.Script = _scriptContext.GetByName(cbx_Scripts.Text.Trim());
-            model.JsonSetting = SettingsTool.GetSettings(nameof(pageSetting), true).GetJsonString();
+            model.JsonSetting =new JsonHelper(nameof(pageSetting), false).GetJsonString();
             return model;
         }
-        private async void cbx_Folders_SelectedIndexChanged(object sender, EventArgs e)
+        private async Task cbx_Folders_SelectedIndexChangedSafe()
         {
-            if (_ucdgvAccount != null && !string.IsNullOrEmpty(cbx_Folders.Text))
+            try
             {
-                List<Data.Models.Folder> folders = new List<Data.Models.Folder>();
-                if (cbx_Folders.Text == "Tất cả các nhóm")
+                if (_ucdgvAccount != null && !string.IsNullOrEmpty(cbx_Folders.Text))
                 {
-                    folders = _folderContext.GetAll();
-                }
-                else if (cbx_Folders.Text == "Chọn nhiều nhóm")
-                {
-
-                }
-                else
-                {
-                    var folder = _folderContext.GetByName(cbx_Folders.Text.Trim());
-                    if (folder != null)
+                    List<Data.Models.Folder> folders = new List<Data.Models.Folder>();
+                    if (cbx_Folders.Text == "Tất cả các nhóm")
                     {
-                        folders.Add(folder);
+                        folders = _folderContext.GetAll();
                     }
+                    else if (cbx_Folders.Text == "Chọn nhiều nhóm")
+                    {
+
+                    }
+                    else
+                    {
+                        var folder = _folderContext.GetByName(cbx_Folders.Text.Trim());
+                        if (folder != null)
+                        {
+                            folders.Add(folder);
+                        }
+                    }
+                    _ucdgvAccount._folders = folders;
+                    await _ucdgvAccount.LoadAccount();
                 }
-                _ucdgvAccount._folders = folders;
-                await _ucdgvAccount.LoadAccount();
             }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void cbx_Folders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _ = cbx_Folders_SelectedIndexChangedSafe();
         }
 
         private void uiSymbolButton1_Click(object sender, EventArgs e)

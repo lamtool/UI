@@ -53,7 +53,7 @@ namespace Sunny.UI
 
         [DefaultValue(true), Description("过滤框输入逐一过滤"), Category("SunnyUI")]
         public bool Filter1by1 { get; set; } = true;
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool TrimFilter { get; set; }
 
         private void EdtFilter_TextChanged(object sender, EventArgs e)
@@ -89,13 +89,13 @@ namespace Sunny.UI
             btnClear.Text = UIStyles.CurrentResources.Clear;
             btnSearch.Text = UIStyles.CurrentResources.Search;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowButtons
         {
             get => panel.Visible;
             set => panel.Visible = value;
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string FilterColumnName { get; set; }
 
         public UIDataGridView DataGridView => dataGridView;
@@ -357,7 +357,7 @@ namespace Sunny.UI
         {
             Close();
         }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowFilter
         {
             get => pFilter.Visible;

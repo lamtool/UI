@@ -1,4 +1,7 @@
-﻿namespace Sunny.Subdy.UI.View.Forms
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Sunny.Subdy.UI.View.Forms
 {
     partial class fLogRegsiner
     {

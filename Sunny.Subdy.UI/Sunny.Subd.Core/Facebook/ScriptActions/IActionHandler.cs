@@ -12,7 +12,7 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
     public interface IActionHandler
     {
         string TypeAction { get; }
-        Task<SubdyExtension> ExecuteAsync(string json, Account account, ADBClient device);
+         Task<SubdyExtension> ExecuteAsync(Account account, ADBClient device);
     }
 
 }

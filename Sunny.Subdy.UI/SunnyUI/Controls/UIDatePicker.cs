@@ -322,6 +322,7 @@ namespace Sunny.UI
 
         private bool DropSetted = false;
         [Description("选中日期"), Category("SunnyUI")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DateTime Value
         {
             get => item.Date;

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoAndroid;
+﻿using AutoAndroid;
 using AutoAndroid.Stream;
 using Sunny.Subd.Core.Facebook;
 using Sunny.Subd.Core.Gmail;
@@ -17,16 +13,30 @@ using Sunny.Subdy.UI.ControlViews.Convertes;
 using Sunny.Subdy.UI.View.Forms;
 using Sunny.Subdy.UI.View.Forms.Actions;
 using Sunny.UI;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace Sunny.Subdy.UI.View.Pages
 {
     public partial class ucManagerDevices : UserControl
     {
-        private int batchSize = 15;
+        private int batchSize = 200;
         private int startIndex = 0;
         public bool IsStart = false;
         private bool isLoading = false;
         private CancellationTokenSource cancellationTokenSource;
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(DeviceModel))]
         public ucManagerDevices()
         {
             InitializeComponent();
@@ -118,29 +128,39 @@ namespace Sunny.Subdy.UI.View.Pages
             SizeMode = PictureBoxSizeMode.Zoom,
             Dock = DockStyle.Fill
         };
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(DeviceModel))]
         private void LoadDevices()
         {
-            SortableBindingList<DeviceModel> bindingList = new SortableBindingList<DeviceModel>(DeviceServices.DeviceModels);
-            uiDataGridView2.DataSource = bindingList;
-            toolStripLabel2.Text = $"{DeviceServices.DeviceModels.Count}";
+            try
+            {
+                BindingList<DeviceModel> bindingList = new BindingList<DeviceModel>(DeviceServices.DeviceModels);
+                //SortableBindingList<DeviceModel> bindingList = new SortableBindingList<DeviceModel>(DeviceServices.DeviceModels);
+                uiDataGridView2.DataSource = bindingList;
+                toolStripLabel2.Text = $"{DeviceServices.DeviceModels.Count}";
 
-            if (DeviceServices.DisplayList.Any())
-            {
-                if (groupBox1.Controls.Contains(picture))
+                if (DeviceServices.DisplayList.Any())
                 {
-                    groupBox1.Controls.Remove(picture);
-                    groupBox1.Controls.Add(flowLayoutPanel1);
+                    if (groupBox1.Controls.Contains(picture))
+                    {
+                        groupBox1.Controls.Remove(picture);
+                        groupBox1.Controls.Add(flowLayoutPanel1);
+                    }
+                    LoadVirtualWindow(0);
                 }
-                LoadVirtualWindow(0);
+                else
+                {
+                    if (groupBox1.Controls.Contains(picture))
+                    {
+                        return;
+                    }
+                    groupBox1.Controls.Remove(flowLayoutPanel1);
+                    groupBox1.Controls.Add(picture);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                if (groupBox1.Controls.Contains(picture))
-                {
-                    return;
-                }
-                groupBox1.Controls.Remove(flowLayoutPanel1);
-                groupBox1.Controls.Add(picture);
+                LogManager.Error(ex);
+                throw ex;
             }
 
         }
@@ -194,314 +214,487 @@ namespace Sunny.Subdy.UI.View.Pages
 
             }
         }
-        private async void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        private async Task connectToolStripMenuItem_ClickSafe()
         {
-            uiSymbolButton2.Enabled = false;
-            uiSymbolButton1.Enabled = false;
-            await DeviceServices.Connect();
-            uiSymbolButton2.Enabled = true;
-            uiSymbolButton1.Enabled = true;
-        }
-        private async void mởToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            List<ScrcpyDisplay> displays = new List<ScrcpyDisplay>();
-            foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
+            try
             {
-                if (row.DataBoundItem is DeviceModel device)
+                uiSymbolButton2.Enabled = false;
+                uiSymbolButton1.Enabled = false;
+                await DeviceServices.Connect();
+                uiSymbolButton2.Enabled = true;
+                uiSymbolButton1.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+
+        }
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = connectToolStripMenuItem_ClickSafe();
+        }
+        private async Task mởToolStripMenuItem1_ClickSafe()
+        {
+            try
+            {
+                List<ScrcpyDisplay> displays = new List<ScrcpyDisplay>();
+                foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
                 {
-                    if (DeviceServices.DisplayList.FirstOrDefault(x => x.Device.Serial == device.Serial) is ScrcpyDisplay display)
+                    if (row.DataBoundItem is DeviceModel device)
                     {
-                        displays.Add(display);
+                        if (DeviceServices.DisplayList.FirstOrDefault(x => x.Device.Serial == device.Serial) is ScrcpyDisplay display)
+                        {
+                            displays.Add(display);
+                        }
+                    }
+
+                }
+                if (!displays.Any()) return;
+                await DeviceServices.ConnectScrcpies(displays);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void mởToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _ = mởToolStripMenuItem1_ClickSafe();
+        }
+        private async Task tắtToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                List<ScrcpyDisplay> displays = new List<ScrcpyDisplay>();
+                foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
+                {
+                    if (row.DataBoundItem is DeviceModel device)
+                    {
+                        if (DeviceServices.DisplayList.FirstOrDefault(x => x.Device.Serial == device.Serial) is ScrcpyDisplay display)
+                        {
+                            displays.Add(display);
+                        }
+                    }
+
+                }
+                if (!displays.Any()) return;
+                await DeviceServices.DisConnectScrcpies(displays);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+
+        }
+        private void tắtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = tắtToolStripMenuItem_ClickSafe();
+        }
+        private async Task càiĐặtApkToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                string file = string.Empty;
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Filter = "APK files (*.apk)|*.apk";
+                    openFileDialog.Title = "Select APK File";
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        file = openFileDialog.FileName;
                     }
                 }
 
-            }
-            if (!displays.Any()) return;
-            await DeviceServices.ConnectScrcpies(displays);
-        }
-        private async void tắtToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<ScrcpyDisplay> displays = new List<ScrcpyDisplay>();
-            foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
-            {
-                if (row.DataBoundItem is DeviceModel device)
+                if (string.IsNullOrEmpty(file))
                 {
-                    if (DeviceServices.DisplayList.FirstOrDefault(x => x.Device.Serial == device.Serial) is ScrcpyDisplay display)
+                    return;
+                }
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị để cài đặt APK.");
+                    return;
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.InstallApk, file);
+                CommonMethod.ShowMessageSuccess("Cài đặt APK thành công!");
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void càiĐặtApkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = càiĐặtApkToolStripMenuItem_ClickSafe();
+        }
+        private async Task bậtWifiToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị để bật WiFi.");
+                    return;
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.EnableWifi);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void bậtWifiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = bậtWifiToolStripMenuItem_ClickSafe();
+        }
+        private async Task tắtWifiToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.DisableWifi);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void tắtWifiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = tắtWifiToolStripMenuItem_ClickSafe();
+        }
+        private void kếtNốiWifiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                string value = string.Empty;
+                //if (this.ShowInputStringDialog(ref value, false, desc: "Nhập wifi: username|password", true))
+                //{
+                //    if (string.IsNullOrEmpty(value) || !value.Contains("|"))
+                //    {
+                //        this.ShowWarningTip("Vui lòng nhập đúng định dạng: username|password");
+                //        return;
+                //    }
+                //    await DeviceServices.HandleEmulators(devices, EmuAction.ConnectWifi, value);
+                //}
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+
+        }
+        private void gỡCàiĐặtPackageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                string value = string.Empty;
+                //if (this.ShowInputStringDialog(ref value, false, desc: "Nhập package app:", true))
+                //{
+                //    if (string.IsNullOrEmpty(value))
+                //    {
+                //        return;
+                //    }
+                //    await DeviceServices.HandleEmulators(devices, EmuAction.UninstallApp, value);
+                //}
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+
+        }
+        private async Task rebootToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.Reboot);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void rebootToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = rebootToolStripMenuItem_ClickSafe();
+        }
+        private async Task changeInfoToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.ChangeInfo);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void changeInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = changeInfoToolStripMenuItem_ClickSafe();
+        }
+        private async Task backupToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                string value = string.Empty;
+                using (var dialog = new FolderBrowserDialog())
+                {
+                    dialog.Description = "Chọn thư mục cần lưu";
+                    dialog.UseDescriptionForTitle = true; // Hiển thị mô tả làm tiêu đề (nếu .NET >= 6)
+                    dialog.ShowNewFolderButton = false;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        displays.Add(display);
+                        value = dialog.SelectedPath;
                     }
                 }
-
-            }
-            if (!displays.Any()) return;
-            await DeviceServices.DisConnectScrcpies(displays);
-        }
-        private async void càiĐặtApkToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string file = string.Empty;
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Filter = "APK files (*.apk)|*.apk";
-                openFileDialog.Title = "Select APK File";
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (string.IsNullOrEmpty(value))
                 {
-                    file = openFileDialog.FileName;
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
+                    return;
                 }
+                await DeviceServices.HandleEmulators(devices, EmuAction.BackupFB, value);
             }
-
-            if (string.IsNullOrEmpty(file))
+            catch (Exception ex)
             {
-                return;
+                CommonMethod.ShowMessageError(ex.Message);
             }
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị để cài đặt APK.");
-                return;
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.InstallApk, file);
-            CommonMethod.ShowMessageSuccess("Cài đặt APK thành công!");
         }
-        private async void bậtWifiToolStripMenuItem_Click(object sender, EventArgs e)
+        private void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị để bật WiFi.");
-                return;
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.EnableWifi);
+            _ = backupToolStripMenuItem_ClickSafe();
         }
-        private async void tắtWifiToolStripMenuItem_Click(object sender, EventArgs e)
+        private async Task backupToolStripMenuItem1_ClickSafe()
         {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
+            try
             {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.DisableWifi);
-        }
-        private async void kếtNốiWifiToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            //if (this.ShowInputStringDialog(ref value, false, desc: "Nhập wifi: username|password", true))
-            //{
-            //    if (string.IsNullOrEmpty(value) || !value.Contains("|"))
-            //    {
-            //        this.ShowWarningTip("Vui lòng nhập đúng định dạng: username|password");
-            //        return;
-            //    }
-            //    await DeviceServices.HandleEmulators(devices, EmuAction.ConnectWifi, value);
-            //}
-        }
-        private async void gỡCàiĐặtPackageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            //if (this.ShowInputStringDialog(ref value, false, desc: "Nhập package app:", true))
-            //{
-            //    if (string.IsNullOrEmpty(value))
-            //    {
-            //        return;
-            //    }
-            //    await DeviceServices.HandleEmulators(devices, EmuAction.UninstallApp, value);
-            //}
-        }
-        private async void rebootToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.Reboot);
-        }
-        private async void changeInfoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.ChangeInfo);
-        }
-        private async void backupToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            using (var dialog = new FolderBrowserDialog())
-            {
-                dialog.Description = "Chọn thư mục cần lưu";
-                dialog.UseDescriptionForTitle = true; // Hiển thị mô tả làm tiêu đề (nếu .NET >= 6)
-                dialog.ShowNewFolderButton = false;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
                 {
-                    value = dialog.SelectedPath;
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
                 }
-            }
-            if (string.IsNullOrEmpty(value))
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
-                return;
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.BackupFB, value);
-        }
-        private async void backupToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            using (var dialog = new FolderBrowserDialog())
-            {
-                dialog.Description = "Chọn thư mục cần lưu";
-                dialog.UseDescriptionForTitle = true; // Hiển thị mô tả làm tiêu đề (nếu .NET >= 6)
-                dialog.ShowNewFolderButton = false;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                string value = string.Empty;
+                using (var dialog = new FolderBrowserDialog())
                 {
-                    value = dialog.SelectedPath;
-                }
-            }
-            if (string.IsNullOrEmpty(value))
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.BackupTikTok, value);
-        }
-        private async void backupToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            using (var dialog = new FolderBrowserDialog())
-            {
-                dialog.Description = "Chọn thư mục cần lưu";
-                dialog.UseDescriptionForTitle = true; // Hiển thị mô tả làm tiêu đề (nếu .NET >= 6)
-                dialog.ShowNewFolderButton = false;
+                    dialog.Description = "Chọn thư mục cần lưu";
+                    dialog.UseDescriptionForTitle = true; // Hiển thị mô tả làm tiêu đề (nếu .NET >= 6)
+                    dialog.ShowNewFolderButton = false;
 
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    value = dialog.SelectedPath;
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        value = dialog.SelectedPath;
+                    }
                 }
+                if (string.IsNullOrEmpty(value))
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.BackupTikTok, value);
             }
-            if (string.IsNullOrEmpty(value))
+            catch (Exception ex)
             {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
-                return;
+                CommonMethod.ShowMessageError(ex.Message);
             }
-            await DeviceServices.HandleEmulators(devices, EmuAction.BackupIG, value);
-        }
-        private async void restoreToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            using (var dialog = new OpenFileDialog())
-            {
-                dialog.Title = "Chọn file .tar.gz";
-                dialog.Filter = "Gzipped Tar Archive (*.tar.gz)|*.tar.gz";
-                dialog.RestoreDirectory = true;
-                dialog.Multiselect = false;
 
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    value = dialog.FileName;
-                }
-            }
-            if (!File.Exists(value))
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.RestoreFB, value);
         }
-        private async void restoreToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void backupToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            using (var dialog = new OpenFileDialog())
-            {
-                dialog.Title = "Chọn file .tar.gz";
-                dialog.Filter = "Gzipped Tar Archive (*.tar.gz)|*.tar.gz";
-                dialog.RestoreDirectory = true;
-                dialog.Multiselect = false;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    value = dialog.FileName;
-                }
-            }
-            if (!File.Exists(value))
-            {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
-            }
-            await DeviceServices.HandleEmulators(devices, EmuAction.RestoreTikTok, value);
+            _ = backupToolStripMenuItem1_ClickSafe();
         }
-        private async void restoreToolStripMenuItem2_Click(object sender, EventArgs e)
+        private async Task backupToolStripMenuItem2_ClickSafe()
         {
-            var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
-            if (!devices.Any())
+            try
             {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
-            }
-            string value = string.Empty;
-            using (var dialog = new OpenFileDialog())
-            {
-                dialog.Title = "Chọn file .tar.gz";
-                dialog.Filter = "Gzipped Tar Archive (*.tar.gz)|*.tar.gz";
-                dialog.RestoreDirectory = true;
-                dialog.Multiselect = false;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
                 {
-                    value = dialog.FileName;
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
                 }
+                string value = string.Empty;
+                using (var dialog = new FolderBrowserDialog())
+                {
+                    dialog.Description = "Chọn thư mục cần lưu";
+                    dialog.UseDescriptionForTitle = true; // Hiển thị mô tả làm tiêu đề (nếu .NET >= 6)
+                    dialog.ShowNewFolderButton = false;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        value = dialog.SelectedPath;
+                    }
+                }
+                if (string.IsNullOrEmpty(value))
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
+                    return;
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.BackupIG, value);
             }
-            if (!File.Exists(value))
+            catch (Exception ex)
             {
-                CommonMethod.ShowMessageWarning("Chưa chọn file nào!");
+                CommonMethod.ShowMessageError(ex.Message);
             }
-            await DeviceServices.HandleEmulators(devices, EmuAction.RestoreIG, value);
+        }
+        private void backupToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            _ = backupToolStripMenuItem2_ClickSafe();
+        }
+        private async Task restoreToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                string value = string.Empty;
+                using (var dialog = new OpenFileDialog())
+                {
+                    dialog.Title = "Chọn file .tar.gz";
+                    dialog.Filter = "Gzipped Tar Archive (*.tar.gz)|*.tar.gz";
+                    dialog.RestoreDirectory = true;
+                    dialog.Multiselect = false;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        value = dialog.FileName;
+                    }
+                }
+                if (!File.Exists(value))
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.RestoreFB, value);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void restoreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = restoreToolStripMenuItem_ClickSafe();
+        }
+        private async Task restoreToolStripMenuItem1_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                string value = string.Empty;
+                using (var dialog = new OpenFileDialog())
+                {
+                    dialog.Title = "Chọn file .tar.gz";
+                    dialog.Filter = "Gzipped Tar Archive (*.tar.gz)|*.tar.gz";
+                    dialog.RestoreDirectory = true;
+                    dialog.Multiselect = false;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        value = dialog.FileName;
+                    }
+                }
+                if (!File.Exists(value))
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn thư mục lưu trữ!");
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.RestoreTikTok, value);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void restoreToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+            _ = restoreToolStripMenuItem1_ClickSafe();
+        }
+        private async Task restoreToolStripMenuItem2_ClickSafe()
+        {
+            try
+            {
+                var devices = DeviceServices.DeviceModels.Where(x => x.Check).ToList();
+                if (!devices.Any())
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+                string value = string.Empty;
+                using (var dialog = new OpenFileDialog())
+                {
+                    dialog.Title = "Chọn file .tar.gz";
+                    dialog.Filter = "Gzipped Tar Archive (*.tar.gz)|*.tar.gz";
+                    dialog.RestoreDirectory = true;
+                    dialog.Multiselect = false;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        value = dialog.FileName;
+                    }
+                }
+                if (!File.Exists(value))
+                {
+                    CommonMethod.ShowMessageWarning("Chưa chọn file nào!");
+                }
+                await DeviceServices.HandleEmulators(devices, EmuAction.RestoreIG, value);
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void restoreToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            _ = restoreToolStripMenuItem2_ClickSafe();
         }
         private void uiTextBox1_TextChanged(object sender, EventArgs e)
         {
@@ -564,26 +757,56 @@ namespace Sunny.Subdy.UI.View.Pages
                 CommonMethod.ShowMessageWarning("Vui lòng kết nối thiết bị trước khi bắt đầu!");
             }
         }
-        private async void facebookToolStripMenuItem1_Click(object sender, EventArgs e)
+        private async Task facebookToolStripMenuItem1_ClickSafe(string platform)
         {
-            if (!DeviceServices.DeviceModels.Where(x => x.Check).Any())
+            try
             {
-                CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
-                return;
+                if (!DeviceServices.DeviceModels.Any(x => x.Check))
+                {
+                    CommonMethod.ShowMessageWarning("Vui lòng chọn ít nhất một thiết bị.");
+                    return;
+                }
+
+                fAction_RegFB fAction_RegFB = null;
+
+                try
+                {
+                    fAction_RegFB = new fAction_RegFB(platform);
+                    var value = fAction_RegFB.ShowDialog();
+                    if (value == DialogResult.Cancel)
+                        return;
+                }
+                catch (Exception ex)
+                {
+                    CommonMethod.ShowMessageError("Lỗi khi mở form cấu hình: " + ex.Message);
+                    return;
+                }
+
+                groupBox2.Visible = true;
+                uiSymbolButton4.Text = "Dừng";
+                uiSymbolButton3.Enabled = false;
+
+                try
+                {
+                    await RunAsync(fAction_RegFB.Folder);
+                }
+                catch (Exception ex)
+                {
+                    CommonMethod.ShowMessageError("Lỗi khi chạy tác vụ: " + ex.Message);
+                }
+
+                groupBox2.Visible = false;
+                uiSymbolButton4.Text = "Đóng";
+                uiSymbolButton3.Enabled = true;
             }
-            fAction_RegFB fAction_RegFB = new fAction_RegFB();
-            var value = fAction_RegFB.ShowDialog();
-            if (value == DialogResult.Cancel)
+            catch (Exception ex)
             {
-                return;
+                CommonMethod.ShowMessageError("Lỗi không xác định: " + ex.Message);
             }
-            groupBox2.Visible = true;
-            uiSymbolButton4.Text = "Dừng";
-            uiSymbolButton3.Enabled = false;
-            await RunAsync(fAction_RegFB.Folder);
-            groupBox2.Visible = false;
-            uiSymbolButton4.Text = "Đóng";
-            uiSymbolButton3.Enabled = true;
+        }
+        private void facebookToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _ = facebookToolStripMenuItem1_ClickSafe(RegistrationType.RegFacebook);
         }
         private async Task RunAsync(Folder folder)
         {
@@ -591,8 +814,8 @@ namespace Sunny.Subdy.UI.View.Pages
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken ct = cancellationTokenSource.Token;
             List<Task> tasks = new List<Task>();
-            JsonHelper settingRegsiner = SettingsTool.GetSettings(nameof(fAction_RegFB), true);
-            JsonHelper settingGeneral = SettingsTool.GetSettings(nameof(pageSetting), true);
+            JsonHelper settingRegsiner = new JsonHelper(nameof(fAction_RegFB), false);
+            JsonHelper settingGeneral = new JsonHelper(nameof(pageSetting), false);
             ProxyService.Proxies.Clear();
             ProxyService.Proxies.AddRange(settingGeneral.GetValuesList("txtLines"));
             GmailService.Gmails.Clear();
@@ -603,11 +826,32 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             foreach (var device in DeviceServices.DeviceModels.Where(x => x.Check))
             {
-                FacebookRegsiner facebook = new FacebookRegsiner(device, settingRegsiner, settingGeneral, ct, folder);
-                tasks.Add(Task.Run(async () =>
+                try
                 {
-                    await facebook.RegisterAsync();
-                }));
+                    if (folder.Type == "Facebook")
+                    {
+                        FacebookRegsiner facebook = new FacebookRegsiner(device, settingRegsiner, settingGeneral, ct, folder);
+                        tasks.Add(Task.Run(async () =>
+                        {
+                            await facebook.RegisterAsync();
+                        }));
+                    }
+                    else if (folder.Type == "Gmail")
+                    {
+                        GmailRegsiner gmail = new GmailRegsiner(device, settingRegsiner, settingGeneral, ct, folder);
+                        tasks.Add(Task.Run(async () =>
+                        {
+                            await gmail.RegisterAsync();
+                        }));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    CommonMethod.ShowMessageError(ex.Message);
+                    break;
+                }
+
             }
             await Task.WhenAll(tasks);
         }
@@ -616,6 +860,27 @@ namespace Sunny.Subdy.UI.View.Pages
         {
             fLogRegsiner logRegsiner = new fLogRegsiner();
             logRegsiner.Show();
+        }
+
+        private void uiSymbolButton5_Click(object sender, EventArgs e)
+        {
+            if (uiSymbolButton5.Symbol == 362498)
+            {
+                groupBox1.Visible = false;
+                panel1.Dock = DockStyle.Fill;
+                uiSymbolButton5.Symbol = 362500;
+            }
+            else
+            {
+                groupBox1.Visible = true;
+                panel1.Dock = DockStyle.Right;
+                uiSymbolButton5.Symbol = 362498;
+            }
+        }
+
+        private void gmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = facebookToolStripMenuItem1_ClickSafe(RegistrationType.RegGmail);
         }
     }
 }

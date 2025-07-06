@@ -205,8 +205,6 @@ namespace Sunny.Subd.Core.Facebook
             }
             return uid + "|" + token + "|" + cookie;
         }
-
-
         public static List<string> Regsiner_Facebook()
         {
             var xpaths = XpathManager.Combine
@@ -223,6 +221,30 @@ namespace Sunny.Subd.Core.Facebook
                     XpathType.NavigationButton
                 );
             return xpaths;
+        }
+        public static void SendImage(ADBClient client,string imagePath)
+        {
+            var s = client.Shell("content delete --uri content://media/external/images/media");
+            client.Shell(" mkdir -p /sdcard/LT");
+            client.Delay(2);
+
+            string fileName = System.IO.Path.GetFileName(imagePath);
+            var p = client.Push(imagePath, $"/sdcard/LT/{fileName}");
+
+            client.Delay(1);
+            client.Shell($"am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/DTA/{fileName}");
+        }
+        public static void DeleteImage(ADBClient client, string imagePath)
+        {
+            string fileName = System.IO.Path.GetFileName(imagePath);
+            // Đường dẫn trên thiết bị Android
+            string remotePath = $"/sdcard/LT/{fileName}";
+
+            // Xóa tệp từ đường dẫn
+            client.Shell($" rm {remotePath}");
+
+            // Gửi broadcast để cập nhật thư viện phương tiện
+            client.Shell($" am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://{remotePath}");
         }
     }
 }

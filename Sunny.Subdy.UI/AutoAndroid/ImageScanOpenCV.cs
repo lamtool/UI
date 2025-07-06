@@ -1,6 +1,5 @@
 ﻿using OpenCvSharp;
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using Tesseract;
@@ -237,7 +236,7 @@ namespace AutoAndroid
                 // Check if image is successfully loaded
                 if (image.Empty())
                 {
-                    Console.WriteLine("Image data is empty after conversion.");
+                    Debug.WriteLine("Image data is empty after conversion.");
                     return string.Empty;
                 }
                 // Preprocess image: convert to grayscale and blur
@@ -257,7 +256,7 @@ namespace AutoAndroid
                     {
                         if (pix == null)
                         {
-                            Console.WriteLine("Failed to convert Mat to Pix.");
+                            Debug.WriteLine("Failed to convert Mat to Pix.");
                             return string.Empty;
                         }
 
@@ -268,7 +267,7 @@ namespace AutoAndroid
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error during OCR: " + ex.Message);
+                Debug.WriteLine("Error during OCR: " + ex.Message);
                 return string.Empty;
             }
         }

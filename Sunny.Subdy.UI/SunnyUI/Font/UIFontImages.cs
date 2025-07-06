@@ -195,24 +195,28 @@ namespace Sunny.UI
 
         /// <summary>
         /// 字体图标
-        /// </summary>
+        /// </summary>        
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Symbol { get; set; }
-
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public UISymbolType SymbolType { get; set; }
 
         /// <summary>
         /// 字体图标的偏移位置
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Point SymbolOffset { get; set; }
 
         /// <summary>
         /// 字体图标大小
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SymbolSize { get; set; } = 28;
 
         /// <summary>
         /// 字体图标旋转角度
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SymbolRotate { get; set; } = 0;
 
         private void button1_Click(object sender, EventArgs e)
