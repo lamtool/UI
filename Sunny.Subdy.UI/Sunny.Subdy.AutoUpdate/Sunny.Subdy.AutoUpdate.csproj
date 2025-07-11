@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sunny.Subdy.Common\Sunny.Subdy.Common.csproj" />
     <ProjectReference Include="..\SunnyUI\SunnyUI.csproj" />
   </ItemGroup>
 

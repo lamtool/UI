@@ -1,6 +1,7 @@
 ﻿using AutoAndroid;
 using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Utils;
+using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Data.Models;
 using System.Diagnostics;
 
@@ -17,7 +18,7 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
         private Stopwatch stopwatch = Stopwatch.StartNew();
         public string TypeAction => Sunny.Subdy.Common.Models.TypeAction.FB_ChangeCover;
 
-        public async Task<SubdyExtension> ExecuteAsync(Account account, ADBClient device)
+        public async Task<SubdyExtension> ExecuteAsync(Account account, ADBClient device, JsonHelper settingScript, JsonHelper settingAction, JsonHelper settingGeneral)
         {
             xpaths.AddRange(XpathManager.Combine(XpathType.CP282, XpathType.Captcha, XpathType.NavigationButton));
             device.StopApp(FacebookHander.Package());

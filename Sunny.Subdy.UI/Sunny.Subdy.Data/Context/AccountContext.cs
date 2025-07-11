@@ -6,63 +6,71 @@ namespace Sunny.Subdy.Data.Context
     public class AccountContext
     {
         private readonly AppDbContext _db;
+        private readonly JobHistoryContext _jobHistoryContext;
         private const string TableName = nameof(Account);
 
         public AccountContext()
         {
             _db = new AppDbContext("LT_Account");
             _db.EnsureTable<Account>();
+            _jobHistoryContext = new JobHistoryContext();
         }
 
         private Account MapToAccount(SQLiteDataReader reader)
         {
-            Guid id;
+            Guid.TryParse(reader["Id"]?.ToString(), out var id);
 
-            try
-            {
-                // Luôn ép về string, tránh lỗi nếu data là byte[] do lưu sai kiểu
-                var idStr = reader["Id"]?.ToString();
-
-                id = Guid.TryParse(idStr, out var parsedGuid)
-                    ? parsedGuid
-                    : Guid.Empty;
-            }
-            catch
-            {
-                // Nếu vẫn lỗi (do BLOB hay dữ liệu hỏng), trả về Guid.Empty để không crash
-                id = Guid.Empty;
-            }
-
-            return new Account
+            var account = new Account
             {
                 Checked = false,
+                Running = false,
+                ColorType = 0,
+                Uid_Email = "",
                 Id = id,
                 Uid = reader["Uid"]?.ToString() ?? string.Empty,
                 Password = reader["Password"]?.ToString() ?? string.Empty,
-                Phone = reader["Phone"]?.ToString() ?? string.Empty,
                 TowFA = reader["TowFA"]?.ToString() ?? string.Empty,
                 Cookie = reader["Cookie"]?.ToString() ?? string.Empty,
                 Token = reader["Token"]?.ToString() ?? string.Empty,
                 Proxy = reader["Proxy"]?.ToString() ?? string.Empty,
                 Email = reader["Email"]?.ToString() ?? string.Empty,
-                PassMail = reader["PassMail"]?.ToString() ?? string.Empty,
+                Phone = reader["Phone"]?.ToString() ?? string.Empty,
                 UserAgent = reader["UserAgent"]?.ToString() ?? string.Empty,
                 FullName = reader["FullName"]?.ToString() ?? string.Empty,
-                RecentInteraction = reader["RecentInteraction"]?.ToString() ?? string.Empty,
                 State = reader["State"]?.ToString() ?? string.Empty,
                 Status = reader["Status"]?.ToString() ?? string.Empty,
                 Result = reader["Result"]?.ToString() ?? string.Empty,
-                EmailAdress = reader["EmailAdress"]?.ToString() ?? string.Empty,
+                Serial = reader["Serial"]?.ToString() ?? string.Empty,
+                IP = reader["IP"]?.ToString() ?? string.Empty,
                 UserName = reader["UserName"]?.ToString() ?? string.Empty,
-                NameFolder = reader["NameFolder"]?.ToString(),
-                IsView = reader["IsView"] != DBNull.Value && Convert.ToBoolean(reader["IsView"])
+                NameFolder = reader["NameFolder"]?.ToString() ?? string.Empty,
+                Gender = reader["Gender"]?.ToString() ?? string.Empty,
+                Friends = reader["Friends"]?.ToString() ?? string.Empty,
+                Groups = reader["Groups"]?.ToString() ?? string.Empty,
+                Follow = reader["Follow"]?.ToString() ?? string.Empty,
+                Birthday = reader["Birthday"]?.ToString() ?? string.Empty,
+                PagePro5 = reader["PagePro5"]?.ToString() ?? string.Empty,
+                DateCreate = reader["DateCreate"]?.ToString() ?? string.Empty,
+                Avatar = reader["Avatar"]?.ToString() ?? string.Empty,
+                Note = reader["Note"]?.ToString() ?? string.Empty,
+                DeviceInfo = reader["DeviceInfo"]?.ToString() ?? string.Empty,
+                EmailAddress = reader["EmailAddress"]?.ToString() ?? string.Empty,
+                PassMail = reader["PassMail"]?.ToString() ?? string.Empty,
+                MailClientId = reader["MailClientId"]?.ToString() ?? string.Empty,
+                MailRefreshToken = reader["MailRefreshToken"]?.ToString() ?? string.Empty,
+                PassPrivateEmailAddress = reader["PassPrivateEmailAddress"]?.ToString() ?? string.Empty,
+                RecentInteraction = reader["RecentInteraction"]?.ToString() ?? string.Empty,
+                IsView = reader["IsView"] != DBNull.Value && Convert.ToBoolean(reader["IsView"]),
+                JobTotal = reader["JobTotal"] != DBNull.Value ? Convert.ToInt32(reader["JobTotal"]) : 0,
             };
+
+            account.JobHistory = _jobHistoryContext.GetByUid(account.Uid, DateTime.Now.ToString("dd/MM/yyyy")) ?? new JobHistory();
+
+            return account;
         }
 
         public List<Account> GetAll(string query, Dictionary<string, object>? parameters = null)
-        {
-            return _db.GetAllEntities(query, MapToAccount, parameters);
-        }
+            => _db.GetAllEntities(query, MapToAccount, parameters);
 
         public List<Account> GetAll(List<string> nameFolders, bool? isView = true)
         {
@@ -71,99 +79,89 @@ namespace Sunny.Subdy.Data.Context
 
             if (isView.HasValue)
             {
-                whereClauses.Add("IsView = @IsView");
-                parameters.Add("@IsView", isView.Value ? 1 : 0);
+                whereClauses.Add("IsView = @isView");
+                parameters["@isView"] = isView.Value ? 1 : 0;
             }
 
-            if (nameFolders != null && nameFolders.Count > 0)
+            if (nameFolders?.Any() == true)
             {
-                var folderParams = new List<string>();
-                for (int i = 0; i < nameFolders.Count; i++)
+                var paramNames = nameFolders.Select((f, i) =>
                 {
-                    string paramName = $"@folder{i}";
-                    folderParams.Add(paramName);
-                    parameters.Add(paramName, nameFolders[i]);
-                }
-                whereClauses.Add($"NameFolder IN ({string.Join(", ", folderParams)})");
+                    string key = $"@folder{i}";
+                    parameters[key] = f;
+                    return key;
+                }).ToList();
+
+                whereClauses.Add($"NameFolder IN ({string.Join(", ", paramNames)})");
             }
 
-            string query = $"SELECT * FROM {TableName}";
-            if (whereClauses.Any())
-            {
-                query += " WHERE " + string.Join(" AND ", whereClauses);
-            }
+            string query = $"SELECT * FROM {TableName}" +
+                           (whereClauses.Any() ? $" WHERE {string.Join(" AND ", whereClauses)}" : "");
 
             return GetAll(query, parameters);
         }
 
         public Account? Get(Guid id)
         {
-            string query = $"SELECT * FROM {TableName} WHERE Id = @id";
-            var parameters = new Dictionary<string, object> { { "@id", id.ToString() } };
+            const string query = $"SELECT * FROM {TableName} WHERE Id = @id";
+            var parameters = new Dictionary<string, object> { ["@id"] = id.ToString() };
             return GetAll(query, parameters).FirstOrDefault();
         }
 
         public Account? GetByName(string uid)
         {
-            string query = $"SELECT * FROM {TableName} WHERE Uid = @uid";
-            var parameters = new Dictionary<string, object> { { "@uid", uid } };
+            const string query = $"SELECT * FROM {TableName} WHERE Uid = @uid";
+            var parameters = new Dictionary<string, object> { ["@uid"] = uid };
             return GetAll(query, parameters).FirstOrDefault();
         }
 
-        public bool AddRange(List<Account> accounts)
+        public int CountByFolder(string folderName)
         {
-            return _db.InsertEntities(accounts);
+            const string query = $"SELECT COUNT(*) FROM {TableName} WHERE NameFolder = @folder";
+            var parameters = new Dictionary<string, object> { ["@folder"] = folderName };
+            var result = _db.ExecuteScalar(query, parameters);
+            return int.TryParse(result?.ToString(), out var count) ? count : 0;
         }
 
-        public bool Add(Account account)
-        {
-            return _db.InsertEntity(account);
-        }
+        public bool Add(Account account) => _db.InsertEntity(account);
+        public bool AddRange(List<Account> accounts) => _db.InsertEntities(accounts);
 
-        public bool UpdateAccountsFolderName(string oldFolderName, string newFolderName)
+        public bool Update(Account account) => _db.UpdateEntity(account);
+        public bool Update(List<Account> accounts) => _db.UpdateEntities(accounts);
+
+        public bool UpdateAccountsFolderName(string oldFolder, string newFolder)
         {
-            string query = $"UPDATE {TableName} SET NameFolder = @newFolderName WHERE NameFolder = @oldFolderName";
+            const string query = $"UPDATE {TableName} SET NameFolder = @newFolder WHERE NameFolder = @oldFolder";
             var parameters = new Dictionary<string, object>
-        {
-            { "@newFolderName", newFolderName },
-            { "@oldFolderName", oldFolderName }
-        };
+            {
+                ["@newFolder"] = newFolder,
+                ["@oldFolder"] = oldFolder
+            };
             return _db.ExecuteNonQuery(query, parameters);
-        }
-
-        public bool Update(List<Account> accounts)
-        {
-            return _db.UpdateEntities(accounts);
-        }
-
-        public bool Update(Account account)
-        {
-            return _db.UpdateEntity(account);
         }
 
         public bool DeleteById(Guid id)
         {
-            string query = $"DELETE FROM {TableName} WHERE Id = @id";
-            var parameters = new Dictionary<string, object> { { "@id", id.ToString() } };
+            const string query = $"DELETE FROM {TableName} WHERE Id = @id";
+            var parameters = new Dictionary<string, object> { ["@id"] = id.ToString() };
             return _db.ExecuteNonQuery(query, parameters);
         }
 
         public bool DeleteByIds(List<Guid> ids)
         {
-            if (ids == null || ids.Count == 0)
-                return false;
+            if (ids == null || ids.Count == 0) return false;
 
             var parameters = new Dictionary<string, object>();
-            var paramNames = new List<string>();
-            for (int i = 0; i < ids.Count; i++)
+            var paramNames = ids.Select((id, i) =>
             {
-                string paramName = $"@id{i}";
-                paramNames.Add(paramName);
-                parameters.Add(paramName, ids[i].ToString());
-            }
+                string key = $"@id{i}";
+                parameters[key] = id.ToString();
+                return key;
+            }).ToList();
 
             string query = $"DELETE FROM {TableName} WHERE Id IN ({string.Join(", ", paramNames)})";
             return _db.ExecuteNonQuery(query, parameters);
         }
     }
+
 }

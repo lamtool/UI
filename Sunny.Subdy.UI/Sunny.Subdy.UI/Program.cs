@@ -1,6 +1,6 @@
-﻿using Sunny.Subdy.Common.API;
-using Sunny.Subdy.Common.Logs;
+﻿using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.UI.View;
+using Sunny.Subdy.UI.View.Forms;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -18,9 +18,6 @@ namespace Sunny.Subdy.UI
         [STAThread]
         static void Main()
         {
-
-            API_LamTool.Authentication("LamTool.net", "Lam01675293121");
-
             int currentId = Process.GetCurrentProcess().Id;
 
             foreach (var process in Process.GetProcesses())
@@ -37,7 +34,6 @@ namespace Sunny.Subdy.UI
                 }
                 catch { }
             }
-
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
             {
                 File.WriteAllText("fatal.log", e.ExceptionObject.ToString());
@@ -51,12 +47,17 @@ namespace Sunny.Subdy.UI
 
             try
             {
-              
+
                 Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 ComWrappers.RegisterForMarshalling(WinFormsComWrappers.Instance);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 PreserveGdiResources();
+                fLogin login = new fLogin();
+                if (login.ShowDialog() != DialogResult.OK)
+                {
+                    Environment.Exit(0);
+                }
                 var loading = new fLoading();
                 loading.ShowDialog();
                 Application.Run(loading.MainForm);

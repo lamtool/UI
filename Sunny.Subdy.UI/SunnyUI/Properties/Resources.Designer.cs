@@ -113,6 +113,16 @@ namespace Sunny.UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_zalo_40 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_zalo_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap img_notifier {
             get {
                 object obj = ResourceManager.GetObject("img_notifier", resourceCulture);
@@ -207,6 +217,16 @@ namespace Sunny.UI.Properties {
             get {
                 object obj = ResourceManager.GetObject("SunnyUI", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap welcome {
+            get {
+                object obj = ResourceManager.GetObject("welcome", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

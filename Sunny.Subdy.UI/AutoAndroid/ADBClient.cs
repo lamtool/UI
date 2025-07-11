@@ -1052,6 +1052,16 @@ namespace AutoAndroid
             }
             return false;
         }
+        public bool IsRoot()
+        {
+            for (int i = 0; i <= 10; i++)
+            {
+                string value = ADB.Shell("su -c id");
+                if (string.IsNullOrEmpty(value)) continue;
+                return value.ToLower().Contains("not found");
+            }
+            return false;
+        }
         public void StopApp(string packageName)
         {
             try
@@ -1467,7 +1477,7 @@ namespace AutoAndroid
             try
             {
 
-                return maxChange.CheckInternet();
+                return string.IsNullOrEmpty(maxChange.GetIP());
             }
             catch
             {

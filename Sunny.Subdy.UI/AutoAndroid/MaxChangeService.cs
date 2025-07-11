@@ -222,50 +222,6 @@ namespace AutoAndroid
             }
             return false;
         }
-        public bool CheckInternet()
-        {
-            try
-            {
-                Install();
-                service.Shell($"pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
-                service.Shell($"pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
-
-                string output = service.Shell($"am broadcast -a {package_MaxChange}.INTERNET -n {package_MaxChange}/.AdbCaller");
-
-                if (string.IsNullOrEmpty(output))
-                    return false;
-
-                // Kiểm tra kết quả broadcast
-                if (output.Contains("result=1"))
-                {
-                    // Tách message trong data="..."
-                    Match match = Regex.Match(output, @"data=""(.*?)""");
-                    if (match.Success)
-                    {
-                        string message = match.Groups[1].Value;
-                        service.LogHelper.SUCCESS($"Internet status: {message}");
-                    }
-
-                    return true;
-                }
-                else
-                {
-                    // Nếu có result=0, cũng có thể tách message để log lỗi
-                    Match match = Regex.Match(output, @"data=""(.*?)""");
-                    if (match.Success)
-                    {
-                        string message = match.Groups[1].Value;
-                        service.LogHelper.ERROR($"Internet status: {message}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                service.LogHelper.ERROR($"Kiểm tra internet thất bại [{ex.Message}]");
-            }
-
-            return false;
-        }
         private List<Modules> GetModules()
         {
             string command = "su -c \"sqlite3 /data/adb/lspd/config/modules_config.db 'SELECT mid, module_pkg_name, enabled FROM modules;'\"";
@@ -356,39 +312,28 @@ namespace AutoAndroid
         public string GetIP()
         {
             string ip = "";
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
                 try
                 {
                     service.LogHelper.SUCCESS($"Đang check ip [{i + 1}]");
-                    string result = service.Shell($"am broadcast -a {package_MaxChange}.GET_DEVICE_IP -n {package_MaxChange}/.AdbCaller");
-
-                    if (string.IsNullOrEmpty(result) || !result.Contains("data") || result.Contains("Error"))
+                    string result = ProcessHelper.RunAdbWithTimeout($"-s {service.Device.Serial} shell am broadcast -a {package_MaxChange}.GET_DEVICE_IP -n {package_MaxChange}/.AdbCaller");
+                    if (result.Contains("result=1"))
                     {
-                        ip = "Error: " + result;
-                        service.LogHelper.ERROR(ip);
-                        continue;
-                    }
-
-                    string pattern = @"data=""({.*})""";
-                    var match = Regex.Match(result, pattern);
-                    if (match.Success)
-                    {
-                        string jsonData = match.Groups[1].Value;
-                        var data = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(jsonData);
-
-                        if (data != null && data.TryGetValue("ip", out string ipValue))
+                        Match match = Regex.Match(result, @"data=""(?<json>\{.*?\})""");
+                        if (match.Success)
                         {
-                            ip = ipValue;
-                            service.LogHelper.SUCCESS($"IP: {ip}");
-                            return ip;
+                            var json = match.Groups[1].Value;
+                            var doc = System.Text.Json.JsonDocument.Parse(json);
+
+                            string message = doc.RootElement.GetProperty("ip").GetString();
+                            service.LogHelper.SUCCESS($"IP: {message}");
+                            return message;
                         }
-                        else
-                        {
-                            ip = "Không tìm thấy trường 'ip'";
-                            service.LogHelper.ERROR(ip);
-                        }
+
                     }
+                    ip = "";
+                    service.LogHelper.ERROR(ip);
                 }
                 catch (Exception ex)
                 {

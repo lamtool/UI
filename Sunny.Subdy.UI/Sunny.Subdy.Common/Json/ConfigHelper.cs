@@ -48,7 +48,7 @@ namespace Sunny.Subdy.Common.Json
             form.FormClosing += FormClosing;
             this.exists = exists;
         }
-        public ConfigHelper(Form form, string jConfig)
+        public ConfigHelper(Form form, string jConfig, Action? action)
         {
             this.form = form;
             if (excepts != null)
@@ -72,6 +72,10 @@ namespace Sunny.Subdy.Common.Json
                 this.jConfig = new JObject();
             }
             form.Load += FormLoad;
+            if (action != null)
+            {
+                this.action = action;
+            }
         }
         private void ReadFile()
         {
@@ -126,13 +130,16 @@ namespace Sunny.Subdy.Common.Json
         {
             return sender switch
             {
-                CheckBox cb => new CheckBoxGetterAdapter(cb),
                 TextBox tb => new TextBoxGetterAdapter(tb),
+                UITextBox uitb => new UITextBoxGetterAdapter(uitb),
+                CheckBox cb => new CheckBoxGetterAdapter(cb),
+                UICheckBox uicb => new UICheckBoxGetterAdapter(uicb),
                 ComboBox cb => new ComboBoxGetterAdapter(cb),
                 UIComboBox uicb => new UIComboBoxGetterAdapter(uicb),
-                UITextBox uitb => new UITextBoxGetterAdapter(uitb),
-                NumericUpDown num => new NumericUpDownGetterAdapter(num),
                 RadioButton rb => new RadioButtonGetterAdapter(rb),
+                UIRadioButton uirb => new UIRadioButtonGetterAdapter(uirb),
+                NumericUpDown nud => new NumericUpDownGetterAdapter(nud),
+                UITimePicker picker => new UITimePickerGetterAdapter(picker),
                 _ => null
             };
         }
@@ -174,7 +181,9 @@ namespace Sunny.Subdy.Common.Json
                 ComboBox cb => new ComboBoxBinderAdapter(cb),
                 UIComboBox uicb => new UIComboBoxBinderAdapter(uicb),
                 RadioButton rb => new RadioButtonBinderAdapter(rb),
+                UIRadioButton uirb => new UIRadioButtonBinderAdapter(uirb),
                 NumericUpDown nud => new NumericUpDownBinderAdapter(nud),
+                UITimePicker picker => new UITimePickerBinderAdapter(picker),
                 _ => null
             };
         }
@@ -256,7 +265,7 @@ namespace Sunny.Subdy.Common.Json
 
                 if (exists)
                 {
-                    Application.Exit();
+                    Environment.Exit(0);
                 }
             }
             catch (Exception ex)
@@ -264,7 +273,7 @@ namespace Sunny.Subdy.Common.Json
                 LogManager.Error(ex);
             }
         }
-       
+
         /// <summary>
         /// Thêm giá trị vào thuộc tính trong đối tượng JObject.
         /// </summary>
@@ -335,6 +344,13 @@ namespace Sunny.Subdy.Common.Json
                         if (((ComboBox)control).Name != "")
                         {
                             jConfig[((ComboBox)control).Name] = JToken.FromObject(((ComboBox)control).SelectedIndex);
+                        }
+                    }
+                    else if (control is UITimePicker)
+                    {
+                        if (((UITimePicker)control).Name != "")
+                        {
+                            jConfig[((UITimePicker)control).Name] = JToken.FromObject(((UITimePicker)control).Value);
                         }
                     }
                 }

@@ -47,6 +47,8 @@ namespace Sunny.Subdy.UI.View.Pages
             flowLayoutPanel1.MouseWheel += (s, e) => CheckIfNeedMoreControls();
             flowLayoutPanel1.Scroll += (s, e) => CheckIfNeedMoreControls();
             flowLayoutPanel1.Resize += (s, e) => CheckIfNeedMoreControls();
+            gmailToolStripMenuItem.Image = Properties.Resources.icons8_gmail_40;
+            uiDataGridView2.AllowUserToResizeRows = false;
         }
         private void LoadVirtualWindow(int start)
         {
@@ -781,14 +783,14 @@ namespace Sunny.Subdy.UI.View.Pages
                     CommonMethod.ShowMessageError("Lỗi khi mở form cấu hình: " + ex.Message);
                     return;
                 }
-
+                uiSymbolButton4.Enabled = true;
                 groupBox2.Visible = true;
                 uiSymbolButton4.Text = "Dừng";
                 uiSymbolButton3.Enabled = false;
 
                 try
                 {
-                    await RunAsync(fAction_RegFB.Folder);
+                    await RunAsync(fAction_RegFB.Folder, platform);
                 }
                 catch (Exception ex)
                 {
@@ -798,6 +800,7 @@ namespace Sunny.Subdy.UI.View.Pages
                 groupBox2.Visible = false;
                 uiSymbolButton4.Text = "Đóng";
                 uiSymbolButton3.Enabled = true;
+                uiSymbolButton4.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -808,13 +811,14 @@ namespace Sunny.Subdy.UI.View.Pages
         {
             _ = facebookToolStripMenuItem1_ClickSafe(RegistrationType.RegFacebook);
         }
-        private async Task RunAsync(Folder folder)
+        private async Task RunAsync(Folder folder, string platform)
         {
+            fMain.StartTime = DateTime.Now;
             LogManager.LogRegsiner.Clear();
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken ct = cancellationTokenSource.Token;
             List<Task> tasks = new List<Task>();
-            JsonHelper settingRegsiner = new JsonHelper(nameof(fAction_RegFB), false);
+            JsonHelper settingRegsiner = new JsonHelper(nameof(fAction_RegFB) + "_" + platform, false);
             JsonHelper settingGeneral = new JsonHelper(nameof(pageSetting), false);
             ProxyService.Proxies.Clear();
             ProxyService.Proxies.AddRange(settingGeneral.GetValuesList("txtLines"));
@@ -854,6 +858,7 @@ namespace Sunny.Subdy.UI.View.Pages
 
             }
             await Task.WhenAll(tasks);
+            fMain.StartTime = null;
         }
 
         private void uiHeaderButton1_Click(object sender, EventArgs e)

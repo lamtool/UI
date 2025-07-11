@@ -82,6 +82,7 @@ namespace Sunny.Subdy.UI.View.Pages
             disconnectToolStripMenuItem = new ToolStripMenuItem();
             dDToolStripMenuItem = new ToolStripMenuItem();
             facebookToolStripMenuItem1 = new ToolStripMenuItem();
+            gmailToolStripMenuItem = new ToolStripMenuItem();
             deviceModelBindingSource = new BindingSource(components);
             groupBox2 = new GroupBox();
             uiSymbolButton3 = new Sunny.UI.UISymbolButton();
@@ -101,7 +102,6 @@ namespace Sunny.Subdy.UI.View.Pages
             uiSymbolButton2 = new Sunny.UI.UISymbolButton();
             groupBox1 = new GroupBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            gmailToolStripMenuItem = new ToolStripMenuItem();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).BeginInit();
@@ -264,7 +264,7 @@ namespace Sunny.Subdy.UI.View.Pages
             uiContextMenuStrip1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, bỏChọnTấtCảToolStripMenuItem, tắtViewToolStripMenuItem, mởToolStripMenuItem, ứngDụngToolStripMenuItem, connectToolStripMenuItem, disconnectToolStripMenuItem, dDToolStripMenuItem });
             uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            uiContextMenuStrip1.Size = new Size(181, 202);
+            uiContextMenuStrip1.Size = new Size(177, 180);
             // 
             // toolStripMenuItem1
             // 
@@ -272,14 +272,14 @@ namespace Sunny.Subdy.UI.View.Pages
             toolStripMenuItem1.ForeColor = SystemColors.ControlText;
             toolStripMenuItem1.Image = Properties.Resources.select_check_box_30dp;
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(180, 22);
+            toolStripMenuItem1.Size = new Size(176, 22);
             toolStripMenuItem1.Text = "Chọn";
             // 
             // tấtCảToolStripMenuItem
             // 
             tấtCảToolStripMenuItem.Image = Properties.Resources.done_all_30;
             tấtCảToolStripMenuItem.Name = "tấtCảToolStripMenuItem";
-            tấtCảToolStripMenuItem.Size = new Size(120, 22);
+            tấtCảToolStripMenuItem.Size = new Size(180, 22);
             tấtCảToolStripMenuItem.Text = "Tất cả";
             tấtCảToolStripMenuItem.Click += tấtCảToolStripMenuItem_Click;
             // 
@@ -287,7 +287,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             bôiĐenToolStripMenuItem.Image = Properties.Resources.checklist_30dp;
             bôiĐenToolStripMenuItem.Name = "bôiĐenToolStripMenuItem";
-            bôiĐenToolStripMenuItem.Size = new Size(120, 22);
+            bôiĐenToolStripMenuItem.Size = new Size(180, 22);
             bôiĐenToolStripMenuItem.Text = "Bôi đen";
             bôiĐenToolStripMenuItem.Click += bôiĐenToolStripMenuItem_Click;
             // 
@@ -296,14 +296,14 @@ namespace Sunny.Subdy.UI.View.Pages
             statusToolStripMenuItem.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             statusToolStripMenuItem.Image = Properties.Resources.playlist_add_check_30dp;
             statusToolStripMenuItem.Name = "statusToolStripMenuItem";
-            statusToolStripMenuItem.Size = new Size(120, 22);
+            statusToolStripMenuItem.Size = new Size(180, 22);
             statusToolStripMenuItem.Text = "Status";
             // 
             // bỏChọnTấtCảToolStripMenuItem
             // 
             bỏChọnTấtCảToolStripMenuItem.Image = Properties.Resources.check_box_outline_blank_30dp;
             bỏChọnTấtCảToolStripMenuItem.Name = "bỏChọnTấtCảToolStripMenuItem";
-            bỏChọnTấtCảToolStripMenuItem.Size = new Size(180, 22);
+            bỏChọnTấtCảToolStripMenuItem.Size = new Size(176, 22);
             bỏChọnTấtCảToolStripMenuItem.Text = "Bỏ chọn tất cả";
             bỏChọnTấtCảToolStripMenuItem.Click += bỏChọnTấtCảToolStripMenuItem_Click;
             // 
@@ -312,14 +312,14 @@ namespace Sunny.Subdy.UI.View.Pages
             tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1 });
             tắtViewToolStripMenuItem.Image = Properties.Resources.mystery_30dp;
             tắtViewToolStripMenuItem.Name = "tắtViewToolStripMenuItem";
-            tắtViewToolStripMenuItem.Size = new Size(180, 22);
+            tắtViewToolStripMenuItem.Size = new Size(176, 22);
             tắtViewToolStripMenuItem.Text = "View";
             // 
             // tắtToolStripMenuItem
             // 
             tắtToolStripMenuItem.Image = Properties.Resources.visibility_off_30dp;
             tắtToolStripMenuItem.Name = "tắtToolStripMenuItem";
-            tắtToolStripMenuItem.Size = new Size(94, 22);
+            tắtToolStripMenuItem.Size = new Size(180, 22);
             tắtToolStripMenuItem.Text = "Tắt";
             tắtToolStripMenuItem.Click += tắtToolStripMenuItem_Click;
             // 
@@ -327,7 +327,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             mởToolStripMenuItem1.Image = Properties.Resources.visibility_30dp;
             mởToolStripMenuItem1.Name = "mởToolStripMenuItem1";
-            mởToolStripMenuItem1.Size = new Size(94, 22);
+            mởToolStripMenuItem1.Size = new Size(180, 22);
             mởToolStripMenuItem1.Text = "Mở";
             mởToolStripMenuItem1.Click += mởToolStripMenuItem1_Click;
             // 
@@ -336,7 +336,7 @@ namespace Sunny.Subdy.UI.View.Pages
             mởToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { càiĐặtApkToolStripMenuItem, wifiToolStripMenuItem, gỡCàiĐặtPackageToolStripMenuItem, rebootToolStripMenuItem, changeInfoToolStripMenuItem });
             mởToolStripMenuItem.Image = Properties.Resources.functions_30dp;
             mởToolStripMenuItem.Name = "mởToolStripMenuItem";
-            mởToolStripMenuItem.Size = new Size(180, 22);
+            mởToolStripMenuItem.Size = new Size(176, 22);
             mởToolStripMenuItem.Text = "Nâng cao";
             // 
             // càiĐặtApkToolStripMenuItem
@@ -359,7 +359,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             bậtWifiToolStripMenuItem.Image = Properties.Resources.signal_wifi_4_bar_30dp_434343_FILL0_wght400_GRAD0_opsz24;
             bậtWifiToolStripMenuItem.Name = "bậtWifiToolStripMenuItem";
-            bậtWifiToolStripMenuItem.Size = new Size(135, 22);
+            bậtWifiToolStripMenuItem.Size = new Size(180, 22);
             bậtWifiToolStripMenuItem.Text = "Bật wifi";
             bậtWifiToolStripMenuItem.Click += bậtWifiToolStripMenuItem_Click;
             // 
@@ -367,7 +367,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             tắtWifiToolStripMenuItem.Image = Properties.Resources.wifi_off_30dp_434343_FILL0_wght400_GRAD0_opsz24;
             tắtWifiToolStripMenuItem.Name = "tắtWifiToolStripMenuItem";
-            tắtWifiToolStripMenuItem.Size = new Size(135, 22);
+            tắtWifiToolStripMenuItem.Size = new Size(180, 22);
             tắtWifiToolStripMenuItem.Text = "Tắt wifi";
             tắtWifiToolStripMenuItem.Click += tắtWifiToolStripMenuItem_Click;
             // 
@@ -375,7 +375,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             kếtNốiWifiToolStripMenuItem.Image = Properties.Resources.router_30dp_434343_FILL0_wght400_GRAD0_opsz24;
             kếtNốiWifiToolStripMenuItem.Name = "kếtNốiWifiToolStripMenuItem";
-            kếtNốiWifiToolStripMenuItem.Size = new Size(135, 22);
+            kếtNốiWifiToolStripMenuItem.Size = new Size(180, 22);
             kếtNốiWifiToolStripMenuItem.Text = "Kết nối wifi";
             kếtNốiWifiToolStripMenuItem.Click += kếtNốiWifiToolStripMenuItem_Click;
             // 
@@ -408,7 +408,7 @@ namespace Sunny.Subdy.UI.View.Pages
             ứngDụngToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem, tikTokToolStripMenuItem, instagramToolStripMenuItem });
             ứngDụngToolStripMenuItem.Image = Properties.Resources.apps_30dp_434343_FILL0_wght400_GRAD0_opsz24;
             ứngDụngToolStripMenuItem.Name = "ứngDụngToolStripMenuItem";
-            ứngDụngToolStripMenuItem.Size = new Size(180, 22);
+            ứngDụngToolStripMenuItem.Size = new Size(176, 22);
             ứngDụngToolStripMenuItem.Text = "Ứng dụng";
             // 
             // facebookToolStripMenuItem
@@ -416,7 +416,7 @@ namespace Sunny.Subdy.UI.View.Pages
             facebookToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem, restoreToolStripMenuItem });
             facebookToolStripMenuItem.Image = Properties.Resources.icons8_facebook_40;
             facebookToolStripMenuItem.Name = "facebookToolStripMenuItem";
-            facebookToolStripMenuItem.Size = new Size(136, 22);
+            facebookToolStripMenuItem.Size = new Size(180, 22);
             facebookToolStripMenuItem.Text = "Facebook";
             // 
             // backupToolStripMenuItem
@@ -440,14 +440,14 @@ namespace Sunny.Subdy.UI.View.Pages
             tikTokToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem1, restoreToolStripMenuItem1 });
             tikTokToolStripMenuItem.Image = Properties.Resources.icons8_tiktok_40;
             tikTokToolStripMenuItem.Name = "tikTokToolStripMenuItem";
-            tikTokToolStripMenuItem.Size = new Size(136, 22);
+            tikTokToolStripMenuItem.Size = new Size(180, 22);
             tikTokToolStripMenuItem.Text = "TikTok";
             // 
             // backupToolStripMenuItem1
             // 
             backupToolStripMenuItem1.Image = Properties.Resources.backup_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             backupToolStripMenuItem1.Name = "backupToolStripMenuItem1";
-            backupToolStripMenuItem1.Size = new Size(122, 22);
+            backupToolStripMenuItem1.Size = new Size(180, 22);
             backupToolStripMenuItem1.Text = "Backup";
             backupToolStripMenuItem1.Click += backupToolStripMenuItem1_Click;
             // 
@@ -455,7 +455,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             restoreToolStripMenuItem1.Image = Properties.Resources.drive_folder_upload_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             restoreToolStripMenuItem1.Name = "restoreToolStripMenuItem1";
-            restoreToolStripMenuItem1.Size = new Size(122, 22);
+            restoreToolStripMenuItem1.Size = new Size(180, 22);
             restoreToolStripMenuItem1.Text = "Restore";
             restoreToolStripMenuItem1.Click += restoreToolStripMenuItem1_Click;
             // 
@@ -464,14 +464,14 @@ namespace Sunny.Subdy.UI.View.Pages
             instagramToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { backupToolStripMenuItem2, restoreToolStripMenuItem2 });
             instagramToolStripMenuItem.Image = Properties.Resources.icons8_instagram_40;
             instagramToolStripMenuItem.Name = "instagramToolStripMenuItem";
-            instagramToolStripMenuItem.Size = new Size(136, 22);
+            instagramToolStripMenuItem.Size = new Size(180, 22);
             instagramToolStripMenuItem.Text = "Instagram";
             // 
             // backupToolStripMenuItem2
             // 
             backupToolStripMenuItem2.Image = Properties.Resources.backup_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             backupToolStripMenuItem2.Name = "backupToolStripMenuItem2";
-            backupToolStripMenuItem2.Size = new Size(122, 22);
+            backupToolStripMenuItem2.Size = new Size(180, 22);
             backupToolStripMenuItem2.Text = "Backup";
             backupToolStripMenuItem2.Click += backupToolStripMenuItem2_Click;
             // 
@@ -479,7 +479,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             restoreToolStripMenuItem2.Image = Properties.Resources.drive_folder_upload_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             restoreToolStripMenuItem2.Name = "restoreToolStripMenuItem2";
-            restoreToolStripMenuItem2.Size = new Size(122, 22);
+            restoreToolStripMenuItem2.Size = new Size(180, 22);
             restoreToolStripMenuItem2.Text = "Restore";
             restoreToolStripMenuItem2.Click += restoreToolStripMenuItem2_Click;
             // 
@@ -487,7 +487,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             connectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_48752C_FILL0_wght400_GRAD0_opsz24;
             connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            connectToolStripMenuItem.Size = new Size(180, 22);
+            connectToolStripMenuItem.Size = new Size(176, 22);
             connectToolStripMenuItem.Text = "Connect";
             connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
@@ -495,7 +495,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             disconnectToolStripMenuItem.Image = Properties.Resources.trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24;
             disconnectToolStripMenuItem.Name = "disconnectToolStripMenuItem";
-            disconnectToolStripMenuItem.Size = new Size(180, 22);
+            disconnectToolStripMenuItem.Size = new Size(176, 22);
             disconnectToolStripMenuItem.Text = "Disconnect";
             // 
             // dDToolStripMenuItem
@@ -503,7 +503,7 @@ namespace Sunny.Subdy.UI.View.Pages
             dDToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { facebookToolStripMenuItem1, gmailToolStripMenuItem });
             dDToolStripMenuItem.Image = Properties.Resources.app_registration_40dp_1F1F1F_FILL0_wght400_GRAD0_opsz40;
             dDToolStripMenuItem.Name = "dDToolStripMenuItem";
-            dDToolStripMenuItem.Size = new Size(180, 22);
+            dDToolStripMenuItem.Size = new Size(176, 22);
             dDToolStripMenuItem.Text = "Đăng kí tài khoản";
             // 
             // facebookToolStripMenuItem1
@@ -513,6 +513,14 @@ namespace Sunny.Subdy.UI.View.Pages
             facebookToolStripMenuItem1.Size = new Size(180, 22);
             facebookToolStripMenuItem1.Text = "Facebook";
             facebookToolStripMenuItem1.Click += facebookToolStripMenuItem1_Click;
+            // 
+            // gmailToolStripMenuItem
+            // 
+            gmailToolStripMenuItem.Image = Properties.Resources.icons8_gmail_40;
+            gmailToolStripMenuItem.Name = "gmailToolStripMenuItem";
+            gmailToolStripMenuItem.Size = new Size(180, 22);
+            gmailToolStripMenuItem.Text = "Gmail";
+            gmailToolStripMenuItem.Click += gmailToolStripMenuItem_Click;
             // 
             // deviceModelBindingSource
             // 
@@ -534,7 +542,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             // uiSymbolButton3
             // 
-            uiSymbolButton3.Anchor = AnchorStyles.Right;
+            uiSymbolButton3.Anchor = AnchorStyles.None;
             uiSymbolButton3.FillColor = Color.Green;
             uiSymbolButton3.FillColor2 = Color.FromArgb(4, 60, 44);
             uiSymbolButton3.FillHoverColor = Color.FromArgb(4, 60, 44);
@@ -560,7 +568,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             // uiSymbolButton4
             // 
-            uiSymbolButton4.Anchor = AnchorStyles.Right;
+            uiSymbolButton4.Anchor = AnchorStyles.None;
             uiSymbolButton4.FillColor = Color.Red;
             uiSymbolButton4.FillColor2 = Color.DarkRed;
             uiSymbolButton4.FillHoverColor = Color.DarkRed;
@@ -688,6 +696,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // uiLinkLabel1
             // 
             uiLinkLabel1.ActiveLinkColor = Color.FromArgb(80, 160, 255);
+            uiLinkLabel1.Anchor = AnchorStyles.Right;
             uiLinkLabel1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             uiLinkLabel1.ForeColor = Color.FromArgb(48, 48, 48);
             uiLinkLabel1.LinkBehavior = LinkBehavior.AlwaysUnderline;
@@ -819,14 +828,6 @@ namespace Sunny.Subdy.UI.View.Pages
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(610, 619);
             flowLayoutPanel1.TabIndex = 0;
-            // 
-            // gmailToolStripMenuItem
-            // 
-            gmailToolStripMenuItem.Image = Properties.Resources.icons8_gmail_40;
-            gmailToolStripMenuItem.Name = "gmailToolStripMenuItem";
-            gmailToolStripMenuItem.Size = new Size(180, 22);
-            gmailToolStripMenuItem.Text = "Gmail";
-            gmailToolStripMenuItem.Click += gmailToolStripMenuItem_Click;
             // 
             // ucManagerDevices
             // 

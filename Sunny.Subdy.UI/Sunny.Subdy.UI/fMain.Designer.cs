@@ -31,8 +31,10 @@ namespace Sunny.Subdy.UI
             uiImageButton1 = new UIImageButton();
             uiLabel1 = new UILabel();
             uiPanel3 = new UIPanel();
+            uiHeaderButton1 = new UIHeaderButton();
+            uiMenuStripNotifi = new UIContextMenuStrip();
+            toolStripMenuItem2 = new ToolStripMenuItem();
             uiLabel4 = new UILabel();
-            notificationBell1 = new Sunny.Subdy.UI.ControlViews.NotificationBell();
             uiImageButton2 = new UIImageButton();
             uiPanel4 = new UIPanel();
             toolStrip1 = new ToolStrip();
@@ -45,16 +47,22 @@ namespace Sunny.Subdy.UI
             popupMessageBox = new UIPanel();
             uiLabel7 = new UILabel();
             popupBoxControl1 = new Sunny.Subdy.UI.ControlViews.PopupBoxControl();
-            timer1 = new System.Windows.Forms.Timer(components);
+            timer1 = new Timer(components);
+            uiContextMenuStrip1 = new UIContextMenuStrip();
+            thooToolStripMenuItem = new ToolStripMenuItem();
+            xuToolStripMenuItem = new ToolStripMenuItem();
+            dDToolStripMenuItem = new ToolStripMenuItem();
             uiPanel1.SuspendLayout();
             uiPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiImageButton1).BeginInit();
             uiPanel3.SuspendLayout();
+            uiMenuStripNotifi.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiImageButton2).BeginInit();
             uiPanel4.SuspendLayout();
             toolStrip1.SuspendLayout();
             uiPanel5.SuspendLayout();
             popupMessageBox.SuspendLayout();
+            uiContextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // uiPanel1
@@ -75,7 +83,6 @@ namespace Sunny.Subdy.UI
             uiPanel1.Size = new Size(55, 574);
             uiPanel1.TabIndex = 0;
             uiPanel1.Text = null;
-            uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
             // 
             // uiNavMenu1
             // 
@@ -144,7 +151,6 @@ namespace Sunny.Subdy.UI
             uiPanel2.Size = new Size(55, 75);
             uiPanel2.TabIndex = 1;
             uiPanel2.Text = null;
-            uiPanel2.TextAlignment = ContentAlignment.MiddleCenter;
             // 
             // uiImageButton1
             // 
@@ -175,8 +181,8 @@ namespace Sunny.Subdy.UI
             // uiPanel3
             // 
             uiPanel3.BackColor = Color.White;
+            uiPanel3.Controls.Add(uiHeaderButton1);
             uiPanel3.Controls.Add(uiLabel4);
-            uiPanel3.Controls.Add(notificationBell1);
             uiPanel3.Controls.Add(uiImageButton2);
             uiPanel3.Dock = DockStyle.Top;
             uiPanel3.FillColor = Color.White;
@@ -193,7 +199,56 @@ namespace Sunny.Subdy.UI
             uiPanel3.Style = UIStyle.Custom;
             uiPanel3.TabIndex = 4;
             uiPanel3.Text = null;
-            uiPanel3.TextAlignment = ContentAlignment.MiddleCenter;
+            // 
+            // uiHeaderButton1
+            // 
+            uiHeaderButton1.Anchor = AnchorStyles.Right;
+            uiHeaderButton1.BackColor = Color.Transparent;
+            uiHeaderButton1.CircleColor = Color.Transparent;
+            uiHeaderButton1.CircleDisabledColor = Color.Transparent;
+            uiHeaderButton1.CircleHoverColor = Color.Transparent;
+            uiHeaderButton1.CircleSize = 35;
+            uiHeaderButton1.ContextMenuStrip = uiMenuStripNotifi;
+            uiHeaderButton1.FillColor = Color.Transparent;
+            uiHeaderButton1.FillDisableColor = Color.Transparent;
+            uiHeaderButton1.FillHoverColor = Color.Transparent;
+            uiHeaderButton1.FillPressColor = Color.Transparent;
+            uiHeaderButton1.FillSelectedColor = Color.Transparent;
+            uiHeaderButton1.Font = new Font("Microsoft Sans Serif", 12F);
+            uiHeaderButton1.Location = new Point(943, 19);
+            uiHeaderButton1.MinimumSize = new Size(1, 1);
+            uiHeaderButton1.Name = "uiHeaderButton1";
+            uiHeaderButton1.Padding = new Padding(0, 8, 0, 3);
+            uiHeaderButton1.Radius = 0;
+            uiHeaderButton1.RadiusSides = UICornerRadiusSides.None;
+            uiHeaderButton1.RectSides = ToolStripStatusLabelBorderSides.None;
+            uiHeaderButton1.ShowTips = true;
+            uiHeaderButton1.Size = new Size(53, 42);
+            uiHeaderButton1.Symbol = 559380;
+            uiHeaderButton1.SymbolColor = Color.Gold;
+            uiHeaderButton1.SymbolSize = 35;
+            uiHeaderButton1.TabIndex = 5;
+            uiHeaderButton1.TipsColor = Color.Transparent;
+            uiHeaderButton1.TipsFont = new Font("Microsoft Sans Serif", 9F);
+            uiHeaderButton1.TipsForeColor = Color.Red;
+            uiHeaderButton1.TipsText = "1";
+            // 
+            // uiMenuStripNotifi
+            // 
+            uiMenuStripNotifi.BackColor = Color.White;
+            uiMenuStripNotifi.Font = new Font("Microsoft Sans Serif", 12F);
+            uiMenuStripNotifi.Items.AddRange(new ToolStripItem[] { toolStripMenuItem2 });
+            uiMenuStripNotifi.Name = "uiContextMenuStrip1";
+            uiMenuStripNotifi.Size = new Size(255, 26);
+            uiMenuStripNotifi.Text = "Xu:";
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Font = new Font("Segoe UI", 9F);
+            toolStripMenuItem2.Image = Properties.Resources.done_all_301;
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(254, 22);
+            toolStripMenuItem2.Text = "Hiện tại không có thông báo nào!";
             // 
             // uiLabel4
             // 
@@ -205,17 +260,6 @@ namespace Sunny.Subdy.UI
             uiLabel4.TabIndex = 4;
             uiLabel4.Text = "Thống Kê";
             uiLabel4.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // notificationBell1
-            // 
-            notificationBell1.Anchor = AnchorStyles.Right;
-            notificationBell1.BackColor = Color.Transparent;
-            notificationBell1.Cursor = Cursors.Hand;
-            notificationBell1.Location = new Point(940, 17);
-            notificationBell1.Name = "notificationBell1";
-            notificationBell1.Notifications = (List<string>)resources.GetObject("notificationBell1.Notifications");
-            notificationBell1.Size = new Size(53, 40);
-            notificationBell1.TabIndex = 3;
             // 
             // uiImageButton2
             // 
@@ -230,6 +274,8 @@ namespace Sunny.Subdy.UI
             uiImageButton2.TabIndex = 0;
             uiImageButton2.TabStop = false;
             uiImageButton2.Text = null;
+            uiImageButton2.Click += uiImageButton2_Click;
+            uiImageButton2.MouseHover += uiImageButton2_Click;
             // 
             // uiPanel4
             // 
@@ -248,7 +294,6 @@ namespace Sunny.Subdy.UI
             uiPanel4.Size = new Size(442, 30);
             uiPanel4.TabIndex = 2;
             uiPanel4.Text = null;
-            uiPanel4.TextAlignment = ContentAlignment.MiddleCenter;
             // 
             // toolStrip1
             // 
@@ -328,7 +373,6 @@ namespace Sunny.Subdy.UI
             uiPanel5.Size = new Size(1066, 451);
             uiPanel5.TabIndex = 5;
             uiPanel5.Text = null;
-            uiPanel5.TextAlignment = ContentAlignment.MiddleCenter;
             uiPanel5.Click += uiPanel5_Click;
             // 
             // popupMessageBox
@@ -354,7 +398,6 @@ namespace Sunny.Subdy.UI
             popupMessageBox.Size = new Size(1066, 50);
             popupMessageBox.TabIndex = 3;
             popupMessageBox.Text = null;
-            popupMessageBox.TextAlignment = ContentAlignment.MiddleLeft;
             // 
             // uiLabel7
             // 
@@ -383,6 +426,40 @@ namespace Sunny.Subdy.UI
             timer1.Interval = 1000;
             timer1.Tick += timer1_Tick;
             // 
+            // uiContextMenuStrip1
+            // 
+            uiContextMenuStrip1.BackColor = Color.White;
+            uiContextMenuStrip1.Font = new Font("Microsoft Sans Serif", 12F);
+            uiContextMenuStrip1.Items.AddRange(new ToolStripItem[] { thooToolStripMenuItem, xuToolStripMenuItem, dDToolStripMenuItem });
+            uiContextMenuStrip1.Name = "uiContextMenuStrip1";
+            uiContextMenuStrip1.Size = new Size(180, 70);
+            uiContextMenuStrip1.Text = "Xu:";
+            // 
+            // thooToolStripMenuItem
+            // 
+            thooToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            thooToolStripMenuItem.Image = Properties.Resources.contacts_54dp_0000F5_FILL0_wght400_GRAD0_opsz48;
+            thooToolStripMenuItem.Name = "thooToolStripMenuItem";
+            thooToolStripMenuItem.Size = new Size(179, 22);
+            thooToolStripMenuItem.Text = "Thông tin tài khoản";
+            // 
+            // xuToolStripMenuItem
+            // 
+            xuToolStripMenuItem.Font = new Font("Segoe UI", 9F);
+            xuToolStripMenuItem.Image = Properties.Resources.icons8_coin_40;
+            xuToolStripMenuItem.Name = "xuToolStripMenuItem";
+            xuToolStripMenuItem.Size = new Size(179, 22);
+            xuToolStripMenuItem.Text = "Xu:";
+            // 
+            // dDToolStripMenuItem
+            // 
+            dDToolStripMenuItem.Font = new Font("Segoe UI", 9F);
+            dDToolStripMenuItem.Image = Properties.Resources.logout_54dp_314D1C_FILL0_wght400_GRAD0_opsz48;
+            dDToolStripMenuItem.Name = "dDToolStripMenuItem";
+            dDToolStripMenuItem.Size = new Size(179, 22);
+            dDToolStripMenuItem.Text = "Đăng xuất";
+            dDToolStripMenuItem.Click += dDToolStripMenuItem_Click;
+            // 
             // fMain
             // 
             AllowShowTitle = false;
@@ -401,19 +478,18 @@ namespace Sunny.Subdy.UI
             MainTabControl = uiTabControl1;
             Name = "fMain";
             Padding = new Padding(2, 0, 2, 2);
-            RectColor = Color.FromArgb(4, 60, 44);
             Resizable = true;
             RightToLeft = RightToLeft.No;
             ShowDragStretch = true;
             ShowTitle = false;
             Style = UIStyle.Custom;
             Text = "";
-            TextAlignment = StringAlignment.Center;
             ZoomScaleRect = new Rectangle(15, 15, 800, 450);
             uiPanel1.ResumeLayout(false);
             uiPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)uiImageButton1).EndInit();
             uiPanel3.ResumeLayout(false);
+            uiMenuStripNotifi.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)uiImageButton2).EndInit();
             uiPanel4.ResumeLayout(false);
             uiPanel4.PerformLayout();
@@ -421,6 +497,7 @@ namespace Sunny.Subdy.UI
             toolStrip1.PerformLayout();
             uiPanel5.ResumeLayout(false);
             popupMessageBox.ResumeLayout(false);
+            uiContextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -440,8 +517,6 @@ namespace Sunny.Subdy.UI
         private Sunny.UI.UIPanel popupMessageBox;
         private ControlViews.PopupBoxControl popupBoxControl1;
         private Sunny.UI.UITabControl uiTabControl1;
-
-        private ControlViews.NotificationBell notificationBell1;
         private System.Windows.Forms.Timer timer1;
         private Sunny.UI.UILabel uiLabel4;
         public Sunny.UI.UILabel uiLabel7;
@@ -452,5 +527,12 @@ namespace Sunny.Subdy.UI
         private ToolStripLabel uiLabel6;
         private ToolStripLabel toolStripLabel4;
         private ToolStripLabel toolStripLabel5;
+        private UIContextMenuStrip uiContextMenuStrip1;
+        private ToolStripMenuItem thooToolStripMenuItem;
+        private ToolStripMenuItem xuToolStripMenuItem;
+        private ToolStripMenuItem dDToolStripMenuItem;
+        private UIHeaderButton uiHeaderButton1;
+        private UIContextMenuStrip uiMenuStripNotifi;
+        private ToolStripMenuItem toolStripMenuItem2;
     }
 }

@@ -10,7 +10,7 @@ namespace Sunny.Subdy.Common.Logs
         {
             try
             {
-                string dateFolder = DateTime.Now.ToString("yyyy-MM-dd");
+                string dateFolder = DateTime.Now.ToString("dd-MM-yyyy");
                 string logFolder = Path.Combine(BaseLogPath, dateFolder);
                 Directory.CreateDirectory(logFolder);
 

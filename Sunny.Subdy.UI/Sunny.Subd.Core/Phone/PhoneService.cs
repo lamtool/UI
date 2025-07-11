@@ -30,19 +30,35 @@ namespace Sunny.Subd.Core.Phone
             }
             return code;
         }
-        public async Task<string> GetPhone()
+        public async Task<string> GetPhone(string service)
         {
             string phone = string.Empty;
             switch (_site)
             {
                 case RegistrationType.FunOTP:
                     {
-                        phone = await PhoneFunotp.GetPhone(_token);
+                        if (service == "facebook")
+                        {
+                            service = "facebook";
+                        }
+                        else if (service == "gmail")
+                        {
+                            service = "google";
+                        }
+                        phone = await PhoneFunotp.GetPhone(_token, service);
                         break;
                     }
                 case RegistrationType.IronSim:
                     {
-                        phone = await PhoneIronsim.GetPhone(_token);
+                        if (service == "facebook")
+                        {
+                            service = "7";
+                        }
+                        else if (service == "gmail")
+                        {
+                            service = "16";
+                        }
+                        phone = await PhoneIronsim.GetPhone(_token, service);
                         break;
                     }
             }

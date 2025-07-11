@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using Sunny.Subdy.Common.API.Model;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.Common.Models
 {
@@ -17,28 +18,15 @@ namespace Sunny.Subdy.Common.Models
                 Fields.Proxy,
                 Fields.Email,
                 Fields.PassMail,
-                Fields.UserAgent,
                 Fields.MailAdress,
-                Fields.Username,
             };
 
             return listField;
         }
-        public static List<string> ListJobFacebook = new List<string>()
-        {
-            "fb_feel",
-            "fb_follow",
-            "fb_like_page",
-            "fb_review",
-            "fb_join_group",
-            "fb_like_comment",
-            "fb_share",
-            "fb_share_content",
-            "fb_comment",
-        };
         public static string DeviceId = Guid.NewGuid().ToString();
         public static string NameApp = "LamToolAutoPhone";
         public static DataGridView DataGridView { get; set; } = new DataGridView();
-        
+        public static User User { get; set; }
+
     }
 }

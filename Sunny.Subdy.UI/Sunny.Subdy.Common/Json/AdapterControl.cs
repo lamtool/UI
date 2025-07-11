@@ -16,7 +16,13 @@ namespace Sunny.Subdy.Common.Json
         public string Name => control.Name;
         public object? GetValue() => control.Checked;
     }
-
+    public class UICheckBoxGetterAdapter : IConfigurableControl
+    {
+        private readonly UICheckBox control;
+        public UICheckBoxGetterAdapter(UICheckBox c) => control = c;
+        public string Name => control.Name;
+        public object? GetValue() => control.Checked;
+    }
     public class TextBoxGetterAdapter : IConfigurableControl
     {
         private readonly TextBox control;
@@ -64,7 +70,20 @@ namespace Sunny.Subdy.Common.Json
         public string Name => control.Name;
         public object? GetValue() => control.Checked;
     }
-
+    public class UIRadioButtonGetterAdapter : IConfigurableControl
+    {
+        private readonly UIRadioButton control;
+        public UIRadioButtonGetterAdapter(UIRadioButton c) => control = c;
+        public string Name => control.Name;
+        public object? GetValue() => control.Checked;
+    }
+    public class UITimePickerGetterAdapter : IConfigurableControl
+    {
+        private readonly UITimePicker control;
+        public UITimePickerGetterAdapter(UITimePicker c) => control = c;
+        public string Name => control.Name;
+        public object? GetValue() => control.Value;
+    }
     // === Binder Adapters (LoadValue + BindEvent) ===
     public class TextBoxBinderAdapter : IControlAdapter
     {
@@ -129,13 +148,28 @@ namespace Sunny.Subdy.Common.Json
         public void LoadValue(JToken value) => control.Checked = value.ToObject<bool>();
         public void BindEvent(EventHandler handler) => control.CheckedChanged += handler;
     }
-
+    public class UIRadioButtonBinderAdapter : IControlAdapter
+    {
+        private readonly UIRadioButton control;
+        public UIRadioButtonBinderAdapter(UIRadioButton c) => control = c;
+        public string Name => control.Name;
+        public void LoadValue(JToken value) => control.Checked = value.ToObject<bool>();
+        public void BindEvent(EventHandler handler) => control.CheckedChanged += handler;
+    }
     public class NumericUpDownBinderAdapter : IControlAdapter
     {
         private readonly NumericUpDown control;
         public NumericUpDownBinderAdapter(NumericUpDown c) => control = c;
         public string Name => control.Name;
         public void LoadValue(JToken value) => control.Value = value.ToObject<decimal>();
+        public void BindEvent(EventHandler handler) => control.ValueChanged += handler;
+    }
+    public class UITimePickerBinderAdapter : IControlAdapter
+    {
+        private readonly UITimePicker control;
+        public UITimePickerBinderAdapter(UITimePicker c) => control = c;
+        public string Name => control.Name;
+        public void LoadValue(JToken value) => control.Value = value.ToObject<DateTime>();
         public void BindEvent(EventHandler handler) => control.ValueChanged += handler;
     }
 }

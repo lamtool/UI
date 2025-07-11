@@ -200,7 +200,7 @@ namespace Sunny.Subd.Core.Facebook
                                 continue;
                             }
                             FacebookHander.SendImage(_client, imagePath);
-                            await _actionExecutor.ExecuteAsync(type, _account, _client);
+                            await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
                             FacebookHander.DeleteImage(_client, imagePath);
                             break;
                         }
@@ -213,7 +213,7 @@ namespace Sunny.Subd.Core.Facebook
                                 continue;
                             }
                             FacebookHander.SendImage(_client, imagePath);
-                            await _actionExecutor.ExecuteAsync(type, _account, _client);
+                            await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
                             FacebookHander.DeleteImage(_client, imagePath);
                             break;
                         }
@@ -222,7 +222,7 @@ namespace Sunny.Subd.Core.Facebook
                             _client.StopApp(FacebookHander.Package());
                             _client.Shell("am start -a android.intent.action.VIEW -d \"fb://facewebmodal/f?href=https://accountscenter.facebook.com/password_and_security/two_factor\"");
                             _client.Delay(5);
-                            var message = await _actionExecutor.ExecuteAsync(type, _account, _client);
+                            var message = await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
                             if (message.SubdyEnum == SubdyEnum.Error && message.Message == "ImportCodeMail")
                             {
                                 _client.Delay(10);
@@ -243,7 +243,7 @@ namespace Sunny.Subd.Core.Facebook
                                 _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", code, timeout: 10);
                                 _client.ElementWithAttributes(new List<string> { "//*[@text=\"Next\"]", "//*[@content-desc=\"Next\"]" }, 5);
                                 _client.Delay(10);
-                                await _actionExecutor.ExecuteAsync(type, _account, _client);
+                                await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
                             }
                             break;
                         }
@@ -778,7 +778,7 @@ namespace Sunny.Subd.Core.Facebook
         {
             string phone = _typeRegister switch
             {
-                RegistrationType.PhoneNumber => await _phoneService.GetPhone(),
+                RegistrationType.PhoneNumber => await _phoneService.GetPhone("facebook"),
                 RegistrationType.Gmail_BaitPhoneNumber or RegistrationType.Domain_BaitPhoneNumber => GetRandomPhoneNumber(),
                 _ => string.Empty
             };

@@ -1,186 +1,176 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
-namespace Sunny.Subdy.Data.Models
+namespace Sunny.Subdy.Data.Models;
+
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+public class Account : INotifyPropertyChanged
 {
-    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
-    public class Account : INotifyPropertyChanged
+    public Guid Id { get => _id; set => SetField(ref _id, value); }
+    public string Uid { get => _uid; set => SetField(ref _uid, value); }
+    public string Password { get => _password; set => SetField(ref _password, value); }
+    public string TowFA { get => _towFA; set => SetField(ref _towFA, value); }
+    public string Cookie { get => _cookie; set => SetField(ref _cookie, value); }
+    public string Token { get => _token; set => SetField(ref _token, value); }
+    public string Proxy { get => _proxy; set => SetField(ref _proxy, value); }
+    public string Email { get => _email; set => SetField(ref _email, value); }
+    public string Phone { get => _phone; set => SetField(ref _phone, value); }
+    public string UserAgent { get => _userAgent; set => SetField(ref _userAgent, value); }
+    public string FullName { get => _fullName; set => SetField(ref _fullName, value); }
+    public string State { get => _state; set => SetField(ref _state, value); }
+    public string Status { get => _status; set => SetField(ref _status, value); }
+    public string Result { get => _result; set => SetField(ref _result, value); }
+    public string Serial { get => _serial; set => SetField(ref _serial, value); }
+    public string IP { get => _ip; set => SetField(ref _ip, value); }
+    public string UserName { get => _userName; set => SetField(ref _userName, value); }
+    public string NameFolder { get => _nameFolder; set => SetField(ref _nameFolder, value); }
+
+    public string Gender { get => _gender; set => SetField(ref _gender, value); }
+    public string Friends { get => _friends; set => SetField(ref _friends, value); }
+    public string Groups { get => _groups; set => SetField(ref _groups, value); }
+    public string Follow { get => _follow; set => SetField(ref _follow, value); }
+    public string Birthday { get => _birthday; set => SetField(ref _birthday, value); }
+    public string PagePro5 { get => _pagePro5; set => SetField(ref _pagePro5, value); }
+    public string DateCreate { get => _dateCreate; set => SetField(ref _dateCreate, value); }
+    public string Avatar { get => _avatar; set => SetField(ref _avatar, value); }
+    public string Note { get => _note; set => SetField(ref _note, value); }
+    public string DeviceInfo { get => _deviceInfo; set => SetField(ref _deviceInfo, value); }
+    public string EmailAddress { get => _emailAddress; set => SetField(ref _emailAddress, value); }
+    public string PassMail { get => _passMail; set => SetField(ref _passMail, value); }
+    public string MailClientId { get => _mailClientId; set => SetField(ref _mailClientId, value); }
+    public string MailRefreshToken { get => _mailRefreshToken; set => SetField(ref _mailRefreshToken, value); }
+    public string PassPrivateEmailAddress { get => _passPrivateEmailAddress; set => SetField(ref _passPrivateEmailAddress, value); }
+
+    public bool Checked { get => _checked; set => SetField(ref _checked, value); }
+    public bool Running { get => _running; set => SetField(ref _running, value); }
+    public bool IsView { get => _isView; set => SetField(ref _isView, value); }
+    public int ColorType { get => _colorType; set => SetField(ref _colorType, value); }
+    public string RecentInteraction { get => _recentInteraction; set => SetField(ref _recentInteraction, value); }
+    public string Uid_Email { get; set; } = string.Empty;
+
+    private Guid _id = Guid.NewGuid();
+    private string _uid = "", _password = "", _towFA = "", _cookie = "", _token = "", _proxy = "", _email = "",
+                   _phone = "", _userAgent = "", _fullName = "", _state = "", _status = "", _result = "", _serial = "",
+                   _ip = "", _userName = "", _nameFolder = "", _gender = "", _friends = "", _groups = "", _follow = "",
+                   _birthday = "", _pagePro5 = "", _dateCreate = "", _avatar = "", _note = "", _deviceInfo = "",
+                   _emailAddress = "", _passMail = "", _mailClientId = "", _mailRefreshToken = "", _passPrivateEmailAddress = "", _recentInteraction = "";
+
+    private bool _checked = false, _running = false, _isView = true;
+    private int _colorType = 0, _total =0;
+
+    private JobHistory _jobHistory = new();
+
+    public JobHistory JobHistory
     {
-        public Account()
+        get => _jobHistory;
+        set
         {
-        }
-        private Guid _id;
-        private string? _uid = "";
-        private string? _password = "";
-        private string? _phone = "";
-        private string? _towFA = "";
-        private string? _cookie = "";
-        private string? _token = "";
-        private string? _proxy = "";
-        private string? _email = "";
-        private string? _passMail = "";
-        private string? _userAgent = "";
-        private string? _fullName = "";
-        private string? _recentInteraction = "";
-        private string? _state = "";
-        private string? _status = "";
-        private string? _result = "";
-        private string? _emailAddress = "";
-        private string? _userName = "";
-        private string? _nameFolder = "";
-        private bool _isView = true;
-        private bool _checked = false;
-        private bool _running = false;
-        [AppDbContext.SqlKey]
-        public Guid Id
-        {
-            get => _id;
-            set { if (_id != value) { _id = value; OnPropertyChanged(nameof(Id)); } }
-        }
-        public string? Uid
-        {
-            get => _uid;
-            set { if (_uid != value) { _uid = value; OnPropertyChanged(nameof(Uid)); } }
-        }
+            if (_jobHistory != null)
+                _jobHistory.PropertyChanged -= OnJobHistoryChanged;
 
-        public string? Password
-        {
-            get => _password;
-            set { if (_password != value) { _password = value; OnPropertyChanged(nameof(Password)); } }
-        }
+            _jobHistory = value;
 
-        public string? Phone
-        {
-            get => _phone;
-            set { if (_phone != value) { _phone = value; OnPropertyChanged(nameof(Phone)); } }
-        }
+            if (_jobHistory != null)
+                _jobHistory.PropertyChanged += OnJobHistoryChanged;
 
-        public string? TowFA
-        {
-            get => _towFA;
-            set { if (_towFA != value) { _towFA = value; OnPropertyChanged(nameof(TowFA)); } }
-        }
-
-        public string? Cookie
-        {
-            get => _cookie;
-            set { if (_cookie != value) { _cookie = value; OnPropertyChanged(nameof(Cookie)); } }
-        }
-
-        public string? Token
-        {
-            get => _token;
-            set { if (_token != value) { _token = value; OnPropertyChanged(nameof(Token)); } }
-        }
-
-        public string? Proxy
-        {
-            get => _proxy;
-            set { if (_proxy != value) { _proxy = value; OnPropertyChanged(nameof(Proxy)); } }
-        }
-
-        public string? Email
-        {
-            get => _email;
-            set { if (_email != value) { _email = value; OnPropertyChanged(nameof(Email)); } }
-        }
-
-        public string? PassMail
-        {
-            get => _passMail;
-            set { if (_passMail != value) { _passMail = value; OnPropertyChanged(nameof(PassMail)); } }
-        }
-
-        public string? UserAgent
-        {
-            get => _userAgent;
-            set { if (_userAgent != value) { _userAgent = value; OnPropertyChanged(nameof(UserAgent)); } }
-        }
-
-        public string? FullName
-        {
-            get => _fullName;
-            set { if (_fullName != value) { _fullName = value; OnPropertyChanged(nameof(FullName)); } }
-        }
-
-        public string? RecentInteraction
-        {
-            get => _recentInteraction;
-            set { if (_recentInteraction != value) { _recentInteraction = value; OnPropertyChanged(nameof(RecentInteraction)); } }
-        }
-
-        public string? State
-        {
-            get => _state;
-            set { if (_state != value) { _state = value; OnPropertyChanged(nameof(State)); } }
-        }
-
-        public string? Status
-        {
-            get => _status;
-            set { if (_status != value) { _status = value; OnPropertyChanged(nameof(Status)); } }
-        }
-
-        public string? Result
-        {
-            get => _result;
-            set { if (_result != value) { _result = value; OnPropertyChanged(nameof(Result)); } }
-        }
-
-        public string? EmailAdress
-        {
-            get => _emailAddress;
-            set { if (_emailAddress != value) { _emailAddress = value; OnPropertyChanged(nameof(EmailAdress)); } }
-        }
-
-        public string? UserName
-        {
-            get => _userName;
-            set { if (_userName != value) { _userName = value; OnPropertyChanged(nameof(UserName)); } }
-        }
-
-        public string? NameFolder
-        {
-            get => _nameFolder;
-            set { if (_nameFolder != value) { _nameFolder = value; OnPropertyChanged(nameof(NameFolder)); } }
-        }
-        public bool Checked
-        {
-            get => _checked;
-            set { if (_checked != value) { _checked = value; OnPropertyChanged(nameof(Checked)); } }
-        }
-        public bool Running
-        {
-            get => _running;
-            set { if (_running != value) { _running = value; OnPropertyChanged(nameof(Running)); } }
-        }
-        public bool IsView
-        {
-            get => _isView;
-            set { if (_isView != value) { _isView = value; OnPropertyChanged(nameof(IsView)); } }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string name)
-        {
-            var handler = PropertyChanged;
-            if (handler == null) return;
-
-            var context = SynchronizationContext.Current;
-            if (context != null)
-            {
-                context.Post(_ =>
-                {
-                    handler.Invoke(this, new PropertyChangedEventArgs(name));
-                }, null);
-            }
-            else
-            {
-                // Fallback (UI thread hoặc không có context)
-                handler.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-            //  PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+           // OnPropertyChanged(nameof(JobHistory));
+            OnPropertyChanged(nameof(Summary));
+            OnPropertyChanged(nameof(Summary_Skip));
+            OnPropertyChanged(nameof(JobToday));
         }
     }
 
+    private void OnJobHistoryChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(JobHistory.Like) or nameof(JobHistory.Love) or nameof(JobHistory.Care) 
+            or nameof(JobHistory.Haha) or nameof(JobHistory.Share) or nameof(JobHistory.Wow)
+             or nameof(JobHistory.Sad) or nameof(JobHistory.Angry) or nameof(JobHistory.Follow)
+              or nameof(JobHistory.LikePage) or nameof(JobHistory.LikeComment))
+
+        {
+            OnPropertyChanged(nameof(Summary));
+        }
+
+        if (e.PropertyName is nameof(JobHistory.Like_Skip) or nameof(JobHistory.Love_Skip) or nameof(JobHistory.Care_Skip)
+          or nameof(JobHistory.Haha_Skip) or nameof(JobHistory.Share_Skip) or nameof(JobHistory.Wow_Skip)
+           or nameof(JobHistory.Sad_Skip) or nameof(JobHistory.Angry_Skip) or nameof(JobHistory.Follow_Skip)
+            or nameof(JobHistory.LikePage_Skip) or nameof(JobHistory.LikeComment_Skip))
+
+        {
+            OnPropertyChanged(nameof(Summary_Skip));
+        }
+
+        if (e.PropertyName is nameof(JobHistory.Total))
+
+        {
+            OnPropertyChanged(nameof(JobTotal));
+        }
+    }
+    public int JobTotal { get => _total; set => SetField(ref _total, value); }
+    public double JobToday => JobHistory?.Total ?? 0;
+    public string Summary
+    {
+        get
+        {
+            var parts = new List<string>();
+            if (JobHistory.Like > 0) parts.Add($"Like: {JobHistory.Like}");
+            if (JobHistory.Love > 0) parts.Add($"Love: {JobHistory.Love}");
+            if (JobHistory.Care > 0) parts.Add($"Care: {JobHistory.Care}");
+            if (JobHistory.Haha > 0) parts.Add($"Haha: {JobHistory.Haha}");
+            if (JobHistory.Wow > 0) parts.Add($"Wow: {JobHistory.Wow}");
+            if (JobHistory.Sad > 0) parts.Add($"Sad: {JobHistory.Sad}");
+            if (JobHistory.Angry > 0) parts.Add($"Angry: {JobHistory.Angry}");
+            if (JobHistory.Follow > 0) parts.Add($"Follow: {JobHistory.Follow}");
+            if (JobHistory.LikePage > 0) parts.Add($"LikePage: {JobHistory.LikePage}");
+            if (JobHistory.LikeComment > 0) parts.Add($"LikeComment: {JobHistory.LikeComment}");
+            if (JobHistory.Share > 0) parts.Add($"Share: {JobHistory.Share}");
+            return string.Join(" | ", parts);
+        }
+    }
+    public string Summary_Skip
+    {
+        get
+        {
+            var parts = new List<string>();
+            if (JobHistory.Like_Skip > 0) parts.Add($"Like: {JobHistory.Like_Skip}");
+            if (JobHistory.Love_Skip > 0) parts.Add($"Love: {JobHistory.Love_Skip}");
+            if (JobHistory.Care_Skip > 0) parts.Add($"Care: {JobHistory.Care_Skip}");
+            if (JobHistory.Haha_Skip > 0) parts.Add($"Haha: {JobHistory.Haha_Skip}");
+            if (JobHistory.Wow_Skip > 0) parts.Add($"Wow: {JobHistory.Wow_Skip}");
+            if (JobHistory.Sad_Skip > 0) parts.Add($"Sad: {JobHistory.Sad_Skip}");
+            if (JobHistory.Angry_Skip > 0) parts.Add($"Angry: {JobHistory.Angry_Skip}");
+            if (JobHistory.Follow_Skip > 0) parts.Add($"Follow: {JobHistory.Follow_Skip}");
+            if (JobHistory.LikePage_Skip > 0) parts.Add($"LikePage: {JobHistory.LikePage_Skip}");
+            if (JobHistory.LikeComment_Skip > 0) parts.Add($"LikeComment: {JobHistory.LikeComment_Skip}");
+            if (JobHistory.Share_Skip > 0) parts.Add($"Share: {JobHistory.Share_Skip}");
+            return string.Join(" | ", parts);
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        var handler = PropertyChanged;
+        if (handler == null) return;
+
+        var context = SynchronizationContext.Current;
+        if (context != null)
+        {
+            context.Post(_ => handler(this, new PropertyChangedEventArgs(propertyName)), null);
+        }
+        else
+        {
+            handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
 }

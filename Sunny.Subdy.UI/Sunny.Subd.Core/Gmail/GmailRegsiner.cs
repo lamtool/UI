@@ -4,6 +4,7 @@ using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Phone;
 using Sunny.Subd.Core.Proxies;
 using Sunny.Subd.Core.Utils;
+using Sunny.Subdy.Common.API;
 using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.Common.Models;
@@ -40,7 +41,9 @@ namespace Sunny.Subd.Core.Gmail
             _folder = folder ?? throw new ArgumentNullException(nameof(folder));
 
             _client = new ADBClient(_device);
-            _typeRegister = RegistrationType.RegFacebook_AllTypes[_settingRegsiner.GetIntType("uiComboBox1", 0)];
+            int index = _settingRegsiner.GetIntType("uiComboBox1", 0);
+            _typeRegister = RegistrationType.RegGmail_AllTypes[index];
+
             _timeOut = _settingRegsiner.GetIntType("numericUpDown1", 30) * 1000 * 60;
             _gmailService = new GmailService(_client);
 
@@ -73,12 +76,12 @@ namespace Sunny.Subd.Core.Gmail
         }
         public async Task RegisterAsync()
         {
+            bool save = false;
             while (!_ct.IsCancellationRequested)
             {
                 if (!await ConnectAndPrepareDevice()) continue;
 
                 if (!_gmailService.RemoveAccount()) continue;
-
 
                 _account = GetAccount();
 
@@ -91,18 +94,45 @@ namespace Sunny.Subd.Core.Gmail
                     _client.Delay(3);
                     _client.Shell("am start -a android.settings.SYNC_SETTINGS");
                     var message = await ImportInfo();
-                    if (message.SubdyEnum == SubdyEnum.Success)
+                    if (message.SubdyEnum == SubdyEnum.Success&& !string.IsNullOrEmpty(_account.Email) && !string.IsNullOrEmpty(_account.Uid))
                     {
                         _account.Id = Guid.NewGuid();
+                        if (!_account.Uid.Contains("@gmail.com"))
+                        {
+                            _account.Uid += "@gmail.com";
+                        }
+                        else if (!_account.Email.Contains("@gmail.com"))
+                        {
+                            _account.Email += "@gmail.com";
+                        }
                         _account.State = "LIVE";
                         _account.Status = "Đăng ký thành công!";
-                        _accountContext.Add(_account);
+                        string status = LamToolClient.SubtractBalance(Globals.User.UserName, 10, $"[{_account.Uid}] Tạo tài khoản thành công.");
+                        save = !status.Contains("error");
+                        if (save)
+                        {
+                            _accountContext.Add(_account);
+                        }
+
                     }
                 }
                 catch (Exception ex)
                 {
                     _account.State = "DIE";
                     LogManager.Error(ex);
+                }
+                if (!_account.Uid.Contains("@gmail.com"))
+                {
+                    _account.Uid += "@gmail.com";
+                }
+                else if (!_account.Email.Contains("@gmail.com"))
+                {
+                    _account.Email += "@gmail.com";
+                }
+                if (_account.State == "LIVE" && !save)
+                {
+                    _account.Uid = "*****";
+                    _account.Email = "******";
                 }
                 logAccount = $"{_account.Uid}|{_account.Password}|{_account.TowFA}|{_account.Email}|{_account.PassMail}|{_account.Cookie}|{_account.Token}|{_account.State}|{_account.Status}";
                 LogManager.LogRegsiner.Add(logAccount);
@@ -111,7 +141,11 @@ namespace Sunny.Subd.Core.Gmail
             _device.Status = "Đã hoàn thành.";
         }
         private List<string> XpathsGmailRegsiner = new List<string>
-        {
+        {   
+            
+            "//*[@text=\"MORE\"]",
+            "//*[@text=\"ACCEPT\"]",
+            "//*[@text=\"Review your account info\"]",
             "//*[@text=\"Add phone number?\"]",
             "//*[@text=\"This phone number cannot be used for verification.\"]",
             "//*[@text=\"Enter the code\"]",
@@ -131,6 +165,8 @@ namespace Sunny.Subd.Core.Gmail
             "//*[@text=\"Google\"]",
             "//*[@text=\"Add account\"]",
             "//*[@text=\"NEXT\"]",
+
+
         };
         private List<string> _Moth = new List<string>
         {
@@ -182,15 +218,21 @@ namespace Sunny.Subd.Core.Gmail
                 _client.LogHelper.SUCCESS($"Đang xử lý case [{currentCase}]...");
                 switch (currentCase)
                 {
-                    case "//*[@text=\"NEXT\"]":
-                    case "//*[@text=\"Review your account info\"]":
+                    case "//*[@text=\"More\"]":
                     case "//*[@text=\"ACCEPT\"]":
+                    case "//*[@text=\"NEXT\"]":
                     case "//*[@text=\"Add account\"]":
                     case "//*[@text=\"Google\"]":
                     case "//*[@text=\"Create account\"]":
                     case "//*[@text=\"For my personal use\"]":
                         {
                             _client.ElementWithAttributes(currentCase);
+                            _client.Delay(2);
+                            break;
+                        }
+                    case "//*[@text=\"Review your account info\"]":
+                        {
+                            _client.ElementWithAttributes("//*[@text=\"NEXT\"]");
                             _client.Delay(2);
                             break;
                         }
@@ -307,8 +349,12 @@ namespace Sunny.Subd.Core.Gmail
         private void HandleDatePicker()
         {
             if (!_client.ElementWithAttributes(new List<string> { "//*[@resource-id=\"month\"]", "//*[@resource-id=\"month-label\"]" }, 1, click: true)) return;
-            string moth = _Moth[_random.Next(0, _Moth.Count)];
-            _client.ElementWithAttributes($"//*[@text=\"{moth}\"]");
+            List<string> moths = SubdyHelper.Shuffle(_Moth);
+            foreach (var moth in moths)
+            {
+                if (_client.ElementWithAttributes($"//*[@text=\"{moth}\"]", 1)) break;
+            }
+
             _client.SendTextADB($"//*[@resource-id=\"day\"]", _random.Next(1, 28).ToString(), timeout: 5);
             _client.SendTextADB($"//*[@resource-id=\"year\"]", _random.Next(1976, 2005).ToString(), timeout: 5);
             _client.ElementWithAttributes(new List<string> { "//*[@resource-id=\"gender\"]", "//*[@resource-id=\"gender-label\"]" });
@@ -393,10 +439,6 @@ namespace Sunny.Subd.Core.Gmail
         private async Task<bool> ConnectAndPrepareDevice()
         {
             if (!_client.Connect()) return false;
-
-            // _client.AppClear(FacebookHander.Package());
-
-            //_client.GrantAppPermissions(FacebookHander.Package());
 
             _client.SetSize();
 
@@ -547,7 +589,7 @@ namespace Sunny.Subd.Core.Gmail
         {
             string phone = _typeRegister switch
             {
-                RegistrationType.PhoneNumber => await _phoneService.GetPhone(),
+                RegistrationType.PhoneNumber => await _phoneService.GetPhone("gmail"),
                 _ => string.Empty
             };
 

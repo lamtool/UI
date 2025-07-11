@@ -19,6 +19,7 @@ using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -33,9 +34,6 @@ namespace Sunny.Subdy.UI.View.Pages
         Sunny.UI.UINavMenu _mainTabControl;
         private pageDevice _formPhone;
         private CancellationTokenSource cancellationTokenSource;
-        private System.Windows.Forms.Timer _timer;
-        private DateTime startTime = DateTime.Now;
-        private ConcurrentQueue<Account> _accountQueue = new ConcurrentQueue<Account>();
         public pageFacebook(Sunny.UI.UINavMenu mainTabControl, pageDevice phone)
         {
             InitializeComponent();
@@ -53,40 +51,8 @@ namespace Sunny.Subdy.UI.View.Pages
                 LoadFolders();
 
             }), exists: false);
-            _timer = new System.Windows.Forms.Timer
-            {
-                Interval = 1000 // 1 second
-
-            };
-            _timer.Tick += Timer_Tick;
         }
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!IsHandleCreated || IsDisposed)
-                    return;
-                if (this.InvokeRequired)
-                {
-                    Invoke(new MethodInvoker(() =>
-                    {
-                        TimeSpan elapsedTime = DateTime.Now - startTime;
-                        tsbTimeRun.Text = elapsedTime.ToString(@"hh\:mm\:ss");
-                    }));
-                }
-                else
-                {
-                    TimeSpan elapsedTime = DateTime.Now - startTime;
-                    tsbTimeRun.Text = elapsedTime.ToString(@"hh\:mm\:ss");
-                }
-            }
-            catch
-            {
-                
-            }
-           
 
-        }
         private void LoadScripts()
         {
             cbx_Scripts.Items.Clear();
@@ -173,7 +139,6 @@ namespace Sunny.Subdy.UI.View.Pages
         }
         private async Task Start()
         {
-
             if (_ucdgvAccount._accounts == null || _ucdgvAccount._accounts.Where(x => x.Checked).Count() == 0)
             {
                 CommonMethod.ShowMessageError("Vui lòng chọn tài khoản trước khi thực hiện.");
@@ -188,9 +153,8 @@ namespace Sunny.Subdy.UI.View.Pages
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken ct = cancellationTokenSource.Token;
             List<Task> tasks = new List<Task>();
-            _timer.Start();
-            _accountQueue.Clear();
-            _accountQueue = new ConcurrentQueue<Account>(_ucdgvAccount._accounts.Where(x => x.Checked).ToList());
+            AccountServices.Accounts.Clear();
+            AccountServices.Accounts = _ucdgvAccount._accounts.Where(x => x.Checked).ToList();
             foreach (var device in DeviceServices.DeviceModels.Where(x => x.Check))
             {
                 tasks.Add(Task.Run(async () =>
@@ -199,176 +163,15 @@ namespace Sunny.Subdy.UI.View.Pages
                 }));
             }
             await Task.WhenAll(tasks);
-            _timer.Stop();
         }
 
         private async Task RunningThread(CancellationToken ct, DeviceModel device, ConfigModel config)
         {
-            Random random = new Random();
-            JsonHelper jsonHelper = new JsonHelper(config.JsonSetting);
             ADBClient client = new ADBClient(device);
-            if (client == null) return;
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            while (!ct.IsCancellationRequested)
-            {
-
-                if (!client.Connect()) continue;
-
-                if (!client.IsDeviceConnectedToInternet()) continue;
-
-                if (_accountQueue.TryDequeue(out Account account))
-                {
-                    if (account == null)
-                    {
-                        continue;
-                    }
-                    /////////////CheckLIVE////////////////
-                    if (jsonHelper.GetBooleanValue("checkBox9", true) && !await FacebookRequest.CheckLive(account.Uid))
-                    {
-                        account.State = "DIE";
-                        account.Status = "Tài khoản đã chết, không thực hiện nữa.";
-                        continue;
-                    }
-                    /////////////////////////////////////
-
-                    ////////////////Change//////////////////
-                    if (jsonHelper.GetBooleanValue("checkBox1", true))
-                    {
-                        List<string> bards = jsonHelper.GetValuesFromInputString("textBox1", DeviceServices.Brands).Split('|').ToList();
-                        string filePath = string.Empty;
-                        if (jsonHelper.GetBooleanValue("checkBox2", true))
-                        {
-                            string folder = jsonHelper.GetValuesFromInputString("textBox2", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Device"));
-                            Directory.CreateDirectory(folder);
-                            filePath = Path.Combine(folder, $"{account.Uid}.tar.gz");
-                        }
-                        client.ChangInfo(filePath, jsonHelper.GetBooleanValue("checkBox2", true), bards[random.Next(bards.Count)], "");
-                    }
-                    ///////////////////////////////////
-
-                    ////////////Proxy//////////
-                    string proxy = string.Empty;
-                    var typeProxy = jsonHelper.GetIntType("cbb_ListTypeProxy", 0);
-                    if (typeProxy < 0)
-                    {
-                        typeProxy = 0; // Default to "Không đổi IP"
-                    }
-                    string proxyType = ProxyService.ProxyTypes[typeProxy];
-                    switch (proxyType)
-                    {
-                        case "4G Mobile":
-                            {
-                                client.Disable4G();
-                                client.Enabel4G();
-                                break;
-                            }
-                        case "Proxy đã gán cho tài khoản":
-                            {
-                                proxy = account.Proxy;
-                                break;
-                            }
-                        default:
-                            break; // Fallback if no valid type is matched
-                    }
-                    if (!string.IsNullOrEmpty(proxy))
-                    {
-                        client.ConnectProxy(proxy);
-                    }
-                    ////////////Proxy//////////
-                    int delayConnectProxy = jsonHelper.GetIntType("numericUpDown3", 10);
-                    for (int i = 1; i <= delayConnectProxy; i++)
-                    {
-                        if (ct.IsCancellationRequested)
-                        {
-                            break;
-                        }
-                        account.Status = $"Delay kết nối proxy [{i}/{delayConnectProxy}]";
-                        client.Device.Status = $"Delay kết nối proxy [{i}/{delayConnectProxy}]";
-                        await Task.Delay(1000);
-                    }
-                    /////////////////////////////////////
-                    MainService service = new MainService("Facebook", client, account, config, ct);
-                    try
-                    {
-                        account.Running = true;
-                        await service.RunAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        HanderCase(ex, account);
-                    }
-                    finally
-                    {
-                        client.Shell("rm -rf /storage/emulated/0/*.jpg /storage/emulated/0/*.png /storage/emulated/0/*.jpeg");
-                        client.Shell("rm -rf /storage/emulated/0/*.tar.gz");
-                        client.Shell("rm -rf /sdcard/*.tar.gz");
-                        client.AppClear(FacebookHander.Package());
-                        client.Shell("input keyevent 223");
-                        client.LogHelper.SUCCESS("Đã hoàn thành!");
-                        account.Running = false;
-                    }
-                }
-
-
-
-            }
+            MainService service = new MainService("Facebook", client, config, ct);
+            await service.RunAsync();
         }
-        private void HanderCase(Exception ex, Account account)
-        {
-            SubdyExtension subdyExtension = null;
-            if (ex is SubdyExtension extension)
-            {
-                subdyExtension = extension;
-            }
-            else
-            {
-                subdyExtension = new SubdyExtension(SubdyEnum.Error, ex.Message);
-            }
-            switch (subdyExtension.SubdyEnum)
-            {
-                case SubdyEnum.Stop:
-                    {
-                        account.Status = "Đã dừng lại.";
-                        break;
-                    }
-                case SubdyEnum.Error:
-                    {
-                        account.Status = "Lỗi: " + subdyExtension.Message;
-                        break;
-                    }
-                case SubdyEnum.CP_282:
-                    {
-                        account.Status = "Lỗi CP_282: " + subdyExtension.Message;
-                        account.State = "CP_282";
-                        break;
-                    }
-                case SubdyEnum.CP_956:
-                    {
-                        account.Status = "Lỗi CP_956: " + subdyExtension.Message;
-                        account.State = "CP_956";
-                        break;
-                    }
-                case SubdyEnum.LogOut:
-                    {
-                        account.Status = "Đăng xuất: " + subdyExtension.Message;
-                        account.State = "LogOut";
-                        break;
-                    }
-                case SubdyEnum.Captcha:
-                    {
-                        account.Status = "Captcha: " + subdyExtension.Message;
-                        account.State = "Captcha";
-                        break;
-                    }
-                case SubdyEnum.Block:
-                    {
-                        account.Status = "Tài khoản bị chặn: " + subdyExtension.Message;
-                        account.State = "Block";
-                        break;
-                    }
-            }
-            new AccountContext().Update(account);
-        }
+
         private ConfigModel GetConfigModel()
         {
             if (string.IsNullOrEmpty(cbx_Scripts.Text.Trim()))
@@ -378,7 +181,7 @@ namespace Sunny.Subdy.UI.View.Pages
             }
             ConfigModel model = new ConfigModel();
             model.Script = _scriptContext.GetByName(cbx_Scripts.Text.Trim());
-            model.JsonSetting =new JsonHelper(nameof(pageSetting), false).GetJsonString();
+            model.SettingGeneral = new JsonHelper(nameof(pageSetting), false);
             return model;
         }
         private async Task cbx_Folders_SelectedIndexChangedSafe()
@@ -390,7 +193,10 @@ namespace Sunny.Subdy.UI.View.Pages
                     List<Data.Models.Folder> folders = new List<Data.Models.Folder>();
                     if (cbx_Folders.Text == "Tất cả các nhóm")
                     {
-                        folders = _folderContext.GetAll();
+                        folders = _folderContext
+             .GetAll()
+             .Where(x => x.Type == "Facebook")
+             .ToList();
                     }
                     else if (cbx_Folders.Text == "Chọn nhiều nhóm")
                     {

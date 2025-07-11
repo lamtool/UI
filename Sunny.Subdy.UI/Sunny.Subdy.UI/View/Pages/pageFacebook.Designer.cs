@@ -40,14 +40,10 @@ namespace Sunny.Subdy.UI.View.Pages
             groupBox1 = new GroupBox();
             uiSymbolButton1 = new Sunny.UI.UISymbolButton();
             cbx_Scripts = new Sunny.UI.UIComboBox();
-            toolStrip1 = new ToolStrip();
-            toolStripLabel1 = new ToolStripLabel();
-            tsbTimeRun = new ToolStripLabel();
             panel2 = new Panel();
             panel1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
-            toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -120,7 +116,7 @@ namespace Sunny.Subdy.UI.View.Pages
             groupBox2.Anchor = AnchorStyles.Left;
             groupBox2.Controls.Add(uiSymbolButton2);
             groupBox2.Controls.Add(cbx_Folders);
-            groupBox2.Location = new Point(310, 29);
+            groupBox2.Location = new Point(310, 7);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(292, 58);
             groupBox2.TabIndex = 1;
@@ -159,7 +155,6 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             // cbx_Folders
             // 
-            cbx_Folders.DataSource = null;
             cbx_Folders.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             cbx_Folders.FillColor = Color.White;
             cbx_Folders.Font = new Font("Microsoft Sans Serif", 12F);
@@ -172,9 +167,7 @@ namespace Sunny.Subdy.UI.View.Pages
             cbx_Folders.Name = "cbx_Folders";
             cbx_Folders.Padding = new Padding(0, 0, 30, 2);
             cbx_Folders.Size = new Size(239, 26);
-            cbx_Folders.SymbolSize = 24;
             cbx_Folders.TabIndex = 12;
-            cbx_Folders.TextAlignment = ContentAlignment.MiddleLeft;
             cbx_Folders.Watermark = "";
             cbx_Folders.SelectedIndexChanged += cbx_Folders_SelectedIndexChanged;
             // 
@@ -183,7 +176,7 @@ namespace Sunny.Subdy.UI.View.Pages
             groupBox1.Anchor = AnchorStyles.Left;
             groupBox1.Controls.Add(uiSymbolButton1);
             groupBox1.Controls.Add(cbx_Scripts);
-            groupBox1.Location = new Point(12, 29);
+            groupBox1.Location = new Point(12, 7);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(292, 58);
             groupBox1.TabIndex = 0;
@@ -222,7 +215,6 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             // cbx_Scripts
             // 
-            cbx_Scripts.DataSource = null;
             cbx_Scripts.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             cbx_Scripts.FillColor = Color.White;
             cbx_Scripts.Font = new Font("Microsoft Sans Serif", 12F);
@@ -235,42 +227,16 @@ namespace Sunny.Subdy.UI.View.Pages
             cbx_Scripts.Name = "cbx_Scripts";
             cbx_Scripts.Padding = new Padding(0, 0, 30, 2);
             cbx_Scripts.Size = new Size(240, 26);
-            cbx_Scripts.SymbolSize = 24;
             cbx_Scripts.TabIndex = 12;
-            cbx_Scripts.TextAlignment = ContentAlignment.MiddleLeft;
             cbx_Scripts.Watermark = "";
             cbx_Scripts.SelectedIndexChanged += cbx_Scripts_SelectedIndexChanged;
-            // 
-            // toolStrip1
-            // 
-            toolStrip1.Dock = DockStyle.Bottom;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, tsbTimeRun });
-            toolStrip1.Location = new Point(0, 583);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1067, 25);
-            toolStrip1.TabIndex = 1;
-            toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripLabel1
-            // 
-            toolStripLabel1.ForeColor = Color.Gray;
-            toolStripLabel1.Name = "toolStripLabel1";
-            toolStripLabel1.Size = new Size(87, 22);
-            toolStripLabel1.Text = "Thời gian chạy:";
-            // 
-            // tsbTimeRun
-            // 
-            tsbTimeRun.ForeColor = Color.FromArgb(48, 48, 48);
-            tsbTimeRun.Name = "tsbTimeRun";
-            tsbTimeRun.Size = new Size(49, 22);
-            tsbTimeRun.Text = "00.00.00";
             // 
             // panel2
             // 
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 117);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1067, 466);
+            panel2.Size = new Size(1067, 491);
             panel2.TabIndex = 2;
             // 
             // pageFacebook
@@ -280,7 +246,6 @@ namespace Sunny.Subdy.UI.View.Pages
             BackgroundImageLayout = ImageLayout.Zoom;
             ClientSize = new Size(1067, 608);
             Controls.Add(panel2);
-            Controls.Add(toolStrip1);
             Controls.Add(panel1);
             Name = "pageFacebook";
             Text = "Facebook";
@@ -289,10 +254,7 @@ namespace Sunny.Subdy.UI.View.Pages
             panel1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
-            toolStrip1.ResumeLayout(false);
-            toolStrip1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -306,9 +268,6 @@ namespace Sunny.Subdy.UI.View.Pages
         private Sunny.UI.UISymbolButton uiSymbolButton2;
         private Sunny.UI.UISymbolButton uiSymbolButton3;
         private Sunny.UI.UISymbolButton uiSymbolButton4;
-        private ToolStrip toolStrip1;
         private Panel panel2;
-        private ToolStripLabel toolStripLabel1;
-        private ToolStripLabel tsbTimeRun;
     }
 }

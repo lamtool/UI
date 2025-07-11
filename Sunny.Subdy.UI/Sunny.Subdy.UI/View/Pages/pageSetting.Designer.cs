@@ -64,6 +64,17 @@ namespace Sunny.Subdy.UI.View.Pages
             label1 = new Label();
             checkBox1 = new CheckBox();
             tabPage2 = new TabPage();
+            checkBox14 = new CheckBox();
+            label10 = new Label();
+            numericUpDown4 = new NumericUpDown();
+            checkBox13 = new CheckBox();
+            checkBox12 = new CheckBox();
+            panel8 = new Panel();
+            label18 = new Label();
+            numericUpDown24 = new NumericUpDown();
+            label19 = new Label();
+            numericUpDown25 = new NumericUpDown();
+            checkBox11 = new CheckBox();
             checkBox10 = new CheckBox();
             comboBox1 = new ComboBox();
             label4 = new Label();
@@ -82,6 +93,20 @@ namespace Sunny.Subdy.UI.View.Pages
             cbb_ListTypeProxy = new ComboBox();
             label5 = new Label();
             nud_IndexFailProxy = new NumericUpDown();
+            tabPage4 = new TabPage();
+            panel9 = new Panel();
+            label15 = new Label();
+            numericUpDown5 = new NumericUpDown();
+            label16 = new Label();
+            numericUpDown6 = new NumericUpDown();
+            checkBox17 = new CheckBox();
+            uiTimePicker4 = new Sunny.UI.UITimePicker();
+            checkBox16 = new CheckBox();
+            label12 = new Label();
+            label11 = new Label();
+            uiTimePicker2 = new Sunny.UI.UITimePicker();
+            uiTimePicker1 = new Sunny.UI.UITimePicker();
+            checkBox15 = new CheckBox();
             uiTabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             panel7.SuspendLayout();
@@ -94,11 +119,19 @@ namespace Sunny.Subdy.UI.View.Pages
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown4).BeginInit();
+            panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown24).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown25).BeginInit();
             tabPage3.SuspendLayout();
             groupBox2.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nud_IndexFailProxy).BeginInit();
+            tabPage4.SuspendLayout();
+            panel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown5).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown6).BeginInit();
             SuspendLayout();
             // 
             // uiTabControl1
@@ -106,6 +139,7 @@ namespace Sunny.Subdy.UI.View.Pages
             uiTabControl1.Controls.Add(tabPage1);
             uiTabControl1.Controls.Add(tabPage2);
             uiTabControl1.Controls.Add(tabPage3);
+            uiTabControl1.Controls.Add(tabPage4);
             uiTabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             uiTabControl1.FillColor = Color.White;
             uiTabControl1.Font = new Font("Microsoft Sans Serif", 12F);
@@ -115,7 +149,7 @@ namespace Sunny.Subdy.UI.View.Pages
             uiTabControl1.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             uiTabControl1.Name = "uiTabControl1";
             uiTabControl1.SelectedIndex = 0;
-            uiTabControl1.Size = new Size(539, 329);
+            uiTabControl1.Size = new Size(697, 329);
             uiTabControl1.SizeMode = TabSizeMode.Fixed;
             uiTabControl1.TabBackColor = Color.White;
             uiTabControl1.TabIndex = 1;
@@ -144,7 +178,7 @@ namespace Sunny.Subdy.UI.View.Pages
             tabPage1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabPage1.Location = new Point(0, 40);
             tabPage1.Name = "tabPage1";
-            tabPage1.Size = new Size(539, 289);
+            tabPage1.Size = new Size(697, 289);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Cấu hình thiết bị";
             // 
@@ -220,9 +254,9 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             panel6.Controls.Add(label3);
             panel6.Controls.Add(numericUpDown2);
-            panel6.Location = new Point(390, 183);
+            panel6.Location = new Point(397, 183);
             panel6.Name = "panel6";
-            panel6.Size = new Size(103, 23);
+            panel6.Size = new Size(94, 23);
             panel6.TabIndex = 41;
             // 
             // label3
@@ -469,6 +503,13 @@ namespace Sunny.Subdy.UI.View.Pages
             // tabPage2
             // 
             tabPage2.BackColor = Color.White;
+            tabPage2.Controls.Add(checkBox14);
+            tabPage2.Controls.Add(label10);
+            tabPage2.Controls.Add(numericUpDown4);
+            tabPage2.Controls.Add(checkBox13);
+            tabPage2.Controls.Add(checkBox12);
+            tabPage2.Controls.Add(panel8);
+            tabPage2.Controls.Add(checkBox11);
             tabPage2.Controls.Add(checkBox10);
             tabPage2.Controls.Add(comboBox1);
             tabPage2.Controls.Add(label4);
@@ -476,16 +517,131 @@ namespace Sunny.Subdy.UI.View.Pages
             tabPage2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabPage2.Location = new Point(0, 40);
             tabPage2.Name = "tabPage2";
-            tabPage2.Size = new Size(200, 60);
+            tabPage2.Size = new Size(697, 289);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Cấu hình chung";
+            // 
+            // checkBox14
+            // 
+            checkBox14.AutoSize = true;
+            checkBox14.ForeColor = Color.FromArgb(48, 48, 48);
+            checkBox14.Location = new Point(22, 159);
+            checkBox14.Name = "checkBox14";
+            checkBox14.Size = new Size(170, 19);
+            checkBox14.TabIndex = 198;
+            checkBox14.Text = "Tự động kéo lướt newfeed.";
+            checkBox14.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.ForeColor = Color.Red;
+            label10.Location = new Point(212, 136);
+            label10.Name = "label10";
+            label10.Size = new Size(132, 15);
+            label10.TabIndex = 197;
+            label10.Text = "tài khoản bị checkpoint";
+            // 
+            // numericUpDown4
+            // 
+            numericUpDown4.ForeColor = Color.Red;
+            numericUpDown4.Location = new Point(148, 134);
+            numericUpDown4.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numericUpDown4.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown4.Name = "numericUpDown4";
+            numericUpDown4.Size = new Size(59, 21);
+            numericUpDown4.TabIndex = 196;
+            numericUpDown4.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // checkBox13
+            // 
+            checkBox13.AutoSize = true;
+            checkBox13.ForeColor = Color.Red;
+            checkBox13.Location = new Point(22, 134);
+            checkBox13.Name = "checkBox13";
+            checkBox13.Size = new Size(121, 19);
+            checkBox13.TabIndex = 195;
+            checkBox13.Text = "Dừng auto khi có:";
+            checkBox13.UseVisualStyleBackColor = true;
+            // 
+            // checkBox12
+            // 
+            checkBox12.AutoSize = true;
+            checkBox12.ForeColor = Color.Firebrick;
+            checkBox12.Location = new Point(22, 109);
+            checkBox12.Name = "checkBox12";
+            checkBox12.Size = new Size(512, 19);
+            checkBox12.TabIndex = 194;
+            checkBox12.Text = "Đăng nhập thiết bị cố định. (nếu không root nên chạy chức năng này. Nên root để chạy sll)";
+            checkBox12.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            panel8.Controls.Add(label18);
+            panel8.Controls.Add(numericUpDown24);
+            panel8.Controls.Add(label19);
+            panel8.Controls.Add(numericUpDown25);
+            panel8.Location = new Point(136, 76);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(375, 27);
+            panel8.TabIndex = 193;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(164, 7);
+            label18.Name = "label18";
+            label18.Size = new Size(201, 15);
+            label18.TabIndex = 182;
+            label18.Text = "giây, sẽ bắt đầu thực hiện tương tác.";
+            // 
+            // numericUpDown24
+            // 
+            numericUpDown24.Location = new Point(102, 4);
+            numericUpDown24.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericUpDown24.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown24.Name = "numericUpDown24";
+            numericUpDown24.Size = new Size(59, 21);
+            numericUpDown24.TabIndex = 181;
+            numericUpDown24.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(68, 7);
+            label19.Name = "label19";
+            label19.Size = new Size(28, 15);
+            label19.TabIndex = 180;
+            label19.Text = "đến";
+            // 
+            // numericUpDown25
+            // 
+            numericUpDown25.Location = new Point(3, 3);
+            numericUpDown25.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numericUpDown25.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown25.Name = "numericUpDown25";
+            numericUpDown25.Size = new Size(59, 21);
+            numericUpDown25.TabIndex = 133;
+            numericUpDown25.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // checkBox11
+            // 
+            checkBox11.AutoSize = true;
+            checkBox11.Checked = true;
+            checkBox11.CheckState = CheckState.Checked;
+            checkBox11.Location = new Point(22, 79);
+            checkBox11.Name = "checkBox11";
+            checkBox11.Size = new Size(110, 19);
+            checkBox11.TabIndex = 192;
+            checkBox11.Text = "Đăng nhập sau";
+            checkBox11.UseVisualStyleBackColor = true;
             // 
             // checkBox10
             // 
             checkBox10.AutoSize = true;
             checkBox10.Checked = true;
             checkBox10.CheckState = CheckState.Checked;
-            checkBox10.Location = new Point(22, 54);
+            checkBox10.Location = new Point(22, 51);
             checkBox10.Name = "checkBox10";
             checkBox10.Size = new Size(122, 19);
             checkBox10.TabIndex = 80;
@@ -537,7 +693,7 @@ namespace Sunny.Subdy.UI.View.Pages
             tabPage3.Font = new Font("Microsoft Sans Serif", 9F);
             tabPage3.Location = new Point(0, 40);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(200, 60);
+            tabPage3.Size = new Size(697, 289);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Cấu hình IP";
             // 
@@ -615,7 +771,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // label34
             // 
             label34.AutoSize = true;
-            label34.ForeColor = SystemColors.ActiveCaptionText;
+            label34.ForeColor = Color.FromArgb(48, 48, 48);
             label34.Location = new Point(30, 46);
             label34.Name = "label34";
             label34.Size = new Size(119, 15);
@@ -643,6 +799,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             // numericUpDown3
             // 
+            numericUpDown3.ForeColor = Color.FromArgb(48, 48, 48);
             numericUpDown3.Location = new Point(317, 43);
             numericUpDown3.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numericUpDown3.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -664,7 +821,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // label5
             // 
             label5.AutoSize = true;
-            label5.ForeColor = SystemColors.ActiveCaptionText;
+            label5.ForeColor = Color.FromArgb(48, 48, 48);
             label5.Location = new Point(233, 46);
             label5.Name = "label5";
             label5.Size = new Size(80, 15);
@@ -673,6 +830,7 @@ namespace Sunny.Subdy.UI.View.Pages
             // 
             // nud_IndexFailProxy
             // 
+            nud_IndexFailProxy.ForeColor = Color.FromArgb(48, 48, 48);
             nud_IndexFailProxy.Location = new Point(157, 43);
             nud_IndexFailProxy.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nud_IndexFailProxy.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -680,6 +838,173 @@ namespace Sunny.Subdy.UI.View.Pages
             nud_IndexFailProxy.Size = new Size(59, 21);
             nud_IndexFailProxy.TabIndex = 83;
             nud_IndexFailProxy.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            // 
+            // tabPage4
+            // 
+            tabPage4.BackColor = Color.White;
+            tabPage4.Controls.Add(panel9);
+            tabPage4.Controls.Add(checkBox17);
+            tabPage4.Controls.Add(uiTimePicker4);
+            tabPage4.Controls.Add(checkBox16);
+            tabPage4.Controls.Add(label12);
+            tabPage4.Controls.Add(label11);
+            tabPage4.Controls.Add(uiTimePicker2);
+            tabPage4.Controls.Add(uiTimePicker1);
+            tabPage4.Controls.Add(checkBox15);
+            tabPage4.Font = new Font("Microsoft Sans Serif", 9F);
+            tabPage4.Location = new Point(0, 40);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new Size(697, 289);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Cấu hình nâng cao";
+            // 
+            // panel9
+            // 
+            panel9.Controls.Add(label15);
+            panel9.Controls.Add(numericUpDown5);
+            panel9.Controls.Add(label16);
+            panel9.Controls.Add(numericUpDown6);
+            panel9.Location = new Point(271, 70);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(302, 27);
+            panel9.TabIndex = 194;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(164, 7);
+            label15.Name = "label15";
+            label15.Size = new Size(24, 15);
+            label15.TabIndex = 182;
+            label15.Text = "giờ";
+            // 
+            // numericUpDown5
+            // 
+            numericUpDown5.Location = new Point(102, 4);
+            numericUpDown5.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericUpDown5.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown5.Name = "numericUpDown5";
+            numericUpDown5.Size = new Size(59, 21);
+            numericUpDown5.TabIndex = 181;
+            numericUpDown5.Value = new decimal(new int[] { 24, 0, 0, 0 });
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(68, 7);
+            label16.Name = "label16";
+            label16.Size = new Size(28, 15);
+            label16.TabIndex = 180;
+            label16.Text = "đến";
+            // 
+            // numericUpDown6
+            // 
+            numericUpDown6.Location = new Point(3, 3);
+            numericUpDown6.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numericUpDown6.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown6.Name = "numericUpDown6";
+            numericUpDown6.Size = new Size(59, 21);
+            numericUpDown6.TabIndex = 133;
+            numericUpDown6.Value = new decimal(new int[] { 12, 0, 0, 0 });
+            // 
+            // checkBox17
+            // 
+            checkBox17.AutoSize = true;
+            checkBox17.Location = new Point(20, 74);
+            checkBox17.Name = "checkBox17";
+            checkBox17.Size = new Size(250, 19);
+            checkBox17.TabIndex = 188;
+            checkBox17.Text = "Tự động reset trạng thái về mặc định sau:";
+            checkBox17.UseVisualStyleBackColor = true;
+            // 
+            // uiTimePicker4
+            // 
+            uiTimePicker4.FillColor = Color.White;
+            uiTimePicker4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            uiTimePicker4.Location = new Point(216, 44);
+            uiTimePicker4.Margin = new Padding(4, 5, 4, 5);
+            uiTimePicker4.MaxLength = 8;
+            uiTimePicker4.MinimumSize = new Size(63, 0);
+            uiTimePicker4.Name = "uiTimePicker4";
+            uiTimePicker4.Padding = new Padding(0, 0, 30, 2);
+            uiTimePicker4.Size = new Size(90, 20);
+            uiTimePicker4.SymbolDropDown = 561398;
+            uiTimePicker4.SymbolNormal = 561398;
+            uiTimePicker4.TabIndex = 184;
+            uiTimePicker4.Text = "19:06:40";
+            uiTimePicker4.Watermark = "";
+            // 
+            // checkBox16
+            // 
+            checkBox16.AutoSize = true;
+            checkBox16.Location = new Point(20, 44);
+            checkBox16.Name = "checkBox16";
+            checkBox16.Size = new Size(196, 19);
+            checkBox16.TabIndex = 183;
+            checkBox16.Text = "Hẹn giờ chạy lại ngày hôm sau:";
+            checkBox16.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(384, 21);
+            label12.Name = "label12";
+            label12.Size = new Size(138, 15);
+            label12.TabIndex = 182;
+            label12.Text = "phần mềm sẽ ngủ đông";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(259, 21);
+            label11.Name = "label11";
+            label11.Size = new Size(28, 15);
+            label11.TabIndex = 181;
+            label11.Text = "đến";
+            // 
+            // uiTimePicker2
+            // 
+            uiTimePicker2.FillColor = Color.White;
+            uiTimePicker2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            uiTimePicker2.Location = new Point(290, 20);
+            uiTimePicker2.Margin = new Padding(4, 5, 4, 5);
+            uiTimePicker2.MaxLength = 8;
+            uiTimePicker2.MinimumSize = new Size(63, 0);
+            uiTimePicker2.Name = "uiTimePicker2";
+            uiTimePicker2.Padding = new Padding(0, 0, 30, 2);
+            uiTimePicker2.Size = new Size(90, 20);
+            uiTimePicker2.SymbolDropDown = 561398;
+            uiTimePicker2.SymbolNormal = 561398;
+            uiTimePicker2.TabIndex = 35;
+            uiTimePicker2.Text = "19:06:47";
+            uiTimePicker2.Watermark = "";
+            // 
+            // uiTimePicker1
+            // 
+            uiTimePicker1.FillColor = Color.White;
+            uiTimePicker1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            uiTimePicker1.Location = new Point(165, 19);
+            uiTimePicker1.Margin = new Padding(4, 5, 4, 5);
+            uiTimePicker1.MaxLength = 8;
+            uiTimePicker1.MinimumSize = new Size(63, 0);
+            uiTimePicker1.Name = "uiTimePicker1";
+            uiTimePicker1.Padding = new Padding(0, 0, 30, 2);
+            uiTimePicker1.Size = new Size(90, 20);
+            uiTimePicker1.SymbolDropDown = 561398;
+            uiTimePicker1.SymbolNormal = 561398;
+            uiTimePicker1.TabIndex = 34;
+            uiTimePicker1.Text = "19:06:40";
+            uiTimePicker1.Watermark = "";
+            // 
+            // checkBox15
+            // 
+            checkBox15.AutoSize = true;
+            checkBox15.Location = new Point(20, 19);
+            checkBox15.Name = "checkBox15";
+            checkBox15.Size = new Size(142, 19);
+            checkBox15.TabIndex = 32;
+            checkBox15.Text = "Hẹn giờ nghỉ giải lao:";
+            checkBox15.UseVisualStyleBackColor = true;
             // 
             // pageSetting
             // 
@@ -711,6 +1036,11 @@ namespace Sunny.Subdy.UI.View.Pages
             panel1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown4).EndInit();
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown24).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown25).EndInit();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -719,6 +1049,12 @@ namespace Sunny.Subdy.UI.View.Pages
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
             ((System.ComponentModel.ISupportInitialize)nud_IndexFailProxy).EndInit();
+            tabPage4.ResumeLayout(false);
+            tabPage4.PerformLayout();
+            panel9.ResumeLayout(false);
+            panel9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown5).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown6).EndInit();
             ResumeLayout(false);
         }
 
@@ -775,5 +1111,30 @@ namespace Sunny.Subdy.UI.View.Pages
         private Panel panel2;
         private Label label7;
         private Label label9;
+        private Panel panel8;
+        private Label label18;
+        private NumericUpDown numericUpDown24;
+        private Label label19;
+        private NumericUpDown numericUpDown25;
+        private CheckBox checkBox11;
+        private CheckBox checkBox13;
+        private CheckBox checkBox12;
+        private Label label10;
+        private NumericUpDown numericUpDown4;
+        private CheckBox checkBox14;
+        private TabPage tabPage4;
+        private Sunny.UI.UITimePicker uiTimePicker1;
+        private CheckBox checkBox15;
+        private Label label12;
+        private Label label11;
+        private Sunny.UI.UITimePicker uiTimePicker2;
+        private Sunny.UI.UITimePicker uiTimePicker4;
+        private CheckBox checkBox16;
+        private CheckBox checkBox17;
+        private Panel panel9;
+        private Label label15;
+        private NumericUpDown numericUpDown5;
+        private Label label16;
+        private NumericUpDown numericUpDown6;
     }
 }

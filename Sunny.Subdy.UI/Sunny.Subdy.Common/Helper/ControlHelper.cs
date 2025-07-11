@@ -1,4 +1,9 @@
-﻿using System.Windows.Forms;
+﻿using Sunny.Subdy.Common.API;
+using Sunny.Subdy.Common.API.Jobs;
+using Sunny.Subdy.Common.ControlMethod;
+using Sunny.Subdy.Common.Logs;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Sunny.Subdy.Common.Helper
 {
@@ -24,7 +29,7 @@ namespace Sunny.Subdy.Common.Helper
                 if (string.IsNullOrEmpty(formattedString))
                 {
                     return;
-                   
+
                 }
                 string[] listFormats = formattedString.Split('|');
 
@@ -41,6 +46,33 @@ namespace Sunny.Subdy.Common.Helper
             }
             catch (Exception ex)
             {
+            }
+        }
+        public static void LoadConfigColums(DataGridView dgv, List<string> listHide)
+        {
+            var configFile = $"configs\\{dgv.Name}.txt";
+            Dictionary<string, bool> configLines = new();
+
+            if (File.Exists(configFile))
+            {
+                configLines = File.ReadAllLines(configFile)
+                                  .Where(line => !string.IsNullOrWhiteSpace(line) && line.Contains("|"))
+                                  .Select(line => line.Split('|'))
+                                  .ToDictionary(
+                                      parts => parts[0].Trim(),
+                                      parts => parts[1].Trim().ToLower() == "true"
+                                  );
+            }
+
+            foreach (DataGridViewColumn col in dgv.Columns)
+            {
+                // Mặc định là true nếu không có trong config
+                bool visible = configLines.TryGetValue(col.HeaderText.Trim(), out bool value) ? value : true;
+                col.Visible = visible;
+                if (listHide.Contains(col.HeaderText))
+                {
+                    col.Visible = false;
+                }
             }
         }
     }

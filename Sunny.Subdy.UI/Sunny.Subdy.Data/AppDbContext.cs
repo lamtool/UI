@@ -1,4 +1,5 @@
 ﻿using Sunny.Subdy.Common.Logs;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -31,9 +32,26 @@ namespace Sunny.Subdy.Data
             if (!File.Exists(_dbPath))
                 SQLiteConnection.CreateFile(_dbPath);
         }
+        public object ExecuteScalar(string query, Dictionary<string, object>? parameters = null)
+        {
+            using var conn = GetConnection();
+            using var cmd = new SQLiteCommand(query, conn);
 
+            if (parameters != null)
+            {
+                foreach (var (key, value) in parameters)
+                {
+                    cmd.Parameters.AddWithValue(key, value ?? DBNull.Value);
+                }
+            }
+            return cmd.ExecuteScalar();
+        }
         private string? MapTypeToSqlite(Type type)
         {
+            // Nếu là Nullable<T>, lấy kiểu T
+            if (Nullable.GetUnderlyingType(type) is Type underlyingType)
+                type = underlyingType;
+
             if (type == typeof(int) || type == typeof(long)) return "INTEGER";
             if (type == typeof(string)) return "TEXT";
             if (type == typeof(bool)) return "INTEGER";
@@ -309,6 +327,29 @@ namespace Sunny.Subdy.Data
 
             transaction.Commit();
             return true;
+        }
+        public List<T> ExecuteReader<T>(string query, Func<SQLiteDataReader, T> map, Dictionary<string, object>? parameters = null)
+        {
+            var result = new List<T>();
+
+            using var conn = GetConnection();
+            using var cmd = new SQLiteCommand(query, conn);
+
+            if (parameters != null)
+            {
+                foreach (var param in parameters)
+                {
+                    cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+                }
+            }
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                result.Add(map(reader));
+            }
+
+            return result;
         }
     }
 }

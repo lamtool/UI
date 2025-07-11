@@ -15,9 +15,9 @@ namespace Sunny.Subd.Core.Facebook
             "Uid|Password",
             "Email|Password",
         };
-        public static string Path()
+        public static string FilePath()
         {
-            return AppDomain.CurrentDomain.BaseDirectory + "App\\Facebook.apk";
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App", "Facebook.apk");
         }
         public static string Package(string platform = "facebook")
         {
@@ -222,7 +222,7 @@ namespace Sunny.Subd.Core.Facebook
                 );
             return xpaths;
         }
-        public static void SendImage(ADBClient client,string imagePath)
+        public static void SendImage(ADBClient client, string imagePath)
         {
             var s = client.Shell("content delete --uri content://media/external/images/media");
             client.Shell(" mkdir -p /sdcard/LT");

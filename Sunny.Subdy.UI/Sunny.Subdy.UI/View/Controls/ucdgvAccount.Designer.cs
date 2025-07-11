@@ -38,42 +38,64 @@ namespace Sunny.Subdy.UI.View.Controls
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             uiPanel1 = new Sunny.UI.UIPanel();
+            toolStrip2 = new ToolStrip();
+            toolStripLabel3 = new ToolStripLabel();
+            uiLabel1 = new ToolStripLabel();
+            toolStripLabel7 = new ToolStripLabel();
+            uiLabel4 = new ToolStripLabel();
+            toolStripLabel11 = new ToolStripLabel();
+            uiLabel6 = new ToolStripLabel();
+            toolStripLabel14 = new ToolStripLabel();
+            uiLabel8 = new ToolStripLabel();
+            toolStripButton1 = new ToolStripButton();
             uiSymbolButton3 = new Sunny.UI.UISymbolButton();
-            flowLayoutPanel1 = new FlowLayoutPanel();
-            uiLabel2 = new Sunny.UI.UILabel();
-            uiLabel1 = new Sunny.UI.UILabel();
-            uiLabel3 = new Sunny.UI.UILabel();
-            uiLabel4 = new Sunny.UI.UILabel();
-            uiLabel5 = new Sunny.UI.UILabel();
-            uiLabel6 = new Sunny.UI.UILabel();
-            uiLabel7 = new Sunny.UI.UILabel();
-            uiLabel8 = new Sunny.UI.UILabel();
             uiSymbolButton2 = new Sunny.UI.UISymbolButton();
             uiTextBox1 = new Sunny.UI.UITextBox();
             uiSymbolButton1 = new Sunny.UI.UISymbolButton();
             uiDataGridView2 = new Sunny.UI.UIDataGridView();
-            Checked = new DataGridViewCheckBoxColumn();
+            checkedDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             Column1 = new DataGridViewTextBoxColumn();
-            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             uidDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             passwordDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             towFADataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            proxyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             cookieDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             tokenDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             emailDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             passMailDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phoneDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             userNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            nameFolderDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            proxyDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            iPDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             userAgentDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            emailAdressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            emailAddressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            passPrivateEmailAddressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            mailClientIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            mailRefreshTokenDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nameFolderDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            genderDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            friendsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            groupsDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            followDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            birthdayDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            pagePro5DataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            dateCreateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            avatarDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            deviceInfoDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            jobTotalDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            jobTodayDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            summaryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            summarySkipDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             resultDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            noteDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             recentInteractionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            serialDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             stateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             statusDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            runningDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
             isViewDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            colorTypeDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             uiContextMenuStrip1 = new Sunny.UI.UIContextMenuStrip();
             toolStripMenuItem1 = new ToolStripMenuItem();
             tấtCảToolStripMenuItem = new ToolStripMenuItem();
@@ -84,9 +106,10 @@ namespace Sunny.Subdy.UI.View.Controls
             tắtViewToolStripMenuItem = new ToolStripMenuItem();
             tắtToolStripMenuItem = new ToolStripMenuItem();
             mởToolStripMenuItem1 = new ToolStripMenuItem();
-            mậtKhẩuToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem2 = new ToolStripMenuItem();
             fAToolStripMenuItem = new ToolStripMenuItem();
             emailToolStripMenuItem = new ToolStripMenuItem();
+            mậtKhẩuToolStripMenuItem = new ToolStripMenuItem();
             cookieToolStripMenuItem = new ToolStripMenuItem();
             tokenToolStripMenuItem = new ToolStripMenuItem();
             proxyToolStripMenuItem = new ToolStripMenuItem();
@@ -95,17 +118,56 @@ namespace Sunny.Subdy.UI.View.Controls
             ứngDụngToolStripMenuItem = new ToolStripMenuItem();
             facebookToolStripMenuItem = new ToolStripMenuItem();
             accountBindingSource = new BindingSource(components);
+            toolStrip1 = new ToolStrip();
+            toolStripLabel1 = new ToolStripLabel();
+            tslSelect = new ToolStripLabel();
+            toolStripSeparator1 = new ToolStripSeparator();
+            toolStripLabel2 = new ToolStripLabel();
+            tslChecked = new ToolStripLabel();
+            toolStripSeparator2 = new ToolStripSeparator();
+            toolStripLabel12 = new ToolStripLabel();
+            tslRunning = new ToolStripLabel();
+            toolStripSeparator7 = new ToolStripSeparator();
+            toolStripLabel4 = new ToolStripLabel();
+            tslBalance = new ToolStripLabel();
+            toolStripSeparator3 = new ToolStripSeparator();
+            toolStripLabel6 = new ToolStripLabel();
+            tslPanding = new ToolStripLabel();
+            toolStripSeparator4 = new ToolStripSeparator();
+            toolStripLabel8 = new ToolStripLabel();
+            tslBalanceToday = new ToolStripLabel();
+            toolStripSeparator5 = new ToolStripSeparator();
+            toolStripLabel10 = new ToolStripLabel();
+            tslDeduct = new ToolStripLabel();
+            toolStripSeparator6 = new ToolStripSeparator();
+            toolStripDropDownButton1 = new ToolStripDropDownButton();
+            likeToolStripMenuItem = new ToolStripMenuItem();
+            likeJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            loveJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            hahaJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            wowJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            sadJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            angryJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            shareJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            followJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            likePageJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            joinGroupJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            likeCommentJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            jobTotalJob00Xu00ToolStripMenuItem = new ToolStripMenuItem();
+            panel1 = new Panel();
             uiPanel1.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
+            toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).BeginInit();
             uiContextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)accountBindingSource).BeginInit();
+            toolStrip1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // uiPanel1
             // 
+            uiPanel1.Controls.Add(toolStrip2);
             uiPanel1.Controls.Add(uiSymbolButton3);
-            uiPanel1.Controls.Add(flowLayoutPanel1);
             uiPanel1.Controls.Add(uiSymbolButton2);
             uiPanel1.Controls.Add(uiTextBox1);
             uiPanel1.Controls.Add(uiSymbolButton1);
@@ -121,7 +183,86 @@ namespace Sunny.Subdy.UI.View.Controls
             uiPanel1.Size = new Size(1147, 80);
             uiPanel1.TabIndex = 1;
             uiPanel1.Text = null;
-            uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
+            // 
+            // toolStrip2
+            // 
+            toolStrip2.Dock = DockStyle.Bottom;
+            toolStrip2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            toolStrip2.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip2.Items.AddRange(new ToolStripItem[] { toolStripLabel3, uiLabel1, toolStripLabel7, uiLabel4, toolStripLabel11, uiLabel6, toolStripLabel14, uiLabel8, toolStripButton1 });
+            toolStrip2.Location = new Point(0, 55);
+            toolStrip2.Name = "toolStrip2";
+            toolStrip2.Padding = new Padding(10, 0, 20, 0);
+            toolStrip2.Size = new Size(1147, 25);
+            toolStrip2.TabIndex = 17;
+            toolStrip2.Text = "toolStrip2";
+            // 
+            // toolStripLabel3
+            // 
+            toolStripLabel3.ForeColor = Color.DimGray;
+            toolStripLabel3.Name = "toolStripLabel3";
+            toolStripLabel3.Size = new Size(39, 22);
+            toolStripLabel3.Text = "Total:";
+            // 
+            // uiLabel1
+            // 
+            uiLabel1.ForeColor = Color.Blue;
+            uiLabel1.Name = "uiLabel1";
+            uiLabel1.Size = new Size(15, 22);
+            uiLabel1.Text = "0";
+            // 
+            // toolStripLabel7
+            // 
+            toolStripLabel7.ForeColor = Color.DimGray;
+            toolStripLabel7.Name = "toolStripLabel7";
+            toolStripLabel7.Size = new Size(33, 22);
+            toolStripLabel7.Text = "Live:";
+            // 
+            // uiLabel4
+            // 
+            uiLabel4.ForeColor = Color.Green;
+            uiLabel4.Name = "uiLabel4";
+            uiLabel4.Size = new Size(15, 22);
+            uiLabel4.Text = "0";
+            // 
+            // toolStripLabel11
+            // 
+            toolStripLabel11.ForeColor = Color.DimGray;
+            toolStripLabel11.Name = "toolStripLabel11";
+            toolStripLabel11.Size = new Size(30, 22);
+            toolStripLabel11.Text = "Die:";
+            // 
+            // uiLabel6
+            // 
+            uiLabel6.ForeColor = Color.Red;
+            uiLabel6.Name = "uiLabel6";
+            uiLabel6.Size = new Size(15, 22);
+            uiLabel6.Text = "0";
+            // 
+            // toolStripLabel14
+            // 
+            toolStripLabel14.ForeColor = Color.DimGray;
+            toolStripLabel14.Name = "toolStripLabel14";
+            toolStripLabel14.Size = new Size(39, 22);
+            toolStripLabel14.Text = "Khác:";
+            // 
+            // uiLabel8
+            // 
+            uiLabel8.ForeColor = Color.Orange;
+            uiLabel8.Name = "uiLabel8";
+            uiLabel8.Size = new Size(15, 22);
+            uiLabel8.Text = "0";
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.Alignment = ToolStripItemAlignment.Right;
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton1.Image = Properties.Resources.visibility_off_30dp;
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(23, 22);
+            toolStripButton1.Text = "toolStripButton1";
+            toolStripButton1.Click += toolStripButton1_Click;
             // 
             // uiSymbolButton3
             // 
@@ -162,119 +303,6 @@ namespace Sunny.Subdy.UI.View.Controls
             uiSymbolButton3.TipsFont = new Font("Microsoft Sans Serif", 9F);
             uiSymbolButton3.TipsForeColor = Color.FromArgb(243, 249, 255);
             uiSymbolButton3.Click += uiSymbolButton3_Click;
-            // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.Controls.Add(uiLabel2);
-            flowLayoutPanel1.Controls.Add(uiLabel1);
-            flowLayoutPanel1.Controls.Add(uiLabel3);
-            flowLayoutPanel1.Controls.Add(uiLabel4);
-            flowLayoutPanel1.Controls.Add(uiLabel5);
-            flowLayoutPanel1.Controls.Add(uiLabel6);
-            flowLayoutPanel1.Controls.Add(uiLabel7);
-            flowLayoutPanel1.Controls.Add(uiLabel8);
-            flowLayoutPanel1.Dock = DockStyle.Bottom;
-            flowLayoutPanel1.Location = new Point(0, 47);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Padding = new Padding(10);
-            flowLayoutPanel1.Size = new Size(1147, 33);
-            flowLayoutPanel1.TabIndex = 14;
-            // 
-            // uiLabel2
-            // 
-            uiLabel2.AutoSize = true;
-            uiLabel2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel2.ForeColor = Color.DimGray;
-            uiLabel2.Location = new Point(13, 10);
-            uiLabel2.Name = "uiLabel2";
-            uiLabel2.Size = new Size(37, 15);
-            uiLabel2.TabIndex = 2;
-            uiLabel2.Text = "Total:";
-            uiLabel2.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel1
-            // 
-            uiLabel1.AutoSize = true;
-            uiLabel1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel1.ForeColor = Color.Blue;
-            uiLabel1.Location = new Point(56, 10);
-            uiLabel1.Name = "uiLabel1";
-            uiLabel1.Size = new Size(14, 15);
-            uiLabel1.TabIndex = 3;
-            uiLabel1.Text = "0";
-            uiLabel1.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel3
-            // 
-            uiLabel3.AutoSize = true;
-            uiLabel3.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel3.ForeColor = Color.DimGray;
-            uiLabel3.Location = new Point(76, 10);
-            uiLabel3.Name = "uiLabel3";
-            uiLabel3.Size = new Size(32, 15);
-            uiLabel3.TabIndex = 4;
-            uiLabel3.Text = "Live:";
-            uiLabel3.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel4
-            // 
-            uiLabel4.AutoSize = true;
-            uiLabel4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel4.ForeColor = Color.Green;
-            uiLabel4.Location = new Point(114, 10);
-            uiLabel4.Name = "uiLabel4";
-            uiLabel4.Size = new Size(14, 15);
-            uiLabel4.TabIndex = 5;
-            uiLabel4.Text = "0";
-            uiLabel4.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel5
-            // 
-            uiLabel5.AutoSize = true;
-            uiLabel5.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel5.ForeColor = Color.DimGray;
-            uiLabel5.Location = new Point(134, 10);
-            uiLabel5.Name = "uiLabel5";
-            uiLabel5.Size = new Size(29, 15);
-            uiLabel5.TabIndex = 6;
-            uiLabel5.Text = "Die:";
-            uiLabel5.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel6
-            // 
-            uiLabel6.AutoSize = true;
-            uiLabel6.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel6.ForeColor = Color.Red;
-            uiLabel6.Location = new Point(169, 10);
-            uiLabel6.Name = "uiLabel6";
-            uiLabel6.Size = new Size(14, 15);
-            uiLabel6.TabIndex = 7;
-            uiLabel6.Text = "0";
-            uiLabel6.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel7
-            // 
-            uiLabel7.AutoSize = true;
-            uiLabel7.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel7.ForeColor = Color.DimGray;
-            uiLabel7.Location = new Point(189, 10);
-            uiLabel7.Name = "uiLabel7";
-            uiLabel7.Size = new Size(38, 15);
-            uiLabel7.TabIndex = 8;
-            uiLabel7.Text = "Khác:";
-            uiLabel7.TextAlign = ContentAlignment.MiddleLeft;
-            // 
-            // uiLabel8
-            // 
-            uiLabel8.AutoSize = true;
-            uiLabel8.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            uiLabel8.ForeColor = Color.Orange;
-            uiLabel8.Location = new Point(233, 10);
-            uiLabel8.Name = "uiLabel8";
-            uiLabel8.Size = new Size(14, 15);
-            uiLabel8.TabIndex = 9;
-            uiLabel8.Text = "0";
-            uiLabel8.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // uiSymbolButton2
             // 
@@ -332,7 +360,6 @@ namespace Sunny.Subdy.UI.View.Controls
             uiTextBox1.Symbol = 61442;
             uiTextBox1.SymbolSize = 30;
             uiTextBox1.TabIndex = 12;
-            uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
             uiTextBox1.Watermark = "Tìm kiếm...";
             uiTextBox1.TextChanged += uiTextBox1_TextChanged;
             // 
@@ -387,7 +414,7 @@ namespace Sunny.Subdy.UI.View.Controls
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             uiDataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             uiDataGridView2.ColumnHeadersHeight = 20;
-            uiDataGridView2.Columns.AddRange(new DataGridViewColumn[] { Checked, Column1, idDataGridViewTextBoxColumn, uidDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, towFADataGridViewTextBoxColumn, proxyDataGridViewTextBoxColumn, cookieDataGridViewTextBoxColumn, tokenDataGridViewTextBoxColumn, emailDataGridViewTextBoxColumn, passMailDataGridViewTextBoxColumn, phoneDataGridViewTextBoxColumn, userNameDataGridViewTextBoxColumn, nameFolderDataGridViewTextBoxColumn, userAgentDataGridViewTextBoxColumn, emailAdressDataGridViewTextBoxColumn, resultDataGridViewTextBoxColumn, recentInteractionDataGridViewTextBoxColumn, stateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, isViewDataGridViewCheckBoxColumn });
+            uiDataGridView2.Columns.AddRange(new DataGridViewColumn[] { checkedDataGridViewCheckBoxColumn, Column1, uidDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, towFADataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, cookieDataGridViewTextBoxColumn, tokenDataGridViewTextBoxColumn, emailDataGridViewTextBoxColumn, passMailDataGridViewTextBoxColumn, phoneDataGridViewTextBoxColumn, userNameDataGridViewTextBoxColumn, proxyDataGridViewTextBoxColumn, iPDataGridViewTextBoxColumn, userAgentDataGridViewTextBoxColumn, emailAddressDataGridViewTextBoxColumn, passPrivateEmailAddressDataGridViewTextBoxColumn, mailClientIdDataGridViewTextBoxColumn, mailRefreshTokenDataGridViewTextBoxColumn, nameFolderDataGridViewTextBoxColumn, genderDataGridViewTextBoxColumn, friendsDataGridViewTextBoxColumn, groupsDataGridViewTextBoxColumn, followDataGridViewTextBoxColumn, birthdayDataGridViewTextBoxColumn, pagePro5DataGridViewTextBoxColumn, dateCreateDataGridViewTextBoxColumn, avatarDataGridViewTextBoxColumn, deviceInfoDataGridViewTextBoxColumn, jobTotalDataGridViewTextBoxColumn, jobTodayDataGridViewTextBoxColumn, summaryDataGridViewTextBoxColumn, summarySkipDataGridViewTextBoxColumn, resultDataGridViewTextBoxColumn, noteDataGridViewTextBoxColumn, recentInteractionDataGridViewTextBoxColumn, serialDataGridViewTextBoxColumn, stateDataGridViewTextBoxColumn, statusDataGridViewTextBoxColumn, idDataGridViewTextBoxColumn, runningDataGridViewCheckBoxColumn, isViewDataGridViewCheckBoxColumn, colorTypeDataGridViewTextBoxColumn });
             uiDataGridView2.ContextMenuStrip = uiContextMenuStrip1;
             uiDataGridView2.DataSource = accountBindingSource;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -401,8 +428,8 @@ namespace Sunny.Subdy.UI.View.Controls
             uiDataGridView2.Dock = DockStyle.Fill;
             uiDataGridView2.EnableHeadersVisualStyles = false;
             uiDataGridView2.Font = new Font("Microsoft Sans Serif", 12F);
-            uiDataGridView2.GridColor = Color.DimGray;
-            uiDataGridView2.Location = new Point(0, 80);
+            uiDataGridView2.GridColor = Color.Gray;
+            uiDataGridView2.Location = new Point(0, 0);
             uiDataGridView2.Name = "uiDataGridView2";
             uiDataGridView2.RectColor = Color.FromArgb(4, 60, 44);
             dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -421,182 +448,392 @@ namespace Sunny.Subdy.UI.View.Controls
             dataGridViewCellStyle5.SelectionForeColor = Color.FromArgb(48, 48, 48);
             uiDataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle5;
             uiDataGridView2.ScrollBarWidth = 5;
-            uiDataGridView2.SelectedIndex = -1;
             uiDataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            uiDataGridView2.Size = new Size(1147, 570);
+            uiDataGridView2.Size = new Size(1147, 545);
             uiDataGridView2.StripeOddColor = Color.White;
             uiDataGridView2.TabIndex = 8;
             // 
-            // Checked
+            // checkedDataGridViewCheckBoxColumn
             // 
-            Checked.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            Checked.DataPropertyName = "Checked";
-            Checked.FillWeight = 50F;
-            Checked.HeaderText = "Chọn";
-            Checked.Name = "Checked";
-            Checked.Width = 50;
+            checkedDataGridViewCheckBoxColumn.DataPropertyName = "Checked";
+            checkedDataGridViewCheckBoxColumn.FillWeight = 50F;
+            checkedDataGridViewCheckBoxColumn.HeaderText = "Chọn";
+            checkedDataGridViewCheckBoxColumn.MinimumWidth = 50;
+            checkedDataGridViewCheckBoxColumn.Name = "checkedDataGridViewCheckBoxColumn";
+            checkedDataGridViewCheckBoxColumn.ToolTipText = "Chọn tài khoản để chạy chức năng";
+            checkedDataGridViewCheckBoxColumn.Width = 50;
             // 
             // Column1
             // 
-            Column1.FillWeight = 50F;
+            Column1.FillWeight = 40F;
             Column1.HeaderText = "#";
+            Column1.MinimumWidth = 40;
             Column1.Name = "Column1";
             Column1.ReadOnly = true;
-            Column1.Width = 50;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            idDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Id";
-            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            idDataGridViewTextBoxColumn.Visible = false;
+            Column1.ToolTipText = "Số thứ tự";
+            Column1.Width = 40;
             // 
             // uidDataGridViewTextBoxColumn
             // 
-            uidDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             uidDataGridViewTextBoxColumn.DataPropertyName = "Uid";
             uidDataGridViewTextBoxColumn.HeaderText = "Uid";
+            uidDataGridViewTextBoxColumn.MinimumWidth = 100;
             uidDataGridViewTextBoxColumn.Name = "uidDataGridViewTextBoxColumn";
             uidDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // fullNameDataGridViewTextBoxColumn
-            // 
-            fullNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            fullNameDataGridViewTextBoxColumn.DataPropertyName = "FullName";
-            fullNameDataGridViewTextBoxColumn.HeaderText = "FullName";
-            fullNameDataGridViewTextBoxColumn.Name = "fullNameDataGridViewTextBoxColumn";
-            fullNameDataGridViewTextBoxColumn.ReadOnly = true;
+            uidDataGridViewTextBoxColumn.ToolTipText = "Uid của tài khoản";
             // 
             // passwordDataGridViewTextBoxColumn
             // 
-            passwordDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             passwordDataGridViewTextBoxColumn.DataPropertyName = "Password";
-            passwordDataGridViewTextBoxColumn.HeaderText = "Password";
+            passwordDataGridViewTextBoxColumn.HeaderText = "Mật khẩu";
+            passwordDataGridViewTextBoxColumn.MinimumWidth = 100;
             passwordDataGridViewTextBoxColumn.Name = "passwordDataGridViewTextBoxColumn";
             passwordDataGridViewTextBoxColumn.ReadOnly = true;
+            passwordDataGridViewTextBoxColumn.ToolTipText = "Mật khẩu của tài khoản";
             // 
             // towFADataGridViewTextBoxColumn
             // 
-            towFADataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             towFADataGridViewTextBoxColumn.DataPropertyName = "TowFA";
             towFADataGridViewTextBoxColumn.HeaderText = "2FA";
+            towFADataGridViewTextBoxColumn.MinimumWidth = 100;
             towFADataGridViewTextBoxColumn.Name = "towFADataGridViewTextBoxColumn";
             towFADataGridViewTextBoxColumn.ReadOnly = true;
+            towFADataGridViewTextBoxColumn.ToolTipText = "Mã bảo mật";
             // 
-            // proxyDataGridViewTextBoxColumn
+            // fullNameDataGridViewTextBoxColumn
             // 
-            proxyDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            proxyDataGridViewTextBoxColumn.DataPropertyName = "Proxy";
-            proxyDataGridViewTextBoxColumn.HeaderText = "Proxy";
-            proxyDataGridViewTextBoxColumn.Name = "proxyDataGridViewTextBoxColumn";
-            proxyDataGridViewTextBoxColumn.ReadOnly = true;
+            fullNameDataGridViewTextBoxColumn.DataPropertyName = "FullName";
+            fullNameDataGridViewTextBoxColumn.HeaderText = "Tên tài khoản";
+            fullNameDataGridViewTextBoxColumn.MinimumWidth = 100;
+            fullNameDataGridViewTextBoxColumn.Name = "fullNameDataGridViewTextBoxColumn";
+            fullNameDataGridViewTextBoxColumn.ReadOnly = true;
+            fullNameDataGridViewTextBoxColumn.ToolTipText = "Tên tài khoản";
             // 
             // cookieDataGridViewTextBoxColumn
             // 
-            cookieDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             cookieDataGridViewTextBoxColumn.DataPropertyName = "Cookie";
             cookieDataGridViewTextBoxColumn.HeaderText = "Cookie";
+            cookieDataGridViewTextBoxColumn.MinimumWidth = 100;
             cookieDataGridViewTextBoxColumn.Name = "cookieDataGridViewTextBoxColumn";
             cookieDataGridViewTextBoxColumn.ReadOnly = true;
+            cookieDataGridViewTextBoxColumn.ToolTipText = "Cookie dùng để đăng nhập trên web";
             // 
             // tokenDataGridViewTextBoxColumn
             // 
-            tokenDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             tokenDataGridViewTextBoxColumn.DataPropertyName = "Token";
             tokenDataGridViewTextBoxColumn.HeaderText = "Token";
+            tokenDataGridViewTextBoxColumn.MinimumWidth = 100;
             tokenDataGridViewTextBoxColumn.Name = "tokenDataGridViewTextBoxColumn";
             tokenDataGridViewTextBoxColumn.ReadOnly = true;
+            tokenDataGridViewTextBoxColumn.ToolTipText = "Token để sử dụng các api";
             // 
             // emailDataGridViewTextBoxColumn
             // 
-            emailDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             emailDataGridViewTextBoxColumn.DataPropertyName = "Email";
             emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            emailDataGridViewTextBoxColumn.MinimumWidth = 100;
             emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
             emailDataGridViewTextBoxColumn.ReadOnly = true;
+            emailDataGridViewTextBoxColumn.ToolTipText = "Email tài khoản";
             // 
             // passMailDataGridViewTextBoxColumn
             // 
-            passMailDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             passMailDataGridViewTextBoxColumn.DataPropertyName = "PassMail";
-            passMailDataGridViewTextBoxColumn.HeaderText = "PassMail";
+            passMailDataGridViewTextBoxColumn.FillWeight = 120F;
+            passMailDataGridViewTextBoxColumn.HeaderText = "Mật khẩu email";
+            passMailDataGridViewTextBoxColumn.MinimumWidth = 120;
             passMailDataGridViewTextBoxColumn.Name = "passMailDataGridViewTextBoxColumn";
             passMailDataGridViewTextBoxColumn.ReadOnly = true;
+            passMailDataGridViewTextBoxColumn.ToolTipText = "Mật khẩu email tài khoản";
+            passMailDataGridViewTextBoxColumn.Width = 120;
             // 
             // phoneDataGridViewTextBoxColumn
             // 
-            phoneDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             phoneDataGridViewTextBoxColumn.DataPropertyName = "Phone";
-            phoneDataGridViewTextBoxColumn.HeaderText = "Phone";
+            phoneDataGridViewTextBoxColumn.FillWeight = 120F;
+            phoneDataGridViewTextBoxColumn.HeaderText = "Số điện thoại";
+            phoneDataGridViewTextBoxColumn.MinimumWidth = 120;
             phoneDataGridViewTextBoxColumn.Name = "phoneDataGridViewTextBoxColumn";
             phoneDataGridViewTextBoxColumn.ReadOnly = true;
+            phoneDataGridViewTextBoxColumn.ToolTipText = "Số điện thoại tài khoản";
+            phoneDataGridViewTextBoxColumn.Width = 120;
             // 
             // userNameDataGridViewTextBoxColumn
             // 
-            userNameDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             userNameDataGridViewTextBoxColumn.DataPropertyName = "UserName";
-            userNameDataGridViewTextBoxColumn.HeaderText = "UserName";
+            userNameDataGridViewTextBoxColumn.FillWeight = 120F;
+            userNameDataGridViewTextBoxColumn.HeaderText = "Username";
+            userNameDataGridViewTextBoxColumn.MinimumWidth = 120;
             userNameDataGridViewTextBoxColumn.Name = "userNameDataGridViewTextBoxColumn";
             userNameDataGridViewTextBoxColumn.ReadOnly = true;
+            userNameDataGridViewTextBoxColumn.ToolTipText = "Username tài khoản";
+            userNameDataGridViewTextBoxColumn.Width = 120;
             // 
-            // nameFolderDataGridViewTextBoxColumn
+            // proxyDataGridViewTextBoxColumn
             // 
-            nameFolderDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            nameFolderDataGridViewTextBoxColumn.DataPropertyName = "NameFolder";
-            nameFolderDataGridViewTextBoxColumn.HeaderText = "Nhóm";
-            nameFolderDataGridViewTextBoxColumn.Name = "nameFolderDataGridViewTextBoxColumn";
-            nameFolderDataGridViewTextBoxColumn.ReadOnly = true;
+            proxyDataGridViewTextBoxColumn.DataPropertyName = "Proxy";
+            proxyDataGridViewTextBoxColumn.HeaderText = "Proxy";
+            proxyDataGridViewTextBoxColumn.MinimumWidth = 100;
+            proxyDataGridViewTextBoxColumn.Name = "proxyDataGridViewTextBoxColumn";
+            proxyDataGridViewTextBoxColumn.ReadOnly = true;
+            proxyDataGridViewTextBoxColumn.ToolTipText = "Proxy để thay đổi ip của tài khoản";
+            // 
+            // iPDataGridViewTextBoxColumn
+            // 
+            iPDataGridViewTextBoxColumn.DataPropertyName = "IP";
+            iPDataGridViewTextBoxColumn.HeaderText = "IP";
+            iPDataGridViewTextBoxColumn.MinimumWidth = 100;
+            iPDataGridViewTextBoxColumn.Name = "iPDataGridViewTextBoxColumn";
+            iPDataGridViewTextBoxColumn.ReadOnly = true;
+            iPDataGridViewTextBoxColumn.ToolTipText = "IP đã đăng nhập tài khoản.";
             // 
             // userAgentDataGridViewTextBoxColumn
             // 
-            userAgentDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             userAgentDataGridViewTextBoxColumn.DataPropertyName = "UserAgent";
             userAgentDataGridViewTextBoxColumn.HeaderText = "UserAgent";
+            userAgentDataGridViewTextBoxColumn.MinimumWidth = 100;
             userAgentDataGridViewTextBoxColumn.Name = "userAgentDataGridViewTextBoxColumn";
             userAgentDataGridViewTextBoxColumn.ReadOnly = true;
+            userAgentDataGridViewTextBoxColumn.ToolTipText = "UserAgent của trình duyệt";
             // 
-            // emailAdressDataGridViewTextBoxColumn
+            // emailAddressDataGridViewTextBoxColumn
             // 
-            emailAdressDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            emailAdressDataGridViewTextBoxColumn.DataPropertyName = "EmailAdress";
-            emailAdressDataGridViewTextBoxColumn.HeaderText = "Mail khôi phục";
-            emailAdressDataGridViewTextBoxColumn.Name = "emailAdressDataGridViewTextBoxColumn";
-            emailAdressDataGridViewTextBoxColumn.ReadOnly = true;
+            emailAddressDataGridViewTextBoxColumn.DataPropertyName = "EmailAddress";
+            emailAddressDataGridViewTextBoxColumn.FillWeight = 120F;
+            emailAddressDataGridViewTextBoxColumn.HeaderText = "Email khôi phục";
+            emailAddressDataGridViewTextBoxColumn.MinimumWidth = 120;
+            emailAddressDataGridViewTextBoxColumn.Name = "emailAddressDataGridViewTextBoxColumn";
+            emailAddressDataGridViewTextBoxColumn.ReadOnly = true;
+            emailAddressDataGridViewTextBoxColumn.ToolTipText = "Email khôi phục tài khoản";
+            emailAddressDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // passPrivateEmailAddressDataGridViewTextBoxColumn
+            // 
+            passPrivateEmailAddressDataGridViewTextBoxColumn.DataPropertyName = "PassPrivateEmailAddress";
+            passPrivateEmailAddressDataGridViewTextBoxColumn.FillWeight = 180F;
+            passPrivateEmailAddressDataGridViewTextBoxColumn.HeaderText = "Mật khẩu email khôi phục";
+            passPrivateEmailAddressDataGridViewTextBoxColumn.MinimumWidth = 180;
+            passPrivateEmailAddressDataGridViewTextBoxColumn.Name = "passPrivateEmailAddressDataGridViewTextBoxColumn";
+            passPrivateEmailAddressDataGridViewTextBoxColumn.ReadOnly = true;
+            passPrivateEmailAddressDataGridViewTextBoxColumn.ToolTipText = "Mật khẩu email khôi phục của tài khoản";
+            passPrivateEmailAddressDataGridViewTextBoxColumn.Width = 180;
+            // 
+            // mailClientIdDataGridViewTextBoxColumn
+            // 
+            mailClientIdDataGridViewTextBoxColumn.DataPropertyName = "MailClientId";
+            mailClientIdDataGridViewTextBoxColumn.HeaderText = "Mail Client Id";
+            mailClientIdDataGridViewTextBoxColumn.MinimumWidth = 100;
+            mailClientIdDataGridViewTextBoxColumn.Name = "mailClientIdDataGridViewTextBoxColumn";
+            mailClientIdDataGridViewTextBoxColumn.ReadOnly = true;
+            mailClientIdDataGridViewTextBoxColumn.ToolTipText = "Mail Client Id của hotmail";
+            // 
+            // mailRefreshTokenDataGridViewTextBoxColumn
+            // 
+            mailRefreshTokenDataGridViewTextBoxColumn.DataPropertyName = "MailRefreshToken";
+            mailRefreshTokenDataGridViewTextBoxColumn.FillWeight = 140F;
+            mailRefreshTokenDataGridViewTextBoxColumn.HeaderText = "Mail Refresh Token";
+            mailRefreshTokenDataGridViewTextBoxColumn.MinimumWidth = 140;
+            mailRefreshTokenDataGridViewTextBoxColumn.Name = "mailRefreshTokenDataGridViewTextBoxColumn";
+            mailRefreshTokenDataGridViewTextBoxColumn.ReadOnly = true;
+            mailRefreshTokenDataGridViewTextBoxColumn.ToolTipText = "Mail Refresh Token của hotmail";
+            mailRefreshTokenDataGridViewTextBoxColumn.Width = 140;
+            // 
+            // nameFolderDataGridViewTextBoxColumn
+            // 
+            nameFolderDataGridViewTextBoxColumn.DataPropertyName = "NameFolder";
+            nameFolderDataGridViewTextBoxColumn.HeaderText = "Nhóm";
+            nameFolderDataGridViewTextBoxColumn.MinimumWidth = 100;
+            nameFolderDataGridViewTextBoxColumn.Name = "nameFolderDataGridViewTextBoxColumn";
+            nameFolderDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // genderDataGridViewTextBoxColumn
+            // 
+            genderDataGridViewTextBoxColumn.DataPropertyName = "Gender";
+            genderDataGridViewTextBoxColumn.HeaderText = "Giới tính";
+            genderDataGridViewTextBoxColumn.MinimumWidth = 100;
+            genderDataGridViewTextBoxColumn.Name = "genderDataGridViewTextBoxColumn";
+            genderDataGridViewTextBoxColumn.ReadOnly = true;
+            genderDataGridViewTextBoxColumn.ToolTipText = "Giới tính tài khoản";
+            // 
+            // friendsDataGridViewTextBoxColumn
+            // 
+            friendsDataGridViewTextBoxColumn.DataPropertyName = "Friends";
+            friendsDataGridViewTextBoxColumn.HeaderText = "Bạn bè";
+            friendsDataGridViewTextBoxColumn.MinimumWidth = 100;
+            friendsDataGridViewTextBoxColumn.Name = "friendsDataGridViewTextBoxColumn";
+            friendsDataGridViewTextBoxColumn.ReadOnly = true;
+            friendsDataGridViewTextBoxColumn.ToolTipText = "Số lượng bạn bè";
+            // 
+            // groupsDataGridViewTextBoxColumn
+            // 
+            groupsDataGridViewTextBoxColumn.DataPropertyName = "Groups";
+            groupsDataGridViewTextBoxColumn.FillWeight = 120F;
+            groupsDataGridViewTextBoxColumn.HeaderText = "Số lượng nhóm";
+            groupsDataGridViewTextBoxColumn.MinimumWidth = 120;
+            groupsDataGridViewTextBoxColumn.Name = "groupsDataGridViewTextBoxColumn";
+            groupsDataGridViewTextBoxColumn.ReadOnly = true;
+            groupsDataGridViewTextBoxColumn.ToolTipText = "Số lượng nhóm tham gia";
+            groupsDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // followDataGridViewTextBoxColumn
+            // 
+            followDataGridViewTextBoxColumn.DataPropertyName = "Follow";
+            followDataGridViewTextBoxColumn.HeaderText = "Theo dõi";
+            followDataGridViewTextBoxColumn.MinimumWidth = 100;
+            followDataGridViewTextBoxColumn.Name = "followDataGridViewTextBoxColumn";
+            followDataGridViewTextBoxColumn.ReadOnly = true;
+            followDataGridViewTextBoxColumn.ToolTipText = "Số lượng theo dõi";
+            // 
+            // birthdayDataGridViewTextBoxColumn
+            // 
+            birthdayDataGridViewTextBoxColumn.DataPropertyName = "Birthday";
+            birthdayDataGridViewTextBoxColumn.HeaderText = "Sinh nhật";
+            birthdayDataGridViewTextBoxColumn.MinimumWidth = 100;
+            birthdayDataGridViewTextBoxColumn.Name = "birthdayDataGridViewTextBoxColumn";
+            birthdayDataGridViewTextBoxColumn.ReadOnly = true;
+            birthdayDataGridViewTextBoxColumn.ToolTipText = "Ngày sinh nhật tài khoản";
+            // 
+            // pagePro5DataGridViewTextBoxColumn
+            // 
+            pagePro5DataGridViewTextBoxColumn.DataPropertyName = "PagePro5";
+            pagePro5DataGridViewTextBoxColumn.HeaderText = "PagePro5";
+            pagePro5DataGridViewTextBoxColumn.MinimumWidth = 100;
+            pagePro5DataGridViewTextBoxColumn.Name = "pagePro5DataGridViewTextBoxColumn";
+            pagePro5DataGridViewTextBoxColumn.ReadOnly = true;
+            pagePro5DataGridViewTextBoxColumn.ToolTipText = "Tài khoản Page Profile ";
+            // 
+            // dateCreateDataGridViewTextBoxColumn
+            // 
+            dateCreateDataGridViewTextBoxColumn.DataPropertyName = "DateCreate";
+            dateCreateDataGridViewTextBoxColumn.HeaderText = "Ngày tạo";
+            dateCreateDataGridViewTextBoxColumn.MinimumWidth = 100;
+            dateCreateDataGridViewTextBoxColumn.Name = "dateCreateDataGridViewTextBoxColumn";
+            dateCreateDataGridViewTextBoxColumn.ReadOnly = true;
+            dateCreateDataGridViewTextBoxColumn.ToolTipText = "Ngày tạo tài khoản";
+            // 
+            // avatarDataGridViewTextBoxColumn
+            // 
+            avatarDataGridViewTextBoxColumn.DataPropertyName = "Avatar";
+            avatarDataGridViewTextBoxColumn.HeaderText = "Avatar";
+            avatarDataGridViewTextBoxColumn.MinimumWidth = 100;
+            avatarDataGridViewTextBoxColumn.Name = "avatarDataGridViewTextBoxColumn";
+            avatarDataGridViewTextBoxColumn.ReadOnly = true;
+            avatarDataGridViewTextBoxColumn.ToolTipText = "Avatar tài khoản";
+            // 
+            // deviceInfoDataGridViewTextBoxColumn
+            // 
+            deviceInfoDataGridViewTextBoxColumn.DataPropertyName = "DeviceInfo";
+            deviceInfoDataGridViewTextBoxColumn.HeaderText = "Device Info";
+            deviceInfoDataGridViewTextBoxColumn.MinimumWidth = 100;
+            deviceInfoDataGridViewTextBoxColumn.Name = "deviceInfoDataGridViewTextBoxColumn";
+            deviceInfoDataGridViewTextBoxColumn.ReadOnly = true;
+            deviceInfoDataGridViewTextBoxColumn.ToolTipText = "Tên thiết bị đăng nhập tài khoản";
+            // 
+            // jobTotalDataGridViewTextBoxColumn
+            // 
+            jobTotalDataGridViewTextBoxColumn.DataPropertyName = "JobTotal";
+            jobTotalDataGridViewTextBoxColumn.HeaderText = "Job Total";
+            jobTotalDataGridViewTextBoxColumn.MinimumWidth = 100;
+            jobTotalDataGridViewTextBoxColumn.Name = "jobTotalDataGridViewTextBoxColumn";
+            jobTotalDataGridViewTextBoxColumn.ReadOnly = true;
+            jobTotalDataGridViewTextBoxColumn.ToolTipText = "Tổng số job đã làm từ khi thêm vào auto";
+            // 
+            // jobTodayDataGridViewTextBoxColumn
+            // 
+            jobTodayDataGridViewTextBoxColumn.DataPropertyName = "JobToday";
+            jobTodayDataGridViewTextBoxColumn.HeaderText = "JobToday";
+            jobTodayDataGridViewTextBoxColumn.MinimumWidth = 100;
+            jobTodayDataGridViewTextBoxColumn.Name = "jobTodayDataGridViewTextBoxColumn";
+            jobTodayDataGridViewTextBoxColumn.ReadOnly = true;
+            jobTodayDataGridViewTextBoxColumn.ToolTipText = "Số lượng job đã làm hôm nay";
+            // 
+            // summaryDataGridViewTextBoxColumn
+            // 
+            summaryDataGridViewTextBoxColumn.DataPropertyName = "Summary";
+            summaryDataGridViewTextBoxColumn.HeaderText = "Job Info";
+            summaryDataGridViewTextBoxColumn.MinimumWidth = 100;
+            summaryDataGridViewTextBoxColumn.Name = "summaryDataGridViewTextBoxColumn";
+            summaryDataGridViewTextBoxColumn.ReadOnly = true;
+            summaryDataGridViewTextBoxColumn.ToolTipText = "Thống kê tất cả loại job đã làm hôm nay";
+            // 
+            // summarySkipDataGridViewTextBoxColumn
+            // 
+            summarySkipDataGridViewTextBoxColumn.DataPropertyName = "Summary_Skip";
+            summarySkipDataGridViewTextBoxColumn.HeaderText = "Job Skip";
+            summarySkipDataGridViewTextBoxColumn.MinimumWidth = 100;
+            summarySkipDataGridViewTextBoxColumn.Name = "summarySkipDataGridViewTextBoxColumn";
+            summarySkipDataGridViewTextBoxColumn.ReadOnly = true;
+            summarySkipDataGridViewTextBoxColumn.ToolTipText = "Thống kê tất cả loại job đã làm thất bại hôm nay";
             // 
             // resultDataGridViewTextBoxColumn
             // 
-            resultDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             resultDataGridViewTextBoxColumn.DataPropertyName = "Result";
-            resultDataGridViewTextBoxColumn.HeaderText = "Kết quả";
+            resultDataGridViewTextBoxColumn.HeaderText = "Xu";
+            resultDataGridViewTextBoxColumn.MinimumWidth = 50;
             resultDataGridViewTextBoxColumn.Name = "resultDataGridViewTextBoxColumn";
             resultDataGridViewTextBoxColumn.ReadOnly = true;
+            resultDataGridViewTextBoxColumn.ToolTipText = "Số xu mà tài khoản này kiếm được từ khi thêm vào auto";
+            // 
+            // noteDataGridViewTextBoxColumn
+            // 
+            noteDataGridViewTextBoxColumn.DataPropertyName = "Note";
+            noteDataGridViewTextBoxColumn.HeaderText = "Ghi chú";
+            noteDataGridViewTextBoxColumn.MinimumWidth = 100;
+            noteDataGridViewTextBoxColumn.Name = "noteDataGridViewTextBoxColumn";
+            noteDataGridViewTextBoxColumn.ReadOnly = true;
+            noteDataGridViewTextBoxColumn.ToolTipText = "Ghi chú cho tài khoản";
             // 
             // recentInteractionDataGridViewTextBoxColumn
             // 
-            recentInteractionDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             recentInteractionDataGridViewTextBoxColumn.DataPropertyName = "RecentInteraction";
+            recentInteractionDataGridViewTextBoxColumn.FillWeight = 120F;
             recentInteractionDataGridViewTextBoxColumn.HeaderText = "Lần tương tác cuối";
+            recentInteractionDataGridViewTextBoxColumn.MinimumWidth = 120;
             recentInteractionDataGridViewTextBoxColumn.Name = "recentInteractionDataGridViewTextBoxColumn";
             recentInteractionDataGridViewTextBoxColumn.ReadOnly = true;
+            recentInteractionDataGridViewTextBoxColumn.ToolTipText = "Lần tương tác cuối của tài khoản";
+            recentInteractionDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // serialDataGridViewTextBoxColumn
+            // 
+            serialDataGridViewTextBoxColumn.DataPropertyName = "Serial";
+            serialDataGridViewTextBoxColumn.HeaderText = "Thiết bị";
+            serialDataGridViewTextBoxColumn.MinimumWidth = 100;
+            serialDataGridViewTextBoxColumn.Name = "serialDataGridViewTextBoxColumn";
+            serialDataGridViewTextBoxColumn.ReadOnly = true;
+            serialDataGridViewTextBoxColumn.ToolTipText = "Thiết bị đã đăng nhập tài khoản.";
             // 
             // stateDataGridViewTextBoxColumn
             // 
-            stateDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             stateDataGridViewTextBoxColumn.DataPropertyName = "State";
-            stateDataGridViewTextBoxColumn.HeaderText = "State";
+            stateDataGridViewTextBoxColumn.HeaderText = "Tình trạng";
+            stateDataGridViewTextBoxColumn.MinimumWidth = 100;
             stateDataGridViewTextBoxColumn.Name = "stateDataGridViewTextBoxColumn";
             stateDataGridViewTextBoxColumn.ReadOnly = true;
+            stateDataGridViewTextBoxColumn.ToolTipText = "Tình trạng tài khoản";
             // 
             // statusDataGridViewTextBoxColumn
             // 
             statusDataGridViewTextBoxColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             statusDataGridViewTextBoxColumn.DataPropertyName = "Status";
-            statusDataGridViewTextBoxColumn.FillWeight = 200F;
-            statusDataGridViewTextBoxColumn.HeaderText = "Status";
-            statusDataGridViewTextBoxColumn.MinimumWidth = 200;
+            statusDataGridViewTextBoxColumn.FillWeight = 300F;
+            statusDataGridViewTextBoxColumn.HeaderText = "Trạng thái";
+            statusDataGridViewTextBoxColumn.MinimumWidth = 300;
             statusDataGridViewTextBoxColumn.Name = "statusDataGridViewTextBoxColumn";
-            statusDataGridViewTextBoxColumn.ReadOnly = true;
+            statusDataGridViewTextBoxColumn.ToolTipText = "Trạng thái tài khoản";
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            idDataGridViewTextBoxColumn.HeaderText = "Id";
+            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            // 
+            // runningDataGridViewCheckBoxColumn
+            // 
+            runningDataGridViewCheckBoxColumn.DataPropertyName = "Running";
+            runningDataGridViewCheckBoxColumn.HeaderText = "Running";
+            runningDataGridViewCheckBoxColumn.Name = "runningDataGridViewCheckBoxColumn";
+            runningDataGridViewCheckBoxColumn.Visible = false;
             // 
             // isViewDataGridViewCheckBoxColumn
             // 
@@ -604,6 +841,13 @@ namespace Sunny.Subdy.UI.View.Controls
             isViewDataGridViewCheckBoxColumn.HeaderText = "IsView";
             isViewDataGridViewCheckBoxColumn.Name = "isViewDataGridViewCheckBoxColumn";
             isViewDataGridViewCheckBoxColumn.Visible = false;
+            // 
+            // colorTypeDataGridViewTextBoxColumn
+            // 
+            colorTypeDataGridViewTextBoxColumn.DataPropertyName = "ColorType";
+            colorTypeDataGridViewTextBoxColumn.HeaderText = "ColorType";
+            colorTypeDataGridViewTextBoxColumn.Name = "colorTypeDataGridViewTextBoxColumn";
+            colorTypeDataGridViewTextBoxColumn.Visible = false;
             // 
             // uiContextMenuStrip1
             // 
@@ -652,6 +896,7 @@ namespace Sunny.Subdy.UI.View.Controls
             satesToolStripMenuItem.Name = "satesToolStripMenuItem";
             satesToolStripMenuItem.Size = new Size(120, 22);
             satesToolStripMenuItem.Text = "Sates";
+            satesToolStripMenuItem.Click += satesToolStripMenuItem_Click;
             // 
             // bỏChọnTấtCảToolStripMenuItem
             // 
@@ -663,7 +908,7 @@ namespace Sunny.Subdy.UI.View.Controls
             // 
             // tắtViewToolStripMenuItem
             // 
-            tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1, mậtKhẩuToolStripMenuItem, fAToolStripMenuItem, emailToolStripMenuItem, cookieToolStripMenuItem, tokenToolStripMenuItem, proxyToolStripMenuItem, trạngTháiToolStripMenuItem });
+            tắtViewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tắtToolStripMenuItem, mởToolStripMenuItem1, toolStripMenuItem2, fAToolStripMenuItem, emailToolStripMenuItem, mậtKhẩuToolStripMenuItem, cookieToolStripMenuItem, tokenToolStripMenuItem, proxyToolStripMenuItem, trạngTháiToolStripMenuItem });
             tắtViewToolStripMenuItem.Image = Properties.Resources.content_copy_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             tắtViewToolStripMenuItem.Name = "tắtViewToolStripMenuItem";
             tắtViewToolStripMenuItem.Size = new Size(158, 22);
@@ -673,64 +918,81 @@ namespace Sunny.Subdy.UI.View.Controls
             // 
             tắtToolStripMenuItem.Image = Properties.Resources.filter_alt_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             tắtToolStripMenuItem.Name = "tắtToolStripMenuItem";
-            tắtToolStripMenuItem.Size = new Size(134, 22);
+            tắtToolStripMenuItem.Size = new Size(164, 22);
             tắtToolStripMenuItem.Text = "Tuỳ chọn";
+            tắtToolStripMenuItem.Click += tắtToolStripMenuItem_Click;
             // 
             // mởToolStripMenuItem1
             // 
             mởToolStripMenuItem1.Image = Properties.Resources.key_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             mởToolStripMenuItem1.Name = "mởToolStripMenuItem1";
-            mởToolStripMenuItem1.Size = new Size(134, 22);
+            mởToolStripMenuItem1.Size = new Size(164, 22);
             mởToolStripMenuItem1.Text = "Uid";
+            mởToolStripMenuItem1.Click += mởToolStripMenuItem1_Click;
             // 
-            // mậtKhẩuToolStripMenuItem
+            // toolStripMenuItem2
             // 
-            mậtKhẩuToolStripMenuItem.Image = Properties.Resources.password_40dp_434343_FILL0_wght400_GRAD0_opsz40;
-            mậtKhẩuToolStripMenuItem.Name = "mậtKhẩuToolStripMenuItem";
-            mậtKhẩuToolStripMenuItem.Size = new Size(134, 22);
-            mậtKhẩuToolStripMenuItem.Text = "Mật khẩu";
+            toolStripMenuItem2.Image = Properties.Resources.password_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(164, 22);
+            toolStripMenuItem2.Text = "Mật khẩu";
+            toolStripMenuItem2.Click += toolStripMenuItem2_Click;
             // 
             // fAToolStripMenuItem
             // 
             fAToolStripMenuItem.Image = Properties.Resources.shield_toggle_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             fAToolStripMenuItem.Name = "fAToolStripMenuItem";
-            fAToolStripMenuItem.Size = new Size(134, 22);
+            fAToolStripMenuItem.Size = new Size(164, 22);
             fAToolStripMenuItem.Text = "2FA";
+            fAToolStripMenuItem.Click += fAToolStripMenuItem_Click;
             // 
             // emailToolStripMenuItem
             // 
             emailToolStripMenuItem.Image = Properties.Resources.mail_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             emailToolStripMenuItem.Name = "emailToolStripMenuItem";
-            emailToolStripMenuItem.Size = new Size(134, 22);
+            emailToolStripMenuItem.Size = new Size(164, 22);
             emailToolStripMenuItem.Text = "Email";
+            emailToolStripMenuItem.Click += emailToolStripMenuItem_Click;
+            // 
+            // mậtKhẩuToolStripMenuItem
+            // 
+            mậtKhẩuToolStripMenuItem.Image = Properties.Resources.password_40dp_434343_FILL0_wght400_GRAD0_opsz40;
+            mậtKhẩuToolStripMenuItem.Name = "mậtKhẩuToolStripMenuItem";
+            mậtKhẩuToolStripMenuItem.Size = new Size(164, 22);
+            mậtKhẩuToolStripMenuItem.Text = "Mật khẩu email";
+            mậtKhẩuToolStripMenuItem.Click += mậtKhẩuToolStripMenuItem_Click;
             // 
             // cookieToolStripMenuItem
             // 
             cookieToolStripMenuItem.Image = Properties.Resources.cookie_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             cookieToolStripMenuItem.Name = "cookieToolStripMenuItem";
-            cookieToolStripMenuItem.Size = new Size(134, 22);
+            cookieToolStripMenuItem.Size = new Size(164, 22);
             cookieToolStripMenuItem.Text = "Cookie";
+            cookieToolStripMenuItem.Click += cookieToolStripMenuItem_Click;
             // 
             // tokenToolStripMenuItem
             // 
             tokenToolStripMenuItem.Image = Properties.Resources.token_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             tokenToolStripMenuItem.Name = "tokenToolStripMenuItem";
-            tokenToolStripMenuItem.Size = new Size(134, 22);
+            tokenToolStripMenuItem.Size = new Size(164, 22);
             tokenToolStripMenuItem.Text = "Token";
+            tokenToolStripMenuItem.Click += tokenToolStripMenuItem_Click;
             // 
             // proxyToolStripMenuItem
             // 
             proxyToolStripMenuItem.Image = Properties.Resources.bring_your_own_ip_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             proxyToolStripMenuItem.Name = "proxyToolStripMenuItem";
-            proxyToolStripMenuItem.Size = new Size(134, 22);
+            proxyToolStripMenuItem.Size = new Size(164, 22);
             proxyToolStripMenuItem.Text = "Proxy";
+            proxyToolStripMenuItem.Click += proxyToolStripMenuItem_Click;
             // 
             // trạngTháiToolStripMenuItem
             // 
             trạngTháiToolStripMenuItem.Image = Properties.Resources.cloud_40dp_434343_FILL0_wght400_GRAD0_opsz40;
             trạngTháiToolStripMenuItem.Name = "trạngTháiToolStripMenuItem";
-            trạngTháiToolStripMenuItem.Size = new Size(134, 22);
+            trạngTháiToolStripMenuItem.Size = new Size(164, 22);
             trạngTháiToolStripMenuItem.Text = "Trạng thái";
+            trạngTháiToolStripMenuItem.Click += trạngTháiToolStripMenuItem_Click;
             // 
             // mởToolStripMenuItem
             // 
@@ -753,28 +1015,293 @@ namespace Sunny.Subdy.UI.View.Controls
             facebookToolStripMenuItem.Name = "facebookToolStripMenuItem";
             facebookToolStripMenuItem.Size = new Size(136, 22);
             facebookToolStripMenuItem.Text = "Check live";
+            facebookToolStripMenuItem.Click += facebookToolStripMenuItem_Click;
             // 
             // accountBindingSource
             // 
             accountBindingSource.DataSource = typeof(Data.Models.Account);
+            // 
+            // toolStrip1
+            // 
+            toolStrip1.Dock = DockStyle.Bottom;
+            toolStrip1.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            toolStrip1.GripStyle = ToolStripGripStyle.Hidden;
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, tslSelect, toolStripSeparator1, toolStripLabel2, tslChecked, toolStripSeparator2, toolStripLabel12, tslRunning, toolStripSeparator7, toolStripLabel4, tslBalance, toolStripSeparator3, toolStripLabel6, tslPanding, toolStripSeparator4, toolStripLabel8, tslBalanceToday, toolStripSeparator5, toolStripLabel10, tslDeduct, toolStripSeparator6, toolStripDropDownButton1 });
+            toolStrip1.Location = new Point(0, 625);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Padding = new Padding(10, 0, 1, 0);
+            toolStrip1.Size = new Size(1147, 25);
+            toolStrip1.TabIndex = 9;
+            toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            toolStripLabel1.ForeColor = Color.Gray;
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new Size(55, 22);
+            toolStripLabel1.Text = "Bôi đen:";
+            // 
+            // tslSelect
+            // 
+            tslSelect.ForeColor = Color.Black;
+            tslSelect.Name = "tslSelect";
+            tslSelect.Size = new Size(15, 22);
+            tslSelect.Text = "0";
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 25);
+            // 
+            // toolStripLabel2
+            // 
+            toolStripLabel2.ForeColor = Color.Gray;
+            toolStripLabel2.Name = "toolStripLabel2";
+            toolStripLabel2.Size = new Size(59, 22);
+            toolStripLabel2.Text = "Đã chọn:";
+            // 
+            // tslChecked
+            // 
+            tslChecked.ForeColor = Color.Green;
+            tslChecked.Name = "tslChecked";
+            tslChecked.Size = new Size(15, 22);
+            tslChecked.Text = "0";
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(6, 25);
+            // 
+            // toolStripLabel12
+            // 
+            toolStripLabel12.ForeColor = Color.Gray;
+            toolStripLabel12.Name = "toolStripLabel12";
+            toolStripLabel12.Size = new Size(57, 22);
+            toolStripLabel12.Text = "Đã chạy:";
+            // 
+            // tslRunning
+            // 
+            tslRunning.ForeColor = Color.Blue;
+            tslRunning.Name = "tslRunning";
+            tslRunning.Size = new Size(15, 22);
+            tslRunning.Text = "0";
+            // 
+            // toolStripSeparator7
+            // 
+            toolStripSeparator7.Name = "toolStripSeparator7";
+            toolStripSeparator7.Size = new Size(6, 25);
+            // 
+            // toolStripLabel4
+            // 
+            toolStripLabel4.ForeColor = Color.Gray;
+            toolStripLabel4.Name = "toolStripLabel4";
+            toolStripLabel4.Size = new Size(46, 22);
+            toolStripLabel4.Text = "Số dư:";
+            // 
+            // tslBalance
+            // 
+            tslBalance.ForeColor = Color.ForestGreen;
+            tslBalance.Name = "tslBalance";
+            tslBalance.Size = new Size(15, 22);
+            tslBalance.Text = "0";
+            // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(6, 25);
+            // 
+            // toolStripLabel6
+            // 
+            toolStripLabel6.ForeColor = Color.Gray;
+            toolStripLabel6.Name = "toolStripLabel6";
+            toolStripLabel6.Size = new Size(70, 22);
+            toolStripLabel6.Text = "Chờ duyệt:";
+            // 
+            // tslPanding
+            // 
+            tslPanding.ForeColor = Color.MidnightBlue;
+            tslPanding.Name = "tslPanding";
+            tslPanding.Size = new Size(15, 22);
+            tslPanding.Text = "0";
+            // 
+            // toolStripSeparator4
+            // 
+            toolStripSeparator4.Name = "toolStripSeparator4";
+            toolStripSeparator4.Size = new Size(6, 25);
+            // 
+            // toolStripLabel8
+            // 
+            toolStripLabel8.ForeColor = Color.Gray;
+            toolStripLabel8.Name = "toolStripLabel8";
+            toolStripLabel8.Size = new Size(63, 22);
+            toolStripLabel8.Text = "Hôm nay:";
+            // 
+            // tslBalanceToday
+            // 
+            tslBalanceToday.ForeColor = Color.MediumOrchid;
+            tslBalanceToday.Name = "tslBalanceToday";
+            tslBalanceToday.Size = new Size(15, 22);
+            tslBalanceToday.Text = "0";
+            // 
+            // toolStripSeparator5
+            // 
+            toolStripSeparator5.Name = "toolStripSeparator5";
+            toolStripSeparator5.Size = new Size(6, 25);
+            // 
+            // toolStripLabel10
+            // 
+            toolStripLabel10.ForeColor = Color.Gray;
+            toolStripLabel10.Name = "toolStripLabel10";
+            toolStripLabel10.Size = new Size(42, 22);
+            toolStripLabel10.Text = "Bị trừ:";
+            // 
+            // tslDeduct
+            // 
+            tslDeduct.ForeColor = Color.OrangeRed;
+            tslDeduct.Name = "tslDeduct";
+            tslDeduct.Size = new Size(15, 22);
+            tslDeduct.Text = "0";
+            // 
+            // toolStripSeparator6
+            // 
+            toolStripSeparator6.Name = "toolStripSeparator6";
+            toolStripSeparator6.Size = new Size(6, 25);
+            // 
+            // toolStripDropDownButton1
+            // 
+            toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { likeToolStripMenuItem, likeJob00Xu00ToolStripMenuItem, loveJob00Xu00ToolStripMenuItem, hahaJob00Xu00ToolStripMenuItem, wowJob00Xu00ToolStripMenuItem, sadJob00Xu00ToolStripMenuItem, angryJob00Xu00ToolStripMenuItem, shareJob00Xu00ToolStripMenuItem, followJob00Xu00ToolStripMenuItem, likePageJob00Xu00ToolStripMenuItem, joinGroupJob00Xu00ToolStripMenuItem, likeCommentJob00Xu00ToolStripMenuItem, jobTotalJob00Xu00ToolStripMenuItem });
+            toolStripDropDownButton1.Image = Properties.Resources.bar_chart_50dp_F19E39_FILL0_wght400_GRAD0_opsz48;
+            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            toolStripDropDownButton1.Size = new Size(29, 22);
+            toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            toolStripDropDownButton1.ToolTipText = "Thống kê chi tiết số job và xu làm được.";
+            // 
+            // likeToolStripMenuItem
+            // 
+            likeToolStripMenuItem.Image = Properties.Resources.facebook_reactions_1;
+            likeToolStripMenuItem.Name = "likeToolStripMenuItem";
+            likeToolStripMenuItem.Size = new Size(306, 22);
+            likeToolStripMenuItem.Text = "Like: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // likeJob00Xu00ToolStripMenuItem
+            // 
+            likeJob00Xu00ToolStripMenuItem.Image = Properties.Resources.thumbs_up;
+            likeJob00Xu00ToolStripMenuItem.Name = "likeJob00Xu00ToolStripMenuItem";
+            likeJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            likeJob00Xu00ToolStripMenuItem.Text = "Love: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // loveJob00Xu00ToolStripMenuItem
+            // 
+            loveJob00Xu00ToolStripMenuItem.Image = Properties.Resources.facebook;
+            loveJob00Xu00ToolStripMenuItem.Name = "loveJob00Xu00ToolStripMenuItem";
+            loveJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            loveJob00Xu00ToolStripMenuItem.Text = "Care: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // hahaJob00Xu00ToolStripMenuItem
+            // 
+            hahaJob00Xu00ToolStripMenuItem.Image = Properties.Resources.facebook_reactions_2;
+            hahaJob00Xu00ToolStripMenuItem.Name = "hahaJob00Xu00ToolStripMenuItem";
+            hahaJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            hahaJob00Xu00ToolStripMenuItem.Text = "Haha: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // wowJob00Xu00ToolStripMenuItem
+            // 
+            wowJob00Xu00ToolStripMenuItem.Image = Properties.Resources.facebook_reactions_3;
+            wowJob00Xu00ToolStripMenuItem.Name = "wowJob00Xu00ToolStripMenuItem";
+            wowJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            wowJob00Xu00ToolStripMenuItem.Text = "Wow: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // sadJob00Xu00ToolStripMenuItem
+            // 
+            sadJob00Xu00ToolStripMenuItem.Image = Properties.Resources.facebook_reactions_4;
+            sadJob00Xu00ToolStripMenuItem.Name = "sadJob00Xu00ToolStripMenuItem";
+            sadJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            sadJob00Xu00ToolStripMenuItem.Text = "Sad: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // angryJob00Xu00ToolStripMenuItem
+            // 
+            angryJob00Xu00ToolStripMenuItem.Image = Properties.Resources.facebook_reactions_5;
+            angryJob00Xu00ToolStripMenuItem.Name = "angryJob00Xu00ToolStripMenuItem";
+            angryJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            angryJob00Xu00ToolStripMenuItem.Text = "Angry: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // shareJob00Xu00ToolStripMenuItem
+            // 
+            shareJob00Xu00ToolStripMenuItem.Image = Properties.Resources.icons8_share_40;
+            shareJob00Xu00ToolStripMenuItem.Name = "shareJob00Xu00ToolStripMenuItem";
+            shareJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            shareJob00Xu00ToolStripMenuItem.Text = "Share: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // followJob00Xu00ToolStripMenuItem
+            // 
+            followJob00Xu00ToolStripMenuItem.Image = Properties.Resources.icons8_follow_40;
+            followJob00Xu00ToolStripMenuItem.Name = "followJob00Xu00ToolStripMenuItem";
+            followJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            followJob00Xu00ToolStripMenuItem.Text = "Follow: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // likePageJob00Xu00ToolStripMenuItem
+            // 
+            likePageJob00Xu00ToolStripMenuItem.Image = Properties.Resources.icons8_facebook_like_48;
+            likePageJob00Xu00ToolStripMenuItem.Name = "likePageJob00Xu00ToolStripMenuItem";
+            likePageJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            likePageJob00Xu00ToolStripMenuItem.Text = "Like Page: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // joinGroupJob00Xu00ToolStripMenuItem
+            // 
+            joinGroupJob00Xu00ToolStripMenuItem.Image = Properties.Resources.groups_50dp_5985E1_FILL0_wght400_GRAD0_opsz48;
+            joinGroupJob00Xu00ToolStripMenuItem.Name = "joinGroupJob00Xu00ToolStripMenuItem";
+            joinGroupJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            // 
+            // likeCommentJob00Xu00ToolStripMenuItem
+            // 
+            likeCommentJob00Xu00ToolStripMenuItem.Image = Properties.Resources.icons8_agreement_like_80;
+            likeCommentJob00Xu00ToolStripMenuItem.Name = "likeCommentJob00Xu00ToolStripMenuItem";
+            likeCommentJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            likeCommentJob00Xu00ToolStripMenuItem.Text = "Like Comment: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            // 
+            // jobTotalJob00Xu00ToolStripMenuItem
+            // 
+            jobTotalJob00Xu00ToolStripMenuItem.Image = Properties.Resources.monitoring_54dp_314D1C_FILL0_wght400_GRAD0_opsz48;
+            jobTotalJob00Xu00ToolStripMenuItem.ImageTransparentColor = Color.FromArgb(0, 64, 0);
+            jobTotalJob00Xu00ToolStripMenuItem.Name = "jobTotalJob00Xu00ToolStripMenuItem";
+            jobTotalJob00Xu00ToolStripMenuItem.Size = new Size(306, 22);
+            jobTotalJob00Xu00ToolStripMenuItem.Text = "Job Total: [ Job:  0/0 ] - [ Xu: 0/0 ] ";
+            jobTotalJob00Xu00ToolStripMenuItem.TextDirection = ToolStripTextDirection.Horizontal;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(uiDataGridView2);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 80);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1147, 545);
+            panel1.TabIndex = 10;
             // 
             // ucdgvAccount
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Transparent;
-            Controls.Add(uiDataGridView2);
+            Controls.Add(panel1);
+            Controls.Add(toolStrip1);
             Controls.Add(uiPanel1);
             Name = "ucdgvAccount";
             Size = new Size(1147, 650);
             Load += ucdgvAccount_Load;
             uiPanel1.ResumeLayout(false);
-            flowLayoutPanel1.ResumeLayout(false);
-            flowLayoutPanel1.PerformLayout();
+            uiPanel1.PerformLayout();
+            toolStrip2.ResumeLayout(false);
+            toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)uiDataGridView2).EndInit();
             uiContextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)accountBindingSource).EndInit();
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -783,15 +1310,6 @@ namespace Sunny.Subdy.UI.View.Controls
         private Sunny.UI.UISymbolButton uiSymbolButton2;
         private Sunny.UI.UITextBox uiTextBox1;
         private Sunny.UI.UISymbolButton uiSymbolButton1;
-        private FlowLayoutPanel flowLayoutPanel1;
-        private Sunny.UI.UILabel uiLabel2;
-        private Sunny.UI.UILabel uiLabel1;
-        private Sunny.UI.UILabel uiLabel3;
-        private Sunny.UI.UILabel uiLabel4;
-        private Sunny.UI.UILabel uiLabel5;
-        private Sunny.UI.UILabel uiLabel6;
-        private Sunny.UI.UILabel uiLabel7;
-        private Sunny.UI.UILabel uiLabel8;
         private Sunny.UI.UIContextMenuStrip uiContextMenuStrip1;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem tấtCảToolStripMenuItem;
@@ -804,29 +1322,6 @@ namespace Sunny.Subdy.UI.View.Controls
         private ToolStripMenuItem mởToolStripMenuItem;
         private ToolStripMenuItem ứngDụngToolStripMenuItem;
         private ToolStripMenuItem facebookToolStripMenuItem;
-        private BindingSource accountBindingSource;
-        private DataGridViewCheckBoxColumn Checked;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn uidDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn towFADataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn proxyDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn cookieDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn tokenDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn passMailDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn phoneDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn nameFolderDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn userAgentDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn emailAdressDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn resultDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn recentInteractionDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn stateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
-        private DataGridViewCheckBoxColumn isViewDataGridViewCheckBoxColumn;
         private Sunny.UI.UISymbolButton uiSymbolButton3;
         private ToolStripMenuItem mậtKhẩuToolStripMenuItem;
         private ToolStripMenuItem fAToolStripMenuItem;
@@ -837,5 +1332,101 @@ namespace Sunny.Subdy.UI.View.Controls
         private ToolStripMenuItem trạngTháiToolStripMenuItem;
         private ToolStripMenuItem satesToolStripMenuItem;
         public Sunny.UI.UIDataGridView uiDataGridView2;
+        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStrip toolStrip1;
+        private ToolStripLabel toolStripLabel1;
+        private ToolStripLabel tslSelect;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripLabel toolStripLabel2;
+        private ToolStripLabel tslChecked;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripLabel toolStripLabel12;
+        private ToolStripLabel toolStripLabel4;
+        private ToolStripLabel tslBalance;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripLabel toolStripLabel6;
+        private ToolStripLabel tslPanding;
+        private ToolStripSeparator toolStripSeparator4;
+        private ToolStripLabel toolStripLabel8;
+        private ToolStripLabel tslBalanceToday;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripLabel toolStripLabel10;
+        private ToolStripLabel tslDeduct;
+        private ToolStripSeparator toolStripSeparator6;
+        private ToolStripLabel tslRunning;
+        private ToolStripSeparator toolStripSeparator7;
+        private ToolStripDropDownButton toolStripDropDownButton1;
+        private ToolStripMenuItem likeToolStripMenuItem;
+        private ToolStripMenuItem likeJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem loveJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem hahaJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem wowJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem sadJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem angryJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem shareJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem followJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem likePageJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem joinGroupJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem likeCommentJob00Xu00ToolStripMenuItem;
+        private ToolStripMenuItem jobTotalJob00Xu00ToolStripMenuItem;
+        private Panel panel1;
+        private DataGridViewTextBoxColumn emailAdressDataGridViewTextBoxColumn;
+        private ToolStrip toolStrip2;
+        private ToolStripLabel toolStripLabel3;
+        private ToolStripLabel uiLabel1;
+        private ToolStripLabel toolStripLabel7;
+        private ToolStripLabel uiLabel4;
+        private ToolStripLabel toolStripLabel11;
+        private ToolStripLabel uiLabel6;
+        private ToolStripLabel toolStripLabel14;
+        private ToolStripLabel uiLabel8;
+        private ToolStripButton toolStripButton1;
+        private DataGridViewTextBoxColumn jobHistoryDataGridViewTextBoxColumn;
+        private BindingSource accountBindingSource;
+        private DataGridViewCheckBoxColumn checkedDataGridViewCheckBoxColumn;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn uidDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn towFADataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn cookieDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn tokenDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn passMailDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn phoneDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn proxyDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn iPDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn userAgentDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn emailAddressDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn passPrivateEmailAddressDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn mailClientIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn mailRefreshTokenDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nameFolderDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn genderDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn friendsDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn groupsDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn followDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn birthdayDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn pagePro5DataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn dateCreateDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn avatarDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn deviceInfoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn jobTotalDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn jobTodayDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn summaryDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn summarySkipDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn resultDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn noteDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn recentInteractionDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn serialDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn stateDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private DataGridViewCheckBoxColumn runningDataGridViewCheckBoxColumn;
+        private DataGridViewCheckBoxColumn isViewDataGridViewCheckBoxColumn;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn colorTypeDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn uidEmailDataGridViewTextBoxColumn;
     }
 }

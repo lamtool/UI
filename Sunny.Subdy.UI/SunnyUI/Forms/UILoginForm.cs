@@ -23,6 +23,8 @@
 using Sunny.UI.Properties;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Sunny.UI
 {
@@ -33,7 +35,6 @@ namespace Sunny.UI
         public UILoginForm()
         {
             InitializeComponent();
-            lblSubText.Text = lblSubText.Version;
         }
 
         [Description("显示时激活的控件"), Category("SunnyUI")]
@@ -59,21 +60,6 @@ namespace Sunny.UI
             }
         }
 
-        [Description("顶部标题"), Category("SunnyUI")]
-        [DefaultValue("SunnyUI.Net")]
-        public string Title
-        {
-            get => lblTitle.Text;
-            set => lblTitle.Text = value;
-        }
-
-        [Description("底部说明"), Category("SunnyUI")]
-        [DefaultValue("SunnyUI")]
-        public string SubText
-        {
-            get => lblSubText.Text;
-            set => lblSubText.Text = value;
-        }
 
         [Description("用户登录"), Category("SunnyUI")]
         [DefaultValue("用户登录")]
@@ -142,6 +128,46 @@ namespace Sunny.UI
             base.SetStyle(style);
             uiLine1.SetStyleColor(style.Colors());
             uiLine1.FillColor = UIColor.White;
+        }
+
+        private void uiSymbolButton1_Click(object sender, EventArgs e)
+        {
+            OpenLink("https://www.facebook.com/groups/lamtool.net");
+        }
+        private void OpenLink(string url)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể mở link: " + ex.Message);
+            }
+        }
+
+        private void uiSymbolButton2_Click(object sender, EventArgs e)
+        {
+            OpenLink("https://t.me/lamtool_net");
+        }
+
+        private void uiSymbolButton3_Click(object sender, EventArgs e)
+        {
+            OpenLink("https://www.tiktok.com/@lamtool.net?");
+        }
+
+        private void uiSymbolButton4_Click(object sender, EventArgs e)
+        {
+            OpenLink("https://www.youtube.com/channel/UCJoKRG-V3-QaGGlisVKEscQ");
+        }
+
+        private void uiSymbolButton5_Click(object sender, EventArgs e)
+        {
+            OpenLink("https://zalo.me/g/uubote459");
         }
 
         [Description("确认按钮事件"), Category("SunnyUI")]

@@ -98,7 +98,6 @@
             ShowTitle = false;
             Text = "Form1";
             ZoomScaleRect = new Rectangle(15, 15, 667, 386);
-            Load += Form1_Load;
             panel1.ResumeLayout(false);
             ResumeLayout(false);
         }

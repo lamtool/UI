@@ -116,16 +116,12 @@ namespace Sunny.Subdy.UI.View.Controls
             txtDate.Size = new Size(389, 29);
             txtDate.SymbolDropDown = 61555;
             txtDate.SymbolNormal = 61555;
-            txtDate.SymbolSize = 24;
             txtDate.TabIndex = 14;
             txtDate.Text = "2025-06-13";
-            txtDate.TextAlignment = ContentAlignment.MiddleLeft;
-            txtDate.Value = new DateTime(2025, 6, 13, 14, 46, 43, 0);
             txtDate.Watermark = "";
             // 
             // txtType
             // 
-            txtType.DataSource = null;
             txtType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             txtType.FillColor = Color.White;
             txtType.Font = new Font("Microsoft Sans Serif", 12F);
@@ -138,9 +134,7 @@ namespace Sunny.Subdy.UI.View.Controls
             txtType.Name = "txtType";
             txtType.Padding = new Padding(0, 0, 30, 2);
             txtType.Size = new Size(389, 29);
-            txtType.SymbolSize = 24;
             txtType.TabIndex = 13;
-            txtType.TextAlignment = ContentAlignment.MiddleLeft;
             txtType.Watermark = "";
             // 
             // txtName
@@ -156,7 +150,6 @@ namespace Sunny.Subdy.UI.View.Controls
             txtName.Size = new Size(389, 35);
             txtName.Symbol = 363070;
             txtName.TabIndex = 12;
-            txtName.TextAlignment = ContentAlignment.MiddleLeft;
             txtName.Watermark = "Nhập tên kịch bản...";
             // 
             // fEditScirpt
@@ -171,8 +164,11 @@ namespace Sunny.Subdy.UI.View.Controls
             Controls.Add(txtType);
             Controls.Add(txtName);
             Controls.Add(uiLabel1);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "fEditScirpt";
-            Text = "fEditScirpt";
+            ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
             ResumeLayout(false);
         }
 

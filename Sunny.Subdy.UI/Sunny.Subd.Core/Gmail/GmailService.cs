@@ -61,7 +61,7 @@ namespace Sunny.Subd.Core.Gmail
                 if (_client.ElementWithAttributes("//*[@text=\"Google\"]", 10))
                 {
                     _client.ElementWithAttributes(new List<string> { "//*[@text=\"Xóa tài khoản\"]", "//*[@text=\"Remove account\"]" }, 10);
-                    _client.ElementWithAttributes("//*[@resource-id=\"android:id/button1\"]", 10);
+                    _client.ElementWithAttributes(new List<string> { "//*[@resource-id=\"android:id/button1\"]", "//*[@text=\"Xóa tài khoản\"]", "//*[@text=\"Remove account\"]" }, 10);
                 }
                 if (!GetAccount().Any())
                 {

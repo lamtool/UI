@@ -11,8 +11,8 @@ namespace Sunny.Subd.Core.Facebook
     {
         private Stopwatch Stopwatch = new Stopwatch();
         private CancellationToken _ct;
-        private ADBClient _device;
-        private Account _account;
+        private ADBClient _client;
+        private Account _account; private string _sate = string.Empty;
         private void CheckStop(int second)
         {
             if (Stopwatch.ElapsedMilliseconds > second * 1000)
@@ -24,20 +24,38 @@ namespace Sunny.Subd.Core.Facebook
                 throw new SubdyExtension(SubdyEnum.Stop, "Bạn đã dừng thực hiện việc thao tác.");
             }
         }
-        private void SetStatus(string status)
+        private void DelayMessage(int second, string message, int color)
         {
-            if (_account == null || _device == null)
+            for (int i = 1; i <= second; i++)
             {
-                return;
+                SetStatus($"[{i}/{second}]..." + message, color);
+                Application.DoEvents();
+                Thread.Sleep(1000);
             }
-            _account.Status = status;
-            _device.Device.Status = status;
         }
-        public async Task<SubdyExtension> Login(ADBClient client, Account account, string json, CancellationToken ct)
+        private void SetStatus(string status, int color)
         {
-            _device = client ?? throw new ArgumentNullException(nameof(client), "ADBClient cannot be null");
+            if (!string.IsNullOrEmpty(_sate))
+            {
+                status = $"[{_sate}] - ({status})";
+            }
+            if (_account != null)
+            {
+                _account.Status = status;
+                _account.RecentInteraction = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
+                _account.ColorType = color;
+            }
+            if (_client?.Device != null)
+            {
+                _client.Device.Status = status;
+                _client.Device.TypeColor = color;
+            }
+        }
+        public async Task<SubdyExtension> Login(ADBClient client, Account account, CancellationToken ct)
+        {
+            _sate = "Đăng nhập Facebook";
+            _client = client ?? throw new ArgumentNullException(nameof(client), "ADBClient cannot be null");
             _account = account ?? throw new ArgumentNullException(nameof(account), "Account cannot be null");
-            JsonHelper jsonHelper = new JsonHelper(json);
             _ct = ct;
             SubdyEnum subyEnum = SubdyEnum.None;
             string message = "Đã xảy ra lỗi đang nhặp tài khoản!";
@@ -46,14 +64,14 @@ namespace Sunny.Subd.Core.Facebook
             while (true)
             {
                 CheckStop(180);
-                SetStatus($"Đang đăng nhập.");
+                SetStatus($"Đang đăng nhập.", 2);
                 _case = client.FindElement("", FacebookHander.GetActiAccount(), 120);
                 if (string.IsNullOrEmpty(_case))
                 {
                     client.AppStart(FacebookHander.Package(), true, true, true);
                     continue;
                 }
-                SetStatus($"Xử lý case [{_case}]...");
+                SetStatus($"Xử lý case [{_case}]...", 2);
                 switch (_case)
                 {
                     case var c when XpathManager.Get(XpathType.Loading).Contains(c): continue;
@@ -68,15 +86,15 @@ namespace Sunny.Subd.Core.Facebook
                     case var c when XpathManager.Get(XpathType.Captcha).Contains(c):
                         subyEnum = SubdyEnum.Captcha;
                         message = $"Tài khoản dính captcha. [{c}]";
-                        return new SubdyExtension(subyEnum, message);
+                        throw new SubdyExtension(subyEnum, message);
                     case var c when XpathManager.Get(XpathType.Block).Contains(c):
                         subyEnum = SubdyEnum.Block;
                         message = $"Tài khoản bị block. [{c}]";
-                        return new SubdyExtension(subyEnum, message);
+                        throw new SubdyExtension(subyEnum, message);
                     case var c when XpathManager.Get(XpathType.Logout).Contains(c):
                         subyEnum = SubdyEnum.LogOut;
                         message = $"Tài khoản bị đăng xuất. [{c}]";
-                        return new SubdyExtension(subyEnum, message);
+                        throw new SubdyExtension(subyEnum, message);
                     case var c when XpathManager.Get(XpathType.Success).Contains(c):
                         subyEnum = SubdyEnum.Success;
                         message = $"Tài khoản đăng nhập thành công. [{c}]";
@@ -104,47 +122,66 @@ namespace Sunny.Subd.Core.Facebook
         private async Task ImportUid()
         {
 
-            string uid = _account.Uid;
-            var elements = _device.FindElements(10, "", "//*[@class='android.widget.EditText']");
+            string uid = _account.Uid_Email;
+            var elements = _client.FindElements(10, "", "//*[@class='android.widget.EditText']");
             if (!elements.Any() || elements.Count != 2) return;
-            SetStatus($"Đang nhập {uid}...");
-            _device.SendTextSlow("//*[@class='android.widget.EditText']", uid, xml: elements[0].OuterXml);
-            SetStatus($"Đang nhập {_account.Password}...");
-            _device.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password, xml: elements[1].OuterXml);
-            _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+            SetStatus($"Đang nhập {uid}...", 2);
+            _client.SendTextSlow("//*[@class='android.widget.EditText']", uid, xml: elements[0].OuterXml);
+            SetStatus($"Đang nhập {_account.Password}...", 2);
+            _client.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password, xml: elements[1].OuterXml);
+            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             return;
         }
         private async Task ImportPassword()
         {
-            SetStatus($"Đang nhập {_account.Password}...");
-            _device.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password);
-            _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+            SetStatus($"Đang nhập {_account.Password}...", 2);
+            _client.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password);
+            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             return;
         }
         private async Task Import2FA()
         {
             if (string.IsNullOrEmpty(_account.TowFA))
             {
-                SetStatus("Không có mã 2FA để nhập.");
+                SetStatus("Không có mã 2FA để nhập.", 2);
                 throw new SubdyExtension(SubdyEnum.LogOut, "Tài khoản không có 2fa...");
             }
-            SetStatus($"Đang nhập 2FA {_account.TowFA}...");
+            SetStatus($"Đang nhập 2FA {_account.TowFA}...", 2);
 
-            string element = _device.FindElement("", new List<string> { "//*[@content-desc='Try another way']", "//*[@text=\"OK\"]", "//*[@class='android.widget.EditText']" }, 10);
+            string element = _client.FindElement("", new List<string> { "//*[@content-desc='Try another way']", "//*[@text=\"OK\"]", "//*[@class='android.widget.EditText']" }, 10);
             if (element == "//*[@content-desc='Try another way']")
             {
-                _device.ElementWithAttributes("//*[@content-desc='Authentication app, Get a code from your authentication app.']", 10);
-                _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+                _client.ElementWithAttributes("//*[@content-desc='Authentication app, Get a code from your authentication app.']", 10);
+                _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             }
             else if (element == "//*[@text=\"OK\"]")
             {
-                _device.ElementWithAttributes("//*[@text=\"OK\"]", 10);
+                _client.ElementWithAttributes("//*[@text=\"OK\"]", 10);
             }
             string code = FacebookHander.GetCodeTowFA(_account.TowFA);
-            _device.SendTextSlow("//*[@class='android.widget.EditText']", code);
-            _device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+            _client.SendTextSlow("//*[@class='android.widget.EditText']", code);
+            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
             return;
         }
 
+        public Task<SubdyExtension> Reaction(ADBClient client, Account account, string type, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SubdyExtension> Follow(ADBClient client, Account account, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SubdyExtension> LikePage(ADBClient client, Account account, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SubdyExtension> JoinGroup(ADBClient client, Account account, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

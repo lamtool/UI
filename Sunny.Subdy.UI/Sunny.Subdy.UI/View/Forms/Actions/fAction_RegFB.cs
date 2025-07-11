@@ -160,11 +160,11 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
                 comboBox2.SelectedIndex = 0;
             }
 
-
+            LoadUI();
 
             new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name + "_" + _platform, action: new System.Action(() =>
             {
-                LoadUI();
+              
                 panel11.Enabled = check_Bia.Checked;
                 panel12.Enabled = check_Avatar.Checked;
                 if (uiComboBox1.Text == RegistrationType.Domain || uiComboBox1.Text == RegistrationType.Domain_BaitPhoneNumber)
@@ -200,6 +200,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
                 }
                 panel3.Enabled = checkBox1.Checked;
                 txtPass.Enabled = !check_PassRandom.Checked;
+                uiComboBox1_SelectedIndexChanged(null, null);
 
             }), exists: false);
 
@@ -305,6 +306,11 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
                 return;
             }
             Folder = _folderContext.GetByName(comboBox3.Text.Trim());
+            if (Folder == null)
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng chọn nhóm tài khoản cần lưu.");
+                return;
+            }
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

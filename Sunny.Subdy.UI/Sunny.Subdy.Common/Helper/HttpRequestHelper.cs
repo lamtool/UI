@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Sunny.Subdy.Common.Logs;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Sunny.Subdy.Common.Helper
@@ -22,6 +23,7 @@ namespace Sunny.Subdy.Common.Helper
             if (ptr == IntPtr.Zero) return null;
             string response = Marshal.PtrToStringUni(ptr);
             FreeResponse(ptr);
+            LogManager.Info(response);
             return response;
         }
 
@@ -65,7 +67,17 @@ namespace Sunny.Subdy.Common.Helper
 
             return Request("POST", url, headerText, bodyText, proxy, "", "");
         }
+        public static string POST_JSON(string url, Dictionary<string, string> headers = null, string jsonBody = "")
+        {
+            if (headers == null)
+                headers = new Dictionary<string, string>();
 
+            if (!headers.ContainsKey("Content-Type"))
+                headers["Content-Type"] = "application/json";
+
+            string headerText = BuildHeader(headers);
+            return Request("POST", url, headerText, jsonBody);
+        }
         // Optional: add proxy auth overloads if needed
         public static string GET(string url, string proxy, string user, string pass, Dictionary<string, string> headers = null)
         {

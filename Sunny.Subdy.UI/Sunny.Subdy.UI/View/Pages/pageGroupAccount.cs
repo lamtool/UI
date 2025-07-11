@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Sunny.Subdy.Data.Context;
+using Sunny.Subdy.UI.View.Controls;
+using Sunny.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using OpenCvSharp;
-using Sunny.Subdy.Common.ControlMethod;
-using Sunny.Subdy.Data.Context;
-using Sunny.Subdy.Data.Models;
-using Sunny.Subdy.UI.View.Controls;
-using Sunny.UI;
 
 namespace Sunny.Subdy.UI.View.Pages
 {
@@ -18,8 +15,12 @@ namespace Sunny.Subdy.UI.View.Pages
         public pageGroupAccount(pageFacebook pageFacebook)
         {
             InitializeComponent();
-            this.Symbol = 559937; // Set the symbol for the page, can be used for icons
+            this.Symbol = 559937;
             _folderContext = new FolderContext();
+            if (string.IsNullOrEmpty(txtType.Text))
+            {
+                txtType.SelectedIndex = 0;
+            }
             new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
             {
                 LoadFolders(uiTextBox1.Text, txtType.Text.Trim());

@@ -24,7 +24,9 @@ namespace Sunny.Subdy.UI.View.Controls
             this.Tag = _folder.Id; // Store the folder ID in the Tag property for later use
             this.uiLabel1.Text = _folder.Name;
             this.uiLabel2.Text = _folder.DateCreate;
-            this.uiLabel5.Text = _folder.Count;
+            int count = new AccountContext().CountByFolder(_folder.Name);
+            this.uiLabel5.Text = count.ToString();
+            _folder.Count = count.ToString();
             string type = _folder.Type.Trim().ToLower();
             if (type == "facebook")
             {

@@ -305,7 +305,7 @@ namespace Sunny.Subdy.UI.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap icons8_instagram_40 {
             get {
-                object obj = ResourceManager.GetObject("icons8-instagram-40", resourceCulture);
+                object obj = ResourceManager.GetObject("icons8_instagram_40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -606,6 +606,158 @@ namespace Sunny.Subdy.UI.Properties {
             get
             {
                 object obj = ResourceManager.GetObject("icons8_gmail_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_zalo_40
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_zalo_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap thumbs_up
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("thumbs_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap bar_chart_50dp_F19E39_FILL0_wght400_GRAD0_opsz48
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("bar_chart_50dp_F19E39_FILL0_wght400_GRAD0_opsz48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap facebook_reactions_1
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("facebook_reactions_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap facebook
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("facebook", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap facebook_reactions_2
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("facebook_reactions_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap facebook_reactions_3
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("facebook_reactions_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap facebook_reactions_4
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("facebook_reactions_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap facebook_reactions_5
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("facebook_reactions_5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_follow_40
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_follow_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap groups_50dp_5985E1_FILL0_wght400_GRAD0_opsz48
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("groups_50dp_5985E1_FILL0_wght400_GRAD0_opsz48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_agreement_like_80
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_agreement_like_80", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap monitoring_54dp_314D1C_FILL0_wght400_GRAD0_opsz48
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("monitoring_54dp_314D1C_FILL0_wght400_GRAD0_opsz48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_share_40
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_share_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_facebook_like_48
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_facebook_like_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap contacts_54dp_0000F5_FILL0_wght400_GRAD0_opsz48
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("contacts_54dp_0000F5_FILL0_wght400_GRAD0_opsz48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_coin_40
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_coin_40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap logout_54dp_314D1C_FILL0_wght400_GRAD0_opsz48
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("logout_54dp_314D1C_FILL0_wght400_GRAD0_opsz48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap done_all_301
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("done_all_301", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using RestSharp;
 using Sunny.Subd.Core.Utils;
+using Sunny.Subdy.Common.Logs;
 
 namespace Sunny.Subd.Core.Facebook
 {
@@ -31,9 +32,9 @@ namespace Sunny.Subd.Core.Facebook
                 }
                 return isLive;
             }
-            catch
+            catch(Exception ex)
             {
-
+                LogManager.Error(ex);
             }
             return false;
         }

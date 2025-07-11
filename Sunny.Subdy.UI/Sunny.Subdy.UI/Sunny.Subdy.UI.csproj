@@ -19,7 +19,7 @@
 		<Version>$(CurrentTime)</Version>
 		<AssemblyVersion>$(CurrentTime)</AssemblyVersion>
 		<FileVersion>$(CurrentTime)</FileVersion>
-		<AssemblyName>LamToolAutoPhone-$(Version)</AssemblyName>
+		<AssemblyName>LamToolAutoPhone$(CurrentTime)</AssemblyName>
 		<Product>LamToolAutoPhone</Product>
 		<Company>LamToolAutoPhone</Company>
 		<Copyright>LamToolAutoPhone</Copyright>
@@ -55,7 +55,6 @@
 
 	<!-- Project References -->
 	<ItemGroup>
-		<ProjectReference Include="..\HttpRequestLib\HttpRequestLib\HttpRequestLib.vcxproj" />
 		<ProjectReference Include="..\SunnyUI\SunnyUI.csproj" />
 		<TrimmerRootAssembly Include="SunnyUI" />
 		<ProjectReference Include="..\AutoAndroid\AutoAndroid.csproj" />
@@ -98,7 +97,142 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="Asset\Logo.ico" />
+	  <None Remove="Asset\account.png" />
+	  <None Remove="Asset\apk_document_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\apk_install_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\apps_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\bar_chart_50dp_F19E39_FILL0_wght400_GRAD0_opsz48.png" />
+	  <None Remove="Asset\Capture.PNG" />
+	  <None Remove="Asset\checklist_30dp.png" />
+	  <None Remove="Asset\check_box_outline_blank_30dp.png" />
+	  <None Remove="Asset\docBackDevice.PNG" />
+	  <None Remove="Asset\docChangeDevicePhone.PNG" />
+	  <None Remove="Asset\docGetDevice.PNG" />
+	  <None Remove="Asset\docRestoreDevice.PNG" />
+	  <None Remove="Asset\done_all_30.png" />
+	  <None Remove="Asset\facebook-reactions %281%29.png" />
+	  <None Remove="Asset\facebook-reactions %282%29.png" />
+	  <None Remove="Asset\facebook-reactions %283%29.png" />
+	  <None Remove="Asset\facebook-reactions %284%29.png" />
+	  <None Remove="Asset\facebook-reactions %285%29.png" />
+	  <None Remove="Asset\facebook.png" />
+	  <None Remove="Asset\functions_30dp.png" />
+	  <None Remove="Asset\groups_50dp_5985E1_FILL0_wght400_GRAD0_opsz48.png" />
+	  <None Remove="Asset\icons8-gmail-40.png" />
+	  <None Remove="Asset\icons8-zalo-40.png" />
+	  <None Remove="Asset\icons8_agreement_like_80.png" />
+	  <None Remove="Asset\icons8_facebook_like_48.png" />
+	  <None Remove="Asset\icons8_follow_40.png" />
+	  <None Remove="Asset\icons8_share_40.png" />
+	  <None Remove="Asset\icons8_zalo_40.png" />
+	  <None Remove="Asset\LamTool.net.png" />
+	  <None Remove="Asset\Logo.png" />
+	  <None Remove="Asset\menu_80.png" />
+	  <None Remove="Asset\monitoring_54dp_314D1C_FILL0_wght400_GRAD0_opsz48.png" />
+	  <None Remove="Asset\monitoring_54dp_75FB4C_FILL0_wght400_GRAD0_opsz48.png" />
+	  <None Remove="Asset\mystery_30dp.png" />
+	  <None Remove="Asset\notification.png" />
+	  <None Remove="Asset\PanelThanks.png" />
+	  <None Remove="Asset\playlist_add_check_30dp.png" />
+	  <None Remove="Asset\restart_alt_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\router_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\select_check_box_30dp.png" />
+	  <None Remove="Asset\send_to_mobile_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\signal_wifi_4_bar_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\thumbs-up.png" />
+	  <None Remove="Asset\trip_origin_30dp_48752C_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\visibility_30dp.png" />
+	  <None Remove="Asset\visibility_off_30dp.png" />
+	  <None Remove="Asset\wifi_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	  <None Remove="Asset\wifi_off_30dp_434343_FILL0_wght400_GRAD0_opsz24.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Asset\Logo.ico" />
+		<Resource Include="Asset\Logo.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\menu_80.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\monitoring_54dp_314D1C_FILL0_wght400_GRAD0_opsz48.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\monitoring_54dp_75FB4C_FILL0_wght400_GRAD0_opsz48.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\mystery_30dp.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\notification.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\PanelThanks.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\playlist_add_check_30dp.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\restart_alt_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\router_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\select_check_box_30dp.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\send_to_mobile_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\signal_wifi_4_bar_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\trip_origin_30dp_48752C_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\trip_origin_30dp_EA3323_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\visibility_30dp.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\visibility_off_30dp.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\wifi_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Asset\wifi_off_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\bar_chart_50dp_F19E39_FILL0_wght400_GRAD0_opsz48.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\facebook.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\icons8_agreement_like_80.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\icons8_facebook_like_48.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\icons8_follow_40.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\icons8_share_40.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\icons8_zalo_40.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\monitoring_54dp_314D1C_FILL0_wght400_GRAD0_opsz48.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\monitoring_54dp_75FB4C_FILL0_wght400_GRAD0_opsz48.png">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
 	</ItemGroup>
 
 	<!-- Trimming Rules -->
@@ -126,6 +260,74 @@
 	<!-- Optional: workaround for crash in parallel merge sort -->
 	<ItemGroup>
 		<IlcCompileInput Include="--parallelism:1" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Asset\account.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\apk_document_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\apk_install_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\apps_30dp_434343_FILL0_wght400_GRAD0_opsz24.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\bar_chart_50dp_F19E39_FILL0_wght400_GRAD0_opsz48.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\Capture.PNG">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\checklist_30dp.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\check_box_outline_blank_30dp.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\docBackDevice.PNG">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\docChangeDevicePhone.PNG">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\docGetDevice.PNG">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\docRestoreDevice.PNG">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\done_all_30.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\facebook.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\functions_30dp.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\groups_50dp_5985E1_FILL0_wght400_GRAD0_opsz48.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\icons8_agreement_like_80.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\icons8_facebook_like_48.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\icons8_follow_40.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\icons8_share_40.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\icons8_zalo_40.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Asset\LamTool.net.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 
 </Project>

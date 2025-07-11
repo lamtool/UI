@@ -172,7 +172,6 @@ namespace Sunny.Subdy.UI.View.Forms
             // 
             // txtType
             // 
-            txtType.DataSource = null;
             txtType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             txtType.FillColor = Color.White;
             txtType.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -186,9 +185,7 @@ namespace Sunny.Subdy.UI.View.Forms
             txtType.Padding = new Padding(0, 0, 30, 2);
             txtType.RectColor = Color.White;
             txtType.Size = new Size(226, 23);
-            txtType.SymbolSize = 24;
             txtType.TabIndex = 9;
-            txtType.TextAlignment = ContentAlignment.MiddleLeft;
             txtType.Watermark = "";
             txtType.SelectedIndexChanged += txtType_SelectedIndexChanged;
             // 

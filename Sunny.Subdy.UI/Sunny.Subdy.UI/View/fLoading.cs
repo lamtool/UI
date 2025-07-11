@@ -1,9 +1,9 @@
 ﻿using DeviceId;
 using Sunny.Subdy.AutoUpdate;
-using Sunny.Subdy.AutoUpdate.Api;
+using Sunny.Subdy.Common.API;
 using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Common.Models;
-using Sunny.Subdy.Common.Services;
+using Sunny.Subdy.UI.ControlViews.Convertes;
 using Sunny.Subdy.UI.Services;
 using Sunny.UI;
 using System;
@@ -11,7 +11,6 @@ using System.Drawing;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 using Application = System.Windows.Forms.Application;
 
 namespace Sunny.Subdy.UI.View
@@ -43,21 +42,21 @@ namespace Sunny.Subdy.UI.View
                     .ToString();
                 string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
                 MainForm.uiLabel7.Text = "v" + version;
-                LamTool_API lamtool = new LamTool_API(Globals.DeviceId, Globals.NameApp, version);
-                if (!await lamtool.GetApiResponseAsync())
+                var (ok, vs, url) = LamToolClient.GetApiResponseAsync(Globals.DeviceId, Globals.NameApp, version);
+                if (!ok)
                 {
                     MessageBox.Show("Đã xảy ra lỗi vui lòng liên hệ admin để được hỗ trợ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    System.Windows.Forms.Application.Exit();
+                    Environment.Exit(0);
                     return;
                 }
-                if (lamtool.IsNewerVersion())
+                if (LamToolClient.IsNewerVersion(version, vs))
                 {
-                    if (MessageBox.Show($"Có phiên bản mới {lamtool._newVersion} bạn có muốn cập nhật không?", "Cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    if (MessageBox.Show($"Có phiên bản mới {vs} bạn có muốn cập nhật không?", "Cập nhật", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         this.Hide();
-                        fUpdate updateForm = new fUpdate(lamtool._updateUrl);
+                        fUpdate updateForm = new fUpdate(url, version);
                         updateForm.ShowDialog();
-                        Application.Exit();
+                        Environment.Exit(0);
                         return;
                     }
                 }
@@ -70,7 +69,7 @@ namespace Sunny.Subdy.UI.View
             catch (Exception ex)
             {
                 CommonMethod.ShowMessageError(ex.Message);
-                Application.Exit();
+                Environment.Exit(0);
             }
         }
         private void fLoading_Load(object sender, EventArgs e)
@@ -109,4 +108,5 @@ namespace Sunny.Subdy.UI.View
             }
         }
     }
+
 }

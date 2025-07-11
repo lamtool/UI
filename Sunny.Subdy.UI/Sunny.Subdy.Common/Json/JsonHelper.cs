@@ -103,6 +103,18 @@ namespace Sunny.Subdy.Common.Json
             }
             return result;
         }
+        public DateTime? GetValueDateTime(string key, DateTime? defaultValue = null)
+        {
+            DateTime? result = defaultValue;
+            try
+            {
+                result = (_jobject[key] == null) ? defaultValue : DateTime.Parse(_jobject[key].ToString());
+            }
+            catch
+            {
+            }
+            return result;
+        }
         /// <summary>
         /// Lấy danh sách các giá trị từ một chuỗi đầu vào.
         /// </summary>

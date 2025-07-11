@@ -5,7 +5,7 @@ namespace Sunny.Subd.Core.Phone
 {
     public class PhoneFunotp
     {
-        public static async Task<string> GetPhone(string token)
+        public static async Task<string> GetPhone(string token, string service)
         {
             string phoneNumber = string.Empty;
             string session = string.Empty;
@@ -13,7 +13,7 @@ namespace Sunny.Subd.Core.Phone
             try
             {
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Get, $"https://funotp.com/api?action=number&service=facebook&apikey={token}");
+                var request = new HttpRequestMessage(HttpMethod.Get, $"https://funotp.com/api?action=number&service={service}&apikey={token}");
                 var response = await client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
                 string json = await response.Content.ReadAsStringAsync();

@@ -23,7 +23,8 @@ namespace Sunny.Subdy.UI.View.Controls
             _script = script;
             _scriptActionContext = new ScriptActionContext();
             LoadData();
-            _configHelper = new Common.Json.ConfigHelper(this, _script.JsonData);
+            uiDataGridView2.CellClick += dataGridView1_CellClick;
+            _configHelper = new Common.Json.ConfigHelper(this, _script.JsonData, null);
         }
         private void LoadData()
         {
@@ -158,8 +159,11 @@ namespace Sunny.Subdy.UI.View.Controls
             {
                 case TypeAction.FB_SpamXu:
                     {
-                        fAction_SpamXu form = new fAction_SpamXu(TypeAction.GetNameAction(action.Name), action.Json);
-                        form.ShowDialog();
+                        fAction_SpamXu form = new fAction_SpamXu(action.Name, action.Json);
+                        if (form.ShowDialog() != DialogResult.OK)
+                        {
+                            return;
+                        }
                         config = form._Json;
                         name = form._Name.Trim();
                         break;
@@ -169,11 +173,8 @@ namespace Sunny.Subdy.UI.View.Controls
             {
                 return;
             }
-            action = new ScriptAction
-            {
-                Name = name,
-                Json = config,
-            };
+            action.Json = config;
+            action.Name = name;
             if (!_scriptActionContext.Update(action))
             {
                 CommonMethod.ShowMessageError("Lỗi khi thêm hành động vào kịch bản", "Lỗi");
