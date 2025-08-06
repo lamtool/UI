@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Sunny.Subdy.Common.API.Jobs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,10 @@ namespace Sunny.Subdy.Common.API
                     {
                         Coin = Convert.ToDouble(job["fix_coin_job"]);
                     }
+                    if (job.ContainsKey("price_per_after_cost"))
+                    {
+                        Coin = Convert.ToDouble(job["price_per_after_cost"]);
+                    }
                     if (job.ContainsKey("data_comment"))
                     {
                         Contents = new List<string> { job["data_comment"]!["comment"]!.ToString() };
@@ -54,7 +59,25 @@ namespace Sunny.Subdy.Common.API
                         Link = job["link"]!.ToString();
                     }
                     break;
-
+                case JobServices.TuongTacCheo:
+                    if (job.ContainsKey("idfb"))
+                    {
+                        JobId = job["idfb"]!.ToString();
+                    }
+                    if (job.ContainsKey("idpost"))
+                    {
+                        ObjectId = job["idpost"]!.ToString();
+                    }
+                    
+                    if (job.ContainsKey("loaicx"))
+                    {
+                        Type = job["loaicx"]!.ToString().ToLower();
+                    }
+                    if (string.IsNullOrEmpty(Type))
+                    {
+                        Type = job_type;
+                    }
+                    break;
             }
         }
     }

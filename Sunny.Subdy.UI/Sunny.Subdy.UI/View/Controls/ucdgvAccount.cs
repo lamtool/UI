@@ -1,24 +1,30 @@
 ﻿using Sunny.Subd.Core.Gmail;
+using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Utils;
+using Sunny.Subdy.Common.API;
+using Sunny.Subdy.Common.API.Captchas;
+using Sunny.Subdy.Common.API.Jobs.TuongTacCheo;
+using Sunny.Subdy.Common.API.Jobs.VipIG;
 using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Common.Helper;
+using Sunny.Subdy.Common.Json;
+using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.Common.Models;
-using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using Sunny.Subdy.UI.ControlViews.Convertes;
-using Sunny.Subdy.UI.View.Controls;
 using Sunny.Subdy.UI.View.Forms;
+using Sunny.Subdy.UI.View.Forms.Actions;
 using Sunny.UI;
-using Sunny.UI.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Drawing;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Sunny.Subdy.UI.View.Controls
 {
@@ -38,12 +44,66 @@ namespace Sunny.Subdy.UI.View.Controls
             uiDataGridView2.CellFormatting += uiDataGridView1_CellFormatting;
             uiDataGridView2.AllowUserToResizeRows = false;
             ControlHelper.LoadConfigColums(uiDataGridView2, new List<string> { "IsView", "Running", "ColorType", "Id" });
-            LoadControlModelHelper.LoadToolStripAccount("", "", toolStrip1, new JobHistoryContext());
+
+
+            var folder = _folders?.First();
+            if (folder != null && folder.Type == PlatformModel.Instagram)
+            {
+                LoadControlModelHelper.LoadToolStripAccount(folder.Type, "", "", toolStrip1, new JobHistoryContext());
+            }
+            if (folder != null && folder.Type == "TuongTacCheo")
+            {
+                tanToolStripMenuItem.Visible = true;
+                List<string> list = new List<string>
+                {
+                    "Checked",
+                    "Column1",
+                    "uidDataGridViewTextBoxColumn",
+                    "passwordDataGridViewTextBoxColumn",
+                    "cookieDataGridViewTextBoxColumn",
+                    "tokenDataGridViewTextBoxColumn",
+                    "resultDataGridViewTextBoxColumn",
+                    "stateDataGridViewTextBoxColumn",
+                    "statusDataGridViewTextBoxColumn"
+                };
+                foreach (DataGridViewColumn column in uiDataGridView2.Columns)
+                {
+                    string name = column.Name;
+                    column.Visible = list.Contains(name);
+                }
+            }
+            else if (folder != null && folder.Type == "VipIG")
+            {
+                tanToolStripMenuItem.Text = "VipIG";
+                tanToolStripMenuItem.Visible = true;
+                getTokenToolStripMenuItem.Text = "Đăng nhập";
+                kiểmTraXuToolStripMenuItem.Visible = false;
+                getCookieToolStripMenuItem.Visible = false;
+                đăngKíTàiKhoảnToolStripMenuItem.Visible = true;
+                List<string> list = new List<string>
+                {
+                    "Checked",
+                    "Column1",
+                    "uidDataGridViewTextBoxColumn",
+                    "passwordDataGridViewTextBoxColumn",
+                    "cookieDataGridViewTextBoxColumn",
+                    "tokenDataGridViewTextBoxColumn",
+                    "resultDataGridViewTextBoxColumn",
+                    "stateDataGridViewTextBoxColumn",
+                    "statusDataGridViewTextBoxColumn"
+                };
+                foreach (DataGridViewColumn column in uiDataGridView2.Columns)
+                {
+                    string name = column.Name;
+                    column.Visible = list.Contains(name);
+                }
+                toolStripButton1.Visible = false;
+            }
         }
 
         private void UcdgvAccount_Load(object sender, EventArgs e)
         {
-           
+
         }
 
         private void uiDataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -410,6 +470,325 @@ namespace Sunny.Subdy.UI.View.Controls
             fViewDataGridView f = new fViewDataGridView(remainingHeaders, uiDataGridView2.Name);
             f.ShowDialog();
             ControlHelper.LoadConfigColums(uiDataGridView2, new List<string> { "IsView", "Running", "ColorType", "Id" });
+        }
+
+        private void getCookieToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = getCookieToolStripMenuItem_ClickSafe("cookie");
+        }
+        private async Task getCookieToolStripMenuItem_ClickSafe(string method)
+        {
+            var accounts = _accounts.Where(x => x.Checked).ToList();
+            if (!accounts.Any())
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng chọn tài khoản để kiểm tra.");
+                return;
+            }
+
+            facebookToolStripMenuItem.Enabled = false;
+            try
+            {
+                if (tanToolStripMenuItem.Text == "TuongTacCheo")
+                {
+                    var tuongtaccheo = new TuongTacCheoClient();
+                    foreach (var account in accounts)
+                    {
+
+                        try
+                        {
+                            if (string.IsNullOrEmpty(account.Token))
+                            {
+                                account.Status = "Đang lấy token";
+                                account.Token = await tuongtaccheo.GetTokenByUsername(account.Uid, account.Password);
+                            }
+                            if (string.IsNullOrEmpty(account.Token))
+                            {
+                                throw new Exception("Không có token.");
+                            }
+                            if (method == "token")
+                            {
+                                _accountContext.Update(account);
+                                continue;
+                            }
+                            if (method == "cookie")
+                            {
+                                account.Status = "Đang lấy cookie";
+                                account.Cookie = await tuongtaccheo.GetCookie(account.Token);
+                                _accountContext.Update(account);
+                                continue;
+                            }
+                            if (method == "coin")
+                            {
+                                account.Status = "Đang lấy coin";
+                                account.Result = await tuongtaccheo.GetCoin(account.Token);
+                                _accountContext.Update(account);
+                                continue;
+                            }
+                            _accountContext.Update(account);
+                        }
+                        catch (Exception ex)
+                        {
+                            account.Status = ex.Message;
+                            account.ColorType = 1;
+                        }
+
+                    }
+                }
+                else if (tanToolStripMenuItem.Text == "VipIG")
+                {
+                    var tuongtaccheo = new VipIGClient();
+                    foreach (var account in accounts)
+                    {
+                        string result = string.Empty;
+                        try
+                        {
+                            if (string.IsNullOrEmpty(account.Token))
+                            {
+                                account.Status = "Đang lấy token";
+                                result = await tuongtaccheo.LoginByUsername(account.Uid, account.Password);
+                            }
+                            else
+                            {
+                                result = await tuongtaccheo.LoginByToken(account.Token);
+                            }
+                            if (string.IsNullOrEmpty(result))
+                            {
+                                throw new Exception("Đăng nhập thất bại.");
+                            }
+                            string[] parts = result.Split('|');
+                            account.Cookie = parts[2];
+                            account.Result = parts[1];
+                            account.Status = parts[0];
+                            if (string.IsNullOrEmpty(account.Token))
+                            {
+                                account.Token = parts[3];
+                            }
+                            account.ColorType = 2;
+                            _accountContext.Update(account);
+                        }
+                        catch (Exception ex)
+                        {
+                            account.Status = ex.Message;
+                            account.ColorType = 1;
+                        }
+
+                    }
+                }
+
+
+            }
+            finally
+            {
+                facebookToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void getTokenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = getCookieToolStripMenuItem_ClickSafe("token");
+        }
+
+        private void kiểmTraXuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = getCookieToolStripMenuItem_ClickSafe("coin");
+        }
+
+        private void cậpNhậtTokenJobServiceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> ids = new List<string>();
+            foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
+            {
+                if (row.DataBoundItem is Account account)
+                {
+                    ids.Add(account.Id.ToString());
+                }
+            }
+            if (!ids.Any())
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng select dòng cần cập nhật.");
+                return;
+            }
+            fUpdateData f = new fUpdateData(ids, fUpdateData.TokenJob);
+            f.ShowDialog();
+            _ = LoadAccount();
+        }
+
+        private void đăngKíTàiKhoảnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fAction_RegVipIG f = new fAction_RegVipIG();
+            if (f.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            _ = đăngKíTàiKhoảnToolStripMenuItem_ClickSafe();
+        }
+        private async Task đăngKíTàiKhoảnToolStripMenuItem_ClickSafe()
+        {
+            int count = SettingsTool.GetSettings(nameof(fAction_RegVipIG)).GetIntType("numericUpDown1", 1);
+            string key = SettingsTool.GetSettings(nameof(fAction_RegVipIG)).GetValuesFromInputString("textBox1", "");
+            string password = SettingsTool.GetSettings(nameof(fAction_RegVipIG)).GetValuesFromInputString("textBox2", "LamTool.net");
+            if (string.IsNullOrEmpty(key))
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng nhập keycaptcha");
+                return;
+            }
+            VipIGClient client = new VipIGClient();
+            while (count > 0)
+            {
+                count--;
+                Account account = new Account();
+                account.NameFolder = _folders.FirstOrDefault().Name;
+                account.Id = Guid.NewGuid();
+                BindingList<Account> accounts = (BindingList<Account>)uiDataGridView2.DataSource;
+                accounts.Add(account);
+
+                try
+                {
+                    string username = SubdyHelper.RandomString("abcdefghijklmnopqrstuvwxyz0123456789", SubdyHelper.RandomValue(5, 30)) + "@lamtool.net";
+
+                    account.Status = "Đang đăng ký tài khoản.";
+                    string siteKey = await client.GetSiteKey();
+                    if (string.IsNullOrEmpty(siteKey))
+                    {
+                        account.Status = "Đang đăng ký tài khoản thất bại, không lấy được sitekey.";
+                        continue;
+                    }
+                    account.Status = "Tạo job giải captcha.";
+                    string id = await GuruCaptchaClient.GetIdCaptchaV2(key, siteKey, "https://vipig.net/index.php");
+                    if (id.Contains("ERROR"))
+                    {
+                        account.Status = $"Tạo job giải captcha thất bại. [{id}]";
+                        continue;
+                    }
+                    string token = string.Empty;
+                    account.Status = $"Đang giải captcha";
+                    for (int i = 0; i < 120; i++)
+                    {
+                        token = await GuruCaptchaClient.GetTokenCaptchaV2(key, id);
+                        if (token.Contains("ERROR"))
+                        {
+
+                            await Task.Delay(1000);
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    if (token.Contains("ERROR"))
+                    {
+                        account.Status = $"Giải captcha thất bị. [{token}]";
+                        continue;
+                    }
+                    account.Status = "Đang đăng ký tài khoản.";
+                    string value = await client.Register(username, password, token);
+
+                    if (!value.Contains("Đăng ký thành công"))
+                    {
+                        account.Status = $"Đăng kí tài khoản thất bại. [{value}]";
+                        continue;
+                    }
+                    account.Uid = username;
+                    account.Password = password;
+                    account.Status = $"Đăng nhập tài khoản.";
+                    value = await client.LoginByUsername(username, password);
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        account.Status = $"Đăng nhập tài khoản thất bại.";
+                        continue;
+                    }
+                    account.Cookie = value.Split('|')[2];
+                    account.Token = value.Split('|')[3];
+                    account.Status = $"Acti tài khoản.";
+                    if (await client.CauHinh("zackdfilms"))
+                    {
+                        account.Status = $"Acti tài khoản thành công.";
+
+                    }
+                    else
+                    {
+                        account.Status = $"Acti tài khoản thất bại.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Error(ex);
+                }
+                finally
+                {
+                    if (!string.IsNullOrEmpty(account.Uid))
+                    {
+                        string message = $"[{account.Uid}] Trừ 3 xu đăng kí tài khoản vipig.net.";
+                        string status = LamToolClient.SubtractBalance(Globals.User.UserName, 1, message);
+                        if (status.Contains("error"))
+                        {
+                            CommonMethod.ShowMessageError(status);
+                            count = -1;
+                        }
+                        _accountContext.Add(account);
+
+                    }
+
+                }
+
+            }
+            CommonMethod.ShowMessageSuccess("Đã đăng ký tài khoản thành công.");
+        }
+
+        private void cậpNhậtDữLiệuHàngLoạtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> ids = new List<string>();
+            foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
+            {
+                if (row.DataBoundItem is Account account)
+                {
+                    ids.Add(account.Id.ToString());
+                }
+            }
+            if (!ids.Any())
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng select dòng cần cập nhật.");
+                return;
+            }
+            fAddAccount f = new fAddAccount();
+            f.ShowDialog();
+            _ = LoadAccount();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void xóaTkVĩnhViễnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Guid> ids = new List<Guid>();
+            foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
+            {
+                if (row.DataBoundItem is Account account)
+                {
+                    ids.Add(account.Id);
+                }
+            }
+            if (!ids.Any())
+            {
+                CommonMethod.ShowMessageWarning("Vui lòng select dòng cần cập nhật.");
+                return;
+            }
+            if (!CommonMethod.ShowConfirmWarning($"Bạn có chắc chắn muốn xóa {ids.Count} tài khoản."))
+            {
+                return;
+            }
+            if (_accountContext.DeleteByIds(ids))
+            {
+                CommonMethod.ShowMessageSuccess($"Đã xóa thành công.");
+            }
+            else
+            {
+                CommonMethod.ShowMessageWarning($"Đã xảy ra lỗi.");
+            }
+            _ = LoadAccount();
         }
     }
 }

@@ -174,7 +174,7 @@ namespace Sunny.Subdy.Common.Services
                     case EmuAction.BackupIG:
                         tasks.Add(Task.Run(() =>
                         {
-                            apkPath = apkPath + $"{device.Serial}.tar.gz";
+                            apkPath = Path.Combine(apkPath, $"{device.Serial}.tar.gz");
                             BackupRestoreHelper apiPhone = new BackupRestoreHelper(device);
                             apiPhone.BackupInstagram(apkPath);
                         }));

@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Sunny.Subd.Core.Utils
+namespace Sunny.Subdy.Common.Helper
 {
     public class SubdyHelper
     {

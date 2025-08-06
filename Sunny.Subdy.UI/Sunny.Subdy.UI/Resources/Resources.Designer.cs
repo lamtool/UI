@@ -761,5 +761,45 @@ namespace Sunny.Subdy.UI.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        internal static System.Drawing.Bitmap icons8_database_administrator_48
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_database_administrator_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_update_50
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_update_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_update_64
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_update_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_trash_can_60
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_trash_can_60", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        internal static System.Drawing.Bitmap icons8_delete_50
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("icons8_delete_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

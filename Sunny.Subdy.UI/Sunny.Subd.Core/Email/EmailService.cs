@@ -36,14 +36,14 @@ namespace Sunny.Subd.Core.Email
                     }
             }
         }
-        public async Task<string> GetEmail(string email)
+        public async Task<string> GetEmail(string token)
         {
             string code = string.Empty;
             switch (_site)
             {
                 case RegistrationType.Domain_ShopVia:
                     {
-                        return await Shopvia1s.GetEmail(email);
+                        return await Shopvia1s.GetEmail(token);
                     }
                 case RegistrationType.Domain_Getnada:
                     {

@@ -33,25 +33,25 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
 
         public async Task<SubdyExtension> ExecuteAsync(Account account, ADBClient device, JsonHelper settingScript, JsonHelper settingAction, JsonHelper settingGeneral)
         {
-            xpaths.AddRange(XpathManager.Combine(XpathType.CP282, XpathType.Captcha, XpathType.NavigationButton));
+            xpaths.AddRange(XpathManagerFacebook.Combine(XpathType.CP282, XpathType.Captcha, XpathType.NavigationButton));
             stopwatch.Restart();
             while (stopwatch.ElapsedMilliseconds < 300000)
             {
                 string _case = device.FindElement("", xpaths, 30);
                 if (string.IsNullOrEmpty(_case))
                 {
-                    device.StopApp(FacebookHander.Package());
+                    device.StopApp(FacebookHander.Package(PlatformModel.Facebook));
                     device.Shell("am start -a android.intent.action.VIEW -d \"fb://facewebmodal/f?href=https://accountscenter.facebook.com/password_and_security/two_factor\"");
                     device.Delay(5);
                     continue;
                 }
                 switch (_case)
                 {
-                    case var c when XpathManager.Get(XpathType.NavigationButton).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.NavigationButton).Contains(c):
                         device.ElementWithAttributes(c);
                         break;
-                    case var c when XpathManager.Get(XpathType.CP282).Contains(c):
-                    case var x when XpathManager.Get(XpathType.Captcha).Contains(x):
+                    case var c when XpathManagerFacebook.Get(XpathType.CP282).Contains(c):
+                    case var x when XpathManagerFacebook.Get(XpathType.Captcha).Contains(x):
                         {
                             return new SubdyExtension(SubdyEnum.CP_282, $"Tài khoản bị. [{_case}]");
                         }
@@ -64,20 +64,20 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
                     case "//*[contains(@text, \"Authentication app (Recommended)\")]":
                         {
                             device.ElementWithAttributes(_case, 5);
-                            device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+                            device.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 5);
                             break;
                         }
                     case "//*[@text=\"Please re-enter your password\"]":
                         {
                             device.SendTextSlow("//*[@text=\"Password\"]", account.Password, timeout: 10);
-                            device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 15);
+                            device.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 15);
                             break;
                         }
                     case "//*[@text=\"Copy key\"]":
                     case "//*[@text=\"2. Scan this barcode/QR code or copy the key\"]":
                         {
                             string _2FA = Get2FA(device, account.TowFA);
-                            device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 15);
+                            device.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 15);
                             account.TowFA = _2FA;
                             break;
                         }
@@ -89,7 +89,7 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
                         {
                             string code = FacebookHander.GetCodeTowFA(account.TowFA);
                             device.SendTextSlow("//*[@class=\"android.widget.EditText\"]", code, timeout: 10);
-                            device.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 15);
+                            device.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 15);
                             device.Delay(10);
                             break;
                         }

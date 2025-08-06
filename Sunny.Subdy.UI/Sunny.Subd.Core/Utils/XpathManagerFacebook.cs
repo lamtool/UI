@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 
 namespace Sunny.Subd.Core.Utils
 {
-    public class XpathManager
+    public class XpathManagerFacebook
     {
         private static readonly ConcurrentDictionary<XpathType, List<string>> _xpathGroups = new();
-        static XpathManager()
+        static XpathManagerFacebook()
         {
             _xpathGroups.TryAdd(XpathType.Captcha, new List<string>
       {
@@ -77,7 +77,8 @@ namespace Sunny.Subd.Core.Utils
       });
             _xpathGroups.TryAdd(XpathType.NavigationButton, new List<string>
       {
-
+         "//*[@text=\"Use another profile\"]",
+          "//*[@content-desc=\"I already have an account\"]",
           "//*[@text=\"Continue using English (US)\"]",
           "//*[@text=\"Get started\"]",
           "//*[@text=\"Log in\"]",
@@ -124,7 +125,6 @@ namespace Sunny.Subd.Core.Utils
       {
           $"//*[contains(text, \"Enter Password\")]",
       });
-
             _xpathGroups.TryAdd(XpathType.Regsiner_Facebook, new List<string>
             {
 
@@ -160,6 +160,7 @@ namespace Sunny.Subd.Core.Utils
                 "//*[@text=\"Continue creating account\"]",
                 "//*[@content-desc=\"Continue creating account\"]",
                 "//*[@text=\"No, create account\"]",
+                "//*[@text=\"First name\"]",
                 "//*[@text=\"What's your name?\"]",
                 "//*[@text=\"When is your date of birth?\"]",
                 "//*[@text=\"SET\"]",

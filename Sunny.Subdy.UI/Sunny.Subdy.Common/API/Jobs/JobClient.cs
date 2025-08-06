@@ -1,26 +1,22 @@
 ﻿using Newtonsoft.Json.Linq;
 using Sunny.Subdy.Common.API.Jobs.GoLike;
+using Sunny.Subdy.Common.API.Jobs.TuongTacCheo;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Sunny.Subdy.Common.API.Jobs
 {
-    interface IJobBase
-    {
-        public JToken GetFacebookJob(string uid, string token, string job_type = "");
-        public JToken ReportFacebookJob(string uid, string fullname, string token, JobModel job);
-        public List<string> GetJobTypes(string token);
-        public string GetCoin(string token);
-    }
+
     public class JobClient
     {
-        public static List<JobModel> GetFacebookJob(string jobService, string uid, string token, string job_type = "")
+        public static async Task<List<JobModel>> GetFacebookJob(string jobService, string uid, string token, string job_type = "")
         {
             switch (jobService)
             {
                 case JobServices.GoLike:
                     {
                         var golikeClient = new GoLikeClient();
-                        JToken jGolike = golikeClient.GetFacebookJob(uid, token, job_type);
+                        JToken jGolike = await golikeClient.GetFacebookJob(uid, token, job_type);
 
                         if (jGolike == null)
                         {
@@ -41,25 +37,66 @@ namespace Sunny.Subdy.Common.API.Jobs
 
                         if (jobs.Count > 0)
                         {
+                            foreach (var job in jobs)
+                            {
+                                if (job.Type.Contains(JobTypes.LikeComment))
+                                {
+                                    job.Type = JobTypes.LikeComment;
+                                }
+                                else if (job.Type.Contains(JobTypes.LikePage))
+                                {
+                                    job.Type = JobTypes.LikePage;
+                                }
+                                else if (job.Type.Contains(JobTypes.Like))
+                                {
+                                    job.Type = JobTypes.Like;
+                                }
+                            }
+
                             return jobs;
                         }
 
                         throw new Exception("Không có job nào.");
                     }
+                case JobServices.TuongTacCheo:
+                    {
+                        var client = new TuongTacCheoClient();
+                        JToken jResult = await client.GetFacebookJob(token, job_type);
 
+                        if (jResult == null || jResult.Type != JTokenType.Array)
+                            throw new Exception("Dữ liệu trả về không hợp lệ hoặc không phải là mảng.");
+
+                        var jJobs = (JArray)jResult;
+
+                        var filteredJobs = jJobs
+     .OfType<JObject>()
+     .Where(j =>
+     {
+         var loaicx = j["loaicx"]?.ToString();
+         return string.IsNullOrEmpty(job_type) ||
+                string.Equals(loaicx, job_type, StringComparison.OrdinalIgnoreCase);
+     })
+     .Select(j => new JobModel(j, jobService, job_type))
+     .ToList();
+
+                        if (filteredJobs.Count > 0)
+                            return filteredJobs;
+
+                        throw new Exception("Không có job nào.");
+                    }
                 default:
                     throw new Exception("JobService không hợp lệ.");
             }
         }
 
-        public static string ReportFacebookJob(string jobService, string uid, string fullname, string token, JobModel job)
+        public static async Task<string> ReportFacebookJob(string jobService, string uid, string fullname, string token, JobModel job)
         {
             switch (jobService)
             {
                 case JobServices.GoLike:
                     {
                         var golikeClient = new GoLikeClient();
-                        JToken jGolike = golikeClient.ReportFacebookJob(uid, token, token, job);
+                        JToken jGolike = await golikeClient.ReportFacebookJob(uid, token, token, job);
 
                         if (jGolike == null)
                         {
@@ -71,7 +108,21 @@ namespace Sunny.Subdy.Common.API.Jobs
                         }
                         throw new Exception(jGolike.ToString());
                     }
+                case JobServices.TuongTacCheo:
+                    {
+                        var golikeClient = new TuongTacCheoClient();
+                        JToken jGolike = await golikeClient.ReportFacebookJob(token, job);
 
+                        if (jGolike == null)
+                        {
+                            throw new Exception("Không lấy được kết quả từ server.");
+                        }
+                        if (!string.IsNullOrEmpty(jGolike["mess"]?.ToString()))
+                        {
+                            return jGolike["mess"]?.ToString();
+                        }
+                        throw new Exception(jGolike.ToString());
+                    }
                 default:
                     throw new Exception("JobService không hợp lệ.");
             }
@@ -98,6 +149,7 @@ namespace Sunny.Subdy.Common.API.Jobs
                     throw new Exception("JobService không hợp lệ.");
             }
         }
+
         public static (double current_coin, double pending_coin) GetCoin(string jobService, string token)
         {
             switch (jobService)

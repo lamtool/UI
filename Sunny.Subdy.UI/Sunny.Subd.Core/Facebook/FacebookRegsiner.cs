@@ -6,6 +6,8 @@ using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Phone;
 using Sunny.Subd.Core.Proxies;
 using Sunny.Subd.Core.Utils;
+using Sunny.Subdy.Common;
+using Sunny.Subdy.Common.Helper;
 using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.Common.Models;
@@ -13,6 +15,8 @@ using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.Data.Context;
 using Sunny.Subdy.Data.Models;
 using System.Diagnostics;
+using System.IO;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 
 namespace Sunny.Subd.Core.Facebook
@@ -106,7 +110,7 @@ namespace Sunny.Subd.Core.Facebook
 
                 try
                 {
-
+                    _client.LogHelper.Sate = "Đăng kí tài khoản facebook.";
                     var message = await ImportInfo();
                     if (message.SubdyEnum == SubdyEnum.Success)
                     {
@@ -125,6 +129,22 @@ namespace Sunny.Subd.Core.Facebook
                         if (!_isNVR)
                         {
                             await UpdateInfo();
+                        }
+                        if (_settingGeneral.GetBooleanValue("checkBox2", true))
+                        {
+                            string profileDir = _settingGeneral.GetValuesFromInputString("textBox2", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Device"));
+                            profileDir = Path.Combine(profileDir, "Facebook");
+                            Directory.CreateDirectory(profileDir);
+                            string fileProfile = Path.Combine(profileDir, $"{_account.Uid}.tar.gz");
+                            _client.BackupDevice(fileProfile);
+                        }
+                        if (_settingGeneral.GetBooleanValue("checkBox3", true))
+                        {
+                            string profileDir = _settingGeneral.GetValuesFromInputString("textBox3", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Profile"));
+                            profileDir = Path.Combine(profileDir, "Facebook");
+                            Directory.CreateDirectory(profileDir);
+                            string fileProfile = Path.Combine(profileDir, $"{_account.Uid}.tar.gz");
+                            new BackupRestoreHelper(_client.Device).BackupFacebook(fileProfile);
                         }
 
                     }
@@ -178,7 +198,10 @@ namespace Sunny.Subd.Core.Facebook
                     typeActions.Add(Sunny.Subdy.Common.Models.TypeAction.FB_ChangeMail);
                 }
             }
-
+            if (_settingRegsiner.GetBooleanValue("check_2FA"))
+            {
+                typeActions.Add(Sunny.Subdy.Common.Models.TypeAction.FB_Turn2FA);
+            }
             if (!typeActions.Any())
             {
                 return new SubdyExtension(SubdyEnum.Success, "Đã hoàn thành. Không cập nhật thông tin gì thêm.");
@@ -200,7 +223,8 @@ namespace Sunny.Subd.Core.Facebook
                                 continue;
                             }
                             FacebookHander.SendImage(_client, imagePath);
-                            await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
+                            var action = new FbChangeAvatarHandler();
+                            var s = await action.ExecuteAsync(_account, _client, null, null, null);
                             FacebookHander.DeleteImage(_client, imagePath);
                             break;
                         }
@@ -213,38 +237,24 @@ namespace Sunny.Subd.Core.Facebook
                                 continue;
                             }
                             FacebookHander.SendImage(_client, imagePath);
-                            await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
+                            var action = new FbChangeCoverHandler();
+                            var s = await action.ExecuteAsync(_account, _client, null, null, null);
                             FacebookHander.DeleteImage(_client, imagePath);
                             break;
                         }
                     case Sunny.Subdy.Common.Models.TypeAction.FB_Turn2FA:
                         {
-                            _client.StopApp(FacebookHander.Package());
-                            _client.Shell("am start -a android.intent.action.VIEW -d \"fb://facewebmodal/f?href=https://accountscenter.facebook.com/password_and_security/two_factor\"");
-                            _client.Delay(5);
-                            var message = await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
-                            if (message.SubdyEnum == SubdyEnum.Error && message.Message == "ImportCodeMail")
-                            {
-                                _client.Delay(10);
-                                string code = await GetCode();
-                                if (string.IsNullOrEmpty(code))
-                                {
-                                    _client.LogHelper.ERROR("Không nhận được mã xác nhận.");
-                                    throw new SubdyExtension(SubdyEnum.Stop, "Không nhận được mã xác nhận.");
-                                }
+                            await Turn2FA();
+                            break;
+                        }
+                    case Sunny.Subdy.Common.Models.TypeAction.FB_ChangeMail:
+                        {
+                            var action = new FbChangeMail();
+                            string sitemail = RegistrationType.EmailTypes[_settingRegsiner.GetIntType("comboBox2", 0)];
+                            string token = _settingRegsiner.GetValuesFromInputString("textBox3");
+                            var s = await action.ExecuteAsync(_account, _client, sitemail, token);
 
-                                if (_typeRegister == RegistrationType.Gmail_BaitPhoneNumber || _typeRegister == RegistrationType.Gmail)
-                                {
-                                    _client.Shell("input keyevent KEYCODE_APP_SWITCH");
-                                    _client.ElementWithAttributes("//*[@content-desc=\"Facebook\"]");
-                                }
 
-                                _client.Delay(2);
-                                _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", code, timeout: 10);
-                                _client.ElementWithAttributes(new List<string> { "//*[@text=\"Next\"]", "//*[@content-desc=\"Next\"]" }, 5);
-                                _client.Delay(10);
-                                await _actionExecutor.ExecuteAsync(type, _account, _client, null, null, null);
-                            }
                             break;
                         }
                 }
@@ -252,13 +262,152 @@ namespace Sunny.Subd.Core.Facebook
             }
             return new SubdyExtension(SubdyEnum.Success, "Đã xảy ra lỗi khi đang update tài khoản.");
         }
+        private async Task Turn2FA()
+        {
+            List<string> xpaths = new List<string>
+        {
+                "//*[@text=\"Enter code\"]",
+            "//*[@text=\"Check your email\"]",
+        "//*[@content-desc=\"Done\"]",
+        "//*[@text=\"Done\"]",
+        "//*[@text=\"You can't make this change right now\"]",
+        "//*[@text=\"Get a code from an authentication app\"]",
+        "//*[@text=\"Copy key\"]",
+        "//*[@text=\"2. Scan this barcode/QR code or copy the key\"]",
+        "//*[@text=\"Please re-enter your password\"]",
+        "//*[contains(@text, \"Authentication app (Recommended)\")]",
+        "//*[@text=\"Two-factor authentication\"]"
+        };
+            xpaths.AddRange(XpathManagerFacebook.Combine(XpathType.CP282, XpathType.Captcha, XpathType.NavigationButton));
+            _client.Shell("am start -a android.intent.action.VIEW -d \"fb://facewebmodal/f?href=https://accountscenter.facebook.com/password_and_security/two_factor\"");
+            _client.Delay(5);
+            _stopwatch.Restart();
+            while (_stopwatch.ElapsedMilliseconds < 19000000)
+            {
+                string _case = _client.FindElement("", xpaths, 30);
+                if (string.IsNullOrEmpty(_case))
+                {
+                    _client.StopApp(FacebookHander.Package(PlatformModel.Facebook));
+                    _client.Shell("am start -a android.intent.action.VIEW -d \"fb://facewebmodal/f?href=https://accountscenter.facebook.com/password_and_security/two_factor\"");
+                    _client.Delay(5);
+                    continue;
+                }
+
+                switch (_case)
+                {
+                    case "//*[@text=\"Enter code\"]":
+                        {
+                            string code = FacebookHander.GetCodeTowFA(_account.TowFA);
+                            _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", code, timeout: 5);
+                            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 10);
+                            _client.Delay(2);
+                            if (_client.ElementWithAttributes("//*[@text=\"Done\"]", 20))
+                            {
+                                _accountContext.Update(_account);
+                                return;
+                            }
+                            break;
+                        }
+                    case "//*[@text=\"Two-factor authentication\"]":
+                        {
+                            var xml = _client.FindElements(10, "", "//*[contains(@text, 'Facebook')]");
+                            foreach (var item in xml)
+                            {
+                                _client.ElementWithAttributes("//*[contains(@text, 'Facebook')]", 1, item.OuterXml);
+                                _client.Delay(2);
+                            }
+
+
+                            break;
+                        }
+                    case "//*[@text=\"Copy key\"]":
+                        {
+                            string _2FA = await Get2FA();
+                            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 10);
+                            _client.Delay(2);
+                            _account.TowFA = _2FA;
+                            break;
+                        }
+                    case "//*[contains(@text, \"Authentication app\")]":
+                        {
+                            _client.ElementWithAttributes("//*[contains(@text, \"Authentication app\")]", 10);
+                            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 10);
+                            _client.Delay(2);
+                            break;
+                        }
+                    case "//*[@text=\"Please re-enter your password\"]":
+                        {
+                            _client.SendTextSlow("//*[@text=\"Mật khẩu\" or @text=\"Password\"]", _account.Password, timeout: 10);
+                            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 10);
+                            _client.Delay(2);
+                            break;
+                        }
+                    case "//*[@text=\"Add email\"]":
+                    case "//*[@text=\"Add new contact Collapsed\"]":
+                    case "//*[contains(@content-desc, 'Profile picture')]":
+                    case var c when XpathManagerFacebook.Get(XpathType.NavigationButton).Contains(c):
+                        _client.ElementWithAttributes(_case);
+                        break;
+
+                    case var c when XpathManagerFacebook.Get(XpathType.CP282).Contains(c):
+                    case var x when XpathManagerFacebook.Get(XpathType.Captcha).Contains(x):
+                        {
+                            return;
+                        }
+                    case "//*[@text=\"Enter your confirmation code\"]":
+                        {
+                            string code = await GetCode();
+                            if (string.IsNullOrEmpty(code))
+                            {
+
+                            }
+                            _client.SendTextADB("//*[@class=\"android.widget.EditText\"]", code, timeout: 10);
+                            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 10);
+                            _client.Delay(10);
+                            break;
+                        }
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+        }
+        private async Task<string> Get2FA()
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            while (stopwatch.ElapsedMilliseconds < 60000)
+            {
+                string xml = _client.GetXMLSource();
+                if (string.IsNullOrEmpty(xml)) continue;
+                string pattern = @"\b([A-Z0-9]+\s[A-Z0-9]+\s[A-Z0-9]+\s[A-Z0-9]+\s[A-Z0-9]+\s[A-Z0-9]+\s[A-Z0-9]+\s[A-Z0-9]+)\b";
+
+                // Tìm chuỗi khớp
+                Match match = Regex.Match(xml, pattern);
+
+                if (match.Success)
+                {
+                    if (!string.IsNullOrEmpty(FacebookHander.GetCodeTowFA(match.Value)))
+                    {
+                        return match.Value;
+                    }
+                }
+            }
+            return string.Empty;
+        }
         private async Task<bool> ConnectAndPrepareDevice()
         {
             if (!_client.Connect()) return false;
 
-            _client.AppClear(FacebookHander.Package());
+            _client.AppClear(FacebookHander.Package(PlatformModel.Facebook));
 
-            _client.GrantAppPermissions(FacebookHander.Package());
+            _client.GrantAppPermissions(FacebookHander.Package(PlatformModel.Facebook));
 
             _client.SetSize();
 
@@ -460,14 +609,14 @@ namespace Sunny.Subd.Core.Facebook
         {
             string currentCase = string.Empty;
             List<string> caseFacebooks = FacebookHander.Regsiner_Facebook();
+            caseFacebooks.Remove("//*[@content-desc=\"I already have an account\"]");
             while (_stopwatch.ElapsedMilliseconds < _timeOut && !_ct.IsCancellationRequested)
             {
                 if (!EnsureAppRunning()) continue;
-
                 currentCase = _client.FindElement("", caseFacebooks, 120);
                 if (string.IsNullOrEmpty(currentCase))
                 {
-                    _client.AppStart(FacebookHander.Package(), true, true, true);
+                    _client.AppStart(FacebookHander.Package(PlatformModel.Facebook), true, true, true);
                     _client.Delay(5);
                     continue;
                 }
@@ -487,9 +636,9 @@ namespace Sunny.Subd.Core.Facebook
 
                 switch (currentCase)
                 {
-                    case var c when XpathManager.Get(XpathType.Loading).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.Loading).Contains(c):
                         break;
-                    case var c when XpathManager.Get(XpathType.ExistEmail).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.ExistEmail).Contains(c):
                         return new SubdyExtension(SubdyEnum.EmailExist, "Đã có tài khoản thêm mail này rồi.");
                     case "//*[@text=\"Sign up with mobile number\"]":
                     case "//*[@text=\"Email của bạn là gì?\"]":
@@ -504,18 +653,19 @@ namespace Sunny.Subd.Core.Facebook
                     case "//*[@text=\"Choose your name\"]":
                         HandleNameSelection();
                         break;
-                    case var c when XpathManager.Get(XpathType.Success).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.Success).Contains(c):
                         return new SubdyExtension(SubdyEnum.Success, "Đăng ký thành công!");
                     case "//*[@text=\"I agree\"]":
                         _client.ElementWithAttributes(currentCase, 5);
                         return await Agreement();
-                    case var c when XpathManager.Get(XpathType.NavigationButton).Contains(c):
-                    case var x when XpathManager.Get(XpathType.Confim_Register).Contains(x):
+                    case var c when XpathManagerFacebook.Get(XpathType.NavigationButton).Contains(c):
+                    case var x when XpathManagerFacebook.Get(XpathType.Confim_Register).Contains(x):
                         _client.ElementWithAttributes(currentCase, 5);
                         break;
                     case "//*[@text=\"Enter the confirmation code\"]":
                         await HandleConfirmationCode();
                         break;
+                    case "//*[@text=\"First name\"]":
                     case "//*[@text=\"What's your name?\"]":
                         HandleNameInput();
                         break;
@@ -535,6 +685,7 @@ namespace Sunny.Subd.Core.Facebook
                         HandlePasswordInput();
                         break;
                 }
+                _client.Delay(2);
             }
 
             return new SubdyExtension(SubdyEnum.Error, "Đã xảy ra lỗi khi đăng ký.");
@@ -542,9 +693,9 @@ namespace Sunny.Subd.Core.Facebook
 
         private bool EnsureAppRunning()
         {
-            if (!_client.IsRunningApp(FacebookHander.Package()))
+            if (!_client.IsRunningApp(FacebookHander.Package(PlatformModel.Facebook)))
             {
-                _client.AppStart(FacebookHander.Package(), true, true, true);
+                _client.AppStart(FacebookHander.Package(PlatformModel.Facebook), true, true, true);
                 _client.Delay(5);
                 return false;
             }
@@ -581,7 +732,7 @@ namespace Sunny.Subd.Core.Facebook
 
         private async Task HandleEmailInput()
         {
-            if (!_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
+            if (!_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
             switch (_typeRegister)
             {
                 case RegistrationType.Domain_BaitPhoneNumber:
@@ -593,7 +744,9 @@ namespace Sunny.Subd.Core.Facebook
                     await GetEmail();
                     if (string.IsNullOrEmpty(_account.Email)) return;
                     _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", _account.Email.Split('|')[0], timeout: 5);
-                    _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+                    var xpaths = XpathManagerFacebook.Get(XpathType.NavigationButton);
+                    xpaths.Remove("//*[@content-desc=\"I already have an account\"]");
+                    _client.ElementWithAttributes(xpaths, 5);
                     break;
             }
         }
@@ -601,7 +754,7 @@ namespace Sunny.Subd.Core.Facebook
         private async Task HandlePhoneInput()
         {
             _client.Delay(5);
-            if (!_client.ElementWithAttributes(new List<string> { "//*[@text=\"What is your mobile number?\"]", "//*[@text=\"Sign up with email\"]" }) || !_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
+            if (!_client.ElementWithAttributes(new List<string> { "//*[@text=\"What is your mobile number?\"]", "//*[@text=\"Sign up with email\"]" }, click: false) || !_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
             switch (_typeRegister)
             {
                 case RegistrationType.Domain_BaitPhoneNumber:
@@ -636,7 +789,9 @@ namespace Sunny.Subd.Core.Facebook
                     }
 
                     _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", rawPhone, timeout: 5);
-                    _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+                    var xpaths = XpathManagerFacebook.Get(XpathType.NavigationButton);
+                    xpaths.Remove("//*[@content-desc=\"I already have an account\"]");
+                    _client.ElementWithAttributes(xpaths, 5);
                     break;
                 default:
                     _client.ElementWithAttributes(new List<string> { "//*[@text=\"Sign up with email\"]" }, 5);
@@ -647,14 +802,16 @@ namespace Sunny.Subd.Core.Facebook
 
         private void HandleNameSelection()
         {
-            if (!_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
+            if (!_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
             _client.ElementWithAttributes("//*[@class=\"android.widget.RadioButton\"]", 5);
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+            var xpaths = XpathManagerFacebook.Get(XpathType.NavigationButton);
+            xpaths.Remove("//*[@content-desc=\"I already have an account\"]");
+            _client.ElementWithAttributes(xpaths, 5);
         }
 
         private void HandleNameInput()
         {
-            if (!_client.ElementWithAttributes("//*[@class=\"android.widget.EditText\"]", click: false) || !_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), click: false)) return;
+            if (!_client.ElementWithAttributes("//*[@class=\"android.widget.EditText\"]", click: false) || !_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), click: false)) return;
 
             bool swap = _random.Next(0, 2) == 1;
             string[] nameParts = _account.FullName.Split(' ');
@@ -677,7 +834,9 @@ namespace Sunny.Subd.Core.Facebook
                 if (elements.Count > 1)
                     _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", firstName, timeout: 5, xml: elements[1].OuterXml);
             }
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+            var xpaths = XpathManagerFacebook.Get(XpathType.NavigationButton);
+            xpaths.Remove("//*[@content-desc=\"I already have an account\"]");
+            _client.ElementWithAttributes(xpaths, 5);
         }
 
         private void HandleDateOfBirth()
@@ -717,25 +876,34 @@ namespace Sunny.Subd.Core.Facebook
 
             _client.ElementWithAttributes(new List<string> { "//*[@text=\"SET\"]" }, 5);
             _client.Delay(2);
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+            var xpaths = XpathManagerFacebook.Get(XpathType.NavigationButton);
+            xpaths.Remove("//*[@content-desc=\"I already have an account\"]");
+            _client.ElementWithAttributes(xpaths, 5);
         }
 
         private void HandleGenderSelection()
         {
-            if (!_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), click: false)) return;
+            if (!_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), click: false)) return;
 
             List<string> genderOptions = new List<string> { "//*[@text=\"Male\"]", "//*[@text=\"Female\"]" };
             if (_client.ElementWithAttributes(genderOptions[_random.Next(genderOptions.Count)], 5))
-                _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+            {
+                var xpaths = XpathManagerFacebook.Get(XpathType.NavigationButton);
+                xpaths.Remove("//*[@content-desc=\"I already have an account\"]");
+                _client.ElementWithAttributes(xpaths, 5);
+            }
+
         }
 
         private void HandlePasswordInput()
         {
             _client.Delay(2);
-            if (!_client.ElementWithAttributes("//*[@class=\"android.widget.EditText\"]", timeoutInSeconds: 1, click: false) || !_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
+            if (!_client.ElementWithAttributes("//*[@class=\"android.widget.EditText\"]", timeoutInSeconds: 1, click: false) || !_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
 
             _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", _account.Password, timeout: 5);
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+            var xpaths = XpathManagerFacebook.Get(XpathType.NavigationButton);
+            xpaths.Remove("//*[@content-desc=\"I already have an account\"]");
+            _client.ElementWithAttributes(xpaths, 5);
         }
 
         private async Task<string> GetCode()
@@ -813,7 +981,7 @@ namespace Sunny.Subd.Core.Facebook
                 string currentCase = _client.FindElement("", listLogin, 120);
                 if (string.IsNullOrEmpty(currentCase))
                 {
-                    _client.AppStart(FacebookHander.Package(), true, true, true);
+                    _client.AppStart(FacebookHander.Package(PlatformModel.Facebook), true, true, true);
                     _client.Delay(15);
                     continue;
                 }
@@ -837,7 +1005,7 @@ namespace Sunny.Subd.Core.Facebook
                                         return new SubdyExtension(SubdyEnum.Error, "Không nhận được email.");
                                     }
                                     _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", _account.Email.Split('|')[0], timeout: 25);
-                                    _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+                                    _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 5);
                                     _client.Delay(10);
                                     break;
                                 }
@@ -845,7 +1013,7 @@ namespace Sunny.Subd.Core.Facebook
                     }
                     if (_isNVR)
                     {
-                        return new SubdyExtension(SubdyEnum.Success, "Đăng ký thành công!");
+                        //return new SubdyExtension(SubdyEnum.Success, "Đăng ký thành công!");
                     }
 
 
@@ -856,7 +1024,7 @@ namespace Sunny.Subd.Core.Facebook
                 switch (currentCase)
                 {
                     case "//*[@text=\"I agree\"]":
-                    case var x when XpathManager.Get(XpathType.NavigationButton).Contains(x):
+                    case var x when XpathManagerFacebook.Get(XpathType.NavigationButton).Contains(x):
                         _client.ElementWithAttributes(currentCase, 5);
                         _client.Delay(1);
                         break;
@@ -873,11 +1041,11 @@ namespace Sunny.Subd.Core.Facebook
                         await HandleEmailInputForAgreement();
                         break;
                     case "//*[@text=\"We couldn't create an account for you\"]":
-                    case var x when XpathManager.Combine(XpathType.CP282, XpathType.CP956, XpathType.Captcha, XpathType.ExistEmail).Contains(x):
+                    case var x when XpathManagerFacebook.Combine(XpathType.CP282, XpathType.CP956, XpathType.Captcha, XpathType.ExistEmail).Contains(x):
                         throw new SubdyExtension(SubdyEnum.CP_282, $"Tài khoản bị - [{currentCase}]");
-                    case var x when XpathManager.Get(XpathType.Success).Contains(x):
+                    case var x when XpathManagerFacebook.Get(XpathType.Success).Contains(x):
                         _client.Delay(5);
-                        if (!_client.ElementWithAttributes(XpathManager.Get(XpathType.Success), click: false)) continue;
+                        if (!_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.Success), click: false)) continue;
                         return new SubdyExtension(SubdyEnum.Success, "LIVE");
                     case "//*[@text=\"Enter the confirmation code\"]":
                         {
@@ -896,7 +1064,7 @@ namespace Sunny.Subd.Core.Facebook
                                             return new SubdyExtension(SubdyEnum.Error, "Không nhận được email.");
                                         }
                                         _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", _account.Email.Split('|')[0], timeout: 25);
-                                        _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+                                        _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 5);
                                         _client.Delay(10);
                                         break;
                                     }
@@ -929,7 +1097,8 @@ namespace Sunny.Subd.Core.Facebook
             xpaths.Add("//*[@text=\"We couldn't create an account for you\"]");
             xpaths.AddRange(new List<string>
         {
-                "//*[@text=\"Enter an email\"]",
+            "//*[@text=\"We couldn't create an account for you\"]",
+            "//*[@text=\"Enter an email\"]",
             "//*[@text=\"Couldn't create account\"]",
             "//*[@text=\"Enter email\"]",
             "//*[@text=\"Confirm with email\"]",
@@ -950,15 +1119,15 @@ namespace Sunny.Subd.Core.Facebook
         private List<string> BuildLoginList(List<string> xpaths)
         {
             var listLogin = new List<string>();
-            listLogin.AddRange(XpathManager.Combine(XpathType.CP282, XpathType.CP956, XpathType.ExistEmail, XpathType.Success));
+            listLogin.AddRange(XpathManagerFacebook.Combine(XpathType.CP282, XpathType.CP956, XpathType.ExistEmail, XpathType.Success));
             listLogin.AddRange(xpaths);
-            listLogin.AddRange(XpathManager.Get(XpathType.NavigationButton));
+            listLogin.AddRange(XpathManagerFacebook.Get(XpathType.NavigationButton));
             return listLogin;
         }
 
         private async Task HandleEmailInputForAgreement()
         {
-            if (!_client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
+            if (!_client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), timeoutInSeconds: 1, click: false)) return;
             if (_typeRegister is RegistrationType.Domain or RegistrationType.Gmail_BaitPhoneNumber or RegistrationType.Domain_BaitPhoneNumber or RegistrationType.Gmail)
             {
                 await GetEmail();
@@ -970,7 +1139,7 @@ namespace Sunny.Subd.Core.Facebook
                 _client.ElementWithAttributes(_client.FindElement("", new List<string> { "//*[@text=\"Next\"]" }, 1), click: false);
                 _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", _account.Email.Split('|')[0], timeout: 5);
             }
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton), 5);
+            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton), 5);
         }
     }
 }

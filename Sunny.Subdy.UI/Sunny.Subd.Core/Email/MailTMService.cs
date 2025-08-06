@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using RestSharp;
 using Sunny.Subd.Core.Utils;
+using Sunny.Subdy.Common.Helper;
 
 namespace Sunny.Subd.Core.Email
 {

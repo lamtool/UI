@@ -55,6 +55,9 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             label11 = new Label();
             txtGmail = new TextBox();
             tabPage3 = new TabPage();
+            label17 = new Label();
+            numericUpDown2 = new NumericUpDown();
+            label16 = new Label();
             label2 = new Label();
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
@@ -116,6 +119,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             ((System.ComponentModel.ISupportInitialize)nudSwicthGmail).BeginInit();
             panel16.SuspendLayout();
             tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             groupBox3.SuspendLayout();
             groupBox6.SuspendLayout();
@@ -371,6 +375,9 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(label17);
+            tabPage3.Controls.Add(numericUpDown2);
+            tabPage3.Controls.Add(label16);
             tabPage3.Controls.Add(label2);
             tabPage3.Controls.Add(numericUpDown1);
             tabPage3.Controls.Add(label1);
@@ -384,6 +391,32 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Cấu hình chung";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(180, 56);
+            label17.Name = "label17";
+            label17.Size = new Size(87, 15);
+            label17.TabIndex = 253;
+            label17.Text = "tài khoản/máy.";
+            // 
+            // numericUpDown2
+            // 
+            numericUpDown2.Location = new Point(114, 52);
+            numericUpDown2.Name = "numericUpDown2";
+            numericUpDown2.Size = new Size(60, 23);
+            numericUpDown2.TabIndex = 252;
+            numericUpDown2.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(54, 56);
+            label16.Name = "label16";
+            label16.Size = new Size(54, 15);
+            label16.TabIndex = 251;
+            label16.Text = "Giới hạn ";
             // 
             // label2
             // 
@@ -414,7 +447,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             // groupBox3
             // 
             groupBox3.Controls.Add(comboBox3);
-            groupBox3.Location = new Point(42, 56);
+            groupBox3.Location = new Point(40, 96);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(426, 63);
             groupBox3.TabIndex = 247;
@@ -437,7 +470,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             // 
             groupBox6.Controls.Add(panel8);
             groupBox6.Controls.Add(panel9);
-            groupBox6.Location = new Point(42, 262);
+            groupBox6.Location = new Point(40, 302);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(426, 86);
             groupBox6.TabIndex = 246;
@@ -510,7 +543,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             groupBox7.Controls.Add(panel5);
             groupBox7.Controls.Add(panel4);
             groupBox7.Controls.Add(panel7);
-            groupBox7.Location = new Point(42, 125);
+            groupBox7.Location = new Point(40, 165);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(426, 112);
             groupBox7.TabIndex = 240;
@@ -930,6 +963,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
             panel16.PerformLayout();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             groupBox3.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
@@ -1044,5 +1078,8 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
         private Sunny.UI.UIComboBox uiComboBox1;
         private ComboBox comboBox3;
         private Label label3;
+        private Label label17;
+        private NumericUpDown numericUpDown2;
+        private Label label16;
     }
 }

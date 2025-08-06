@@ -1,4 +1,5 @@
 ﻿using Sunny.Subdy.Common.Logs;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Diagnostics.CodeAnalysis;
@@ -183,7 +184,13 @@ namespace Sunny.Subdy.Data
                 var value = prop.GetValue(entity);
                 if (value == null) continue;
 
-                if (value is Guid g) value = g.ToString();
+                // Lọc chỉ lấy các kiểu đơn giản: primitive, string, Guid
+                var propType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                if (!(propType.IsPrimitive || propType == typeof(string) || propType == typeof(Guid) || propType.IsEnum))
+                    continue;
+
+                if (value is Guid g)
+                    value = g.ToString();
 
                 columnNames.Add(prop.Name);
                 string paramName = $"@{prop.Name}";
@@ -224,36 +231,50 @@ namespace Sunny.Subdy.Data
 
             var type = typeof(T);
             var tableName = type.Name;
-            var props = type.GetProperties().Where(p => p.CanRead).ToList();
+
+            // Lọc các property public, readable, và không bị [NotMapped]
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                            .Where(p => p.CanRead && p.GetCustomAttribute<NotMappedAttribute>() == null)
+                            .ToList();
+
+            // Tìm khóa chính
             var keyProp = props.FirstOrDefault(p => p.GetCustomAttribute<SqlKeyAttribute>() != null);
-
             if (keyProp == null)
-                throw new InvalidOperationException("Missing primary key attribute.");
+                throw new InvalidOperationException($"Type '{type.Name}' is missing [SqlKey] property.");
 
+            var keyValue = keyProp.GetValue(entity);
+            if (keyValue == null)
+                throw new InvalidOperationException("Primary key value cannot be null.");
+
+            // Tạo danh sách set và parameter
             var setClauses = new List<string>();
-            var cmd = new SQLiteCommand();
+            var parameters = new List<SQLiteParameter>();
 
             foreach (var prop in props)
             {
                 if (prop == keyProp) continue;
 
                 var value = prop.GetValue(entity);
-                if (value is Guid g) value = g.ToString();
+                var propType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+
+                // Chuyển Guid và enum sang string hoặc int tương ứng
+                if (value is Guid guid) value = guid.ToString();
+                else if (propType.IsEnum) value = (int)value;
 
                 string paramName = $"@{prop.Name}";
                 setClauses.Add($"{prop.Name} = {paramName}");
-                cmd.Parameters.AddWithValue(paramName, value ?? DBNull.Value);
+                parameters.Add(new SQLiteParameter(paramName, value ?? DBNull.Value));
             }
 
-            var keyValue = keyProp.GetValue(entity);
-            if (keyValue is Guid kg) keyValue = kg.ToString();
-            cmd.Parameters.AddWithValue("@Id", keyValue);
+            // Add parameter khóa chính
+            parameters.Add(new SQLiteParameter("@Id", keyValue is Guid g ? g.ToString() : keyValue));
 
             string sql = $"UPDATE {tableName} SET {string.Join(", ", setClauses)} WHERE {keyProp.Name} = @Id;";
-            cmd.CommandText = sql;
 
             using var conn = GetConnection();
-            cmd.Connection = conn;
+            using var cmd = new SQLiteCommand(sql, conn);
+            cmd.Parameters.AddRange(parameters.ToArray());
+
             return cmd.ExecuteNonQuery() > 0;
         }
 
@@ -292,12 +313,17 @@ namespace Sunny.Subdy.Data
 
                 foreach (var prop in props)
                 {
+                    // Bỏ qua nếu không phải kiểu đơn giản
+                    var propType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                    if (!(propType.IsPrimitive || propType == typeof(string) || propType == typeof(Guid) || propType.IsEnum))
+                        continue;
+
                     object? value = prop.GetValue(entity);
 
                     // Tự tạo Guid nếu là khóa chính và rỗng
                     if (prop == keyProp && prop.PropertyType == typeof(Guid))
                     {
-                        var guid = (Guid)value!;
+                        var guid = (Guid?)value ?? Guid.Empty;
                         if (guid == Guid.Empty)
                         {
                             guid = Guid.NewGuid();
@@ -328,6 +354,7 @@ namespace Sunny.Subdy.Data
             transaction.Commit();
             return true;
         }
+
         public List<T> ExecuteReader<T>(string query, Func<SQLiteDataReader, T> map, Dictionary<string, object>? parameters = null)
         {
             var result = new List<T>();

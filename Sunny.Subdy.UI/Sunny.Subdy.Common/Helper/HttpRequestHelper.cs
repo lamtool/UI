@@ -1,4 +1,6 @@
 ﻿using Sunny.Subdy.Common.Logs;
+using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -6,12 +8,12 @@ namespace Sunny.Subdy.Common.Helper
 {
     public static class HttpRequestHelper
     {
-        [DllImport("HttpRequestLib.dll", CharSet = CharSet.Unicode)]
+        [DllImport("HttpRequestLib.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         private static extern IntPtr HttpRequestW(
             string method, string url, string headers,
             string body, string proxy, string proxyUser, string proxyPass);
 
-        [DllImport("HttpRequestLib.dll")]
+        [DllImport("HttpRequestLib.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void FreeResponse(IntPtr ptr);
 
         public static string Request(
@@ -20,16 +22,34 @@ namespace Sunny.Subdy.Common.Helper
             string proxy = "", string user = "", string pass = "")
         {
             IntPtr ptr = HttpRequestW(method, url, headers, body, proxy, user, pass);
-            if (ptr == IntPtr.Zero) return null;
-            string response = Marshal.PtrToStringUni(ptr);
-            FreeResponse(ptr);
-            LogManager.Info(response);
-            return response;
+
+            if (ptr == IntPtr.Zero)
+            {
+                LogManager.Info($"Request failed: {method} {url} (null response)");
+                return null;
+            }
+
+            try
+            {
+                string response = Marshal.PtrToStringUni(ptr);
+                LogManager.Info($"Response from {url}:\n{response}");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+                return null;
+            }
+            finally
+            {
+                FreeResponse(ptr); // Luôn giải phóng bộ nhớ cấp phát từ DLL
+            }
         }
 
         private static string BuildHeader(Dictionary<string, string> headerDict)
         {
-            if (headerDict == null || headerDict.Count == 0) return "";
+            if (headerDict == null || headerDict.Count == 0) return string.Empty;
+
             var sb = new StringBuilder();
             foreach (var kv in headerDict)
             {
@@ -40,7 +60,8 @@ namespace Sunny.Subdy.Common.Helper
 
         private static string BuildFormData(Dictionary<string, string> bodyDict)
         {
-            if (bodyDict == null || bodyDict.Count == 0) return "";
+            if (bodyDict == null || bodyDict.Count == 0) return string.Empty;
+
             var list = new List<string>();
             foreach (var kv in bodyDict)
             {
@@ -67,6 +88,7 @@ namespace Sunny.Subdy.Common.Helper
 
             return Request("POST", url, headerText, bodyText, proxy, "", "");
         }
+
         public static string POST_JSON(string url, Dictionary<string, string> headers = null, string jsonBody = "")
         {
             if (headers == null)
@@ -78,7 +100,7 @@ namespace Sunny.Subdy.Common.Helper
             string headerText = BuildHeader(headers);
             return Request("POST", url, headerText, jsonBody);
         }
-        // Optional: add proxy auth overloads if needed
+
         public static string GET(string url, string proxy, string user, string pass, Dictionary<string, string> headers = null)
         {
             string headerText = BuildHeader(headers);

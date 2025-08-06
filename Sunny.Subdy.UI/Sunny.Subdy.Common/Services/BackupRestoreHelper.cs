@@ -1,4 +1,5 @@
 ﻿using AutoAndroid;
+using System.IO;
 
 namespace Sunny.Subdy.Common
 {
@@ -16,14 +17,14 @@ namespace Sunny.Subdy.Common
         {
             for (int i = 0; i < 10; i++)
             {
-                _Android.Shell("su -c 'rm -rf /data/data/" + Package_Facebook + "/*.tar.gz'");
-                _Android.Shell("su -c 'rm -rf /sdcard/*.tar.gz'");
+                _Android.ADB.Shell("su -c 'rm -rf /data/data/" + Package_Facebook + "/*.tar.gz'");
+                _Android.ADB.Shell("su -c 'rm -rf /sdcard/*.tar.gz'");
                 _Android.Device.Status = "Đang backup facebook...";
                 _Android.ADB.Shell("su root sh -c 'tar -czvpf /data/data/" + Package_Facebook + "/backup.tar.gz /data/data/" + Package_Facebook + "/databases /data/data/" + Package_Facebook + "/app_light_prefs /data/data/" + Package_Facebook + "/shared_prefs /data/data/" + Package_Facebook + "/files/mobileconfig'");
-                _Android.Shell("su -c 'cp /data/data/" + Package_Facebook + "/backup.tar.gz /sdcard/backup.tar.gz'");
+                _Android.ADB.Shell("su -c 'cp /data/data/" + Package_Facebook + "/backup.tar.gz /sdcard/backup.tar.gz'");
                 _Android.ADB.CMD($"pull /sdcard/backup.tar.gz \"{file}\"", 300);
-                _Android.Shell("su -c 'rm -rf /data/data/" + Package_Facebook + "/*.tar.gz'");
-                _Android.Shell("su -c 'rm -rf /sdcard/*.tar.gz'");
+                _Android.ADB.Shell("su -c 'rm -rf /data/data/" + Package_Facebook + "/*.tar.gz'");
+                _Android.ADB.Shell("su -c 'rm -rf /sdcard/*.tar.gz'");
                 if (!File.Exists(file))
                 {
                     continue;
@@ -46,7 +47,7 @@ namespace Sunny.Subdy.Common
             for (int i = 0; i < 2; i++)
             {
                 _Android.Device.Status = "Đang restore Facebook...";
-                _Android.ADB.CMD($"push \"{escapedFile}\" /sdcard/{fileName}", 100);
+                string s = _Android.ADB.CMD($"push \"{escapedFile}\" /sdcard/{fileName}", 100);
 
                 _Android.Shell($"su -c 'rm -rf /data/data/{Package_Facebook}/*'");
                 _Android.Shell($"su -c 'cp /sdcard/{fileName} /data/data/{Package_Facebook}/profile.tar.gz'");
@@ -71,16 +72,16 @@ namespace Sunny.Subdy.Common
         {
             for (int i = 0; i < 10; i++)
             {
-                _Android.Device.Status = "Đang backup instagram...";
-                _Android.Shell($"su -c \"rm -rf /data/data/{PackageInstagram}/*.tar.gz\"");
-                _Android.Shell("su -c \"rm -rf /sdcard/*.tar.gz\"");
+                _Android.LogHelper.SUCCESS("Đang backup instagram...");
+                _Android.ADB.Shell($"su -c \"rm -rf /data/data/{PackageInstagram}/*.tar.gz\"");
+                _Android.ADB.Shell("su -c \"rm -rf /sdcard/*.tar.gz\"");
                 _Android.ADB.Shell($"su -c 'tar -czvpf /sdcard/backup.tar.gz -C / /data/misc/keystore/user_0 /data/data/{PackageInstagram}'", 300);
                 _Android.ADB.CMD($"pull /sdcard/backup.tar.gz \"{file}\"", 300);
                 _Android.ADB.Shell($"su -c \"rm -rf /data/data/{PackageInstagram}/*.tar.gz\"");
                 _Android.ADB.Shell("su -c \"rm -rf /sdcard/*.tar.gz\"");
                 if (File.Exists(file))
                 {
-                    _Android.Device.Status = "Đã backup instagram thành công";
+                    _Android.LogHelper.SUCCESS("Đã backup instagram thành công");
                     return true;
                 }
             }
@@ -88,42 +89,53 @@ namespace Sunny.Subdy.Common
         }
         public bool RestoreInstagram(string file)
         {
-            string fileName = Path.GetFileName(file);
-            string escapedFile = file.Replace("\\", "/");
-
+            if (string.IsNullOrEmpty(file) || !File.Exists(file))
+            {
+                _Android.LogHelper.ERROR("File không tồn tại!");
+                return false;
+            }
             _Android.ADB.Shell($"am force-stop {PackageInstagram}");
             _Android.ADB.Shell($"su -c 'killall -9 {PackageInstagram}'");
+            string fileName = Path.GetFileName(file);
+            string escapedFile = file.Replace("\\", "/");
+            string sdcardTar = "/sdcard/profile.tar.gz";
+            string uidnew = _Android.ADB.Shell($"su -c \"ls -l /data/data | grep " + PackageInstagram + " | awk '{print $3}'\"", 30);
+            string numberUid = uidnew.Replace("u0_a", "");
+            _Android.ADB.Shell($"su -c \"cd /data/misc/keystore/user_0 && for f in \\$(ls | grep {numberUid}); do rm -f \\\"\\$f\\\"; done\"", 30);
+            _Android.Delay(1);
+
 
             for (int i = 0; i < 5; i++)
             {
-                _Android.Device.Status = "Đang restore instagram...";
-
+                _Android.LogHelper.SUCCESS("Đang restore instagram...");
+                // 1. Dọn dẹp file tạm
+                _Android.ADB.Shell($"su -c 'rm -rf {sdcardTar} /data/{fileName}'", 30);
+                _Android.Delay(1);
                 // Đẩy file vào thiết bị
-                string pushResult = _Android.ADB.CMD($"push \"{escapedFile}\" /data/{fileName}", 60);
+                string pushResult = _Android.ADB.CMD($"push \"{escapedFile}\" /sdcard/", 60);
                 if (!pushResult.ToLower().Contains("kb/s") && !pushResult.ToLower().Contains("mb/s"))
                 {
                     _Android.LogHelper.ERROR("Push file không thành công.");
                     continue;
                 }
-                string tarResult = _Android.ADB.Shell($"su -c 'tar -xzpf /data/{fileName} -C /'");
-                if (!string.IsNullOrEmpty(tarResult) && tarResult.ToLower().Contains("error"))
-                {
-                    _Android.LogHelper.ERROR("Giải nén thất bại: " + tarResult);
-                    continue;
-                }
-                string check = _Android.ADB.Shell($"su -c 'ls /data/data/{PackageInstagram}'", 30);
-                if (!string.IsNullOrEmpty(check))
-                {
-                    string owner = _Android.ADB.Shell($"su -c 'stat -c \"%U:%G\" /data/data/{PackageInstagram}'", 30);
-                    if (!string.IsNullOrEmpty(owner))
-                    {
-                        _Android.ADB.Shell($"su -c 'chown -R {owner} /data/data/{PackageInstagram}'", 30);
-                    }
-                    _Android.Device.Status = "Đã restore instagram thành công...";
-                    _Android.ADB.Shell("su -c 'rm -f /data/*.tar.gz'");
-                    _Android.AppStart(PackageInstagram);
-                    return true;
-                }
+                // 3. Copy từ /sdcard sang /data/
+                _Android.ADB.Shell($"su -c 'cp /sdcard/{fileName} /data/'", 60);
+                _Android.Delay(1);
+
+                // 4. Giải nén
+                _Android.ADB.Shell($"su -c 'tar -xzvpf /data/{fileName} -C /'", 300);
+                _Android.Delay(2);
+                string uidOld = _Android.ADB.Shell($"su -c \"ls -l /data/data | grep " + PackageInstagram + " | awk '{print $3}'\"", 30);
+                string numberUidOld = uidOld.Replace("u0_a", "");
+                _Android.ADB.Shell($"su -c 'cd /data/misc/keystore/user_0 && for f in *{numberUidOld}* .*{numberUidOld}*; do [ -e \"$f\" ] && newname=$(echo \"$f\" | sed \"s/{numberUidOld}/{numberUid}/g\"); mv \"$f\" \"$newname\"; done'");
+                // 7. Lấy UID:GID
+                _Android.ADB.Shell($"su -c 'chown -R {uidnew}:{uidnew} /data/data/{PackageInstagram}'", 60);
+                _Android.Delay(1);
+                // 9. Xoá file tạm
+                _Android.ADB.Shell($"su -c 'rm -rf /data/{fileName}'", 30);
+                _Android.AppStart(PackageInstagram);
+                _Android.LogHelper.SUCCESS("Đã restore instagram thành công");
+                return true;
             }
 
             return false;

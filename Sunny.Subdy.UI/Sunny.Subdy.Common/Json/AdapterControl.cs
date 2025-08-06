@@ -167,9 +167,20 @@ namespace Sunny.Subdy.Common.Json
     public class UITimePickerBinderAdapter : IControlAdapter
     {
         private readonly UITimePicker control;
+
         public UITimePickerBinderAdapter(UITimePicker c) => control = c;
+
         public string Name => control.Name;
+
         public void LoadValue(JToken value) => control.Value = value.ToObject<DateTime>();
-        public void BindEvent(EventHandler handler) => control.ValueChanged += handler;
+
+        public void BindEvent(EventHandler handler)
+        {
+            control.ValueChanged += (s, val) =>
+            {
+                // Gọi EventHandler như bình thường
+                handler?.Invoke(control, EventArgs.Empty);
+            };
+        }
     }
 }

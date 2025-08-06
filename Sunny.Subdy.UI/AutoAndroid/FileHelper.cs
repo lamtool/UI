@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.GZip;
+using ICSharpCode.SharpZipLib.Tar;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Tar;
 
 namespace AutoAndroid
 {
@@ -55,6 +57,22 @@ namespace AutoAndroid
                 return false;
             }
 
+        }
+        public static bool DownImage(string url, string file)
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add("user-agent", "Hell");
+                    client.DownloadFile(url, file);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

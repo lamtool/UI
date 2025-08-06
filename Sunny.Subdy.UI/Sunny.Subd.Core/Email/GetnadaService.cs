@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using Sunny.Subd.Core.Utils;
+using Sunny.Subdy.Common.Helper;
 using Sunny.Subdy.Common.Logs;
 
 namespace Sunny.Subd.Core.Email

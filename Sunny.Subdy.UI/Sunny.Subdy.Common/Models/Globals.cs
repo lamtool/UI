@@ -5,6 +5,7 @@ namespace Sunny.Subdy.Common.Models
 {
     public class Globals
     {
+        public static readonly SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
         public static List<string> GetFieldsToImportExport()
         {
             List<string> listField = new List<string>

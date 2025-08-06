@@ -14,6 +14,17 @@ namespace Sunny.Subdy.Common.Helper
         {
             return value.ToString("#,0.###");
         }
+        public static string CapitalizeEachWord(this string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return input;
+
+            return string.Join(" ", input
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(word =>
+                    char.ToUpper(word[0]) + word.Substring(1).ToLower()
+                ));
+        }
         public static void CopyFormat(string type, DataGridView data)
         {
             List<string> lines = new List<string>();

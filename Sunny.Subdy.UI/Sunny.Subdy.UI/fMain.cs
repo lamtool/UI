@@ -50,7 +50,7 @@ namespace Sunny.Subdy.UI
             _pagePhone = new pageDevice();
             _pageFacebook = new pageFacebook(uiNavMenu1, _pagePhone);
             uiNavMenu1.CreateChildNode(parent, AddPage(_pageFacebook, ++pageIndex));
-            uiNavMenu1.CreateChildNode(parent, AddPage(new pageTikTok(), ++pageIndex));
+            uiNavMenu1.CreateChildNode(parent, AddPage(new pageInstagram(uiNavMenu1, _pagePhone), ++pageIndex));
             uiNavMenu1.CreateNode(AddPage(_pagePhone, ++pageIndex));
             uiNavMenu1.CreateNode(AddPage(new pageGroupAccount(_pageFacebook), ++pageIndex));
             uiNavMenu1.CreateNode(AddPage(new pageScript(), ++pageIndex));

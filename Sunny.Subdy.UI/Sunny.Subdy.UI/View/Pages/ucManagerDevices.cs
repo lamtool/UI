@@ -20,8 +20,10 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -49,6 +51,9 @@ namespace Sunny.Subdy.UI.View.Pages
             flowLayoutPanel1.Resize += (s, e) => CheckIfNeedMoreControls();
             gmailToolStripMenuItem.Image = Properties.Resources.icons8_gmail_40;
             uiDataGridView2.AllowUserToResizeRows = false;
+            groupBox1.Visible = false;
+            panel1.Dock = DockStyle.Fill;
+            uiSymbolButton5.Symbol = 362500;
         }
         private void LoadVirtualWindow(int start)
         {
@@ -886,6 +891,66 @@ namespace Sunny.Subdy.UI.View.Pages
         private void gmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _ = facebookToolStripMenuItem1_ClickSafe(RegistrationType.RegGmail);
+        }
+        private async Task shortcutDebugToolStripMenuItem_ClickSafe()
+        {
+            try
+            {
+                List<Task> tasks = new List<Task>();
+
+                foreach (DataGridViewRow row in uiDataGridView2.SelectedRows)
+                {
+                    if (row.DataBoundItem is DeviceModel device)
+                    {
+                        tasks.Add(Task.Run(() =>
+                        {
+                            try
+                            {
+                                var client = new ADBClient(device);
+
+                                // Lấy XML và Screenshot
+                                string xml = client.GetXMLSource();
+
+                                // Tạo thư mục
+                                string folderName = $"{DateTime.Now:HH-mm-ss dd.MM.yyyy} {device.Serial}";
+                                string tempPath = Path.Combine(Path.GetTempPath(), folderName);
+                                Directory.CreateDirectory(tempPath);
+
+                                // Lưu XML
+                                File.WriteAllText(Path.Combine(tempPath, "xml.xml"), xml, Encoding.UTF8);
+
+                                // Lưu ảnh
+                                string imagePath = Path.Combine(tempPath, "screenshot.png");
+                                FileHelper.DownImage($"{client.ATX._url}/screenshot/0", imagePath);
+
+                                // Tạo file zip ở desktop
+                                string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                                string zipPath = Path.Combine(desktop, $"{folderName}.zip");
+                                if (File.Exists(zipPath)) File.Delete(zipPath);
+                                ZipFile.CreateFromDirectory(tempPath, zipPath);
+
+                                // Xóa thư mục tạm
+                                Directory.Delete(tempPath, true);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogManager.Error(ex);
+                            }
+                        }));
+                    }
+                }
+
+                await Task.WhenAll(tasks);
+                CommonMethod.ShowMessageSuccess("Đã lưu ở màn hình.");
+            }
+            catch (Exception ex)
+            {
+                CommonMethod.ShowMessageError(ex.Message);
+            }
+        }
+        private void shortcutDebugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = shortcutDebugToolStripMenuItem_ClickSafe();
         }
     }
 }

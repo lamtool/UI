@@ -36,6 +36,7 @@ namespace Sunny.Subdy.Data.Context
                 Email = reader["Email"]?.ToString() ?? string.Empty,
                 Phone = reader["Phone"]?.ToString() ?? string.Empty,
                 UserAgent = reader["UserAgent"]?.ToString() ?? string.Empty,
+                TokenJob = reader["TokenJob"]?.ToString() ?? string.Empty,
                 FullName = reader["FullName"]?.ToString() ?? string.Empty,
                 State = reader["State"]?.ToString() ?? string.Empty,
                 Status = reader["Status"]?.ToString() ?? string.Empty,
@@ -64,7 +65,7 @@ namespace Sunny.Subdy.Data.Context
                 JobTotal = reader["JobTotal"] != DBNull.Value ? Convert.ToInt32(reader["JobTotal"]) : 0,
             };
 
-            account.JobHistory = _jobHistoryContext.GetByUid(account.Uid, DateTime.Now.ToString("dd/MM/yyyy")) ?? new JobHistory();
+          //  account.JobHistory = _jobHistoryContext.GetByUid(account.Uid, DateTime.Now.ToString("dd/MM/yyyy")) ?? new JobHistory();
 
             return account;
         }
@@ -108,7 +109,7 @@ namespace Sunny.Subdy.Data.Context
             return GetAll(query, parameters).FirstOrDefault();
         }
 
-        public Account? GetByName(string uid)
+        public Account? GetByUid(string uid)
         {
             const string query = $"SELECT * FROM {TableName} WHERE Uid = @uid";
             var parameters = new Dictionary<string, object> { ["@uid"] = uid };

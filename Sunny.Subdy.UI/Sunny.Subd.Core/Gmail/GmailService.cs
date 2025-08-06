@@ -91,7 +91,7 @@ namespace Sunny.Subd.Core.Gmail
             {
                 try
                 {
-                    _client.Swipe(500, 300, 500, 1800, 20, 3);
+                    _client.SwipeByPercent(56, 82, 56, 16, 1000,3);
                     _client.Delay(5);
 
                     var nodes = _client.FindElements(5, "", "//*[contains(@text, 'Facebook')]");
@@ -148,8 +148,9 @@ namespace Sunny.Subd.Core.Gmail
             list.Add($"//*[@text=\"{email}\"]");
             for (int i = 0; i < 5; i++)
             {
-                _client.Delay(3);
+                
                 _client.Shell("am start -a android.settings.SYNC_SETTINGS");
+                _client.Delay(3);
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 while (stopwatch.ElapsedMilliseconds < 180000)
                 {
@@ -188,20 +189,21 @@ namespace Sunny.Subd.Core.Gmail
                         case "//*[@text=\"Create account\"]":
                             {
                                 _client.SendTextSlow("//*[@class=\"android.widget.EditText\"]", email);
-                                _client.ElementWithAttributes(new List<string> { "//*[@text=\"Next\"]" });
+                                _client.ElementWithAttributes(new List<string> {"//*[@resource-id=\"identifierNext\"]" , "//*[@text=\"Next\"]" });
                                 _client.Delay(5);
                                 break;
                             }
                         case "//*[@resource-id=\"password\"]":
                             {
                                 _client.SendTextSlow("//*[@resource-id=\"password\"]", pass, timeout: 10);
-                                _client.ElementWithAttributes(new List<string> { "//*[@text=\"Next\"]" }, click: true);
+                                _client.ElementWithAttributes(new List<string> { "//*[@resource-id=\"passwordNext\"]", "//*[@text=\"Next\"]" });
                                 _client.Delay(5);
                                 break;
                             }
                         case "//*[@text=\"Welcome\"]":
                             {
-                                _client.Swipe(478, 1399, 531, 784, 10, 5);
+                                _client.SwipeByPercent(56, 82, 56, 16, 1000, 5);
+                               // _client.Swipe(478, 1399, 531, 784, 10, 5);
                                 _client.ElementWithAttributes(new List<string> { "//*[@text=\"I UNDERSTAND\"]" });
 
 
@@ -210,7 +212,8 @@ namespace Sunny.Subd.Core.Gmail
                             }
                         case "//*[@text=\"Add phone number?\"]":
                             {
-                                _client.Swipe(529, 1464, 606, 787, 100, 5);
+                                _client.SwipeByPercent(56, 82, 56, 16, 1000, 5);
+                              //  _client.Swipe(529, 1464, 606, 787, 100, 5);
                                 _client.ElementWithAttributes(new List<string> { "//*[@text=\"I agree\"]" }, click: true);
                                 _client.Delay(5);
                                 break;
@@ -233,6 +236,11 @@ namespace Sunny.Subd.Core.Gmail
             {
                 _client.AppStart("com.google.android.gm", true, true, true);
                 _client.Delay(5);
+                _client.ElementWithAttributes("//*[@text=\"GOT IT\"]");
+                _client.ElementWithAttributes("//*[@text=\"TAKE ME TO GMAIL\"]");
+                _client.Delay(5);
+                _client.ElementWithAttributes("//*[@content-desc=\"Close\"]");
+                _client.ElementWithAttributes("//*[@resource-id=\"com.google.android.gm:id/selected_account_disc_gmail\"]");
                 return true;
 
             }

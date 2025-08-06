@@ -329,5 +329,13 @@
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </Resource>
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="View\Forms\Actions\fAction_RegVipIG.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="View\Pages\pageInstagram.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	</ItemGroup>
 
 </Project>

@@ -61,17 +61,15 @@ namespace Sunny.Subdy.UI.View.Pages
             uiPanel1.Size = new Size(1035, 96);
             uiPanel1.TabIndex = 0;
             uiPanel1.Text = null;
-            uiPanel1.TextAlignment = ContentAlignment.MiddleCenter;
             uiPanel1.Click += uiPanel1_Click;
             // 
             // txtType
             // 
-            txtType.DataSource = null;
             txtType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             txtType.FillColor = Color.White;
             txtType.Font = new Font("Microsoft Sans Serif", 12F);
             txtType.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            txtType.Items.AddRange(new object[] { "Tất cả", "Facebook", "Instagram", "TikTok", "Gmail" });
+            txtType.Items.AddRange(new object[] { "Tất cả", "Facebook", "Instagram", "TikTok", "Gmail", "TuongTacCheo", "VipIG" });
             txtType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
             txtType.Location = new Point(314, 26);
             txtType.Margin = new Padding(4, 5, 4, 5);
@@ -79,9 +77,7 @@ namespace Sunny.Subdy.UI.View.Pages
             txtType.Name = "txtType";
             txtType.Padding = new Padding(0, 0, 30, 2);
             txtType.Size = new Size(155, 22);
-            txtType.SymbolSize = 24;
             txtType.TabIndex = 11;
-            txtType.TextAlignment = ContentAlignment.MiddleLeft;
             txtType.Watermark = "";
             txtType.SelectedIndexChanged += txtType_SelectedIndexChanged;
             // 
@@ -131,7 +127,6 @@ namespace Sunny.Subdy.UI.View.Pages
             uiTextBox1.Size = new Size(215, 22);
             uiTextBox1.Symbol = 61442;
             uiTextBox1.TabIndex = 8;
-            uiTextBox1.TextAlignment = ContentAlignment.MiddleLeft;
             uiTextBox1.Watermark = "Tìm kiếm...";
             uiTextBox1.TextChanged += uiTextBox1_TextChanged;
             // 

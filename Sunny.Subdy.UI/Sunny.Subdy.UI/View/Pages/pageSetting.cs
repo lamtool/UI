@@ -7,6 +7,7 @@ using Sunny.Subd.Core.Facebook;
 using Sunny.Subd.Core.Proxies;
 using Sunny.Subd.Core.Utils;
 using Sunny.Subdy.Common.ControlMethod;
+using Sunny.Subdy.Common.Helper;
 using Sunny.Subdy.Common.Services;
 using Sunny.Subdy.UI.View.Controls;
 using Sunny.UI;
@@ -22,11 +23,11 @@ namespace Sunny.Subdy.UI.View.Pages
             cbbScript.Items.AddRange(SubdyHelper.Countries.ToArray());
             comboBox1.Items.AddRange(FacebookHander.TypeLogin.ToArray());
             this.Symbol = 559576;
-            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
+            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, onLoad: new System.Action(() =>
             {
                 LoadForm();
 
-            }), exists: false);
+            }), shouldExit: false);
         }
         private void LoadForm()
         {

@@ -35,9 +35,9 @@ namespace Sunny.Subdy.UI.View.Pages
             // pageTikTok
             // 
             AutoScaleMode = AutoScaleMode.None;
-            BackgroundImage = Properties.Resources.PanelThanks;
+            BackColor = Color.White;
             BackgroundImageLayout = ImageLayout.Zoom;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(956, 450);
             Name = "pageTikTok";
             Text = "TikTok";
             Load += fTikTok_Load;

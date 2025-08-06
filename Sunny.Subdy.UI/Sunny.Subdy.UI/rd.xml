@@ -50,6 +50,9 @@
 		<Assembly Name="Sunny.Subdy.Data">
 			<Type Name="Sunny.Subdy.Data.Models.Account" DynamicallyAccessedMemberTypes="All" />
 		</Assembly>
-
+		<Assembly Name="BouncyCastle.Crypto">
+			<Type Name="Org.BouncyCastle.Security.DigestUtilities" Dynamic="Required All" />
+			<Type Name="Org.BouncyCastle.Security.DigestUtilities+DigestAlgorithm" Dynamic="Required All" />
+		</Assembly>
 	</Application>
 </Directives>

@@ -62,8 +62,6 @@ namespace AutoAndroid
         {
             try
             {
-
-
                 // Kiểm tra tham số đầu vào
                 if (string.IsNullOrWhiteSpace(url))
                 {

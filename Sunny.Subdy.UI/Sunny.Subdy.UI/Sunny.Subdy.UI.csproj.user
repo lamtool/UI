@@ -13,6 +13,9 @@
     <Compile Update="fMain.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="View\Controls\fUpdateData.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="View\Controls\fCopyFields.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -47,6 +50,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="View\Forms\Actions\fAction_RegFB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="View\Forms\Actions\fAction_SpamXu_VipIG.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="View\Forms\fAddAccount.cs">

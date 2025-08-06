@@ -111,7 +111,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
                 {
                     tabControl1.Controls.Add(tabPage4);
                 }
-
+                checkBox2.Text = "Reg NVR (nên reg bằng domain, sau này change sau).";
             }
             else if (_platform == RegistrationType.RegGmail)
             {
@@ -121,6 +121,8 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
                 {
                     tabControl1.Controls.Remove(tabPage4);
                 }
+                checkBox2.Text = "Không xóa gmail đang login trên máy.";
+                checkBox2.Visible = true;
             }
 
 
@@ -162,7 +164,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
 
             LoadUI();
 
-            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name + "_" + _platform, action: new System.Action(() =>
+            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name + "_" + _platform, onLoad: new System.Action(() =>
             {
               
                 panel11.Enabled = check_Bia.Checked;
@@ -202,7 +204,7 @@ namespace Sunny.Subdy.UI.View.Forms.Actions
                 txtPass.Enabled = !check_PassRandom.Checked;
                 uiComboBox1_SelectedIndexChanged(null, null);
 
-            }), exists: false);
+            }), shouldExit: false);
 
         }
         private void LoadFolder()

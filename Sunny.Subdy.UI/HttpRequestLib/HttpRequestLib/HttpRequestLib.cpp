@@ -3,6 +3,10 @@
 #include <winhttp.h>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <filesystem>
+#include <chrono>
+#include <ctime>
 
 #pragma comment(lib, "winhttp.lib")
 
@@ -22,6 +26,29 @@ static std::wstring Utf8ToWide(const std::string& u8) {
     return w;
 }
 
+static void LogError(const std::wstring& message) {
+    try {
+        auto now = std::chrono::system_clock::now();
+        std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+        struct tm timeinfo;
+        localtime_s(&timeinfo, &now_c);
+
+        wchar_t dateFolder[100];
+        wcsftime(dateFolder, 100, L"%d-%m-%Y", &timeinfo);
+        std::wstring folder = std::wstring(L"logs\\") + dateFolder;
+        std::filesystem::create_directories(folder);
+        std::wstring filepath = folder + L"\\HttpRequestLib.txt";
+
+        std::wofstream logFile(filepath, std::ios::app);
+        if (!logFile.is_open()) return;
+
+        wchar_t timeStr[100];
+        wcsftime(timeStr, 100, L"%d-%m-%Y %H:%M:%S", &timeinfo);
+        logFile << L"[" << timeStr << L"] " << message << std::endl;
+    }
+    catch (...) {}
+}
+
 extern "C" HTTP_API
 LPWSTR __stdcall HttpRequestW(
     const wchar_t* method,
@@ -36,7 +63,10 @@ LPWSTR __stdcall HttpRequestW(
 
     HINTERNET hSession = WinHttpOpen(L"C++AutoHttp/1.0", WINHTTP_ACCESS_TYPE_NO_PROXY,
         WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
-    if (!hSession) return nullptr;
+    if (!hSession) {
+        LogError(L"WinHttpOpen (init) failed.");
+        return nullptr;
+    }
 
     WINHTTP_AUTOPROXY_OPTIONS apo{};
     WINHTTP_PROXY_INFO proxyInfo{};
@@ -78,25 +108,36 @@ LPWSTR __stdcall HttpRequestW(
             0);
     }
 
-    if (!hSession) return nullptr;
+    if (!hSession) {
+        LogError(L"WinHttpOpen (after proxy config) failed.");
+        return nullptr;
+    }
 
-    // Phân tích URL
     URL_COMPONENTS uc{ sizeof(uc) };
     wchar_t host[256]{}, path[2048]{};
     uc.lpszHostName = host; uc.dwHostNameLength = _countof(host);
     uc.lpszUrlPath = path; uc.dwUrlPathLength = _countof(path);
     if (!WinHttpCrackUrl(url, 0, 0, &uc)) {
-        WinHttpCloseHandle(hSession); return nullptr;
+        LogError(std::wstring(L"WinHttpCrackUrl failed for URL: ") + url);
+        WinHttpCloseHandle(hSession);
+        return nullptr;
     }
 
     HINTERNET hConnect = WinHttpConnect(hSession, host, uc.nPort, 0);
-    if (!hConnect) { WinHttpCloseHandle(hSession); return nullptr; }
+    if (!hConnect) {
+        LogError(std::wstring(L"WinHttpConnect failed for host: ") + host);
+        WinHttpCloseHandle(hSession);
+        return nullptr;
+    }
 
     DWORD flags = (uc.nScheme == INTERNET_SCHEME_HTTPS) ? WINHTTP_FLAG_SECURE : 0;
     HINTERNET hRequest = WinHttpOpenRequest(hConnect, method, path, nullptr,
         WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, flags);
     if (!hRequest) {
-        WinHttpCloseHandle(hConnect); WinHttpCloseHandle(hSession); return nullptr;
+        LogError(std::wstring(L"WinHttpOpenRequest failed for path: ") + path);
+        WinHttpCloseHandle(hConnect);
+        WinHttpCloseHandle(hSession);
+        return nullptr;
     }
 
     if (proxy && *proxy && proxyUser && *proxyUser)
@@ -113,8 +154,16 @@ LPWSTR __stdcall HttpRequestW(
         bodyLen ? (LPVOID)bodyUtf8.data() : WINHTTP_NO_REQUEST_DATA,
         bodyLen, bodyLen, 0);
 
-    if (!ok || !WinHttpReceiveResponse(hRequest, nullptr)) {
-        WinHttpCloseHandle(hRequest); WinHttpCloseHandle(hConnect); WinHttpCloseHandle(hSession); return nullptr;
+    if (!ok) {
+        LogError(std::wstring(L"WinHttpSendRequest failed for: ") + method + L" " + url);
+        WinHttpCloseHandle(hRequest); WinHttpCloseHandle(hConnect); WinHttpCloseHandle(hSession);
+        return nullptr;
+    }
+
+    if (!WinHttpReceiveResponse(hRequest, nullptr)) {
+        LogError(std::wstring(L"WinHttpReceiveResponse failed for: ") + url);
+        WinHttpCloseHandle(hRequest); WinHttpCloseHandle(hConnect); WinHttpCloseHandle(hSession);
+        return nullptr;
     }
 
     std::vector<char> buf;
@@ -135,6 +184,8 @@ LPWSTR __stdcall HttpRequestW(
     size_t bytes = (wide.size() + 1) * sizeof(wchar_t);
     result = (LPWSTR)CoTaskMemAlloc(bytes);
     if (result) memcpy(result, wide.c_str(), bytes);
+    else LogError(L"CoTaskMemAlloc failed.");
+
     return result;
 }
 

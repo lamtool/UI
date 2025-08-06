@@ -1,9 +1,10 @@
-﻿using System.Diagnostics;
-using AutoAndroid;
+﻿using AutoAndroid;
 using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Utils;
 using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Data.Models;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Sunny.Subd.Core.Facebook
 {
@@ -65,50 +66,50 @@ namespace Sunny.Subd.Core.Facebook
             {
                 CheckStop(180);
                 SetStatus($"Đang đăng nhập.", 2);
-                _case = client.FindElement("", FacebookHander.GetActiAccount(), 120);
+                _case = client.FindElement("", FacebookHander.GetActiAccountFacebook(), 120);
                 if (string.IsNullOrEmpty(_case))
                 {
-                    client.AppStart(FacebookHander.Package(), true, true, true);
+                    client.AppStart(FacebookHander.Package(PlatformModel.Facebook), true, true, true);
                     continue;
                 }
                 SetStatus($"Xử lý case [{_case}]...", 2);
                 switch (_case)
                 {
-                    case var c when XpathManager.Get(XpathType.Loading).Contains(c): continue;
-                    case var c when XpathManager.Get(XpathType.CP282).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.Loading).Contains(c): continue;
+                    case var c when XpathManagerFacebook.Get(XpathType.CP282).Contains(c):
                         subyEnum = SubdyEnum.CP_282;
                         message = $"Tài khoản bị 282. [{c}]";
                         throw new SubdyExtension(subyEnum, message);
-                    case var c when XpathManager.Get(XpathType.CP956).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.CP956).Contains(c):
                         subyEnum = SubdyEnum.CP_956;
                         message = $"Tài khoản bị 956. [{c}]";
                         throw new SubdyExtension(subyEnum, message);
-                    case var c when XpathManager.Get(XpathType.Captcha).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.Captcha).Contains(c):
                         subyEnum = SubdyEnum.Captcha;
                         message = $"Tài khoản dính captcha. [{c}]";
                         throw new SubdyExtension(subyEnum, message);
-                    case var c when XpathManager.Get(XpathType.Block).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.Block).Contains(c):
                         subyEnum = SubdyEnum.Block;
                         message = $"Tài khoản bị block. [{c}]";
                         throw new SubdyExtension(subyEnum, message);
-                    case var c when XpathManager.Get(XpathType.Logout).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.Logout).Contains(c):
                         subyEnum = SubdyEnum.LogOut;
                         message = $"Tài khoản bị đăng xuất. [{c}]";
                         throw new SubdyExtension(subyEnum, message);
-                    case var c when XpathManager.Get(XpathType.Success).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.Success).Contains(c):
                         subyEnum = SubdyEnum.Success;
                         message = $"Tài khoản đăng nhập thành công. [{c}]";
                         return new SubdyExtension(subyEnum, message);
-                    case var c when XpathManager.Get(XpathType.InputUserName).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.InputUserName).Contains(c):
                         await ImportUid();
                         break;
-                    case var c when XpathManager.Get(XpathType.InputPassword).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.InputPassword).Contains(c):
                         await ImportPassword();
                         break;
-                    case var c when XpathManager.Get(XpathType.TowFA).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.TowFA).Contains(c):
                         await Import2FA();
                         break;
-                    case var c when XpathManager.Get(XpathType.NavigationButton).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.NavigationButton).Contains(c):
                         client.ElementWithAttributes(c, 1);
                         break;
                 }
@@ -129,14 +130,14 @@ namespace Sunny.Subd.Core.Facebook
             _client.SendTextSlow("//*[@class='android.widget.EditText']", uid, xml: elements[0].OuterXml);
             SetStatus($"Đang nhập {_account.Password}...", 2);
             _client.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password, xml: elements[1].OuterXml);
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton));
             return;
         }
         private async Task ImportPassword()
         {
             SetStatus($"Đang nhập {_account.Password}...", 2);
             _client.SendTextSlow("//*[@class='android.widget.EditText']", _account.Password);
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton));
             return;
         }
         private async Task Import2FA()
@@ -152,7 +153,7 @@ namespace Sunny.Subd.Core.Facebook
             if (element == "//*[@content-desc='Try another way']")
             {
                 _client.ElementWithAttributes("//*[@content-desc='Authentication app, Get a code from your authentication app.']", 10);
-                _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+                _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton));
             }
             else if (element == "//*[@text=\"OK\"]")
             {
@@ -160,26 +161,83 @@ namespace Sunny.Subd.Core.Facebook
             }
             string code = FacebookHander.GetCodeTowFA(_account.TowFA);
             _client.SendTextSlow("//*[@class='android.widget.EditText']", code);
-            _client.ElementWithAttributes(XpathManager.Get(XpathType.NavigationButton));
+            _client.ElementWithAttributes(XpathManagerFacebook.Get(XpathType.NavigationButton));
             return;
         }
-
         public Task<SubdyExtension> Reaction(ADBClient client, Account account, string type, CancellationToken ct)
         {
             throw new NotImplementedException();
         }
+        public async Task<SubdyExtension> HanderAccount(ADBClient client, int timeout)
+        {
+            SetStatus($"Kiểm tra tài khoản...", 2);
+            string _case = string.Empty;
+            SubdyEnum subyEnum = SubdyEnum.None;
+            string message = "Đã xảy ra lỗi đang nhặp tài khoản!";
+            while (true)
+            {
+                CheckStop(180);
+                _case = client.FindElement("", FacebookHander.GetActiAccountFacebook(), timeout);
+                if (string.IsNullOrEmpty(_case))
+                {
+                    subyEnum = SubdyEnum.Success;
+                    message = $"Không tìm thấy case phù hợp...";
+                    return new SubdyExtension(subyEnum, message);
+                }
+                SetStatus($"Xử lý case [{_case}]...", 2);
+                switch (_case)
+                {
+                    case var c when XpathManagerFacebook.Get(XpathType.Loading).Contains(c): continue;
+                    case var c when XpathManagerFacebook.Get(XpathType.CP282).Contains(c):
+                        subyEnum = SubdyEnum.CP_282;
+                        message = $"Tài khoản bị 282. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.CP956).Contains(c):
+                        subyEnum = SubdyEnum.CP_956;
+                        message = $"Tài khoản bị 956. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.Captcha).Contains(c):
+                        subyEnum = SubdyEnum.Captcha;
+                        message = $"Tài khoản dính captcha. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.Block).Contains(c):
+                        subyEnum = SubdyEnum.Block;
+                        message = $"Tài khoản bị block. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.Logout).Contains(c):
+                        subyEnum = SubdyEnum.LogOut;
+                        message = $"Tài khoản bị đăng xuất. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.Success).Contains(c):
+                        subyEnum = SubdyEnum.Success;
+                        message = $"Tài khoản đăng nhập thành công. [{c}]";
+                        return new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.InputUserName).Contains(c):
+                        subyEnum = SubdyEnum.LogOut;
+                        message = $"Tài khoản bị đăng xuất. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.InputPassword).Contains(c):
+                        subyEnum = SubdyEnum.LogOut;
+                        message = $"Tài khoản bị đăng xuất. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.TowFA).Contains(c):
+                        subyEnum = SubdyEnum.LogOut;
+                        message = $"Tài khoản bị đăng xuất. [{c}]";
+                        throw new SubdyExtension(subyEnum, message);
+                    case var c when XpathManagerFacebook.Get(XpathType.NavigationButton).Contains(c):
+                        client.ElementWithAttributes(c, 1);
+                        break;
+                }
 
-        public Task<SubdyExtension> Follow(ADBClient client, Account account, CancellationToken ct)
+            }
+        }
+
+        public Task<Dictionary<string, string>> GetInfo(ADBClient client)
         {
             throw new NotImplementedException();
         }
 
-        public Task<SubdyExtension> LikePage(ADBClient client, Account account, CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<SubdyExtension> JoinGroup(ADBClient client, Account account, CancellationToken ct)
+        public Task<Dictionary<string, string>> UpateInfo(ADBClient client, string fullename, string bio, string username)
         {
             throw new NotImplementedException();
         }

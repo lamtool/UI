@@ -21,19 +21,35 @@ namespace Sunny.Subdy.UI.View.Forms
         List<ComboBox> cbxs = new List<ComboBox>();
         private bool _add = true;
         private Folder _fol;
-        public fAddAccount(Folder folder, bool add = true)
+        public fAddAccount(Folder folder)
         {
             InitializeComponent();
             _fol = folder;
-            _add = add;
+            _add = true;
             _formatAccountContext = new FormatAccountContext();
             LoadFormats();
-            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
+            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, onLoad: new System.Action(() =>
             {
                 LoadCombobox();
                 txtLines.Text = "";
 
-            }), exists: false);
+            }), shouldExit: false);
+
+            List<Control> controls = new List<Control>();
+            var lines = Globals.GetFieldsToImportExport();
+        }
+        public fAddAccount()
+        {
+            InitializeComponent();
+            _add = false;
+            _formatAccountContext = new FormatAccountContext();
+            LoadFormats();
+            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, onLoad: new System.Action(() =>
+            {
+                LoadCombobox();
+                txtLines.Text = "";
+
+            }), shouldExit: false);
 
             List<Control> controls = new List<Control>();
             var lines = Globals.GetFieldsToImportExport();
@@ -74,7 +90,12 @@ namespace Sunny.Subdy.UI.View.Forms
                 cbx.SelectedValueChanged += cbx_SelectedIndexChanged;
                 cbxs.Add(cbx);
             }
+
             ControlHelper.LoadFormatFrom(fields, cbxs);
+            cbxs[0].Items.Clear();
+            cbxs[0].Items.Add(Fields.Uid);
+            cbxs[0].SelectedIndex = 0;
+
             flowLayoutPanel1.Controls.AddRange(cbxs.ToArray());
         }
         private void uiSymbolButton3_Click(object sender, EventArgs e)
@@ -143,8 +164,8 @@ namespace Sunny.Subdy.UI.View.Forms
                 List<string> lines = new List<string>();
                 if (string.IsNullOrEmpty(txtLines.Text.Trim()))
                 {
-                    CommonMethod.ShowMessageWarning("Danh sách tài khoản không được để trống.");
                     this.HideWaitForm();
+                    CommonMethod.ShowMessageWarning("Danh sách tài khoản không được để trống.");
                     return;
                 }
                 lines = txtLines.Lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToList();
@@ -154,13 +175,113 @@ namespace Sunny.Subdy.UI.View.Forms
                     _fol.Count = new AccountContext().GetAll(new List<string> { _fol.Name }, true).Count.ToString();
                     new FolderContext().Update(_fol);
                 }
+                else
+                {
+                    await UpdateAccounts(lines);
+                    
+                }
                 this.HideWaitForm();
-                uiSymbolButton1.Enabled = true;
-                uiSymbolButton2.Enabled = true;
+
             }
             catch (Exception ex)
             {
+                this.HideWaitForm();
                 CommonMethod.ShowMessageError(ex.Message);
+            }
+            uiSymbolButton1.Enabled = true;
+            uiSymbolButton2.Enabled = true;
+        }
+        private async Task UpdateAccounts(List<string> lines)
+        {
+            List<Account> accounts = new List<Account>();
+            AccountContext accountContext = new AccountContext();
+            foreach (string line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                Account account = new Account();
+                string[] parts = line.Split('|');
+
+                for (int i = 0; i < cbxs.Count && i < parts.Length; i++)
+                {
+                    string field = cbxs[i].SelectedItem?.ToString() ?? string.Empty;
+                    string value = parts[i].Trim();
+
+                    switch (field)
+                    {
+                        case Fields.Uid:
+                            account.Uid = value;
+                            break;
+                        case Fields.Password:
+                            account.Password = value;
+                            break;
+                        case Fields.Phone:
+                            account.Phone = value;
+                            break;
+                        case Fields._2FA:
+                            account.TowFA = value;
+                            break;
+                        case Fields.Cookie:
+                            account.Cookie = value;
+                            break;
+                        case Fields.Token:
+                            account.Token = value;
+                            break;
+                        case Fields.Proxy:
+                            account.Proxy = value;
+                            break;
+                        case Fields.Email:
+                            account.Email = value;
+                            break;
+                        case Fields.PassMail:
+                            account.PassMail = value;
+                            break;
+                        case Fields.UserAgent:
+                            account.UserAgent = value;
+                            break;
+                        case Fields.Username:
+                            account.UserName = value;
+                            break;
+                    }
+                }
+                if (!string.IsNullOrEmpty(account.Uid))
+                {
+                    var accountNew = accountContext.GetByUid(account.Uid);
+                    if (accountNew != null)
+                    {
+                        if (!string.IsNullOrEmpty(account.Password)) accountNew.Password = account.Password;
+                        if (!string.IsNullOrEmpty(account.Phone)) accountNew.Phone = account.Phone;
+                        if (!string.IsNullOrEmpty(account.TowFA)) accountNew.TowFA = account.TowFA;
+                        if (!string.IsNullOrEmpty(account.Cookie)) accountNew.Cookie = account.Cookie;
+                        if (!string.IsNullOrEmpty(account.Token)) accountNew.Token = account.Token;
+                        if (!string.IsNullOrEmpty(account.Proxy)) accountNew.Proxy = account.Proxy;
+                        if (!string.IsNullOrEmpty(account.Email)) accountNew.Email = account.Email;
+                        if (!string.IsNullOrEmpty(account.PassMail)) accountNew.PassMail = account.PassMail;
+                        if (!string.IsNullOrEmpty(account.UserAgent)) accountNew.UserAgent = account.UserAgent;
+                        if (!string.IsNullOrEmpty(account.UserName)) accountNew.UserName = account.UserName;
+                        accounts.Add(accountNew);
+                    }
+                }
+            }
+            if (accounts.Count > 0)
+            {
+                if (accountContext.Update(accounts))
+                {
+                    this.HideWaitForm();
+                    CommonMethod.ShowMessageSuccess($"Đã cập nhật {accounts.Count} tài khoản.");
+                    this.Close();
+                }
+                else
+                {
+                    this.HideWaitForm();
+                    CommonMethod.ShowMessageError("Cập nhật tài khoản thất bại.");
+                }
+            }
+            else
+            {
+                this.HideWaitForm();
+                CommonMethod.ShowMessageError("Không có tài khoản nào đã được lưu để cập nhật");
             }
         }
         private void uiSymbolButton1_Click(object sender, EventArgs e)

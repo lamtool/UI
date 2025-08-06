@@ -3,6 +3,7 @@ using Sunny.Subd.Core.Facebook;
 using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Proxies;
 using Sunny.Subd.Core.Services;
+using Sunny.Subd.Core.Utils;
 using Sunny.Subdy.Common.ControlMethod;
 using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Common.Models;
@@ -45,12 +46,12 @@ namespace Sunny.Subdy.UI.View.Pages
             _ucdgvAccount = new ucdgvAccount(null);
             _ucdgvAccount.Dock = DockStyle.Fill;
             panel2.Controls.Add(_ucdgvAccount);
-            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
+            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, onLoad: new System.Action(() =>
             {
                 LoadScripts();
                 LoadFolders();
 
-            }), exists: false);
+            }), shouldExit: false);
         }
 
         private void LoadScripts()
@@ -150,10 +151,12 @@ namespace Sunny.Subdy.UI.View.Pages
                 return;
             }
             if (!SelectPhone()) return;
+            fMain.StartTime = DateTime.Now;
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken ct = cancellationTokenSource.Token;
             List<Task> tasks = new List<Task>();
             AccountServices.Accounts.Clear();
+            LoadControlModelHelper.ToolStripAccount = _ucdgvAccount.toolStrip1;
             AccountServices.Accounts = _ucdgvAccount._accounts.Where(x => x.Checked).ToList();
             foreach (var device in DeviceServices.DeviceModels.Where(x => x.Check))
             {
@@ -163,12 +166,13 @@ namespace Sunny.Subdy.UI.View.Pages
                 }));
             }
             await Task.WhenAll(tasks);
+            fMain.StartTime = null;
         }
 
         private async Task RunningThread(CancellationToken ct, DeviceModel device, ConfigModel config)
         {
             ADBClient client = new ADBClient(device);
-            MainService service = new MainService("Facebook", client, config, ct);
+            MainService service = new MainService(PlatformModel.Facebook, client, config, ct);
             await service.RunAsync();
         }
 
@@ -241,7 +245,8 @@ namespace Sunny.Subdy.UI.View.Pages
 
         private void uiSymbolButton4_Click(object sender, EventArgs e)
         {
-
+            cancellationTokenSource.Cancel();
+            uiSymbolButton4.Enabled = false;
         }
     }
 }

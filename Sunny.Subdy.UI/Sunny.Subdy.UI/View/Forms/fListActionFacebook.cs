@@ -52,7 +52,7 @@ namespace Sunny.Subdy.UI.View.Forms
             {
                 case TypeAction.FB_SpamXu:
                     {
-                        fAction_SpamXu form = new fAction_SpamXu(TypeAction.GetNameAction(text), string.Empty);
+                        fAction_SpamXu form = new fAction_SpamXu(TypeAction.GetNameAction(text), string.Empty, _script.Type);
                         if (form.ShowDialog() != DialogResult.OK)
                         {
                             return;

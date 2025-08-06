@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sunny.Subdy.Common.Helper;
 using Sunny.Subdy.Common.Logs;
@@ -8,151 +9,70 @@ namespace Sunny.Subdy.Common.Json
 {
     public class ConfigHelper
     {
-        JObject jConfig = new();
-        Form form;
-        UserControl uc;
-        string configFile;
-        List<DataGridView> dgvs = new();
-        List<Control> excepts = new();
-        Action? action = null;
-        Action? actionClosing = null;
-        bool exists = true;
-        public ConfigHelper(Form form, string configFilename, List<Control>? excepts = null, Action? action = null, Action? actionClosing = null, bool exists = true)
-        {
-            this.form = form;
-            this.exists = exists;
-            if (excepts != null)
-            {
-                this.excepts = excepts;
-            }
-            this.action = action;
-            this.actionClosing = actionClosing;
-            FileHelper.CreateFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"configs"));
-            configFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"configs\\{configFilename}.json");
-            if (File.Exists(configFile))
-            {
-                try
-                {
-                    jConfig = JObject.Parse(File.ReadAllText(configFile));
-                }
-                catch
-                {
-                    jConfig = new JObject();
-                }
-            }
-            else
-            {
-                jConfig = new JObject();
-            }
-            form.Load += FormLoad;
-            form.FormClosing += FormClosing;
-            this.exists = exists;
-        }
-        public ConfigHelper(Form form, string jConfig, Action? action)
-        {
-            this.form = form;
-            if (excepts != null)
-            {
-                this.excepts = excepts;
-            }
+        private readonly JObject jConfig = new();
+        private readonly Form? form;
+        private readonly UserControl? uc;
+        private readonly string? configFile;
+        private readonly List<Control> excepts;
+        private readonly Action? onLoadAction;
+        private readonly Action? onCloseAction;
+        private readonly bool shouldExit;
 
-            if (!string.IsNullOrEmpty(jConfig))
-            {
-                try
-                {
-                    this.jConfig = JObject.Parse(jConfig);
-                }
-                catch
-                {
-                    this.jConfig = new JObject();
-                }
-            }
-            else
-            {
-                this.jConfig = new JObject();
-            }
-            form.Load += FormLoad;
-            if (action != null)
-            {
-                this.action = action;
-            }
-        }
-        private void ReadFile()
+        public ConfigHelper(Form form, string configFilename, List<Control>? excepts = null, Action? onLoad = null, Action? onClose = null, bool shouldExit = true)
         {
-            if (File.Exists(configFile))
-            {
-                try
-                {
-                    jConfig = JObject.Parse(File.ReadAllText(configFile));
-                }
-                catch
-                {
-                    jConfig = new JObject();
-                }
-            }
-            else
-            {
-                jConfig = new JObject();
-            }
+            this.form = form;
+            this.excepts = excepts ?? new();
+            this.onLoadAction = onLoad;
+            this.onCloseAction = onClose;
+            this.shouldExit = shouldExit;
+
+            configFile = InitConfigFile(configFilename);
+            LoadConfigFromFile();
+
+            form.Load += ControlLoad;
+            form.FormClosing += ControlClosing;
         }
-        public ConfigHelper(UserControl uc, string configFilename, List<Control>? excepts = null, Action? action = null, Action? actionClosing = null, bool exists = false)
+        public ConfigHelper(Form form, string jsonString, bool isJsonString,  Action? onLoad = null, Action? onClose = null)
+        {
+            this.form = form;
+            this.excepts = excepts ?? new();
+            this.onLoadAction = onLoad;
+            this.onCloseAction = onClose;
+            this.shouldExit = false;
+            LoadConfigFromFile(jsonString);
+
+            form.Load += ControlLoad;
+            form.FormClosing += ControlClosing;
+        }
+        public ConfigHelper(UserControl uc, string configFilename, List<Control>? excepts = null, Action? onLoad = null, Action? onClose = null)
         {
             this.uc = uc;
-            if (excepts != null)
-            {
-                this.excepts = excepts;
-            }
-            this.action = action;
-            this.actionClosing = actionClosing;
-            FileHelper.CreateFolder(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"configs"));
-            configFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"configs\\{configFilename}.json");
-            if (File.Exists(configFile))
-            {
-                try
-                {
-                    jConfig = JObject.Parse(File.ReadAllText(configFile));
-                }
-                catch
-                {
-                    jConfig = new JObject();
-                }
-            }
-            else
-            {
-                jConfig = new JObject();
-            }
+            this.excepts = excepts ?? new();
+            this.onLoadAction = onLoad;
+            this.onCloseAction = onClose;
 
-            uc.Load += UserControlLoad;
-            // this.uc.ParentChanged += FormClosing;
-            this.exists = exists;
+            configFile = InitConfigFile(configFilename);
+            LoadConfigFromFile();
+
+            uc.Load += ControlLoad;
+            uc.Disposed += ControlClosing;
         }
-        private IConfigurableControl? GetAdapterFromSender(object sender)
+
+        private string InitConfigFile(string filename)
         {
-            return sender switch
-            {
-                TextBox tb => new TextBoxGetterAdapter(tb),
-                UITextBox uitb => new UITextBoxGetterAdapter(uitb),
-                CheckBox cb => new CheckBoxGetterAdapter(cb),
-                UICheckBox uicb => new UICheckBoxGetterAdapter(uicb),
-                ComboBox cb => new ComboBoxGetterAdapter(cb),
-                UIComboBox uicb => new UIComboBoxGetterAdapter(uicb),
-                RadioButton rb => new RadioButtonGetterAdapter(rb),
-                UIRadioButton uirb => new UIRadioButtonGetterAdapter(uirb),
-                NumericUpDown nud => new NumericUpDownGetterAdapter(nud),
-                UITimePicker picker => new UITimePickerGetterAdapter(picker),
-                _ => null
-            };
+            string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configs");
+            FileHelper.CreateFolder(folder);
+            return Path.Combine(folder, $"{filename}.json");
         }
-        private void ValueChanged(object sender, EventArgs e)
+        private void LoadConfigFromFile(string content)
         {
-            ReadFile();
             try
             {
-                var adapter = GetAdapterFromSender(sender);
-                if (adapter != null && !string.IsNullOrWhiteSpace(adapter.Name))
+                if (!string.IsNullOrWhiteSpace(content))
                 {
-                    jConfig[adapter.Name] = JToken.FromObject(adapter.GetValue());
-                    File.WriteAllText(configFile, jConfig.ToString());
+                    var parsed = JObject.Parse(content);
+                    foreach (var prop in parsed)
+                        jConfig[prop.Key] = prop.Value;
                 }
             }
             catch (Exception ex)
@@ -160,17 +80,121 @@ namespace Sunny.Subdy.Common.Json
                 LogManager.Error(ex);
             }
         }
-        public void UserControlLoad(object sender, EventArgs e)
+        private void LoadConfigFromFile()
         {
-            List<Control> controls = ControlHelper.GetControls(uc);
-            LoadControls(controls);
+            try
+            {
+                if (File.Exists(configFile))
+                {
+                    var content = File.ReadAllText(configFile!);
+                    if (!string.IsNullOrWhiteSpace(content))
+                    {
+                        var parsed = JObject.Parse(content);
+                        foreach (var prop in parsed)
+                            jConfig[prop.Key] = prop.Value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+            }
         }
-        public void FormLoad(object sender, EventArgs e)
+
+        private void ControlLoad(object? sender, EventArgs e)
         {
-            List<Control> controls = ControlHelper.GetControls(form);
-            LoadControls(controls);
+            var controls = GetAllControls();
+            foreach (var control in controls)
+            {
+                if (string.IsNullOrEmpty(control.Name) || excepts.Contains(control))
+                    continue;
+
+                var adapter = CreateBinderAdapter(control);
+                if (adapter == null)
+                    continue;
+
+                if (jConfig.TryGetValue(adapter.Name, out var value))
+                {
+                    try { adapter.LoadValue(value); } catch (Exception ex) { LogManager.Error(ex); }
+                }
+
+                adapter.BindEvent(ValueChanged);
+            }
+
+            onLoadAction?.Invoke();
         }
-        private IControlAdapter? CreateAdapter(Control control)
+
+        private void ControlClosing(object? sender, EventArgs e)
+        {
+            SaveAllControlValues();
+
+            if (!string.IsNullOrEmpty(configFile))
+            {
+                try { File.WriteAllText(configFile!, jConfig.ToString()); } catch (Exception ex) { LogManager.Error(ex); }
+            }
+
+            onCloseAction?.Invoke();
+
+            if (shouldExit && form != null)
+                Environment.Exit(0);
+        }
+
+        private void SaveAllControlValues()
+        {
+            var controls = GetAllControls();
+            foreach (var control in controls)
+            {
+                if (string.IsNullOrEmpty(control.Name) || excepts.Contains(control))
+                    continue;
+
+                var adapter = CreateGetterAdapter(control);
+                if (adapter == null)
+                    continue;
+
+                try
+                {
+                    var value = adapter.GetValue();
+                    if (value != null)
+                        jConfig[adapter.Name] = JToken.FromObject(value);
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Error(ex);
+                }
+            }
+        }
+
+        private void ValueChanged(object? sender, EventArgs e)
+        {
+            if (sender is not Control control || string.IsNullOrEmpty(control.Name) || excepts.Contains(control))
+                return;
+
+            var adapter = CreateGetterAdapter(control);
+            if (adapter == null)
+                return;
+
+            try
+            {
+                var value = adapter.GetValue();
+                if (value != null)
+                {
+                    jConfig[adapter.Name] = JToken.FromObject(value);
+                    if (!string.IsNullOrEmpty(configFile))
+                        File.WriteAllText(configFile!, jConfig.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.Error(ex);
+            }
+        }
+
+        private List<Control> GetAllControls()
+        {
+            return form != null ? ControlHelper.GetControls(form) : uc != null ? ControlHelper.GetControls(uc) : new();
+        }
+
+        private IControlAdapter? CreateBinderAdapter(Control control)
         {
             return control switch
             {
@@ -187,187 +211,36 @@ namespace Sunny.Subdy.Common.Json
                 _ => null
             };
         }
-        void LoadControls(List<Control> controls)
+
+        private IConfigurableControl? CreateGetterAdapter(Control control)
         {
-            foreach (var control in controls)
+            return control switch
             {
-                if (control is DataGridView dgv)
-                {
-                    dgv.CurrentCellDirtyStateChanged += dgvCurrentCellDirtyStateChanged;
-                    dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                }
-            }
-
-            foreach (var control in controls)
-            {
-                try
-                {
-                    if (string.IsNullOrEmpty(control.Name) || excepts.Contains(control))
-                        continue;
-
-                    var adapter = CreateAdapter(control);
-                    if (adapter == null)
-                        continue;
-
-                    if (jConfig[adapter.Name] != null)
-                    {
-                        adapter.LoadValue(jConfig[adapter.Name]);
-                    }
-
-                    adapter.BindEvent(ValueChanged);
-                }
-                catch (Exception ex)
-                {
-                    LogManager.Error(ex);
-                }
-            }
-
-            action?.Invoke();
-        }
-        public void dgvCurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            if (((DataGridView)sender).IsCurrentCellDirty)
-            {
-                ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
-            }
-        }
-        public void FormClosing(object sender, EventArgs e)
-        {
-            try
-            {
-                List<Control> controls = form != null
-                    ? ControlHelper.GetControls(form)
-                    : uc != null ? ControlHelper.GetControls(uc) : new List<Control>();
-
-                foreach (Control control in controls)
-                {
-                    try
-                    {
-                        IConfigurableControl? adapter = GetAdapterFromSender(control);
-                        if (adapter != null && !string.IsNullOrWhiteSpace(adapter.Name))
-                        {
-                            object? value = adapter.GetValue();
-                            if (value != null)
-                            {
-                                jConfig[adapter.Name] = JToken.FromObject(value);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        LogManager.Error(ex);
-                    }
-                }
-
-                File.WriteAllText(configFile, jConfig.ToString());
-
-                actionClosing?.Invoke();
-
-                if (exists)
-                {
-                    Environment.Exit(0);
-                }
-            }
-            catch (Exception ex)
-            {
-                LogManager.Error(ex);
-            }
+                TextBox tb => new TextBoxGetterAdapter(tb),
+                UITextBox uitb => new UITextBoxGetterAdapter(uitb),
+                CheckBox cb => new CheckBoxGetterAdapter(cb),
+                UICheckBox uicb => new UICheckBoxGetterAdapter(uicb),
+                ComboBox cb => new ComboBoxGetterAdapter(cb),
+                UIComboBox uicb => new UIComboBoxGetterAdapter(uicb),
+                RadioButton rb => new RadioButtonGetterAdapter(rb),
+                UIRadioButton uirb => new UIRadioButtonGetterAdapter(uirb),
+                NumericUpDown nud => new NumericUpDownGetterAdapter(nud),
+                UITimePicker picker => new UITimePickerGetterAdapter(picker),
+                _ => null
+            };
         }
 
-        /// <summary>
-        /// Thêm giá trị vào thuộc tính trong đối tượng JObject.
-        /// </summary>
-        /// <param name="key">Khóa (key) của thuộc tính cần thêm giá trị.</param>
-        /// <param name="value">Giá trị cần thêm.</param>
         public void AddValue(string key, object value)
         {
-            try
-            {
-                this.jConfig[key] = JToken.FromObject(value.ToString());
-            }
-            catch
-            {
-            }
+            try { jConfig[key] = JToken.FromObject(value); }
+            catch (Exception ex) { LogManager.Error(ex); }
         }
+
         public string GetJsonString()
         {
-            List<Control> controls = new List<Control>();
-            if (form != null)
-            {
-                controls = ControlHelper.GetControls(form);
-            }
-            else if (uc != null)
-            {
-                controls = ControlHelper.GetControls(uc);
-            }
-            foreach (Control control in controls)
-            {
-                try
-                {
-                    if (control is TextBox textBox)
-                    {
-                        if (control.Name != "")
-                        {
-                            jConfig[((TextBox)control).Name] = JToken.FromObject(((TextBox)control).Text);
-                        }
-                    }
-                    else if (control is NumericUpDown numericUpDown)
-                    {
-                        if (((NumericUpDown)control).Name != "")
-                        {
-                            jConfig[((NumericUpDown)control).Name] = JToken.FromObject(((NumericUpDown)control).Value);
-                        }
-                    }
-                    else if (control is TextBox TextBox)
-                    {
-                        if (((TextBox)control).Name != "")
-                        {
-                            jConfig[((TextBox)control).Name] = JToken.FromObject(((TextBox)control).Text);
-                        }
-                    }
-                    else if (control is CheckBox checkBox)
-                    {
-                        if (((CheckBox)control).Name != "")
-                        {
-                            jConfig[((CheckBox)control).Name] = JToken.FromObject(((CheckBox)control).Checked);
-                        }
-                    }
-                    else if (control is RadioButton radioButton)
-                    {
-                        if (((RadioButton)control).Name != "")
-                        {
-                            jConfig[((RadioButton)control).Name] = JToken.FromObject(((RadioButton)control).Checked);
-                        }
-                    }
-                    else if (control is ComboBox)
-                    {
-                        if (((ComboBox)control).Name != "")
-                        {
-                            jConfig[((ComboBox)control).Name] = JToken.FromObject(((ComboBox)control).SelectedIndex);
-                        }
-                    }
-                    else if (control is UITimePicker)
-                    {
-                        if (((UITimePicker)control).Name != "")
-                        {
-                            jConfig[((UITimePicker)control).Name] = JToken.FromObject(((UITimePicker)control).Value);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogManager.Error(ex);
-                }
-            }
-            string result = "";
-            try
-            {
-                result = this.jConfig.ToString().Replace("\r\n", "");
-            }
-            catch (Exception ex)
-            {
-            }
-            return result;
+            SaveAllControlValues();
+            return jConfig.ToString(Formatting.None);
         }
     }
+
 }

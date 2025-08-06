@@ -65,17 +65,15 @@ namespace Sunny.Subdy.UI.View.Controls
             txtName.Size = new Size(389, 35);
             txtName.Symbol = 363070;
             txtName.TabIndex = 6;
-            txtName.TextAlignment = ContentAlignment.MiddleLeft;
             txtName.Watermark = "Nhập tên nhóm...";
             // 
             // txtType
             // 
-            txtType.DataSource = null;
             txtType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             txtType.FillColor = Color.White;
             txtType.Font = new Font("Microsoft Sans Serif", 12F);
             txtType.ItemHoverColor = Color.FromArgb(155, 200, 255);
-            txtType.Items.AddRange(new object[] { "", "Facebook", "Instagram", "TikTok", "Gmail" });
+            txtType.Items.AddRange(new object[] { "", "Facebook", "Instagram", "TikTok", "Gmail", "TuongTacCheo", "VipIG" });
             txtType.ItemSelectForeColor = Color.FromArgb(235, 243, 255);
             txtType.Location = new Point(59, 80);
             txtType.Margin = new Padding(4, 5, 4, 5);
@@ -83,9 +81,7 @@ namespace Sunny.Subdy.UI.View.Controls
             txtType.Name = "txtType";
             txtType.Padding = new Padding(0, 0, 30, 2);
             txtType.Size = new Size(389, 29);
-            txtType.SymbolSize = 24;
             txtType.TabIndex = 8;
-            txtType.TextAlignment = ContentAlignment.MiddleLeft;
             txtType.Watermark = "";
             // 
             // txtDate
@@ -102,11 +98,8 @@ namespace Sunny.Subdy.UI.View.Controls
             txtDate.Size = new Size(389, 29);
             txtDate.SymbolDropDown = 61555;
             txtDate.SymbolNormal = 61555;
-            txtDate.SymbolSize = 24;
             txtDate.TabIndex = 9;
-            txtDate.Text = "2025-06-13";
-            txtDate.TextAlignment = ContentAlignment.MiddleLeft;
-            txtDate.Value = new DateTime(2025, 6, 13, 14, 46, 43, 0);
+            txtDate.Text = "2025-07-22";
             txtDate.Watermark = "";
             // 
             // uiSymbolButton1

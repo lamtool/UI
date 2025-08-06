@@ -1,14 +1,18 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using static Sunny.Subdy.Data.AppDbContext;
 
 namespace Sunny.Subdy.Data.Models;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
 public class Account : INotifyPropertyChanged
 {
+    [SqlKey]
     public Guid Id { get => _id; set => SetField(ref _id, value); }
     public string Uid { get => _uid; set => SetField(ref _uid, value); }
+    public string TokenJob { get => _tokenJob; set => SetField(ref _tokenJob, value); }
     public string Password { get => _password; set => SetField(ref _password, value); }
     public string TowFA { get => _towFA; set => SetField(ref _towFA, value); }
     public string Cookie { get => _cookie; set => SetField(ref _cookie, value); }
@@ -31,6 +35,7 @@ public class Account : INotifyPropertyChanged
     public string Groups { get => _groups; set => SetField(ref _groups, value); }
     public string Follow { get => _follow; set => SetField(ref _follow, value); }
     public string Birthday { get => _birthday; set => SetField(ref _birthday, value); }
+    public string Bio { get => _bio; set => SetField(ref _bio, value); }
     public string PagePro5 { get => _pagePro5; set => SetField(ref _pagePro5, value); }
     public string DateCreate { get => _dateCreate; set => SetField(ref _dateCreate, value); }
     public string Avatar { get => _avatar; set => SetField(ref _avatar, value); }
@@ -50,104 +55,23 @@ public class Account : INotifyPropertyChanged
     public string Uid_Email { get; set; } = string.Empty;
 
     private Guid _id = Guid.NewGuid();
-    private string _uid = "", _password = "", _towFA = "", _cookie = "", _token = "", _proxy = "", _email = "",
+    private string _uid = "", _password = "", _tokenJob = "", _towFA = "", _cookie = "", _token = "", _proxy = "", _email = "",
                    _phone = "", _userAgent = "", _fullName = "", _state = "", _status = "", _result = "", _serial = "",
                    _ip = "", _userName = "", _nameFolder = "", _gender = "", _friends = "", _groups = "", _follow = "",
-                   _birthday = "", _pagePro5 = "", _dateCreate = "", _avatar = "", _note = "", _deviceInfo = "",
+                   _birthday = "", _bio = "", _pagePro5 = "", _dateCreate = "", _avatar = "", _note = "", _deviceInfo = "",
                    _emailAddress = "", _passMail = "", _mailClientId = "", _mailRefreshToken = "", _passPrivateEmailAddress = "", _recentInteraction = "";
 
     private bool _checked = false, _running = false, _isView = true;
-    private int _colorType = 0, _total =0;
-
-    private JobHistory _jobHistory = new();
-
-    public JobHistory JobHistory
-    {
-        get => _jobHistory;
-        set
-        {
-            if (_jobHistory != null)
-                _jobHistory.PropertyChanged -= OnJobHistoryChanged;
-
-            _jobHistory = value;
-
-            if (_jobHistory != null)
-                _jobHistory.PropertyChanged += OnJobHistoryChanged;
-
-           // OnPropertyChanged(nameof(JobHistory));
-            OnPropertyChanged(nameof(Summary));
-            OnPropertyChanged(nameof(Summary_Skip));
-            OnPropertyChanged(nameof(JobToday));
-        }
-    }
-
-    private void OnJobHistoryChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName is nameof(JobHistory.Like) or nameof(JobHistory.Love) or nameof(JobHistory.Care) 
-            or nameof(JobHistory.Haha) or nameof(JobHistory.Share) or nameof(JobHistory.Wow)
-             or nameof(JobHistory.Sad) or nameof(JobHistory.Angry) or nameof(JobHistory.Follow)
-              or nameof(JobHistory.LikePage) or nameof(JobHistory.LikeComment))
-
-        {
-            OnPropertyChanged(nameof(Summary));
-        }
-
-        if (e.PropertyName is nameof(JobHistory.Like_Skip) or nameof(JobHistory.Love_Skip) or nameof(JobHistory.Care_Skip)
-          or nameof(JobHistory.Haha_Skip) or nameof(JobHistory.Share_Skip) or nameof(JobHistory.Wow_Skip)
-           or nameof(JobHistory.Sad_Skip) or nameof(JobHistory.Angry_Skip) or nameof(JobHistory.Follow_Skip)
-            or nameof(JobHistory.LikePage_Skip) or nameof(JobHistory.LikeComment_Skip))
-
-        {
-            OnPropertyChanged(nameof(Summary_Skip));
-        }
-
-        if (e.PropertyName is nameof(JobHistory.Total))
-
-        {
-            OnPropertyChanged(nameof(JobTotal));
-        }
-    }
+    private int _colorType = 0, _total=0;
+    private string _jobToday = "0", _summary = "", _summary_Skip = "";
     public int JobTotal { get => _total; set => SetField(ref _total, value); }
-    public double JobToday => JobHistory?.Total ?? 0;
-    public string Summary
-    {
-        get
-        {
-            var parts = new List<string>();
-            if (JobHistory.Like > 0) parts.Add($"Like: {JobHistory.Like}");
-            if (JobHistory.Love > 0) parts.Add($"Love: {JobHistory.Love}");
-            if (JobHistory.Care > 0) parts.Add($"Care: {JobHistory.Care}");
-            if (JobHistory.Haha > 0) parts.Add($"Haha: {JobHistory.Haha}");
-            if (JobHistory.Wow > 0) parts.Add($"Wow: {JobHistory.Wow}");
-            if (JobHistory.Sad > 0) parts.Add($"Sad: {JobHistory.Sad}");
-            if (JobHistory.Angry > 0) parts.Add($"Angry: {JobHistory.Angry}");
-            if (JobHistory.Follow > 0) parts.Add($"Follow: {JobHistory.Follow}");
-            if (JobHistory.LikePage > 0) parts.Add($"LikePage: {JobHistory.LikePage}");
-            if (JobHistory.LikeComment > 0) parts.Add($"LikeComment: {JobHistory.LikeComment}");
-            if (JobHistory.Share > 0) parts.Add($"Share: {JobHistory.Share}");
-            return string.Join(" | ", parts);
-        }
-    }
-    public string Summary_Skip
-    {
-        get
-        {
-            var parts = new List<string>();
-            if (JobHistory.Like_Skip > 0) parts.Add($"Like: {JobHistory.Like_Skip}");
-            if (JobHistory.Love_Skip > 0) parts.Add($"Love: {JobHistory.Love_Skip}");
-            if (JobHistory.Care_Skip > 0) parts.Add($"Care: {JobHistory.Care_Skip}");
-            if (JobHistory.Haha_Skip > 0) parts.Add($"Haha: {JobHistory.Haha_Skip}");
-            if (JobHistory.Wow_Skip > 0) parts.Add($"Wow: {JobHistory.Wow_Skip}");
-            if (JobHistory.Sad_Skip > 0) parts.Add($"Sad: {JobHistory.Sad_Skip}");
-            if (JobHistory.Angry_Skip > 0) parts.Add($"Angry: {JobHistory.Angry_Skip}");
-            if (JobHistory.Follow_Skip > 0) parts.Add($"Follow: {JobHistory.Follow_Skip}");
-            if (JobHistory.LikePage_Skip > 0) parts.Add($"LikePage: {JobHistory.LikePage_Skip}");
-            if (JobHistory.LikeComment_Skip > 0) parts.Add($"LikeComment: {JobHistory.LikeComment_Skip}");
-            if (JobHistory.Share_Skip > 0) parts.Add($"Share: {JobHistory.Share_Skip}");
-            return string.Join(" | ", parts);
-        }
-    }
-
+    [NotMapped]
+    public string JobToday { get => _jobToday; set => SetField(ref _jobToday, value); }
+    [NotMapped]
+    public string Summary { get => _summary; set => SetField(ref _summary, value); }
+    [NotMapped]
+    public string Summary_Skip { get => _summary_Skip; set => SetField(ref _summary_Skip, value); }
+  
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

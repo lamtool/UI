@@ -15,27 +15,46 @@ namespace Sunny.Subd.Core.Facebook
             "Uid|Password",
             "Email|Password",
         };
-        public static string FilePath()
+        public static string FilePath(string platform)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App", "Facebook.apk");
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App", $"{platform}.apk");
         }
-        public static string Package(string platform = "facebook")
+        public static string Package(string platform)
         {
-            switch (platform.ToLower())
+            switch (platform)
             {
-                case "facebook":
+                case PlatformModel.Facebook:
                     return "com.facebook.katana";
                 case "messenger":
                     return "com.facebook.orca";
-                case "instagram":
+                case PlatformModel.Instagram:
                     return "com.instagram.android";
                 default:
                     throw new ArgumentException("Unsupported platform: " + platform);
             }
         }
-        public static List<string> GetActiAccount()
+        public static List<string> GetActiAccountFacebook()
         {
-            var xpaths = XpathManager.Combine
+            var xpaths = XpathManagerFacebook.Combine
+                (
+                    XpathType.CP282,
+                    XpathType.Loading,
+                    XpathType.Captcha,
+                    XpathType.CP956,
+                    XpathType.Logout,
+                    XpathType.Block,
+                    XpathType.Success,
+                    XpathType.CashApp,
+                    XpathType.TowFA,
+                    XpathType.InputUserName,
+                    XpathType.InputPassword,
+                    XpathType.NavigationButton
+                );
+            return xpaths;
+        }
+        public static List<string> GetActiAccountInstagram()
+        {
+            var xpaths = XpathManagerInstagram.Combine
                 (
                     XpathType.CP282,
                     XpathType.Loading,
@@ -86,7 +105,7 @@ namespace Sunny.Subd.Core.Facebook
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    catData = client.Shell("su -c cat data/data/" + Package() + "/app_light_prefs/" + Package() + "/authentication");
+                    catData = client.Shell("su -c cat data/data/" + Package(PlatformModel.Facebook) + "/app_light_prefs/" + Package(PlatformModel.Facebook) + "/authentication");
                     if (!string.IsNullOrEmpty(catData))
                     {
                         try
@@ -207,7 +226,7 @@ namespace Sunny.Subd.Core.Facebook
         }
         public static List<string> Regsiner_Facebook()
         {
-            var xpaths = XpathManager.Combine
+            var xpaths = XpathManagerFacebook.Combine
                 (
                     XpathType.CP282,
                     XpathType.Loading,
@@ -232,7 +251,7 @@ namespace Sunny.Subd.Core.Facebook
             var p = client.Push(imagePath, $"/sdcard/LT/{fileName}");
 
             client.Delay(1);
-            client.Shell($"am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/DTA/{fileName}");
+            client.Shell($"am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/LT/{fileName}");
         }
         public static void DeleteImage(ADBClient client, string imagePath)
         {
@@ -246,5 +265,45 @@ namespace Sunny.Subd.Core.Facebook
             // Gửi broadcast để cập nhật thư viện phương tiện
             client.Shell($" am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://{remotePath}");
         }
+        public static async Task<string> GetUrlByObjectId(string object_id)
+        {
+            try
+            {
+                string url = $"https://www.facebook.com/{object_id}";
+                var handler = new HttpClientHandler
+                {
+                    AllowAutoRedirect = false 
+                };
+                using (var client = new HttpClient(handler))
+                {
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("");
+                    client.DefaultRequestHeaders.Accept.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0");
+                    client.DefaultRequestHeaders.AcceptLanguage.ParseAdd("en-US,en;q=0.9,vi;q=0.8");
+
+                    HttpResponseMessage response = await client.GetAsync(url);
+
+                    if (response.StatusCode == HttpStatusCode.Moved || response.StatusCode == HttpStatusCode.Found)
+                    {
+                        Uri redirectedUri = response.Headers.Location;
+
+                        if (redirectedUri != null)
+                        {
+                            string redirectedUrl = redirectedUri.ToString();
+
+                            if (!redirectedUrl.Contains("login")&& url != redirectedUrl)
+                            {
+                                return redirectedUrl;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi: {ex.Message}");
+            }
+            return "";
+        }
+      
     }
 }

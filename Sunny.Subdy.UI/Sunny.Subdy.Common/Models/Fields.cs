@@ -1,10 +1,12 @@
-﻿namespace Sunny.Subdy.Common.Models
+﻿using System.Security.Principal;
+
+namespace Sunny.Subdy.Common.Models
 {
     public class Fields
     {
         public const string Uid = "UID";
         public const string Password = "Password";
-        public const string _2FA = "2FA";
+        public const string _2FA = "TowFA";
         public const string Cookie = "Cookie";
         public const string Token = "Token";
         public const string Email = "Email";

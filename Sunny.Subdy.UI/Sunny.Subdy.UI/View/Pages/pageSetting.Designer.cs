@@ -524,6 +524,8 @@ namespace Sunny.Subdy.UI.View.Pages
             // checkBox14
             // 
             checkBox14.AutoSize = true;
+            checkBox14.Checked = true;
+            checkBox14.CheckState = CheckState.Checked;
             checkBox14.ForeColor = Color.FromArgb(48, 48, 48);
             checkBox14.Location = new Point(22, 159);
             checkBox14.Name = "checkBox14";
@@ -693,7 +695,7 @@ namespace Sunny.Subdy.UI.View.Pages
             tabPage3.Font = new Font("Microsoft Sans Serif", 9F);
             tabPage3.Location = new Point(0, 40);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(697, 289);
+            tabPage3.Size = new Size(200, 60);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Cấu hình IP";
             // 
@@ -854,7 +856,7 @@ namespace Sunny.Subdy.UI.View.Pages
             tabPage4.Font = new Font("Microsoft Sans Serif", 9F);
             tabPage4.Location = new Point(0, 40);
             tabPage4.Name = "tabPage4";
-            tabPage4.Size = new Size(697, 289);
+            tabPage4.Size = new Size(200, 60);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Cấu hình nâng cao";
             // 

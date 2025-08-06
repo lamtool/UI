@@ -147,7 +147,7 @@ namespace AutoAndroid
             Shell("svc data disable");
             LogHelper.SUCCESS($"Đã tắt 4G");
         }
-        public bool ChangInfo(string uid, bool backup, string brand, string country)
+        public bool ChangInfo(string filePath, bool backup, string brand, string country)
         {
             if (Shell(" su -c \"whoami\"").Trim() != "root")
             {
@@ -156,7 +156,11 @@ namespace AutoAndroid
             }
             LogHelper.SUCCESS($"Đang thay đổi thiết bị!");
             MaxChangeService maxChangeService = new MaxChangeService(this);
-            return maxChangeService.Change(uid, backup, brand, country);
+            return maxChangeService.Change(filePath, backup, brand, country);
+        }
+        public bool BackupDevice(string filePath)
+        {
+            return maxChange.BackupDeviceInfoChange(filePath);
         }
         public string GetDeviceName()
         {
@@ -221,10 +225,8 @@ namespace AutoAndroid
                 LogHelper.SUCCESS($"Xóa dữ liệu app [{package}]");
                 for (int i = 0; i < 5; i++)
                 {
-                    if (Shell("pm clear " + package, 3).Contains("Success"))
-                    {
-                        break;
-                    }
+                    Shell("pm clear " + package, 3);
+                    ADB.Shell("pm clear " + package, 5);
                 }
             }
             catch
@@ -308,7 +310,6 @@ namespace AutoAndroid
 
             return info;
         }
-
         public List<AndroidProcessItem> GetProcessList()
         {
             string result = ADB.Shell("ps"); // <-- Hoặc thử "ps -ef"
@@ -391,8 +392,8 @@ namespace AutoAndroid
             LogHelper.Log($"Thiết lập kích thước màn hình {width}x{height}, DPI: {density}");
             Shell("settings put system accelerometer_rotation 0");
             Shell("settings put system user_rotation 0");
-            Shell("wm size", $"{width}x{height}");
-            Shell("wm density", density.ToString());
+           // Shell("wm size", $"{width}x{height}");
+           // Shell("wm density", density.ToString());
         }
 
         public List<string> AppRunningList()
@@ -432,6 +433,42 @@ namespace AutoAndroid
                     Thread.Sleep(delayBetweenSwipes); // Nghỉ giữa các lần vuốt
                 }
             }
+        }
+        public void SwipeByPercent(double x1, double y1, double x2, double y2, int duration = 100, int repeat = 1, int delayBetweenSwipes = 100)
+        {
+            Point screenResolution = GetScreenResolution();
+            int num = (int)(x1 * ((double)screenResolution.X * 1.0 / 100.0));
+            int num2 = (int)(y1 * ((double)screenResolution.Y * 1.0 / 100.0));
+            int num3 = (int)(x2 * ((double)screenResolution.X * 1.0 / 100.0));
+            int num4 = (int)(y2 * ((double)screenResolution.Y * 1.0 / 100.0));
+            for (int i = 0; i < repeat; i++)
+            {
+                try
+                {
+                    LogHelper.SUCCESS($"Đang vuốt [{i + 1}]");
+                    string text = Shell($"input swipe {num} {num2} {num3} {num4} {duration}");
+                }
+                catch
+                {
+                    Connect();
+                    return;
+                }
+                if (i < repeat - 1 && delayBetweenSwipes > 0)
+                {
+                    Thread.Sleep(delayBetweenSwipes); // Nghỉ giữa các lần vuốt
+                }
+            }
+
+        }
+        public Point GetScreenResolution()
+        {
+            string text = ADB.Shell("dumpsys display | Find \"mCurrentDisplayRect\"");
+            text = text.Substring(text.IndexOf("- "));
+            text = text.Substring(text.IndexOf(' '), text.IndexOf(')') - text.IndexOf(' '));
+            string[] array = text.Split(',');
+            int x = Convert.ToInt32(array[0].Trim());
+            int y = Convert.ToInt32(array[1].Trim());
+            return new Point(x, y);
         }
         public bool Click(float x, float y)
         {
@@ -826,50 +863,75 @@ namespace AutoAndroid
             }
             return attributeValues;
         }
-        public bool ElementWithAttributes(string element, int timeoutInSeconds = 5, string xmlsoucre = "", bool click = true)
+        public bool ElementWithAttributes(string xpath, int timeoutInSeconds = 5, string xmlSource = "", bool click = true)
         {
-            stopwatch.Restart();
-            while (stopwatch.ElapsedMilliseconds < timeoutInSeconds * 1000)
+            try
             {
-                try
-                {
-                    if (string.IsNullOrEmpty(xmlsoucre))
-                        xmlsoucre = GetXMLSource();
-                    using (var stringReader = new StringReader(xmlsoucre.ToLower()))
-                    {
-                        var xpathDoc = new XPathDocument(stringReader);
-                        var navigator = xpathDoc.CreateNavigator();
+                var stopwatch = Stopwatch.StartNew();
 
-                        try
+                while (stopwatch.ElapsedMilliseconds < timeoutInSeconds * 1000)
+                {
+                    if (string.IsNullOrEmpty(xmlSource))
+                        xmlSource = GetXMLSource();
+
+                    if (!string.IsNullOrEmpty(xmlSource))
+                    {
+                        using (var stringReader = new StringReader(xmlSource))
                         {
-                            var nodeIterator = navigator.Select(element.ToLower());
-                            while (nodeIterator.MoveNext())
+                            var xpathDoc = new XPathDocument(stringReader);
+                            var navigator = xpathDoc.CreateNavigator();
+
+                            try
                             {
-                                var bounds = nodeIterator.Current?.GetAttribute("bounds", "");
-                                if (!string.IsNullOrEmpty(bounds))
+                                // Tách điều kiện ra để so sánh thủ công không phân biệt hoa thường
+                                var conditions = ExtractAttributeConditions(xpath);
+                                var pathWithoutConditions = RemoveAttributeConditions(xpath);
+
+                                var nodeIterator = navigator.Select(pathWithoutConditions);
+                                while (nodeIterator.MoveNext())
                                 {
-                                    if (click)
+                                    bool matchAll = true;
+                                    foreach (var kv in conditions)
                                     {
-                                        var point = new RectangleArea(bounds).GetCenterPoint();
-                                        return Click(point.X, point.Y);
+                                        var actualValue = nodeIterator.Current?.GetAttribute(kv.Key, "");
+                                        if (!string.Equals(actualValue?.Trim(), kv.Value, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            matchAll = false;
+                                            break;
+                                        }
                                     }
-                                    return true;
+
+                                    if (matchAll)
+                                    {
+                                        var bounds = nodeIterator.Current?.GetAttribute("bounds", "");
+                                        if (!string.IsNullOrEmpty(bounds))
+                                        {
+                                            if (click)
+                                            {
+                                                var point = new RectangleArea(bounds).GetCenterPoint();
+                                                return Click(point.X, point.Y);
+                                            }
+                                            return true;
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        catch
-                        {
-                            // ignore xpath error
+                            catch
+                            {
+                                // Ignore invalid XPath
+                            }
                         }
                     }
-                }
-                catch
-                {
 
+                    xmlSource = "";
+                    Thread.Sleep(200);
                 }
-
-                xmlsoucre = string.Empty;
             }
+            catch (Exception ex)
+            {
+                LogHelper.ERROR($"ElementWithAttributes: {ex.Message}");
+            }
+
             return false;
         }
         //public bool ElementWithAttributes(List<string> elements, int timeoutInSeconds = 5, string xmlsoucre = "", bool click = true)
@@ -909,49 +971,74 @@ namespace AutoAndroid
             {
                 int startTick = Environment.TickCount;
 
-                while (Environment.TickCount - startTick < timeoutInSeconds * 1000)
+                while (true)
                 {
-                    // Lấy XML mới nếu chưa có
                     if (string.IsNullOrEmpty(xmlSource))
                         xmlSource = GetXMLSource();
 
-                    if (!string.IsNullOrEmpty(xmlSource))
+                    if (!string.IsNullOrEmpty(xmlSource) && xpaths?.Count > 0)
                     {
-                        using var reader = new StringReader(xmlSource.ToLower());
-                        var xpathDoc = new XPathDocument(reader);
-                        var nav = xpathDoc.CreateNavigator();
-
-                        foreach (var xpath in xpaths)
+                        using (var stringReader = new StringReader(xmlSource))
                         {
-                            try
+                            var xpathDoc = new XPathDocument(stringReader);
+                            var navigator = xpathDoc.CreateNavigator();
+
+                            foreach (var xpath in xpaths)
                             {
-                                var nodes = nav.Select(xpath.ToLower());
-                                while (nodes.MoveNext())
+                                try
                                 {
-                                    string bounds = nodes.Current?.GetAttribute("bounds", "");
-                                    if (!string.IsNullOrEmpty(bounds))
+                                    var conditions = ExtractAttributeConditions(xpath);
+                                    var pathWithoutConditions = RemoveAttributeConditions(xpath);
+
+                                    var nodeIterator = navigator.Select(pathWithoutConditions);
+                                    while (nodeIterator.MoveNext())
                                     {
-                                        if (click)
+                                        bool matchAll = true;
+                                        foreach (var kv in conditions)
                                         {
-                                            var point = new RectangleArea(bounds).GetCenterPoint();
-                                            return Click(point.X, point.Y);
+                                            string actualValue = nodeIterator.Current?.GetAttribute(kv.Key, "");
+                                            if (!string.Equals(actualValue?.Trim(), kv.Value, StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                matchAll = false;
+                                                break;
+                                            }
                                         }
-                                        return true;
+
+                                        if (matchAll)
+                                        {
+                                            var bounds = nodeIterator.Current?.GetAttribute("bounds", "");
+                                            if (!string.IsNullOrEmpty(bounds))
+                                            {
+                                                if (click)
+                                                {
+                                                    var point = new RectangleArea(bounds).GetCenterPoint();
+                                                    return Click(point.X, point.Y);
+                                                }
+                                                return true;
+                                            }
+                                        }
                                     }
                                 }
+                                catch
+                                {
+                                    // ignore XPath errors
+                                }
                             }
-                            catch { /* XPath lỗi thì bỏ qua */ }
                         }
                     }
 
-                    Thread.Sleep(150); // Nhẹ hơn nhưng vẫn giảm tải CPU
-                    xmlSource = ""; // Để vòng lặp sau lấy mới
+                    if (Environment.TickCount - startTick >= timeoutInSeconds * 1000)
+                        break;
+
+                    Thread.Sleep(200);
+                    xmlSource = "";
                 }
             }
             catch (Exception ex)
             {
-                LogHelper.ERROR("ElementWithAttributes: " + ex.Message);
+                LogHelper.ERROR(ex.Message);
             }
+
 
             return false;
         }
@@ -989,38 +1076,45 @@ namespace AutoAndroid
         public List<string> GetAttributeValuesFromXmlNodes(string xmlContent, string xpath, string attributeName = "bounds")
         {
             List<string> attributeValues = new List<string>();
+
             try
             {
                 if (string.IsNullOrEmpty(xmlContent))
                 {
                     xmlContent = GetXMLSource();
                 }
+
                 if (!string.IsNullOrEmpty(xmlContent))
                 {
-                    xmlContent = xmlContent.ToLower();
-                    xpath = xpath.ToLower();
-
                     XmlDocument xmlDoc = new XmlDocument();
                     xmlDoc.LoadXml(xmlContent);
-                    //Appium
+
                     XmlNodeList nodeList = xmlDoc.SelectNodes(xpath);
-                    for (int i = 0; i < nodeList.Count; i++)
+                    if (nodeList != null)
                     {
-                        try
+                        foreach (XmlNode node in nodeList)
                         {
-                            attributeValues.Add(nodeList[i].Attributes[attributeName].Value);
-                        }
-                        catch
-                        {
+                            if (node.Attributes != null)
+                            {
+                                // Tìm attribute không phân biệt hoa thường
+                                foreach (XmlAttribute attr in node.Attributes)
+                                {
+                                    if (string.Equals(attr.Name, attributeName, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        attributeValues.Add(attr.Value);
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                LogHelper.ERROR(ex.Message);
+                LogHelper.ERROR($"{nameof(GetAttributeValuesFromXmlNodes)} Error: {ex.Message}");
             }
+
             return attributeValues;
         }
         public bool UninstallApp(string packageName)
@@ -1058,6 +1152,10 @@ namespace AutoAndroid
             {
                 string value = ADB.Shell("su -c id");
                 if (string.IsNullOrEmpty(value)) continue;
+                if (value.Contains("magisk") || value.Contains("not found"))
+                {
+                    return true;
+                }
                 return value.ToLower().Contains("not found");
             }
             return false;
@@ -1182,6 +1280,46 @@ namespace AutoAndroid
             catch (Exception ex)
             {
                 LogHelper.ERROR($"{nameof(FindElementIsExistOrClickByPackage)}, Error; {ex.Message}, Exception; {ex}");
+
+            }
+            return false;
+
+        }
+        public bool Package(string package, int timeout = 3, string XMLString = "")
+        {
+            try
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                while (stopwatch.ElapsedMilliseconds < timeout * 1000)
+                {
+                    if (string.IsNullOrEmpty(XMLString))
+                    {
+                        XMLString = GetXMLSource();
+                    }
+                    if (!string.IsNullOrEmpty(XMLString))
+                    {
+                        XmlDocument xmlDoc = new XmlDocument();
+                        xmlDoc.LoadXml(XMLString);
+                        //Appium
+                        XmlNodeList elements = xmlDoc.SelectNodes($"//node[@package='{package}']");
+
+                        if (elements != null && elements.Count > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    if (timeout != 0)
+                    {
+                        Delay(1);
+                        XMLString = "";
+                        continue;
+                    }
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.ERROR($"{nameof(Package)}, Error; {ex.Message}, Exception; {ex}");
 
             }
             return false;
@@ -1367,22 +1505,42 @@ namespace AutoAndroid
 
         //    return null; // Không tìm thấy phần tử phù hợp
         //}
+        private Dictionary<string, string> ExtractAttributeConditions(string xpath)
+        {
+            var conditions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var matches = Regex.Matches(xpath, @"@([\w\-]+)\s*=\s*['""]([^'""]+)['""]");
+
+            foreach (Match match in matches)
+            {
+                if (match.Groups.Count == 3)
+                {
+                    string attr = match.Groups[1].Value.Trim();
+                    string value = match.Groups[2].Value.Trim();
+                    conditions[attr] = value;
+                }
+            }
+
+            return conditions;
+        }
+        private string RemoveAttributeConditions(string xpath)
+        {
+            // Xóa các đoạn điều kiện [@attr='value'] để lấy phần thô của XPath
+            return Regex.Replace(xpath, @"\[\s*@[\w\-]+\s*=\s*['""][^'""]+['""]\s*\]", "");
+        }
         public string FindElement(string xmlContent, List<string> xpaths, int timeoutInSeconds)
         {
             try
             {
                 int startTick = Environment.TickCount;
+
                 while (true)
                 {
-                    // Gọi XML nếu cần
                     if (string.IsNullOrEmpty(xmlContent))
-                    {
                         xmlContent = GetXMLSource();
-                    }
 
-                    if (!string.IsNullOrEmpty(xmlContent) && xpaths != null && xpaths.Count > 0)
+                    if (!string.IsNullOrEmpty(xmlContent) && xpaths?.Count > 0)
                     {
-                        using (var stringReader = new StringReader(xmlContent.ToLower()))
+                        using (var stringReader = new StringReader(xmlContent))
                         {
                             var xpathDoc = new XPathDocument(stringReader);
                             var navigator = xpathDoc.CreateNavigator();
@@ -1391,30 +1549,43 @@ namespace AutoAndroid
                             {
                                 try
                                 {
-                                    var nodeIterator = navigator.Select(xpath.ToLower());
+                                    var conditions = ExtractAttributeConditions(xpath);
+                                    var pathWithoutConditions = RemoveAttributeConditions(xpath);
+
+                                    var nodeIterator = navigator.Select(pathWithoutConditions);
                                     while (nodeIterator.MoveNext())
                                     {
-                                        var bounds = nodeIterator.Current?.GetAttribute("bounds", "");
-                                        if (!string.IsNullOrEmpty(bounds))
+                                        bool matchAll = true;
+                                        foreach (var kv in conditions)
                                         {
-                                            return xpath;
+                                            string actualValue = nodeIterator.Current?.GetAttribute(kv.Key, "");
+                                            if (!string.Equals(actualValue?.Trim(), kv.Value, StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                matchAll = false;
+                                                break;
+                                            }
+                                        }
+
+                                        if (matchAll)
+                                        {
+                                            var bounds = nodeIterator.Current?.GetAttribute("bounds", "");
+                                            if (!string.IsNullOrEmpty(bounds))
+                                                return xpath;
                                         }
                                     }
                                 }
                                 catch
                                 {
-                                    // ignore xpath error
+                                    // ignore XPath errors
                                 }
                             }
                         }
                     }
 
-                    // Check timeout
                     if (Environment.TickCount - startTick >= timeoutInSeconds * 1000)
                         break;
 
-                    // Wait before next check
-                    Thread.Sleep(200); // tránh spam CPU
+                    Thread.Sleep(200);
                     xmlContent = "";
                 }
             }

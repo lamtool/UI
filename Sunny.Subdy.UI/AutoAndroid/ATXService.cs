@@ -656,7 +656,6 @@ namespace AutoAndroid
                     using (var ms = new System.IO.MemoryStream(imageBytes))
                     {
                         return new Bitmap(ms);
-
                     }
                 }
             }

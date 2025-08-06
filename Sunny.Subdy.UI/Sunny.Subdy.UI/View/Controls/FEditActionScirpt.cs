@@ -9,6 +9,7 @@ using Sunny.UI;
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace Sunny.Subdy.UI.View.Controls
 {
@@ -24,7 +25,7 @@ namespace Sunny.Subdy.UI.View.Controls
             _scriptActionContext = new ScriptActionContext();
             LoadData();
             uiDataGridView2.CellClick += dataGridView1_CellClick;
-            _configHelper = new Common.Json.ConfigHelper(this, _script.JsonData, null);
+            _configHelper = new Common.Json.ConfigHelper(this, _script.JsonData, true);
         }
         private void LoadData()
         {
@@ -159,7 +160,7 @@ namespace Sunny.Subdy.UI.View.Controls
             {
                 case TypeAction.FB_SpamXu:
                     {
-                        fAction_SpamXu form = new fAction_SpamXu(action.Name, action.Json);
+                        fAction_SpamXu form = new fAction_SpamXu(action.Name, action.Json, action.Platform);
                         if (form.ShowDialog() != DialogResult.OK)
                         {
                             return;

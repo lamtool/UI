@@ -60,47 +60,41 @@ namespace AutoAndroid
             SetEnableModule();
             return true;
         }
-        public bool Change(string pathDevice, bool backup, string brand, string country)
+        public bool Change(string filePath, bool backup, string brand, string country)
         {
             Install();
             bool flag = false;
-            if (Restore(pathDevice))
+            if (Restore(filePath))
             {
                 string text = GetInfoDeviceName(10);
                 flag = text != "";
             }
-            if (!flag && (flag = ChangeDeviceName(brand, country)))
+            if (!flag)
             {
-                if (backup)
-                {
-
-                    BackupDeviceInfoChange(pathDevice);
-                }
-
+                ChangeDeviceName(brand, country);
             }
             return flag;
         }
-        private bool Restore(string pathDevice)
+        private bool Restore(string filePath)
         {
-
-            if (string.IsNullOrEmpty(pathDevice) || !File.Exists(pathDevice))
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
             {
                 return false;
             }
-            string fileName = Path.GetFileName(pathDevice);
-            service.LogHelper.SUCCESS($"Restore device: {pathDevice}");
-            service.Shell($" pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
-            service.Shell($" pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
+            string fileName = Path.GetFileName(filePath);
+            service.LogHelper.SUCCESS($"Restore device: {filePath}");
+            service.ADB.Shell($"pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
+            service.ADB.Shell($"pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
             bool flag = false;
             for (int i = 0; i < 10; i++)
             {
-                service.Push(pathDevice, "/sdcard");
-                string text2 = service.Shell($" su -c cp /sdcard/{fileName} /data/data/{package_MaxChange}/{fileName}");
-                text2 = service.Shell($" su -c tar -xzvf /data/data/{package_MaxChange}/{fileName}");
-                string text = " awk '{print $3\\\":\\\"$4}'\"";
-                text2 = service.Shell($" su -c \"ls -l /data/data | grep {package_MaxChange} | {text}");
+                service.Push(filePath, "/sdcard");
+                string text2 = service.ADB.Shell($"su -c cp /sdcard/{fileName} /data/data/{package_MaxChange}/{fileName}");
+                text2 = service.ADB.Shell($"su -c tar -xzvf /data/data/{package_MaxChange}/{fileName}");
+                string text = "awk '{print $3\\\":\\\"$4}'\"";
+                text2 = service.ADB.Shell($"su -c \"ls -l /data/data | grep {package_MaxChange} | {text}");
                 flag = text2 != "";
-                text2 = service.Shell($" su -c chown -R " + text2 + $" /data/data/{package_MaxChange}");
+                text2 = service.ADB.Shell($"su -c chown -R " + text2 + $" /data/data/{package_MaxChange}");
                 if (!flag)
                 {
                     Thread.Sleep(2000);
@@ -168,18 +162,13 @@ namespace AutoAndroid
                 countryCode = "84";
                 countryName = "VN";
             }
-            else
-            {
-                countryName = country.Split('|')[0].Trim();
-                countryCode = country.Split('|')[1].Trim();
-            }
             try
             {
-                service.Shell($"pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
-                service.Shell($"pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
+                service.ADB.Shell($"pm grant {package_MaxChange} android.permission.READ_EXTERNAL_STORAGE");
+                service.ADB.Shell($"pm grant {package_MaxChange} android.permission.WRITE_EXTERNAL_STORAGE");
 
-                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --ez on false --es  country {countryCode} --es countryName {countryName}";
-                bool flag2 = service.Shell(text2).Contains("Broadcast completed");
+                string text2 = $"am broadcast -a {package_MaxChange}.CHANGE -n {package_MaxChange}/.AdbCaller --ez on true";
+                bool flag2 = service.ADB.Shell(text2).Contains("Broadcast completed");
                 if (flag2)
                 {
                     string text4 = GetInfoDeviceName(10);
@@ -194,7 +183,7 @@ namespace AutoAndroid
 
             return true;
         }
-        private bool BackupDeviceInfoChange(string pathDevice)
+        public bool BackupDeviceInfoChange(string pathDevice)
         {
             string fileName = Path.GetFileName(pathDevice);
             service.LogHelper.SUCCESS($"Backup change device: {pathDevice}");
@@ -208,11 +197,11 @@ namespace AutoAndroid
             //  Close();
             for (int i = 0; i < 10; i++)
             {
-                service.Shell($" su -c tar -czvf /data/data/{package_MaxChange}/{fileName} /data/data/{package_MaxChange}/shared_prefs/*");
-                service.Shell($" su -c cp /data/data/{package_MaxChange}/{fileName} /sdcard/{fileName}");
+                service.ADB.Shell($" su -c tar -czvf /data/data/{package_MaxChange}/{fileName} /data/data/{package_MaxChange}/shared_prefs/*");
+                service.ADB.Shell($" su -c cp /data/data/{package_MaxChange}/{fileName} /sdcard/{fileName}");
                 ProcessHelper.RunAdbWithTimeout($" -s {service.Device.Serial} pull /sdcard/{fileName} \"" + pathDevice + "\"");
-                service.Shell($" su -c rm -rf /data/data/{package_MaxChange}/*.tar.gz");
-                service.Shell($" su -c rm -rf /sdcard/*.tar.gz");
+                service.ADB.Shell($"su -c rm -rf /data/data/{package_MaxChange}/*.tar.gz");
+                service.ADB.Shell($" su -c rm -rf /sdcard/*.tar.gz");
                 if (!File.Exists(pathDevice))
                 {
                     Thread.Sleep(3000);
@@ -281,7 +270,7 @@ namespace AutoAndroid
         }
         private void addMissingScopes(Modules module)
         {
-            string[] requiredApps = { MaxChangeService.package_MaxChange, "com.facebook.katana", "ru.andr7e.deviceinfohw" };
+            string[] requiredApps = { MaxChangeService.package_MaxChange, "com.facebook.katana", "com.instagram.android", "ru.andr7e.deviceinfohw" };
             foreach (string requiredApp in requiredApps)
             {
                 string command = $"su -c \"sqlite3 /data/adb/lspd/config/modules_config.db 'INSERT INTO scope (mid, app_pkg_name, user_id) VALUES ({module.mid}, \\\"{requiredApp}\\\", 0);'\"";
@@ -317,6 +306,7 @@ namespace AutoAndroid
                 try
                 {
                     service.LogHelper.SUCCESS($"Đang check ip [{i + 1}]");
+                    service.AppStart(package_MaxChange);
                     string result = ProcessHelper.RunAdbWithTimeout($"-s {service.Device.Serial} shell am broadcast -a {package_MaxChange}.GET_DEVICE_IP -n {package_MaxChange}/.AdbCaller");
                     if (result.Contains("result=1"))
                     {

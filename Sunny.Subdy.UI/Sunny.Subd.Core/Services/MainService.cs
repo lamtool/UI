@@ -1,10 +1,12 @@
 ﻿using AutoAndroid;
 using Sunny.Subd.Core.Facebook;
 using Sunny.Subd.Core.Facebook.ScriptActions;
+using Sunny.Subd.Core.Instagram;
 using Sunny.Subd.Core.Models;
 using Sunny.Subd.Core.Proxies;
 using Sunny.Subd.Core.Utils;
 using Sunny.Subdy.Common;
+using Sunny.Subdy.Common.Helper;
 using Sunny.Subdy.Common.Json;
 using Sunny.Subdy.Common.Logs;
 using Sunny.Subdy.Common.Services;
@@ -27,11 +29,11 @@ namespace Sunny.Subd.Core.Services
         public readonly AccountContext _accountContext = new(); // Context để quản lý tài khoản
         public readonly string _platform; // Nền tảng đang sử dụng
         public readonly Stopwatch _stopwatch = new(); // Đồng hồ bấm giờ để theo dõi thời gian
-        public int Timeout = 0; // Thời gian tối đa cho thao tác
-        public readonly JsonHelper _settingGeneral; // Cấu hình chung từ JSON
+        public int Timeout_Script = 0; // Thời gian tối đa cho thao tác
+        public JsonHelper _settingGeneral, _settingScript, _settingScriptAction; // Cấu hình chung từ JSON
         public string _sate = string.Empty; // Trạng thái hiện tại của quá trình
         public Stopwatch _swTotal = new Stopwatch();
-
+        private BackupRestoreHelper _backupRestoreHelper;
 
         // Constructor khởi tạo dịch vụ
         public MainService(string platform, ADBClient device, ConfigModel config, CancellationToken ct)
@@ -40,8 +42,17 @@ namespace Sunny.Subd.Core.Services
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _platform = platform ?? throw new ArgumentNullException(nameof(platform));
             _ct = ct;
-            _facebookService = new FacebookService();
+            if (platform == PlatformModel.Facebook)
+            {
+                _facebookService = new FacebookService();
+            }
+            else if (platform == PlatformModel.Instagram)
+            {
+                _facebookService = new InstagramService();
+            }
+
             _settingGeneral = config.SettingGeneral;
+            _backupRestoreHelper = new BackupRestoreHelper(_client.Device);
         }
 
         // Phương thức trì hoãn với thông báo trạng thái
@@ -80,7 +91,7 @@ namespace Sunny.Subd.Core.Services
             {
                 throw new OperationCanceledException("Bạn đã dừng tài khoản.");
             }
-            if (Timeout != 0 && _stopwatch.IsRunning && _stopwatch.ElapsedMilliseconds > Timeout)
+            if (Timeout_Script != 0 && _stopwatch.IsRunning && _stopwatch.ElapsedMilliseconds > Timeout_Script)
             {
                 _stopwatch.Restart();
                 SetStatus("Đã quá thời gian thực hiện thao tác, dừng tài khoản.", 1);
@@ -119,27 +130,84 @@ namespace Sunny.Subd.Core.Services
         private async Task ExtractAndUpdateAuthenticationInfoAsync()
         {
             if (!_client.IsRoot()) return;
+            switch (_platform)
+            {
+                case PlatformModel.Facebook:
+                    {
+                        string value = FacebookHander.GetAuthenticationInfo(_client);
+                        if (string.IsNullOrWhiteSpace(value))
+                            throw new Exception("Không thể lấy thông tin xác thực.");
 
-            string value = FacebookHander.GetAuthenticationInfo(_client);
-            if (string.IsNullOrWhiteSpace(value))
-                throw new Exception("Không thể lấy thông tin xác thực.");
+                        var parts = value.Split('|');
+                        if (parts.Length < 3)
+                            throw new Exception("Chuỗi xác thực không hợp lệ.");
 
-            var parts = value.Split('|');
-            if (parts.Length < 3)
-                throw new Exception("Chuỗi xác thực không hợp lệ.");
+                        _account.Uid = parts[0];
+                        _account.Cookie = parts[2];
+                        _account.Token = parts[1];
 
-            _account.Uid ??= parts[0];
-            _account.Cookie ??= parts[2];
-            _account.Token ??= parts[1];
-
+                        break;
+                    }
+                case PlatformModel.Instagram:
+                    {
+                        Dictionary<string, string> info = await _facebookService.GetInfo(_client);
+                        if (info.ContainsKey("username"))
+                        {
+                            _account.Uid = info["username"];
+                        }
+                        if (info.ContainsKey("bio"))
+                        {
+                            _account.Bio = info["bio"];
+                        }
+                        if (info.ContainsKey("fullname"))
+                        {
+                            _account.FullName = info["fullname"];
+                        }
+                        if (info.ContainsKey("following"))
+                        {
+                            _account.Friends = info["following"];
+                        }
+                        if (info.ContainsKey("follow"))
+                        {
+                            _account.Follow = info["follow"];
+                        }
+                        if (info.ContainsKey("post"))
+                        {
+                            _account.Groups = info["post"];
+                        }
+                     
+                        break;
+                    }
+            }
             if (_settingGeneral.GetBooleanValue("checkBox3", true))
             {
-                string profileDir = _settingGeneral.GetValuesFromInputString("textBox3", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Profiles"));
+                string profileDir = _settingGeneral.GetValuesFromInputString("textBox3", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Profile"));
+                profileDir = Path.Combine(profileDir, _platform);
                 Directory.CreateDirectory(profileDir);
                 string fileProfile = Path.Combine(profileDir, $"{_account.Uid}.tar.gz");
-                new BackupRestoreHelper(_client.Device).BackupFacebook(fileProfile);
-            }
+                switch (_platform)
+                {
+                    case PlatformModel.Facebook:
+                        {
+                            _backupRestoreHelper.BackupFacebook(fileProfile);
+                            break;
+                        }
+                    case PlatformModel.Instagram:
+                        {
+                            _backupRestoreHelper.BackupInstagram(fileProfile);
+                            break;
+                        }
+                }
 
+            }
+            if (_settingGeneral.GetBooleanValue("checkBox2", true))
+            {
+                string profileDir = _settingGeneral.GetValuesFromInputString("textBox2", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Device"));
+                profileDir = Path.Combine(profileDir, _platform);
+                Directory.CreateDirectory(profileDir);
+                string fileProfile = Path.Combine(profileDir, $"{_account.Uid}.tar.gz");
+                _client.BackupDevice(fileProfile);
+            }
             _account.State = "LIVE";
             _accountContext.Update(_account);
         }
@@ -157,11 +225,12 @@ namespace Sunny.Subd.Core.Services
                 bool backup = _settingGeneral.GetBooleanValue("checkBox2", true);
                 if (backup)
                 {
-                    string folder = _settingGeneral.GetValuesFromInputString("textBox2", Path.Combine("Backup", "Devices"));
-                    Directory.CreateDirectory(folder);
-                    filezip = Path.Combine(folder, $"{_account.Uid}.tar.gz");
+                    string profileDir = _settingGeneral.GetValuesFromInputString("textBox2", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Device"));
+                    profileDir = Path.Combine(profileDir, _platform);
+                    Directory.CreateDirectory(profileDir);
+                    filezip = Path.Combine(profileDir, $"{_account.Uid}.tar.gz");
                 }
-                if (await Task.Run(() => _client.ChangInfo(filezip, backup, "", "VN")))
+                if (_client.ChangInfo(filezip, backup, "", "VN"))
                 {
                     SetStatus($"Thành công. [{_client.GetDeviceName()}]", 2);
                 }
@@ -298,27 +367,27 @@ namespace Sunny.Subd.Core.Services
             string fileAPK = string.Empty;
             if (_settingGeneral.GetBooleanValue("checkBox8", true))
             {
-                fileAPK = _settingGeneral.GetValuesFromInputString("check RadiatBox8", FacebookHander.FilePath());
+                fileAPK = _settingGeneral.GetValuesFromInputString("textBox4", FacebookHander.FilePath(_platform));
             }
             for (int i = 1; i <= 10; i++)
             {
                 SetStatus($"[{i}/{10}] Đang làm", 2);
-                _client.AppStart(FacebookHander.Package(), true, true, true);
-                if (_client.ElementWithAttributes("", 5, click: false))
+                _client.AppStart(FacebookHander.Package(_platform), true, true, true);
+                if (_client.ElementWithAttributes($"//*[@text=\"{_platform} keeps stopping\"]", 5, click: false))
                 {
-                    SetStatus($"[{i}/{10}] Bị crash. Cài lại ứng dụng facebook.", 1);
+                    SetStatus($"[{i}/{10}] Bị crash. Cài lại ứng dụng {_platform}.", 1);
                     if (!File.Exists(fileAPK))
                     {
-                        SetStatus($"[{i}/{10}] Bị crash. Cài lại ứng dụng facebook. Không tìm thấy apk [{fileAPK}]", 1);
+                        SetStatus($"[{i}/{10}] Bị crash. Cài lại ứng dụng {_platform}. Không tìm thấy apk [{fileAPK}]", 1);
                         return false;
                     }
-                    _client.UninstallApp(FacebookHander.Package());
+                    _client.UninstallApp(FacebookHander.Package(_platform));
                     _client.InstallApp(fileAPK);
                     continue;
                 }
-                if (_client.AppWait(FacebookHander.Package())) return true;
+                if (_client.AppWait(FacebookHander.Package(_platform))) return true;
             }
-            return _client.AppWait(FacebookHander.Package());
+            return _client.AppWait(FacebookHander.Package(_platform));
         }
 
         // Kết nối và chuẩn bị thiết bị
@@ -358,28 +427,77 @@ namespace Sunny.Subd.Core.Services
         // Kết nối thiết bị
         private async Task<bool> ConnectDeviceAsync()
         {
-            return await Task.Run(() => _client.Connect());
+            return _client.Connect();
         }
 
         // Chuẩn bị thiết bị
         private async Task PrepareDeviceAsync()
         {
-            if (_settingGeneral.GetBooleanValue("checkBox12", false))
+            var check = _settingGeneral.GetBooleanValue("checkBox12", false);
+            if (!check)
             {
-                _client.AppClear(FacebookHander.Package());
-                _client.GrantAppPermissions(FacebookHander.Package());
+                List<string> packages = new List<string>();
+                switch (_platform)
+                {
+                    case PlatformModel.Facebook:
+                        {
+                            packages = new List<string>
+                {
+                    "com.facebook.katana",
+                    "com.facebook.lite",
+                    "com.facebook.services",
+                    "com.facebook.appmanager",
+                    "com.facebook.system",
+                    "com.facebook.systemservice",
+                };
+                            break;
+                        }
+                    case PlatformModel.Instagram:
+                        {
+                            packages.Add(FacebookHander.Package(_platform));
+                            break;
+                        }
+                }
+
+                foreach (var package in packages)
+                {
+                    _client.AppClear(package);
+                }
+
+
+                _client.GrantAppPermissions(FacebookHander.Package(_platform));
             }
-            if (!await OpenFacebookAsync()) throw new Exception("Không thể mở Facebook.");
+            if (!await OpenFacebookAsync()) throw new Exception($"Không thể mở {_platform}.");
             _client.SetSize();
         }
 
         // Kiểm tra trạng thái tài khoản
         private async Task<bool> CheckLiveAsync()
         {
-            if (_settingGeneral.GetBooleanValue("checkBox9", true)) return true;
+            if (!_settingGeneral.GetBooleanValue("checkBox9", true)) return true;
             _sate = "Kiểm tra tài khoản";
-            var status = await FacebookRequest.CheckLive(_account.Uid);
-            if (status)
+            bool check = false;
+            switch (_platform)
+            {
+                case PlatformModel.Facebook:
+                    {
+                        check = await FacebookRequest.CheckLive(_account.Uid);
+                        break;
+                    }
+                case PlatformModel.Instagram:
+                    {
+                       var value = await InstagramRequest.GetInfo(_account.Uid);
+                        if (!value.ContainsKey("error"))
+                        {
+                            _account.Bio = value["bio"];
+                            _account.Friends = value["following"];
+                            _account.FullName = value["fullname"];
+                            check = true;
+                        }
+                        break;
+                    }
+            }
+            if (check)
             {
                 _account.State = "LIVE";
                 SetStatus("Tài khoản facebook: LIVE", 2);
@@ -388,25 +506,39 @@ namespace Sunny.Subd.Core.Services
             {
                 _account.State = "DIE";
                 SetStatus("Tài khoản facebook: DIE", 1);
+                throw new SubdyExtension(SubdyEnum.DIE, "Tài khoản facebook: DIE");
             }
-            return status;
+            return check;
         }
 
         // Khôi phục dữ liệu Facebook
         private async Task<bool> RestoreFacebookAsync()
         {
-            _client.StopApp(FacebookHander.Package());
+            _client.StopApp(FacebookHander.Package(_platform));
             if (!_settingGeneral.GetBooleanValue("checkBox3", true) || !_client.IsRoot()) return await OpenFacebookAsync();
             string filezip = string.Empty;
-            string folder = _settingGeneral.GetValuesFromInputString("textBox2", Path.Combine("Backup", "Profiles"));
-            Directory.CreateDirectory(folder);
-            filezip = Path.Combine(folder, $"{_account.Uid}.tar.gz");
+            string profileDir = _settingGeneral.GetValuesFromInputString("textBox3", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backup", "Profile"));
+            profileDir = Path.Combine(profileDir, _platform);
+            Directory.CreateDirectory(profileDir);
+            filezip = Path.Combine(profileDir, $"{_account.Uid}.tar.gz");
             if (!File.Exists(filezip)) return await OpenFacebookAsync();
-            _sate = "Restore facebook";
+            _sate = $"Restore {_platform}";
             try
             {
                 SetStatus("Đang làm", 2);
-                new BackupRestoreHelper(_client.Device).RestoreFacebook(filezip);
+                switch (_platform)
+                {
+                    case PlatformModel.Facebook:
+                        {
+                            _backupRestoreHelper.RestoreFacebook(filezip);
+                            break;
+                        }
+                    case PlatformModel.Instagram:
+                        {
+                            _backupRestoreHelper.RestoreInstagram(filezip);
+                            break;
+                        }
+                }
             }
             catch (Exception ex)
             {
@@ -431,22 +563,32 @@ namespace Sunny.Subd.Core.Services
                 case SubdyEnum.CP_282:
                     _account.Status = "Lỗi CP_282: " + subdyExtension.Message;
                     _account.State = "CP_282";
+                    _account.ColorType = 1;
                     break;
                 case SubdyEnum.CP_956:
                     _account.Status = "Lỗi CP_956: " + subdyExtension.Message;
                     _account.State = "CP_956";
+                    _account.ColorType = 1;
                     break;
                 case SubdyEnum.LogOut:
                     _account.Status = "Đăng xuất: " + subdyExtension.Message;
                     _account.State = "Logout";
+                    _account.ColorType = 1;
                     break;
                 case SubdyEnum.Captcha:
                     _account.Status = "Captcha: " + subdyExtension.Message;
                     _account.State = "Captcha";
+                    _account.ColorType = 1;
                     break;
                 case SubdyEnum.Block:
                     _account.Status = "Tài khoản bị chặn: " + subdyExtension.Message;
                     _account.State = "Block";
+                    _account.ColorType = 1;
+                    break;
+                case SubdyEnum.DIE:
+                    _account.Status = subdyExtension.Message;
+                    _account.State = "DIE";
+                    _account.ColorType = 1;
                     break;
             }
             new AccountContext().Update(_account);
@@ -467,13 +609,12 @@ namespace Sunny.Subd.Core.Services
             return false;
         }
 
-        // Chạy dịch vụ chính
         public async Task RunAsync()
         {
-            _stopwatch.Start();
             _swTotal.Start();
             while (!_ct.IsCancellationRequested)
             {
+                _account = null;
                 if (!AccountServices.Accounts.Any())
                 {
                     _client.LogHelper.SUCCESS("Đã hoàn thành!");
@@ -490,9 +631,9 @@ namespace Sunny.Subd.Core.Services
 
                 try
                 {
-                    if (!await ConnectAndPrepareDeviceAsync(true)) continue;
-
                     if (!await CheckLiveAsync()) continue;
+
+                    if (!await ConnectAndPrepareDeviceAsync(true)) continue;
 
                     if (!await RestoreFacebookAsync()) continue;
 
@@ -503,7 +644,7 @@ namespace Sunny.Subd.Core.Services
 
                     await _facebookService.Login(_client, _account, _ct);
 
-                    if (_settingGeneral.GetBooleanValue("", true))
+                    if (_settingGeneral.GetBooleanValue("checkBox11", true))
                     {
                         int second = SubdyHelper.RandomValue(_settingGeneral.GetIntType("numericUpDown25", 10), _settingGeneral.GetIntType("numericUpDown24", 20));
 
@@ -511,6 +652,7 @@ namespace Sunny.Subd.Core.Services
                     }
 
                     await ExtractAndUpdateAuthenticationInfoAsync();
+
 
                     await DoScriptAsync();
                 }
@@ -520,7 +662,10 @@ namespace Sunny.Subd.Core.Services
                 }
                 finally
                 {
-
+                    if (_account != null)
+                    {
+                        _accountContext.Update(_account);
+                    }
                 }
             }
             _stopwatch.Stop();
@@ -536,10 +681,29 @@ namespace Sunny.Subd.Core.Services
             if (!actionIds.Any())
                 throw new SubdyExtension(SubdyEnum.None, "Không có tương tác nào để thực hiện.");
 
+            _settingScript = new JsonHelper(_config.Script.JsonData, true);
+            if (_settingScript.GetBooleanValue("ckbTimeoutAccount", false))
+            {
+                _stopwatch.Start();
+                Timeout_Script = SubdyHelper.RandomValue(_settingScript.GetIntType("numericUpDown2", 40), _settingScript.GetIntType("numericUpDown3", 60)) * 1000 * 60;
+            }
+
             var scriptContext = new ScriptActionContext();
+
             foreach (var actionId in actionIds)
             {
-                await ExecuteActionAsync(actionId, scriptContext);
+                try
+                {
+                    
+                    await _facebookService.HanderAccount(_client, 10);
+                    await ExecuteActionAsync(actionId, scriptContext);
+                }
+                catch (Exception ex)
+                {
+                    SetStatus(ex.Message, 1);
+                    HanderCase(ex);
+                }
+
             }
             await ScrollNewsFeedAsync();
         }
@@ -549,10 +713,13 @@ namespace Sunny.Subd.Core.Services
         {
             ScriptAction action = context.GetById(Guid.Parse(actionId));
             if (action == null) return;
+            if (string.IsNullOrEmpty(action.Json)) return;
+            _settingScriptAction = new JsonHelper(action.Json, true);
+            _sate = $"[{action.Name}]";
             switch (action.Type)
             {
                 case Sunny.Subdy.Common.Models.TypeAction.FB_SpamXu:
-                    await new FbSpamXuHandler(_platform, _client, _config, _ct).ExecuteAsync(action, context);
+                    await new FbSpamXuHandler(_platform, _client, _config, _ct, _settingScriptAction, _account).ExecuteAsync(action, context);
                     break;
                 default:
                     throw new NotImplementedException($"Hành động {actionId} chưa được triển khai.");
@@ -574,10 +741,9 @@ namespace Sunny.Subd.Core.Services
         // Lấy cờ hoàn thành kịch bản
         private string GetDoneScriptFlag()
         {
-            var scriptHelper = new JsonHelper(_config.Script.JsonData, true);
-            if (scriptHelper.GetBooleanValue("check_Interaction_2"))
+            if (_settingScript.GetBooleanValue("check_Interaction_2"))
                 return "Swipe";
-            if (scriptHelper.GetBooleanValue("check_Interaction_3"))
+            if (_settingScript.GetBooleanValue("check_Interaction_3"))
                 return "LIKE";
             return string.Empty;
         }

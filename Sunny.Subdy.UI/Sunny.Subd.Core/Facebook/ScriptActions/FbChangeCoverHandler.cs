@@ -11,6 +11,7 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
     {
         private List<string> xpaths = new List<string>
         {
+            "//*[@content-desc=\"Add cover photo\"]",
                 "//*[contains(@content-desc, 'Photo')]",
                 "//*[@content-desc=\"Gallery\"]",
                 "//*[contains(@content-desc, 'Profile picture')]"
@@ -20,29 +21,31 @@ namespace Sunny.Subd.Core.Facebook.ScriptActions
 
         public async Task<SubdyExtension> ExecuteAsync(Account account, ADBClient device, JsonHelper settingScript, JsonHelper settingAction, JsonHelper settingGeneral)
         {
-            xpaths.AddRange(XpathManager.Combine(XpathType.CP282, XpathType.Captcha, XpathType.NavigationButton));
-            device.StopApp(FacebookHander.Package());
+            xpaths.AddRange(XpathManagerFacebook.Combine(XpathType.CP282, XpathType.Captcha, XpathType.NavigationButton));
+            device.StopApp(FacebookHander.Package(PlatformModel.Facebook));
             device.Shell("am start -n com.facebook.katana/.IntentUriHandler \"fb://profile_edit\"");
             stopwatch.Restart();
             while (stopwatch.ElapsedMilliseconds < 300000)
             {
+             
                 string _case = device.FindElement("", xpaths, 30);
                 if (string.IsNullOrEmpty(_case))
                 {
-                    device.StopApp(FacebookHander.Package());
+                    device.StopApp(FacebookHander.Package(PlatformModel.Facebook));
                     device.Shell("am start -a android.intent.action.VIEW -d \"fb://profile_edit\"");
                     device.Delay(5);
                     continue;
                 }
                 switch (_case)
                 {
+                    case "//*[@content-desc=\"Add cover photo\"]":
                     case "//*[contains(@content-desc, 'Cover photo')]":
                     case "//*[contains(@content-desc, 'Profile picture')]":
-                    case var c when XpathManager.Get(XpathType.NavigationButton).Contains(c):
+                    case var c when XpathManagerFacebook.Get(XpathType.NavigationButton).Contains(c):
                         device.ElementWithAttributes(_case);
                         break;
-                    case var c when XpathManager.Get(XpathType.CP282).Contains(c):
-                    case var x when XpathManager.Get(XpathType.Captcha).Contains(x):
+                    case var c when XpathManagerFacebook.Get(XpathType.CP282).Contains(c):
+                    case var x when XpathManagerFacebook.Get(XpathType.Captcha).Contains(x):
                         {
                             return new SubdyExtension(SubdyEnum.CP_282, $"Tài khoản bị. [{_case}]");
                         }

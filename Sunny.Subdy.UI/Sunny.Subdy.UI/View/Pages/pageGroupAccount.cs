@@ -21,11 +21,11 @@ namespace Sunny.Subdy.UI.View.Pages
             {
                 txtType.SelectedIndex = 0;
             }
-            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, action: new System.Action(() =>
+            new Sunny.Subdy.Common.Json.ConfigHelper(this, this.Name, onLoad: new System.Action(() =>
             {
                 LoadFolders(uiTextBox1.Text, txtType.Text.Trim());
 
-            }), exists: false);
+            }), shouldExit: false);
             this.pageFacebook = pageFacebook;
         }
 

@@ -14,12 +14,16 @@ namespace Sunny.Subdy.Common.API
             try
             {
                 string url = "https://lamtool.net/api/auth/login";
+                var header = new Dictionary<string, string>
+                {
+                    ["cookie"] = "ref=lamtool",
+                };
                 var body = new Dictionary<string, string>
                 {
                     ["username"] = username,
                     ["password"] = password
                 };
-                string resurl = HttpRequestHelper.POST(url, body: body);
+                string resurl = HttpRequestHelper.POST(url, headers: header, body: body);
                 if (string.IsNullOrEmpty(resurl))
                 {
                     throw new Exception("Đã xảy ra lỗi server. Vui lòng thử lại hoặc liên hệ admin.");
@@ -87,7 +91,8 @@ namespace Sunny.Subdy.Common.API
                 var header = new Dictionary<string, string>
                 {
                     ["X-API-Key"] = Token,
-                    ["Content-Type"] = "application/json"
+                    ["Content-Type"] = "application/json",
+                    ["Cookie"] = "ref=lamtool"
                 };
 
                 string json = $"{{\"username\":\"{EscapeJsonString(username)}\",\"amount\":{amount},\"description\":\"{EscapeJsonString(description)}\"}}";
@@ -114,7 +119,7 @@ namespace Sunny.Subdy.Common.API
             try
             {
                 string url = $"https://lamtool.net/api/license/check?tool_slug={nameApp}&device_code={key}";
-                string json =  HttpRequestHelper.GET(url);
+                string json = HttpRequestHelper.GET(url);
 
                 var obj = JObject.Parse(json);
 

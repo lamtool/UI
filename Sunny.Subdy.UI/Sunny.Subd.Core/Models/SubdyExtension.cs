@@ -10,8 +10,10 @@
         Error,
         Captcha,
         Block,
+        JobFail,
         Success,
         EmailExist,
+        DIE,
     }
     public class SubdyExtension : Exception
     {
